@@ -4,9 +4,11 @@
   "private": true,
   "homepage": "https://roboter.github.io/roboter.github.io/",
   "dependencies": {
+    "jshint": "^2.9.5",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
-    "react-scripts": "1.1.4"
+    "react-scripts": "1.1.4",
+    "uglify": "^0.1.5"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -17,6 +19,8 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
-    "gh-pages": "^1.2.0"
+    "gh-pages": "^1.2.0",
+    "grunt": "^1.0.3",
+    "grunt-gh-pages": "^2.0.0"
   }
 }
