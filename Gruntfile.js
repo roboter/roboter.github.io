@@ -5,9 +5,8 @@ module.exports = function(grunt) {
       options: {
         base: '',
         branch: 'master',
-        only: ['index.html', '**/*.js']
       },
-      src: 'src/**/*'
+      src: '**/*'
     }
   });
 
