@@ -4,6 +4,8 @@
   "private": true,
   "homepage": "https://roboter.github.io/roboter.github.io/",
   "dependencies": {
+    "grunt": "^1.0.3",
+    "grunt-gh-pages": "^2.0.0",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-scripts": "1.1.4"
