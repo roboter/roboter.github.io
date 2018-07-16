@@ -3,10 +3,10 @@ module.exports = function(grunt) {
   grunt.initConfig({
     'gh-pages': {
       options: {
-        base: '',
+        base: 'build',
         branch: 'master',
       },
-      src: '**/*'
+      src: '**'
     }
   });
 

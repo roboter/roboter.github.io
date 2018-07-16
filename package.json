@@ -2,7 +2,7 @@
   "name": "roboter-github-io",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://roboter.github.io/roboter.github.io/",
+  "homepage": "https://roboter.github.io/",
   "dependencies": {
     "grunt": "^1.0.3",
     "grunt-gh-pages": "^2.0.0",
