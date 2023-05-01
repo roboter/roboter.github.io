@@ -4,10 +4,8 @@ title: tinkercad LCD without any library
 authors: roboter
 tags: [arduino, tinkercad]
 ---
-
 <iframe width="725" height="453" src="https://www.tinkercad.com/embed/gl60gJqKHqG?editbtn=1" frameborder="0" marginwidth="0" marginheight="0" scrolling="no">
 </iframe>
-
 
 ```cpp
 // Read the datasheet https://www.youtube.com/watch?v=cXpeTxC3_A4

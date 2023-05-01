@@ -1,8 +1,6 @@
 // @ts-check
 // Note: type annotations allow type checking and IDEs autocompletion
 
-const darkCodeTheme = require('prism-react-renderer/themes/dracula');
-
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'Begemotik',
@@ -43,7 +41,6 @@ const config = {
       },
     ],
   ],
-
 
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
@@ -87,11 +84,7 @@ const config = {
           },
           {
             title: 'More',
-            items: [
-              {
-                label: 'Blog',
-                to: '/blog',
-              },
+            items: [            
               {
                 label: 'GitHub',
                 href: 'https://github.com/roboter',
