@@ -44,6 +44,10 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v3
 
+      - name: Commit files
+        run: |
+          cp ./static/yandex_d0ecacbd20e207cc.html ./build/yandex_d0ecacbd20e207cc.html
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
