@@ -47,6 +47,7 @@ jobs:
       - name: Commit files
         run: |
           cp ./static/yandex_d0ecacbd20e207cc.html ./build/yandex_d0ecacbd20e207cc.html
+          cp ./static/ads.txt ./build/ads.txt
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
