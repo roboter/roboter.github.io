@@ -54,7 +54,6 @@ const config = {
           src: 'img/logo.svg',
         },
         items: [
-         
           {
             href: 'https://github.com/roboter',
             label: 'GitHub',
@@ -64,7 +63,7 @@ const config = {
       },
       footer: {
         style: 'dark',
-        links: [        
+        links: [
           {
             title: 'Community',
             items: [
@@ -84,7 +83,7 @@ const config = {
           },
           {
             title: 'More',
-            items: [            
+            items: [
               {
                 label: 'GitHub',
                 href: 'https://github.com/roboter',
@@ -93,7 +92,7 @@ const config = {
           },
         ],
         copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
-      },      
+      },
     }),
 };
 
