@@ -184,7 +184,121 @@ declare module 'astro:content' {
 	>;
 
 	type ContentEntryMap = {
-		"blog": {
+		"bkp": {
+"230918-cosmic-catastrophes-threats-from-outer.md": {
+	id: "230918-cosmic-catastrophes-threats-from-outer.md";
+  slug: "230918-cosmic-catastrophes-threats-from-outer";
+  body: string;
+  collection: "bkp";
+  data: any
+} & { render(): Render[".md"] };
+"230918-exploring-the-mysteries-of-black-holes.md": {
+	id: "230918-exploring-the-mysteries-of-black-holes.md";
+  slug: "230918-exploring-the-mysteries-of-black-holes";
+  body: string;
+  collection: "bkp";
+  data: any
+} & { render(): Render[".md"] };
+"230918-mars-the-red-planets-mysteries-unveil.md": {
+	id: "230918-mars-the-red-planets-mysteries-unveil.md";
+  slug: "230918-mars-the-red-planets-mysteries-unveil";
+  body: string;
+  collection: "bkp";
+  data: any
+} & { render(): Render[".md"] };
+"230918-the-beauty-of-the-northern-lights.md": {
+	id: "230918-the-beauty-of-the-northern-lights.md";
+  slug: "230918-the-beauty-of-the-northern-lights";
+  body: string;
+  collection: "bkp";
+  data: any
+} & { render(): Render[".md"] };
+"230918-the-great-filter-are-we-alone-in-the-un.md": {
+	id: "230918-the-great-filter-are-we-alone-in-the-un.md";
+  slug: "230918-the-great-filter-are-we-alone-in-the-un";
+  body: string;
+  collection: "bkp";
+  data: any
+} & { render(): Render[".md"] };
+"230918-the-hubble-space-telescope-unveiling.md": {
+	id: "230918-the-hubble-space-telescope-unveiling.md";
+  slug: "230918-the-hubble-space-telescope-unveiling";
+  body: string;
+  collection: "bkp";
+  data: any
+} & { render(): Render[".md"] };
+"230918-the-search-for-extraterrestrial-life.md": {
+	id: "230918-the-search-for-extraterrestrial-life.md";
+  slug: "230918-the-search-for-extraterrestrial-life";
+  body: string;
+  collection: "bkp";
+  data: any
+} & { render(): Render[".md"] };
+"230918-the-space-race-from-sputnik-to-the-moon.md": {
+	id: "230918-the-space-race-from-sputnik-to-the-moon.md";
+  slug: "230918-the-space-race-from-sputnik-to-the-moon";
+  body: string;
+  collection: "bkp";
+  data: any
+} & { render(): Render[".md"] };
+"230918-time-travel-wormholes-and-faster-than.md": {
+	id: "230918-time-travel-wormholes-and-faster-than.md";
+  slug: "230918-time-travel-wormholes-and-faster-than";
+  body: string;
+  collection: "bkp";
+  data: any
+} & { render(): Render[".md"] };
+"first-post.md": {
+	id: "first-post.md";
+  slug: "first-post";
+  body: string;
+  collection: "bkp";
+  data: any
+} & { render(): Render[".md"] };
+"markdown-style-guide.md": {
+	id: "markdown-style-guide.md";
+  slug: "markdown-style-guide";
+  body: string;
+  collection: "bkp";
+  data: any
+} & { render(): Render[".md"] };
+"second-post.md": {
+	id: "second-post.md";
+  slug: "second-post";
+  body: string;
+  collection: "bkp";
+  data: any
+} & { render(): Render[".md"] };
+"third-post.md": {
+	id: "third-post.md";
+  slug: "third-post";
+  body: string;
+  collection: "bkp";
+  data: any
+} & { render(): Render[".md"] };
+"using-mdx.mdx": {
+	id: "using-mdx.mdx";
+  slug: "using-mdx";
+  body: string;
+  collection: "bkp";
+  data: any
+} & { render(): Render[".mdx"] };
+};
+"blog": {
+"20230512-ChatGPT-GigaDevice-Read-Id.mdx": {
+	id: "20230512-ChatGPT-GigaDevice-Read-Id.mdx";
+  slug: "20230512-chatgpt-gigadevice-read-id";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
+"20230513-GD32E232K-start-neopixel-matrix-8x8.mdx": {
+	id: "20230513-GD32E232K-start-neopixel-matrix-8x8.mdx";
+  slug: "20230513-gd32e232k-start-neopixel-matrix-8x8";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
 "20230919-tinkercad-LCD.md": {
 	id: "20230919-tinkercad-LCD.md";
   slug: "20230919-tinkercad-lcd";
@@ -192,104 +306,6 @@ declare module 'astro:content' {
   collection: "blog";
   data: InferEntrySchema<"blog">
 } & { render(): Render[".md"] };
-"230918-cosmic-catastrophes-threats-from-outer.md": {
-	id: "230918-cosmic-catastrophes-threats-from-outer.md";
-  slug: "230918-cosmic-catastrophes-threats-from-outer";
-  body: string;
-  collection: "blog";
-  data: InferEntrySchema<"blog">
-} & { render(): Render[".md"] };
-"230918-exploring-the-mysteries-of-black-holes.md": {
-	id: "230918-exploring-the-mysteries-of-black-holes.md";
-  slug: "230918-exploring-the-mysteries-of-black-holes";
-  body: string;
-  collection: "blog";
-  data: InferEntrySchema<"blog">
-} & { render(): Render[".md"] };
-"230918-mars-the-red-planets-mysteries-unveil.md": {
-	id: "230918-mars-the-red-planets-mysteries-unveil.md";
-  slug: "230918-mars-the-red-planets-mysteries-unveil";
-  body: string;
-  collection: "blog";
-  data: InferEntrySchema<"blog">
-} & { render(): Render[".md"] };
-"230918-the-beauty-of-the-northern-lights.md": {
-	id: "230918-the-beauty-of-the-northern-lights.md";
-  slug: "230918-the-beauty-of-the-northern-lights";
-  body: string;
-  collection: "blog";
-  data: InferEntrySchema<"blog">
-} & { render(): Render[".md"] };
-"230918-the-great-filter-are-we-alone-in-the-un.md": {
-	id: "230918-the-great-filter-are-we-alone-in-the-un.md";
-  slug: "230918-the-great-filter-are-we-alone-in-the-un";
-  body: string;
-  collection: "blog";
-  data: InferEntrySchema<"blog">
-} & { render(): Render[".md"] };
-"230918-the-hubble-space-telescope-unveiling.md": {
-	id: "230918-the-hubble-space-telescope-unveiling.md";
-  slug: "230918-the-hubble-space-telescope-unveiling";
-  body: string;
-  collection: "blog";
-  data: InferEntrySchema<"blog">
-} & { render(): Render[".md"] };
-"230918-the-search-for-extraterrestrial-life.md": {
-	id: "230918-the-search-for-extraterrestrial-life.md";
-  slug: "230918-the-search-for-extraterrestrial-life";
-  body: string;
-  collection: "blog";
-  data: InferEntrySchema<"blog">
-} & { render(): Render[".md"] };
-"230918-the-space-race-from-sputnik-to-the-moon.md": {
-	id: "230918-the-space-race-from-sputnik-to-the-moon.md";
-  slug: "230918-the-space-race-from-sputnik-to-the-moon";
-  body: string;
-  collection: "blog";
-  data: InferEntrySchema<"blog">
-} & { render(): Render[".md"] };
-"230918-time-travel-wormholes-and-faster-than.md": {
-	id: "230918-time-travel-wormholes-and-faster-than.md";
-  slug: "230918-time-travel-wormholes-and-faster-than";
-  body: string;
-  collection: "blog";
-  data: InferEntrySchema<"blog">
-} & { render(): Render[".md"] };
-"first-post.md": {
-	id: "first-post.md";
-  slug: "first-post";
-  body: string;
-  collection: "blog";
-  data: InferEntrySchema<"blog">
-} & { render(): Render[".md"] };
-"markdown-style-guide.md": {
-	id: "markdown-style-guide.md";
-  slug: "markdown-style-guide";
-  body: string;
-  collection: "blog";
-  data: InferEntrySchema<"blog">
-} & { render(): Render[".md"] };
-"second-post.md": {
-	id: "second-post.md";
-  slug: "second-post";
-  body: string;
-  collection: "blog";
-  data: InferEntrySchema<"blog">
-} & { render(): Render[".md"] };
-"third-post.md": {
-	id: "third-post.md";
-  slug: "third-post";
-  body: string;
-  collection: "blog";
-  data: InferEntrySchema<"blog">
-} & { render(): Render[".md"] };
-"using-mdx.mdx": {
-	id: "using-mdx.mdx";
-  slug: "using-mdx";
-  body: string;
-  collection: "blog";
-  data: InferEntrySchema<"blog">
-} & { render(): Render[".mdx"] };
 };
 
 	};

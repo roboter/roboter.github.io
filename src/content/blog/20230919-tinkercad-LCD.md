@@ -3,7 +3,7 @@ title: 'Tinkercad-LCD without any library'
 description: 'Here is a sample of some basic Markdown syntax that can be used when writing Markdown content in Astro.'
 pubDate: '2023-09-19T01:09:01.514Z'
 heroImage: '/images/tinkercad-LCD.png'
-categories: ['test']
+categories: ['arduino']
 tags: ['LCD', 'arduino', 'tinkercad']
 author: '["robby.roboter"]'
 ---
