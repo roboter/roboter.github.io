@@ -4,7 +4,7 @@ description: 'Here is a sample of some basic Markdown syntax that can be used wh
 pubDate: '2023-09-19T01:09:01.514Z'
 heroImage: '/images/tinkercad-LCD.png'
 categories: ['test']
-tags: ['science', 'technology']
+tags: ['LCD', 'arduino', 'tinkercad']
 author: '["robby.roboter"]'
 ---
 <iframe width="725" height="453" src="https://www.tinkercad.com/embed/gl60gJqKHqG?editbtn=1" frameborder="0" marginwidth="0" marginheight="0" scrolling="no">
