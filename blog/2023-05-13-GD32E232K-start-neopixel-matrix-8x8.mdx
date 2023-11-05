@@ -1,0 +1,112 @@
+---
+slug: GD32E232K-START-WB2812
+title: GD32E232K with WB2812
+authors: roboter
+tags: [gigadevice, shield,wb2812, c]
+---
+
+
+```c
+#include "gd32e232.h"
+#include "systick.h"
+
+// Speed 72MHz
+// WB2812
+// 0.35 µs == 350 ns
+// 1 code   HIGH 400 ns 800 ns +- 150ns
+// 0 code   HIGH 850 ns 450 ns +- 150ns
+// RWA above 50µs
+
+typedef enum {
+  FALSE,
+  TRUE
+}
+boolean;
+
+boolean b = FALSE;
+
+void delay_ns(uint32_t cycles) { //600 = 62ms 0.1
+
+  // uint32_t cycles = ns * 72 / 1000; // calculate the number of cycles needed
+  asm volatile(
+    "mov r0, %[cycles]\n\t" // load the number of cycles into register r0
+    "1: sub r0, #1\n\t" // decrement the value of r0 by 1
+    "cmp r0, #0\n\t" // set flags based on the result of the subtraction
+    "bne 1b\n\t" // branch back to label 1 if r0 is not zero
+    : // no output operands
+    : [cycles]
+    "r"(cycles) // input operand: cycles is the number of cycles needed
+    : "r0" // clobbered register: r0 is used as a counter
+  );
+}
+void SetColorBit(boolean one) {
+  if (one) {
+    GPIO_BOP(GPIOB) = GPIO_PIN_0;
+    delay_ns(4);
+
+    GPIO_BC(GPIOB) = (uint32_t) GPIO_PIN_0;
+    delay_ns(2);
+  } else {
+    GPIO_BOP(GPIOB) = GPIO_PIN_0;
+    delay_ns(2);
+
+    GPIO_BC(GPIOB) = (uint32_t) GPIO_PIN_0;
+    delay_ns(4);
+  }
+}
+
+void setColorByte(uint8_t color) {
+  SetColorBit(color & (1) << 7);
+  SetColorBit(color & (1) << 6);
+  SetColorBit(color & (1) << 5);
+  SetColorBit(color & (1) << 4);
+  SetColorBit(color & (1) << 3);
+  SetColorBit(color & (1) << 2);
+  SetColorBit(color & (1) << 1);
+  SetColorBit(color & (1));
+}
+
+volatile uint32_t id_value;
+
+int main(void) {
+  systick_config();
+
+  /* enable the LED GPIO clock */
+  rcu_periph_clock_enable(RCU_GPIOB);
+  /* configure LED GPIO port */
+  gpio_mode_set(GPIOB, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO_PIN_0);
+  gpio_output_options_set(GPIOB, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_0);
+  /* reset LED GPIO pin */
+  gpio_bit_reset(GPIOB, GPIO_PIN_0);
+
+  id_value = dbg_id_get();
+  delay_1ms(1000);
+
+  while (1) {
+    for (int i = 0; i != 255; i++) {
+      setColorByte(0);
+      setColorByte(0);
+      setColorByte(0);
+      setColorByte(0);
+      setColorByte(0);
+      setColorByte(i);
+
+      setColorByte(0);
+      setColorByte(0);
+      setColorByte(0);
+      setColorByte(0);
+      setColorByte(i);
+      setColorByte(0);
+
+      setColorByte(0);
+      setColorByte(0);
+      setColorByte(0);
+      setColorByte(i);
+      setColorByte(0);
+      setColorByte(0);
+
+      delay_1ms(50);
+    }
+  }
+}
+```
