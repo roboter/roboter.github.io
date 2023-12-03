@@ -11,10 +11,8 @@ author: '["robby.roboter"]'
 ![Alt text](/images/20231203-wch/embeetle.png)
 
 I took as a starting point already existing project that use `CH32V003`
-[ch32v003-maker-projects
-](https://pallavaggarwal.in/2023/10/26/ch32v003-maker-projects/)
-It have big numbers and some text
-But I wanted to display any text.
+[ch32v003-maker-projects](https://pallavaggarwal.in/2023/10/26/ch32v003-maker-projects/)
+It have big numbers and some text but I wanted to display any text.
 
 
 ![Alt text](/images/20231203-wch/schematic.svg)
@@ -50,6 +48,13 @@ int main(void)
 ```
 ## Source code
 https://github.com/roboter/Hardware/tree/main/WCH/ch32v003f4p6-evt-r0-1v1-i2c
+
+## UPD! Embeetle integrated my project to their software so only 3 steps needed to run it
+
+![Embeetle screenshot 01](/images/20231203-wch/screenshot_01.png)
+![Embeetle screenshot 02](/images/20231203-wch/screenshot_02.png)
+![Embeetle screenshot 03](/images/20231203-wch/screenshot_03.png)
+
 
 ## Reference: 
 * https://www.youtube.com/watch?v=StjnSeM30-Y&list=PLs00gIc4luIDke2g0jVK1qH7EwiB-SKYP&index=12 - ssd1306 explained

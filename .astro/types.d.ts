@@ -222,13 +222,6 @@ declare module 'astro:content' {
   collection: "blog";
   data: InferEntrySchema<"blog">
 } & { render(): Render[".md"] };
-"20231116-stm32-nucleo-c031c6-ssd1306.md": {
-	id: "20231116-stm32-nucleo-c031c6-ssd1306.md";
-  slug: "20231116-stm32-nucleo-c031c6-ssd1306";
-  body: string;
-  collection: "blog";
-  data: InferEntrySchema<"blog">
-} & { render(): Render[".md"] };
 "20231203-wch-ssd1306-oled-display.md": {
 	id: "20231203-wch-ssd1306-oled-display.md";
   slug: "20231203-wch-ssd1306-oled-display";
