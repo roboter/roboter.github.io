@@ -229,6 +229,13 @@ declare module 'astro:content' {
   collection: "blog";
   data: InferEntrySchema<"blog">
 } & { render(): Render[".md"] };
+"20240110-PCBX-online-PCB-design-service.md": {
+	id: "20240110-PCBX-online-PCB-design-service.md";
+  slug: "20240110-pcbx-online-pcb-design-service";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".md"] };
 };
 
 	};
