@@ -61,3 +61,4 @@ https://github.com/roboter/Hardware/tree/main/WCH/ch32v003f4p6-evt-r0-1v1-i2c
 * https://embeetle.com/#supported-hardware/wch/boards/ch32v003f4p6-evt-r0-1v1 - Embeetle
 * https://github.com/ndm736/ME433_2020/tree/master/ssd1306  - Font
 * https://pallavaggarwal.in/2023/10/26/ch32v003-maker-projects/ - took insperation from this project
+* https://www.wch-ic.com/products/CH32V003.html? - datasheet, reference manual
