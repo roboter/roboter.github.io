@@ -28,16 +28,20 @@ But we will do it without any library to demonstrate how it is working behind th
 #define DELEAY 2
 #define EN 1
 #define DATAMODE 0b0010 // 4 bit data mode
+
+// CLEAR Command
 #define CLEAR_1 0b0000
 #define CLEAR_2 0b0001
-#define RET_1 0b0000
-#define RET_2 0b0010
+
+// ON Command
 #define ON_1 0b0000
 #define ON_2 0b1100
 
+// Char H
 #define H_1 0b0100
 #define H_2 0b1000
 
+// Char I
 #define I_1 0b0100
 #define I_2 0b1001
 
@@ -93,7 +97,7 @@ Here's a breakdown of the code:
 
     Definitions:
         DELEAY: Defines the delay duration used in the delay() function calls.
-        EN, DATAMODE, CLEAR_1, CLEAR_2, RET_1, RET_2, ON_1, ON_2: These are predefined constants representing various commands and control signals for the LCD.
+        EN, DATAMODE, CLEAR_1, CLEAR_2, ON_1, ON_2: These are predefined constants representing various commands and control signals for the LCD.
         H_1, H_2, I_1, I_2: Word `HI`, each character is splitted by half to send in 4-bit mode.
 
     setup() function:
