@@ -26,7 +26,6 @@ But we will do it without any library to demonstrate how it is working behind th
 // Read the datasheet https://www.youtube.com/watch?v=cXpeTxC3_A4
 
 #define DELEAY 2
-#define EN 1
 #define DATAMODE 0b0010 // 4 bit data mode
 
 // CLEAR Command
@@ -44,7 +43,6 @@ But we will do it without any library to demonstrate how it is working behind th
 // Char I
 #define I_1 0b0100
 #define I_2 0b1001
-
 
 void setup()
 {
@@ -97,8 +95,9 @@ Here's a breakdown of the code:
 
     Definitions:
         DELEAY: Defines the delay duration used in the delay() function calls.
-        EN, DATAMODE, CLEAR_1, CLEAR_2, ON_1, ON_2: These are predefined constants representing various commands and control signals for the LCD.
+        DATAMODE, CLEAR_1, CLEAR_2, ON_1, ON_2: These are predefined constants representing various commands and control signals for the LCD.
         H_1, H_2, I_1, I_2: Word `HI`, each character is splitted by half to send in 4-bit mode.
+        B0, B1, B11111111: There file in arduino that have all binary constants defined from 0 to 255, like that #define B11110000 240
 
     setup() function:
         Sets the data direction register (DDR) for ports D, B, and C to make all digital pins outputs. This prepares the microcontroller's pins to send signals to the LCD.
