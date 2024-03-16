@@ -12,13 +12,13 @@ author: '["robby.roboter"]'
 <iframe width="725" height="453" src="https://www.tinkercad.com/embed/gl60gJqKHqG?editbtn=1" frameborder="0" marginwidth="0" marginheight="0" scrolling="no">
 </iframe>
 
-The HD44780 is a popular controller chip used in alphanumeric liquid crystal display (LCD) modules. Developed by Hitachi, it's widely used in various electronic devices such as consumer electronics, industrial equipment, and hobbyist projects.
+The `HD44780` is a popular controller chip used in alphanumeric liquid crystal display (LCD) modules. Developed by Hitachi, it's widely used in various electronic devices such as consumer electronics, industrial equipment, and hobbyist projects.
 
-The HD44780 chip simplifies the process of interfacing with a character LCD. It handles tasks such as generating the signals needed to display characters on the screen, managing the cursor position, and handling input/output operations. By using this controller, developers can communicate with the LCD using a relatively simple set of commands and connections, making it easier to integrate displays into their projects.
+The `HD44780` chip simplifies the process of interfacing with a character LCD. It handles tasks such as generating the signals needed to display characters on the screen, managing the cursor position, and handling input/output operations. By using this controller, developers can communicate with the LCD using a relatively simple set of commands and connections, making it easier to integrate displays into their projects.
 
 These displays typically have a fixed number of characters and are commonly used to display text-based information, such as in digital clocks, small appliances, and electronic instruments. They are relatively low-cost, easy to use, and consume minimal power, making them a popular choice for embedded systems and hobbyist projects.
 
-Usually it controlled with LiquidCrystal Arduino library. The LiquidCrystal library is a library for Arduino and compatible microcontroller platforms that simplifies the process of interfacing with liquid crystal displays (LCDs) that use the Hitachi HD44780 (or a compatible) controller chip.
+Usually it controlled with LiquidCrystal Arduino library. The LiquidCrystal library is a library for Arduino and compatible microcontroller platforms that simplifies the process of interfacing with liquid crystal displays (LCDs) that use the Hitachi `HD44780` (or a compatible) controller chip.
 
 But we will do it without any library to demonstrate how it is working behind the scenes.
 
@@ -65,8 +65,7 @@ void loop()
 
     ch(I_1);
     ch(I_2);
-  }
- 
+  } 
 }
 
 void command(int command)
@@ -94,7 +93,8 @@ Here's a breakdown of the code:
 
     Definitions:
         DELEAY: Defines the delay duration used in the delay() function calls.
-        EN, DATAMODE, CLEAR_1, CLEAR_2, RET_1, RET_2, ON_1, ON_2, H_1, H_2, I_1, I_2: These are predefined constants representing various commands and control signals for the LCD.
+        EN, DATAMODE, CLEAR_1, CLEAR_2, RET_1, RET_2, ON_1, ON_2: These are predefined constants representing various commands and control signals for the LCD.
+        H_1, H_2, I_1, I_2: Word `HI`, each character is splitted by half to send in 4-bit mode.
 
     setup() function:
         Sets the data direction register (DDR) for ports D, B, and C to make all digital pins outputs. This prepares the microcontroller's pins to send signals to the LCD.
