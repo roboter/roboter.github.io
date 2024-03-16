@@ -23,8 +23,6 @@ Usually it controlled with LiquidCrystal Arduino library. The LiquidCrystal libr
 But we will do it without any library to demonstrate how it is working behind the scenes.
 
 ```cpp
-// Read the datasheet https://www.youtube.com/watch?v=cXpeTxC3_A4
-
 #define DELEAY 2
 #define DATAMODE 0b0010 // 4 bit data mode
 
@@ -120,4 +118,7 @@ Here's a breakdown of the code:
         Sends the character to the LCD by setting the appropriate values on the data pins (port D) and toggling the Enable (EN) pin.
 
 
----
+## Reference
+* Reading a datasheet https://www.youtube.com/watch?v=cXpeTxC3_A4
+* Peter Ouwehand has written an excellent article describing how to use the HD44780 https://www.ekenrooi.net/lcd/lcd.shtml
+* Creating custom characters https://www.quinapalus.com/hd44780udg.html
