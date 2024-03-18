@@ -19,6 +19,7 @@ The more important thing for me is: It supports `PIC`, `AVR`, `Arduino` and othe
 ## So lets build our own Circuit!
 
 We need just 2 components `HD44780` and `nano`. We will do connections later so this step is compete.
+![Components](/images/20240316-SimulIDE/components.png)
 
 ## [Embeetle](https://embeetle.com) IDE and LCD Library
 
