@@ -31,6 +31,7 @@ const ogImage = createOgImage({
 <!doctype html>
 <html lang={config.site.lang}>
   <head>
+    <meta name="google-adsense-account" content="ca-pub-6551517940732120">
     <!-- favicon -->
     <link rel="shortcut icon" href={config.site.favicon} />
     <!-- theme meta -->
@@ -114,5 +115,14 @@ const ogImage = createOgImage({
       // This is a hack to get vite-plugin-pwa to generate a sw.js file.
       // Do not remove this script tag.
     </script>
+    <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-4C208KCFYB"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-4C208KCFYB');
+  </script>
   </body>
 </html>
