@@ -4,7 +4,7 @@ description: 'driver for oled display ssd1306'
 pubDate: "2023-12-03T12:10:47.520Z"
 heroImage: '/images/20231203-wch/wch.jpg'
 categories: ['WCH']
-tags: ['WCH', 'c', 'ssd1306']
+tags: ['WCH', 'c', 'ssd1306', 'I2C']
 author: '["robby.roboter"]'
 ---
 
