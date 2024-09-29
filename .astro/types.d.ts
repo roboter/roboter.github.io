@@ -236,6 +236,27 @@ declare module 'astro:content' {
   collection: "blog";
   data: InferEntrySchema<"blog">
 } & { render(): Render[".md"] };
+"20240316-HD44780-Embeetle-SimulIDE.md": {
+	id: "20240316-HD44780-Embeetle-SimulIDE.md";
+  slug: "20240316-hd44780-embeetle-simulide";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".md"] };
+"20240822-STM32-HAL-I2C-Scan.md": {
+	id: "20240822-STM32-HAL-I2C-Scan.md";
+  slug: "20240822-stm32-hal-i2c-scan";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".md"] };
+"20240929-PCF8574.mdx": {
+	id: "20240929-PCF8574.mdx";
+  slug: "20240929-pcf8574";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
 };
 
 	};
