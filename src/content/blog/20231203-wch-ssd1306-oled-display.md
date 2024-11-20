@@ -8,14 +8,14 @@ tags: ['WCH', 'c', 'ssd1306', 'I2C']
 author: '["robby.roboter"]'
 ---
 
-![Alt text](/images/20231203-wch/embeetle.png)
+![embeetleIDE](/images/20231203-wch/embeetle.png)
 
 I took as a starting point already existing project that use `CH32V003`
 [ch32v003-maker-projects](https://pallavaggarwal.in/2023/10/26/ch32v003-maker-projects/)
 It have big numbers and some text but I wanted to display any text.
 
 
-![Alt text](/images/20231203-wch/schematic.svg)
+![schematic](/images/20231203-wch/schematic.svg)
 
 ```c
 // ===================================================================================

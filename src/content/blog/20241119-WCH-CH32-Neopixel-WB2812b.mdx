@@ -2,13 +2,17 @@
 title: 'Controlling WS2812B RGB LEDs with a WCH CH32V003 Microcontroller'
 description: 'My small test board with WCH ch32v003'
 pubDate: '2024-11-19T01:21:22.000Z'
-heroImage: '/images/20231203-wch/preview.png'
+heroImage: '/images/20241109-WCH-CH32-NeoPixel-WB2812b/preview.png'
 categories: ['WCH']
 tags: ['WCH', 'CH32V003', 'neopixel']
 author: '["robby.roboter"]'
 ---
 
 In this blog post, we'll explore a C program designed to control `WS2812B` RGB LEDs using a microcontroller. The code is structured to initialize the system, configure GPIOs, and send precise timing signals to the LEDs to display colors and animations.
+
+## CH32V003 SOP8 Pinout (CH32V003J4M6)
+![pinout](/images/20241109-WCH-CH32-NeoPixel-WB2812b/pinout.webp)
+__Yes, there no mistake some of the pins share one physical chip leg!__
 
 ## Overview of the Code
 

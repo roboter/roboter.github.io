@@ -58,14 +58,14 @@ void loop()
   while(1)
   {
     command(CLEAR_1);
-    command(CLEAR_2); 
+    command(CLEAR_2);
 
     ch(H_1);
     ch(H_2);
 
     ch(I_1);
     ch(I_2);
-  } 
+  }
 }
 
 void command(int command)
