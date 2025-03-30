@@ -36,6 +36,27 @@ Then, you can write code that efficiently controls the segments to display numbe
 	-	Decimal Point (DP) → P7 (PCF8574) (optional)
 The pin configuration will depend on your specific display.
 
+## 
+```
++----------------+               +-------------------+               +----------------------+
+|   Arduino      |               |      PCF8574      |               |  7-Segment Display   |
+|                |               |                   |               |                      |
+|   5V           |---------------| VCC               |               |                      |
+|   GND          |---------------| GND               |---------------| GND                  |
+|   A4 (SDA)     |---------------| SDA               |               |                      |
+|   A5 (SCL)     |---------------| SCL               |               |                      |
+|                |               |                   |               |                      |
+|                |               |               P0  |---------------| Segment A            |
+|                |               |               P1  |---------------| Segment B            |
+|                |               |               P2  |---------------| Segment C            |
+|                |               |               P3  |---------------| Segment D            |
+|                |               |               P4  |---------------| Segment E            |
+|                |               |               P5  |---------------| Segment F            |
+|                |               |               P6  |---------------| Segment G            |
+|                |               |               P7  |---------------| Decimal Point        |
++----------------+               +-------------------+               +----------------------+
+```
+
 ##  Step 2: Arduino Code
 
 Now, let’s write the Arduino code to control the 7-segment display using the PCF8574.
