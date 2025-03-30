@@ -1,0 +1,165 @@
+---
+title: 'Controlling WS2812B RGB LEDs with a WCH CH32V003 Microcontroller'
+description: 'My small test board with WCH ch32v003'
+pubDate: '2024-11-19T01:21:22.000Z'
+heroImage: '/images/20231203-wch/preview.png'
+categories: ['WCH']
+tags: ['WCH', 'CH32V003', 'neopixel']
+author: '["robby.roboter"]'
+---
+
+In this blog post, we'll explore a C program designed to control `WS2812B` RGB LEDs using a microcontroller. The code is structured to initialize the system, configure GPIOs, and send precise timing signals to the LEDs to display colors and animations.
+
+## Overview of the Code
+
+The `main.c` file is the heart of our project, responsible for setting up the microcontroller and driving the WS2812B LEDs. Here's a breakdown of its key components:
+
+### System Initialization
+
+The program begins by initializing the system clock and configuring the GPIO pins. The system clock is set to 48MHz, which is crucial for achieving the precise timing required by the WS2812B protocol.
+
+```c
+void SystemInit(void)
+{
+    // System initialization code
+    RCC_AdjustHSICalibrationValue(0x10);
+    SetSysClock();
+}
+```
+
+### GPIO Configuration
+
+The GPIO pins are configured to output mode to control the LED data line. This setup is essential for sending the high and low signals that represent the binary data for the LEDs.
+
+```c
+void WS2812B_Init(void)
+{
+    GPIO_InitTypeDef GPIO_InitStructure = {0};
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD, ENABLE);
+    GPIO_InitStructure.GPIO_Pin = LED_PIN;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_Init(LED_PORT, &GPIO_InitStructure);
+}
+```
+
+### Sending Data to LEDs
+
+The `WS2812B_SendBit` function is responsible for sending individual bits to the LEDs. It uses inline assembly to achieve precise timing, crucial for the WS2812B protocol.
+
+```c
+void WS2812B_SendBit(uint8_t bit)
+{
+    if (bit)
+    {
+        // Bit "1": High for 0.66 µs, Low for 0.59 µs
+        GPIOD->BSHR = LED_PIN;  // Set pin high
+        __asm__ volatile (
+            "li t0, 5 \n"        // Load the cycle count for high time
+            "1: \n"              // Label for the loop start
+            "addi t0, t0, -1 \n" // Decrement the cycle count
+            "bnez t0, 1b \n"     // Branch to label 1 if the cycle count is not zero
+        );
+
+        GPIOD->BCR = LED_PIN;  // Set pin low
+        __asm__ volatile (
+            "li t0, 1 \n"        // Load the cycle count for low time
+            "1: \n"              // Label for the loop start
+            "addi t0, t0, -1 \n" // Decrement the cycle count
+            "bnez t0, 1b \n"     // Branch to label 1 if the cycle count is not zero
+        );
+    }
+    else
+    {
+        // Bit "0": High for 0.33 µs, Low for 0.92 µs
+        GPIOD->BSHR = LED_PIN;  // Set pin high
+        __asm__ volatile (
+            "li t0, 4 \n"        // Load the cycle count for high time
+            "1: \n"              // Label for the loop start
+            "addi t0, t0, -1 \n" // Decrement the cycle count
+            "bnez t0, 1b \n"     // Branch to label 1 if the cycle count is not zero
+        );
+
+        GPIOD->BCR = LED_PIN;  // Set pin low
+        __asm__ volatile (
+            "li t0, 1 \n"        // Load the cycle count for low time
+            "1: \n"              // Label for the loop start
+            "addi t0, t0, -1 \n" // Decrement the cycle count
+            "bnez t0, 1b \n"     // Branch to label 1 if the cycle count is not zero
+        );
+    }
+}
+```
+
+### Color and Animation Functions
+
+The program includes functions to send colors to the LEDs and create animations like rainbow and fade effects. These functions utilize the `WS2812B_SendColor` and `WS2812B_FadeColors` functions to control multiple LEDs.
+
+```c
+void WS2812B_SendByte(uint8_t byte)
+{
+    for (int i = 0; i < 8; i++)
+    {
+        WS2812B_SendBit((byte << i) & 0x80);
+    }
+}
+
+void WS2812B_SendColor(uint8_t red, uint8_t green, uint8_t blue)
+{
+    WS2812B_SendByte(green);
+    WS2812B_SendByte(red);
+    WS2812B_SendByte(blue);
+}
+
+void WS2812B_FadeColors(uint8_t num_leds) {
+    uint8_t red, green, blue;
+    int step = 5; // Adjust step size for smoother transitions
+
+    // Fade from Red to Blue
+    for (red = 255, blue = 0; red > 0; red -= step, blue += step)
+    {
+        WS2812B_SendColor(red, 0, blue);
+        Delay_Ms(50); // Adjust delay for speed
+    }
+
+    // Fade from Blue to Green
+    for (blue = 255, green = 0; blue > 0; blue -= step, green += step)
+    {
+        WS2812B_SendColor(0, green, blue);
+        Delay_Ms(50);
+    }
+
+    // Fade from Green to Red
+    for (green = 255, red = 0; green > 0; green -= step, red += step)
+    {
+        WS2812B_SendColor(red, green, 0);
+        Delay_Ms(50);
+    }
+}
+```
+
+### Main Function
+
+The `main` function initializes the system and enters an infinite loop to continuously update the LED colors. It demonstrates basic color changes and animations.
+
+```c
+int main(void)
+{
+    SystemInit();
+    WS2812B_Init();
+	Delay_Init();
+
+    while (1)
+    {
+        WS2812B_FadeColors(NUM_LEDS);
+    }
+}
+```
+
+## Conclusion
+
+This `main.c` file provides a robust framework for controlling `WS2812B` RGB LEDs with a microcontroller.
+By leveraging precise timing and direct `GPIO` manipulation, it achieves the necessary control to create vibrant LED displays.
+Whether you're building a simple `LED` strip or a complex light show, this code serves as a solid foundation for your projects.
+
+Feel free to experiment with the timing and color functions to create your own unique LED animations!
