@@ -1,0 +1,86 @@
+---
+// Frontmatter JavaScript/TypeScript section (runs only at build time)
+import ReactCounter from '../components/ReactCounter.jsx';
+import Layout from '../layouts/Base.astro';
+import { FaReact } from '@react-icons/all-files/fa/FaReact';
+
+// You can fetch data here at build time
+const apiUrl = 'https://jsonplaceholder.typicode.com/todos/1';
+const response = await fetch(apiUrl);
+const todoData = await response.json();
+
+// Pass this data to your React component
+const counterInitialValue = 10;
+---
+
+<!-- HTML Template Section -->
+<Layout title="Astro + React Example">
+  <main class="container">
+    <section>
+      <h1>Astro + React Example</h1>
+      <p>This page demonstrates using React components within Astro.</p>
+      
+      <div class="logo-container">
+        <FaReact size={80} color="#61DAFB" />
+      </div>
+    </section>
+
+    <!-- Interactive React Component -->
+   
+      <ReactCounter client:load initialValue={counterInitialValue} />
+
+
+    <!-- Data fetched at build time -->
+    <section>
+      <h2>Data Fetched at Build Time</h2>
+      <pre>{JSON.stringify(todoData, null, 2)}</pre>
+    </section>
+
+    <!-- Static content with some styling -->
+    <section class="features">
+      <h2>Why Astro + React?</h2>
+      <ul>
+        <li>⚡ Astro's zero-JS by default</li>
+        <li>🧩 Add React only where you need interactivity</li>
+        <li>📦 Automatic partial hydration</li>
+        <li>🔧 Full React compatibility when needed</li>
+      </ul>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  /* Scoped CSS */
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+
+  .logo-container {
+    text-align: center;
+    margin: 2rem 0;
+  }
+
+  .react-component {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 2rem 0;
+    background: #f8f8f8;
+  }
+
+  .features {
+ 
+    padding: 1.5rem;
+    border-radius: 8px;
+  }
+
+  pre {
+    color: #f5f5f5;
+    padding: 1rem;
+    border-radius: 4px;
+    overflow-x: auto;
+    font-style: italic;
+  }
+</style>
