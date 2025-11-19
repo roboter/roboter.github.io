@@ -206,80 +206,82 @@ declare module 'astro:content' {
   slug: "20230512-chatgpt-gigadevice-read-id";
   body: string;
   collection: "blog";
-  data: any
+  data: InferEntrySchema<"blog">
 } & { render(): Render[".mdx"] };
 "20230513-GD32E232K-start-neopixel-matrix-8x8.mdx": {
 	id: "20230513-GD32E232K-start-neopixel-matrix-8x8.mdx";
   slug: "20230513-gd32e232k-start-neopixel-matrix-8x8";
   body: string;
   collection: "blog";
-  data: any
+  data: InferEntrySchema<"blog">
 } & { render(): Render[".mdx"] };
 "20230919-tinkercad-LCD.md": {
 	id: "20230919-tinkercad-LCD.md";
   slug: "20230919-tinkercad-lcd";
   body: string;
   collection: "blog";
-  data: any
+  data: InferEntrySchema<"blog">
 } & { render(): Render[".md"] };
 "20231203-wch-ssd1306-oled-display.md": {
 	id: "20231203-wch-ssd1306-oled-display.md";
   slug: "20231203-wch-ssd1306-oled-display";
   body: string;
   collection: "blog";
-  data: any
+  data: InferEntrySchema<"blog">
 } & { render(): Render[".md"] };
 "20240110-PCBX-online-PCB-design-service.md": {
 	id: "20240110-PCBX-online-PCB-design-service.md";
   slug: "20240110-pcbx-online-pcb-design-service";
   body: string;
   collection: "blog";
-  data: any
+  data: InferEntrySchema<"blog">
 } & { render(): Render[".md"] };
 "20240316-HD44780-Embeetle-SimulIDE.md": {
 	id: "20240316-HD44780-Embeetle-SimulIDE.md";
   slug: "20240316-hd44780-embeetle-simulide";
   body: string;
   collection: "blog";
-  data: any
+  data: InferEntrySchema<"blog">
 } & { render(): Render[".md"] };
 "20240822-STM32-HAL-I2C-Scan.md": {
 	id: "20240822-STM32-HAL-I2C-Scan.md";
   slug: "20240822-stm32-hal-i2c-scan";
   body: string;
   collection: "blog";
-  data: any
+  data: InferEntrySchema<"blog">
 } & { render(): Render[".md"] };
 "20240929-PCF8574.mdx": {
 	id: "20240929-PCF8574.mdx";
   slug: "20240929-pcf8574";
   body: string;
   collection: "blog";
-  data: any
+  data: InferEntrySchema<"blog">
 } & { render(): Render[".mdx"] };
 "20241119-WCH-CH32-Neopixel-WB2812b.mdx": {
 	id: "20241119-WCH-CH32-Neopixel-WB2812b.mdx";
   slug: "20241119-wch-ch32-neopixel-wb2812b";
   body: string;
   collection: "blog";
-  data: any
+  data: InferEntrySchema<"blog">
 } & { render(): Render[".mdx"] };
 "20250525-arduino-joystik-shield.md": {
 	id: "20250525-arduino-joystik-shield.md";
   slug: "20250525-arduino-joystik-shield";
   body: string;
   collection: "blog";
-  data: any
+  data: InferEntrySchema<"blog">
 } & { render(): Render[".md"] };
 };
 
 	};
 
 	type DataEntryMap = {
-		
+		"tools": {
+};
+
 	};
 
 	type AnyEntryMap = ContentEntryMap & DataEntryMap;
 
-	type ContentConfig = never;
+	type ContentConfig = typeof import("../src/content/config");
 }

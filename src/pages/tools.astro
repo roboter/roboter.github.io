@@ -1,0 +1,14 @@
+---
+import Base from "@layouts/Base.astro";
+import Page from "@layouts/Page.astro";
+import CharGenerator from "@components/CharGenerator.jsx";
+---
+
+<Base meta_title="Tools">
+  <Page title="Tools">
+    <h2>LCD Custom Character Generator</h2>
+    <p>Create custom characters for 5x8 LCD displays. Click pixels to design your character and get the C code.</p>
+
+    <CharGenerator client:load />
+  </Page>
+</Base>
