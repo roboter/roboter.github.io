@@ -1,14 +1,63 @@
 ---
 import Base from "@layouts/Base.astro";
 import Page from "@layouts/Page.astro";
-import CharGenerator from "@components/CharGenerator.jsx";
+import CharGenerator from "@components/tools/CharGenerator.jsx";
 ---
 
 <Base meta_title="Tools">
-  <Page title="Tools">
+<Page title="Tools">
+<div class="tools-grid">
+  <div class="tool-card">
     <h2>LCD Custom Character Generator</h2>
     <p>Create custom characters for 5x8 LCD displays. Click pixels to design your character and get the C code.</p>
+    <a href="/tools/lcd-character-generator" class="tool-link">Open Tool →</a>
+  </div>
 
-    <CharGenerator client:load />
-  </Page>
+  <div class="tool-card">
+    <h2>SSD1306 OLED Simulator</h2>
+    <p>Preview OLED commands on a 128x64 display with live code execution and graphics support.</p>
+    <a href="/tools/oled-simulator" class="tool-link">Open Tool →</a>
+  </div>
+</div>
+</Page>
+
+<style>
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+
+  .tool-card {
+    padding: 1.5rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    background: white;
+  }
+
+  .tool-card h2 {
+    margin-top: 0;
+    font-size: 1.5rem;
+  }
+
+  .tool-card p {
+    color: #6b7280;
+    margin: 1rem 0;
+  }
+
+  .tool-link {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: #3b82f6;
+    color: white;
+    text-decoration: none;
+    border-radius: 0.375rem;
+    transition: background 0.2s;
+  }
+
+  .tool-link:hover {
+    background: #2563eb;
+  }
+</style>
 </Base>
