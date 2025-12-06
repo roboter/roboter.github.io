@@ -65,7 +65,7 @@ void loop()
 
     ch(I_1);
     ch(I_2);
-  } 
+  }
 }
 
 void command(int command)

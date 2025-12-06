@@ -30,9 +30,23 @@ export default defineConfig({
       theme: 'material-theme-palenight',
       wrap: true
     },
-    drafts: true
-  }), Compress(), sitemap(), tailwind(), robotsTxt(), react()],
-  vite: {
+  },
+    integrations: [
+    mdx({
+      syntaxHighlight: 'shiki',
+      shikiConfig: {
+        theme: 'material-theme-palenight',
+        wrap: true,
+      },
+      drafts: true,
+    }),
+    Compress(),
+    sitemap(),
+    tailwind(),
+    robotsTxt(),
+    //react(),
+  ],
+    vite: {
     plugins: [VitePWA({
       registerType: 'autoUpdate',
       manifest,
