@@ -1,0 +1,12 @@
+---
+import Base from "@layouts/Base.astro";
+import Page from "@layouts/Page.astro";
+import OLEDSimulator from "@components/tools/OLEDSimulator.jsx";
+---
+<Base meta_title="OLED Simulator">
+<Page title="OLED Simulator">
+<h2>SSD1306 OLED Command Simulator</h2>
+<p>Preview OLED commands on a 128x64 display with live code execution.</p>
+<OLEDSimulator client:load />
+</Page>
+</Base>
