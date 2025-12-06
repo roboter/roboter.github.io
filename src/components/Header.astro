@@ -6,6 +6,7 @@ import HamburgerIcon from '@icons/HamburgerIcon.astro';
 import CloseIcon from '@icons/CloseIcon.astro';
 import HomeIcon from '@icons/HomeIcon.astro';
 import ThemeIcon from '@components/ThemeIcon.astro';
+import robotFaceLogo from '../assets/robot_face_logo.png';
 
 export interface NavigationLink {
   name: string;
@@ -21,7 +22,7 @@ const { main }: { main: NavigationLink[] } = menu;
       <a href="/" class="logo flex items-center" aria-current="page">
         <figure>
           <Image
-            src="/src/assets/robot_face_logo.png"
+            src={robotFaceLogo}
             alt="Robby roboter Blog"
             class="w-16 rounded bg-zinc-950"
             width={512}
