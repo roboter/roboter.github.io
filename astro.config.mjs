@@ -38,7 +38,8 @@ export default defineConfig({
       workbox: {
         globDirectory: 'dist',
         globPatterns: ['**/*.{js,css,svg,png,jpg,jpeg,gif,webp,woff,woff2,ttf,eot,ico}'],
-        navigateFallback: null
+        navigateFallback: null,
+        maximumFileSizeToCacheInBytes: 1024 * 1024 * 5,
       }
     })]
   }
