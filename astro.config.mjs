@@ -1,13 +1,13 @@
 import { defineConfig } from 'astro/config';
-import mdx from '@astrojs/mdx';
 import tailwind from '@astrojs/tailwind';
-import Compress from 'astro-compress';
+
 import sitemap from '@astrojs/sitemap';
 import robotsTxt from 'astro-robots-txt';
 import { VitePWA } from 'vite-plugin-pwa';
 import { manifest } from './src/utils/manifest';
-
 import react from "@astrojs/react";
+
+
 
 // https://astro.build/config
 export default defineConfig({
@@ -24,29 +24,14 @@ export default defineConfig({
       wrap: true
     }
   },
-  integrations: [mdx({
-    syntaxHighlight: 'shiki',
-    shikiConfig: {
-      theme: 'material-theme-palenight',
-      wrap: true
-    },
-  },
-    integrations: [
-    mdx({
-      syntaxHighlight: 'shiki',
-      shikiConfig: {
-        theme: 'material-theme-palenight',
-        wrap: true,
-      },
-      drafts: true,
-    }),
-    Compress(),
+  integrations: [
+
     sitemap(),
     tailwind(),
     robotsTxt(),
-    //react(),
+    react(),
   ],
-    vite: {
+  vite: {
     plugins: [VitePWA({
       registerType: 'autoUpdate',
       manifest,
