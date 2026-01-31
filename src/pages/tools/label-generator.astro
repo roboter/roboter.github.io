@@ -1,0 +1,11 @@
+---
+import Base from "@layouts/Base.astro";
+import Page from "@layouts/Page.astro";
+import LabelGenerator from "@components/tools/LabelGenerator.jsx";
+---
+<Base meta_title="Component Label Generator">
+  <Page title="Component Label Generator">
+    <p>Create custom labels with QR code, dynamic properties, and export to SVG.</p>
+    <LabelGenerator client:load />
+  </Page>
+</Base>
