@@ -5,6 +5,10 @@
       "url": "/"
     },
     {
+      "name": "CircuitFlow",
+      "url": "/circuitflow"
+    },
+    {
       "name": "Tools",
       "url": "/tools"
     },
