@@ -34,5 +34,4 @@ Part Number 	Colors 	Grey Level 	Resolution 	Display size (mm) 	Outline Dimensio
 
  
 Test the firmware:
-https://github.com/Xinyuan-LilyGO/LilyGO_T5_V24/tree/master/firmware 
 https://github.com/Xinyuan-LilyGO/LilyGo-T5-ink-series 
