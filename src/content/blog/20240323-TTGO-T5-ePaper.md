@@ -2,6 +2,7 @@
 title: 'TTGO T5 ePaper Display'
 description: 'Features, specifications, and firmware test links for the TTGO T5 ePaper display.'
 pubDate: '2024-03-23T00:00:00.000Z'
+heroImage: '/images/20240323-TTGO-T5-ePaper/hero.png'
 categories: ['esp32']
 tags: ['TTGO', 'ePaper', 'ESP32', 'E-Ink', 'LilyGO']
 ---
