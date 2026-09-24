@@ -1,0 +1,19 @@
+---
+import Base from "@layouts/Base.astro";
+import CircuitFlowPage from "@components/circuitflow/CircuitFlowPage.jsx";
+
+const pageTitle = "CircuitFlow.NET — Modern Cross-Platform PCB Layout Editor";
+const pageDescription =
+  "CircuitFlow is a cross-platform PCB layout editor built with .NET 10 and .NET MAUI. Featuring an interactive SkiaSharp canvas, live DRC, custom footprint designer, and Gerber/GRBL/SVG exports.";
+---
+
+<Base
+  title={pageTitle}
+  meta_title={pageTitle}
+  description={pageDescription}
+  hideHero={true}
+  hideVideos={true}
+  fullWidth={false}
+>
+  <CircuitFlowPage client:load />
+</Base>
