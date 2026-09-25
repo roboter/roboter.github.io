@@ -13,6 +13,10 @@
       "url": "/tools"
     },
     {
+      "name": "Videos",
+      "url": "/videos"
+    },
+    {
       "name": "Tags",
       "url": "/tags"
     },

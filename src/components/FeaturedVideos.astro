@@ -1,43 +1,173 @@
 ---
-import { Image } from "astro:assets";
 import youtube from "@config/youtube.json";
+
+interface Props {
+  title?: string;
+  subtitle?: string;
+}
+
+const {
+  title = "Videos & Tutorials",
+  subtitle = "Hardware deep-dives, embedded systems, microcontrollers, and DIY projects.",
+} = Astro.props;
+
+const videos = youtube;
 ---
 
-<section class="max-w-screen-lg px-4 mx-auto pb-12 sm:px-6 lg:px-8">
-  <h3
-    class="mt-3 text-lg md:text-2xl font-semibold leading-6 text-zinc-900 dark:text-white group-hover:text-zinc-600 mb-4"
-  >
-    Latest videos on YouTube:
-  </h3>
+<section id="videos" class="max-w-screen-lg px-4 mx-auto pb-16 sm:px-6 lg:px-8">
+  <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4 border-b border-zinc-200 dark:border-zinc-800 pb-6">
+    <div>
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-red-500/10 text-red-600 dark:text-red-400 border border-red-500/20 mb-3">
+        <svg class="w-4 h-4 fill-current text-red-600 dark:text-red-500" viewBox="0 0 24 24">
+          <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+        </svg>
+        <span>YouTube Channel • {videos.length} Videos</span>
+      </div>
+      <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-900 dark:text-white">
+        {title}
+      </h2>
+      <p class="mt-1 text-sm sm:text-base text-zinc-600 dark:text-zinc-400 max-w-2xl">
+        {subtitle}
+      </p>
+    </div>
+    <div class="flex items-center gap-3">
+      <a
+        href="https://www.youtube.com/@robby.roboter/videos"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold bg-red-600 hover:bg-red-700 text-white shadow-md hover:shadow-red-600/30 transition-all duration-200 group"
+      >
+        <span>Visit Channel</span>
+        <svg class="w-4 h-4 transition-transform group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+        </svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- Search & Filter bar -->
+  <div class="mb-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+    <div class="relative w-full sm:w-80">
+      <svg class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+      </svg>
+      <input
+        id="video-search-input"
+        type="text"
+        placeholder="Filter videos (e.g. Arduino, STM32, LCD)..."
+        class="w-full pl-10 pr-4 py-2 text-sm rounded-xl bg-zinc-100 dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700 text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-red-500/50 focus:border-red-500 transition-all"
+      />
+    </div>
+    <div class="text-xs text-zinc-500 dark:text-zinc-400 self-end sm:self-center font-medium">
+      Showing <span id="video-count" class="font-bold text-zinc-900 dark:text-zinc-100">{videos.length}</span> of {videos.length} videos
+    </div>
+  </div>
+
+  <!-- Grid of Videos -->
   <ul
-    class="mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-4 lg:mx-0 lg:max-w-none lg:grid-cols-3 text-white"
+    id="video-grid"
+    class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
   >
     {
-      youtube?.slice(0, 3).map((item) => (
-        <li>
+      videos.map((item) => (
+        <li class="video-card flex flex-col" data-title={item.title.toLowerCase()}>
           <a
             href={`https://www.youtube.com/watch?v=${item.videoId}`}
             target="_blank"
-            class="relative top-0 block overflow-hidden rounded-2xl"
+            rel="noopener noreferrer"
+            class="group flex flex-col h-full overflow-hidden rounded-2xl bg-white dark:bg-zinc-900/90 border border-zinc-200 dark:border-zinc-800 hover:border-red-500/50 dark:hover:border-red-500/40 shadow-sm hover:shadow-xl hover:shadow-red-500/5 transition-all duration-300 transform hover:-translate-y-1"
           >
-            <figure>
-              <Image
+            <!-- Thumbnail & Badges -->
+            <div class="relative aspect-video w-full overflow-hidden bg-zinc-950">
+              <img
+                src={`https://i.ytimg.com/vi/${item.videoId}/hqdefault.jpg`}
                 alt={item.title}
-                src={`https://i.ytimg.com/vi/${item.videoId}/maxresdefault.jpg`}
-                class="h-44 w-full object-cover"
-                width={309}
-                height={176}
-                decoding="async"
+                class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                 loading="lazy"
+                decoding="async"
               />
-            </figure>
-            <div class="bg-zinc-900 p-4">
-              <span class="text-sm">{item.channelTitle}</span>
-              <p class="mt-1 text-xs text-zinc-400 h-8">{item.title}</p>
+              <div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors flex items-center justify-center">
+                <div class="w-12 h-12 rounded-full bg-red-600/90 text-white flex items-center justify-center shadow-lg opacity-85 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300">
+                  <svg class="w-5 h-5 fill-current ml-0.5" viewBox="0 0 24 24">
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </div>
+              </div>
+              {item.duration && (
+                <span class="absolute bottom-2.5 right-2.5 px-2 py-0.5 text-[11px] font-mono font-medium text-white bg-black/85 backdrop-blur-md rounded-md shadow-sm">
+                  {item.duration}
+                </span>
+              )}
+            </div>
+
+            <!-- Content -->
+            <div class="p-4 flex-1 flex flex-col justify-between">
+              <h3 class="text-sm sm:text-base font-semibold text-zinc-900 dark:text-zinc-100 group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors line-clamp-2 leading-snug">
+                {item.title}
+              </h3>
+              
+              <div class="mt-3 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs text-zinc-500 dark:text-zinc-400">
+                <div class="flex items-center gap-1.5 truncate">
+                  {item.views && <span>{item.views}</span>}
+                  {item.views && item.published && <span class="text-zinc-300 dark:text-zinc-600">•</span>}
+                  {item.published && <span>{item.published}</span>}
+                </div>
+                <span class="text-red-600 dark:text-red-400 font-medium group-hover:underline flex items-center gap-1">
+                  Watch
+                  <svg class="w-3 h-3 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                  </svg>
+                </span>
+              </div>
             </div>
           </a>
         </li>
       ))
     }
   </ul>
+
+  <!-- Empty state for search -->
+  <div id="video-empty-state" class="hidden text-center py-12">
+    <div class="w-16 h-16 mx-auto rounded-full bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-zinc-400 mb-3">
+      <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+    </div>
+    <p class="text-base font-semibold text-zinc-800 dark:text-zinc-200">No videos found</p>
+    <p class="text-sm text-zinc-500 dark:text-zinc-400 mt-1">Try searching for another keyword or clear the filter.</p>
+  </div>
 </section>
+
+<script>
+  function setupVideoSearch() {
+    const input = document.getElementById("video-search-input") as HTMLInputElement | null;
+    const cards = document.querySelectorAll(".video-card") as NodeListOf<HTMLElement>;
+    const countEl = document.getElementById("video-count");
+    const emptyState = document.getElementById("video-empty-state");
+
+    if (!input || !cards.length) return;
+
+    input.addEventListener("input", () => {
+      const query = (input.value || "").toLowerCase().trim();
+      let visible = 0;
+
+      cards.forEach((card) => {
+        const title = card.getAttribute("data-title") || "";
+        if (!query || title.includes(query)) {
+          card.style.display = "";
+          visible++;
+        } else {
+          card.style.display = "none";
+        }
+      });
+
+      if (countEl) countEl.textContent = String(visible);
+      if (emptyState) {
+        emptyState.classList.toggle("hidden", visible > 0);
+      }
+    });
+  }
+
+  setupVideoSearch();
+  document.addEventListener("astro:page-load", setupVideoSearch);
+</script>
