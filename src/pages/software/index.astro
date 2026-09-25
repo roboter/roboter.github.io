@@ -1,0 +1,209 @@
+---
+import Base from "@layouts/Base.astro";
+import {
+  Cpu,
+  Monitor,
+  Sparkles,
+  Layers,
+  ArrowRight,
+  ExternalLink,
+  Download,
+  CheckCircle2,
+  AlertTriangle,
+  HardDrive,
+  Sliders,
+  ShieldCheck,
+  Zap,
+} from "lucide-react";
+
+const pageTitle = "Software & Desktop Applications — Robby roboter";
+const pageDescription =
+  "Explore desktop applications and CAD engineering tools developed and maintained by Robby roboter, including CircuitFlow.NET PCB layout editor and Pulse wallpaper manager.";
+
+const softwareProjects = [
+  {
+    id: "circuitflow",
+    title: "CircuitFlow.NET",
+    tagline: "Modern Cross-Platform PCB Layout CAD Editor",
+    shortDescription:
+      "A lightweight, high-performance PCB layout editor powered by SkiaSharp and .NET 10. Engineered with interactive vector routing, real-time Design Rule Checking (DRC), transparent JSON project files, and manufacturing-grade Gerber & GRBL exports.",
+    category: "Electronics CAD",
+    statusBadge: "v0.1.0 Preview • Active Dev",
+    statusColor: "emerald",
+    platforms: ["Windows (WinUI 3)", "macOS (Mac Catalyst)"],
+    techStack: [".NET 10", "SkiaSharp", ".NET MAUI", "C#", "Gerber RS-274X", "GRBL"],
+    features: [
+      "Hardware-accelerated SkiaSharp 2D vector canvas",
+      "Real-time DRC clearance verification engine",
+      "Interactive component & footprint geometry designer",
+      "One-click Gerber RS-274X & CNC GRBL milling exports",
+    ],
+    fullPageUrl: "/software/circuitflow",
+    previewImage: "/circuitflow/images/mainwindow.png",
+    accentColor: "from-emerald-500 to-teal-500",
+    buttonBg: "bg-emerald-600 hover:bg-emerald-500",
+  },
+  {
+    id: "pulse",
+    title: "Pulse",
+    tagline: "Automated Desktop Wallpaper Changer",
+    shortDescription:
+      "An automated Windows system tray application that pulls and cycles stunning, high-resolution wallpapers matching your display dimensions from Wallhaven, NASA APOD, Media RSS feeds, and local folders.",
+    category: "Desktop Utility",
+    statusBadge: ".NET 4.8 • Maintained Fork",
+    statusColor: "indigo",
+    platforms: ["Windows 7 / 8 / 10 / 11"],
+    techStack: [".NET Framework 4.8", "WinForms", "WinAPI P/Invoke", "CsQuery", "MSTest v3"],
+    features: [
+      "Intelligent screen aspect ratio & resolution matching",
+      "Instant wallpaper banning with automated replacement",
+      "Extensible input & output plugin architecture",
+      "Multi-threaded background pre-fetch & image caching",
+    ],
+    fullPageUrl: "/software/pulse",
+    githubUrl: "https://github.com/RobbyB97/pulse",
+    previewImage: "/images/pulse/ui.jpg",
+    accentColor: "from-indigo-500 to-sky-500",
+    buttonBg: "bg-indigo-600 hover:bg-indigo-500",
+  },
+];
+---
+
+<Base
+  title={pageTitle}
+  meta_title={pageTitle}
+  description={pageDescription}
+  hideHero={true}
+  hideVideos={true}
+  fullWidth={false}
+>
+  <div class="py-4">
+    {/* HEADER SECTION */}
+    <div class="text-center max-w-3xl mx-auto mb-12">
+      <div class="inline-flex items-center gap-2 px-3 py-1.5 mb-4 text-xs font-mono font-medium rounded-full bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 shadow-sm backdrop-blur-sm">
+        <Cpu className="w-3.5 h-3.5" />
+        <span>Native Desktop &amp; Engineering Software</span>
+      </div>
+
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight mb-4 text-zinc-900 dark:text-white">
+        Software &amp; Desktop Projects
+      </h1>
+
+      <p class="text-base sm:text-lg text-zinc-600 dark:text-zinc-300 leading-relaxed">
+        High-performance native utilities, CAD layout tools, and desktop applications built for engineers, makers, and enthusiasts.
+      </p>
+    </div>
+
+    {/* SOFTWARE CARDS GRID */}
+    <div class="space-y-10 max-w-4xl mx-auto">
+      {softwareProjects.map((software) => (
+        <article
+          key={software.id}
+          class="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/80 shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col md:flex-row group"
+        >
+          {/* LEFT: PREVIEW IMAGE */}
+          <div class="md:w-5/12 bg-zinc-950 relative overflow-hidden flex items-center justify-center min-h-[220px] md:min-h-[280px]">
+            <a href={software.fullPageUrl} class="block w-full h-full relative group/img overflow-hidden">
+              <img
+                src={software.previewImage}
+                alt={`${software.title} interface preview`}
+                class="w-full h-full object-cover object-top transition-transform duration-500 group-hover/img:scale-105"
+                loading="lazy"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-transparent to-transparent md:bg-gradient-to-r md:from-transparent md:to-zinc-900/40"></div>
+              <div class="absolute bottom-3 left-3 flex items-center gap-1.5 px-2.5 py-1 rounded bg-zinc-900/90 text-white text-[11px] font-mono backdrop-blur-md border border-white/10 opacity-0 group-hover/img:opacity-100 transition-opacity">
+                <span>View Full Page</span>
+                <ArrowRight className="w-3 h-3" />
+              </div>
+            </a>
+          </div>
+
+          {/* RIGHT: DETAILS */}
+          <div class="md:w-7/12 p-6 sm:p-8 flex flex-col justify-between">
+            <div>
+              {/* TOP TAGS */}
+              <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+                <span class="text-xs font-mono font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+                  {software.category}
+                </span>
+
+                <span
+                  class={`text-[11px] font-mono px-2.5 py-0.5 rounded-full font-medium ${
+                    software.statusColor === 'emerald'
+                      ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20'
+                      : 'bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20'
+                  }`}
+                >
+                  {software.statusBadge}
+                </span>
+              </div>
+
+              {/* TITLE & TAGLINE */}
+              <h2 class="text-2xl font-bold text-zinc-900 dark:text-white mb-1 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                <a href={software.fullPageUrl}>{software.title}</a>
+              </h2>
+
+              <p class="text-xs font-mono text-zinc-500 dark:text-zinc-400 mb-3">
+                {software.tagline}
+              </p>
+
+              {/* SHORT DESCRIPTION */}
+              <p class="text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed mb-4">
+                {software.shortDescription}
+              </p>
+
+              {/* HIGHLIGHTED FEATURES */}
+              <ul class="space-y-1.5 mb-5 text-xs text-zinc-600 dark:text-zinc-400">
+                {software.features.slice(0, 3).map((feat, idx) => (
+                  <li key={idx} class="flex items-start gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 mt-0.5 flex-shrink-0" />
+                    <span>{feat}</span>
+                  </li>
+                ))}
+              </ul>
+
+              {/* TECH PILLS */}
+              <div class="flex flex-wrap gap-1.5 mb-6">
+                {software.techStack.map((tech) => (
+                  <span
+                    key={tech}
+                    class="text-[10px] font-mono px-2 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-700/60"
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* ACTION BUTTONS */}
+            <div class="flex flex-wrap items-center gap-3 pt-4 border-t border-zinc-100 dark:border-zinc-800">
+              <a
+                href={software.fullPageUrl}
+                class={`px-4 py-2 rounded-lg text-xs font-semibold text-white shadow-md transition-all flex items-center gap-1.5 group/btn ${software.buttonBg}`}
+              >
+                <span>Full Page Overview</span>
+                <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-0.5 transition-transform" />
+              </a>
+
+              {software.githubUrl && (
+                <a
+                  href={software.githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="px-3 py-2 rounded-lg text-xs font-medium text-zinc-700 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white border border-zinc-200 dark:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-all flex items-center gap-1.5"
+                >
+                  <ExternalLink className="w-3.5 h-3.5" />
+                  <span>GitHub</span>
+                </a>
+              )}
+
+              <span class="text-[11px] font-mono text-zinc-400 ml-auto">
+                {software.platforms.join(" • ")}
+              </span>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</Base>
