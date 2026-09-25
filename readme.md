@@ -2,6 +2,8 @@
 
 Welcome to the repository powering **[begemotik.ee](https://begemotik.ee)**, the personal technical blog and hardware project showcase of **Robby (@robby.roboter)**.
 
+[![begemotik.ee Preview](public/images/begemotik-preview.png)](https://begemotik.ee)
+
 This site serves as an open collection of hands-on guides, hardware deep dives, circuit simulations, and project documentation covering **microcontrollers, embedded systems, IoT, 3D printing, CNC, and DIY electronics**.
 
 ---

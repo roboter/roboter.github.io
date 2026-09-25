@@ -1,6 +1,8 @@
 # 🌟 Pulse
 
-[![Build & Release](https://github.com/RobbyB97/pulse/actions/workflows/release.yml/badge.svg)](https://github.com/RobbyB97/pulse/actions/workflows/release.yml)
+[![Download v0.0.1](https://img.shields.io/badge/Download-Release%20v0.0.1-brightgreen?style=for-the-badge&logo=windows)](https://github.com/roboter/pulse/releases/tag/v0.0.1)
+[![Fork on GitHub](https://img.shields.io/badge/Fork%20me%20on-GitHub-181717?style=for-the-badge&logo=github)](https://github.com/roboter/pulse/fork)
+[![Build & Release](https://github.com/roboter/pulse/actions/workflows/release.yml/badge.svg)](https://github.com/roboter/pulse/actions/workflows/release.yml)
 
 > **Automatically change your wallpaper** by downloading stunning images from the internet — all driven by your own search terms.
 
@@ -95,7 +97,7 @@ pulse/
 #### Option 1: Visual Studio
 1. Clone the repository:
    ```cmd
-   git clone https://github.com/RobbyB97/pulse.git
+   git clone https://github.com/roboter/pulse.git
    cd pulse
    ```
 2. Open `Pulse.sln` in Visual Studio.
@@ -152,7 +154,11 @@ Pulse includes unit and integration tests using MSTest.
 
 ## 📥 Download
 
-> ⚠️ Pre-built binary releases are not currently available. Follow the [Building from Source](#%EF%B8%8F-building-from-source) instructions above to compile and run Pulse.
+The latest pre-built Windows release is available on GitHub:
+
+- 📦 **[Download Pulse v0.0.1 Release](https://github.com/roboter/pulse/releases/tag/v0.0.1)**
+
+To compile from source, follow the [Building from Source](#%EF%B8%8F-building-from-source) instructions below.
 
 ---
 

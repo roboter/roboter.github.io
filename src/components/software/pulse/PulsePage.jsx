@@ -3,6 +3,7 @@ import {
   Sparkles,
   Download,
   ExternalLink,
+  GitFork,
   Image as ImageIcon,
   RefreshCw,
   Monitor,
@@ -245,7 +246,20 @@ export default function PulsePage() {
   ];
 
   return (
-    <div className="w-full text-zinc-800 dark:text-zinc-100 selection:bg-indigo-500 selection:text-white">
+    <div className="w-full text-zinc-800 dark:text-zinc-100 selection:bg-indigo-500 selection:text-white relative">
+      {/* GITHUB RIBBON (https://github.blog/news-insights/the-library/github-ribbons/) */}
+      <div className="fixed top-0 right-0 z-50 overflow-hidden w-36 h-36 pointer-events-none">
+        <a
+          href="https://github.com/roboter/pulse"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="pointer-events-auto block absolute top-7 -right-10 w-44 py-1.5 text-center text-[10px] font-bold font-mono tracking-wider uppercase text-white bg-zinc-900 dark:bg-indigo-600 hover:bg-indigo-600 dark:hover:bg-indigo-500 shadow-xl rotate-45 border-y border-white/20 transition-all hover:scale-105"
+          title="Fork me on GitHub"
+        >
+          Fork me on GitHub
+        </a>
+      </div>
+
       {/* BREADCRUMB / BACK LINK */}
       <div className="mb-6">
         <a
@@ -281,6 +295,24 @@ export default function PulsePage() {
 
           {/* BADGES & LINKS */}
           <div className="flex flex-wrap items-center justify-center gap-2 mb-8 text-xs font-mono">
+            <a
+              href="https://github.com/roboter/pulse/releases/tag/v0.0.1"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-2.5 py-1 rounded-md bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 hover:bg-emerald-500/20 flex items-center gap-1.5 transition-colors"
+            >
+              <Download className="w-3.5 h-3.5" />
+              <span>v0.0.1 Release</span>
+            </a>
+            <a
+              href="https://github.com/roboter/pulse/fork"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-2.5 py-1 rounded-md bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-700 hover:border-indigo-500/50 flex items-center gap-1.5 transition-colors"
+            >
+              <GitFork className="w-3.5 h-3.5 text-amber-500" />
+              <span>Fork on GitHub</span>
+            </a>
             <span className="px-2.5 py-1 rounded-md bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-700 flex items-center gap-1.5">
               <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
               Windows 7 / 8 / 10 / 11
@@ -296,32 +328,44 @@ export default function PulsePage() {
           </div>
 
           {/* ACTION BUTTONS */}
-          <div className="flex flex-wrap items-center justify-center gap-4 mb-10">
+          <div className="flex flex-wrap items-center justify-center gap-3.5 mb-10">
             <a
-              href="https://github.com/RobbyB97/pulse"
+              href="https://github.com/roboter/pulse/releases/tag/v0.0.1"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-6 py-3 rounded-lg font-medium bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-600/25 transition-all flex items-center gap-2 group"
+              className="px-6 py-3 rounded-lg font-medium bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-600/25 transition-all flex items-center gap-2 group"
+            >
+              <Download className="w-4 h-4" />
+              <span>Download v0.0.1</span>
+              <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+            </a>
+
+            <a
+              href="https://github.com/roboter/pulse/fork"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-5 py-3 rounded-lg font-medium bg-zinc-900 hover:bg-zinc-800 text-white dark:bg-zinc-800 dark:hover:bg-zinc-700 border border-zinc-700 shadow transition-all flex items-center gap-2 group"
+            >
+              <GitFork className="w-4 h-4 text-amber-400 group-hover:rotate-12 transition-transform" />
+              <span>Fork me on GitHub</span>
+            </a>
+
+            <a
+              href="https://github.com/roboter/pulse"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-5 py-3 rounded-lg font-medium text-zinc-700 hover:text-zinc-950 dark:text-zinc-300 dark:hover:text-white border border-zinc-300 dark:border-zinc-700 hover:border-zinc-400 dark:hover:border-zinc-500 transition-all flex items-center gap-2"
             >
               <ExternalLink className="w-4 h-4" />
-              <span>GitHub Repository</span>
-              <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+              <span>GitHub Repo</span>
             </a>
 
             <button
               onClick={() => setActiveTab('tray')}
-              className="px-6 py-3 rounded-lg font-medium bg-zinc-900 hover:bg-zinc-800 text-white dark:bg-zinc-800 dark:hover:bg-zinc-700 border border-zinc-700 shadow transition-all flex items-center gap-2"
+              className="px-5 py-3 rounded-lg font-medium bg-indigo-50 text-indigo-700 dark:bg-indigo-950/40 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 hover:bg-indigo-100 transition-all flex items-center gap-2"
             >
-              <Sliders className="w-4 h-4 text-indigo-400" />
+              <Sliders className="w-4 h-4 text-indigo-500" />
               <span>Try Tray Simulator</span>
-            </button>
-
-            <button
-              onClick={() => setActiveTab('build')}
-              className="px-5 py-3 rounded-lg font-medium text-zinc-700 hover:text-zinc-950 dark:text-zinc-300 dark:hover:text-white border border-zinc-300 dark:border-zinc-700 hover:border-zinc-400 dark:hover:border-zinc-500 transition-all flex items-center gap-2"
-            >
-              <Terminal className="w-4 h-4" />
-              <span>Build from Source</span>
             </button>
           </div>
         </div>
@@ -820,7 +864,7 @@ export default function PulsePage() {
                     <button
                       onClick={() =>
                         copyToClipboard(
-                          'git clone https://github.com/RobbyB97/pulse.git\ncd pulse\nnuget restore Pulse.sln',
+                          'git clone https://github.com/roboter/pulse.git\ncd pulse\nnuget restore Pulse.sln',
                           'step1'
                         )
                       }
@@ -831,7 +875,7 @@ export default function PulsePage() {
                     </button>
                   </div>
                   <pre className="text-zinc-200 overflow-x-auto">
-{`git clone https://github.com/RobbyB97/pulse.git
+{`git clone https://github.com/roboter/pulse.git
 cd pulse
 nuget restore Pulse.sln`}
                   </pre>
@@ -879,7 +923,7 @@ nuget restore Pulse.sln`}
               <div className="p-6 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 space-y-4 text-sm text-zinc-700 dark:text-zinc-300">
                 <ol className="space-y-3 list-decimal list-inside">
                   <li>
-                    Clone repository: <code className="px-1.5 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 text-xs font-mono">git clone https://github.com/RobbyB97/pulse.git</code>
+                    Clone repository: <code className="px-1.5 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 text-xs font-mono">git clone https://github.com/roboter/pulse.git</code>
                   </li>
                   <li>
                     Open <code className="px-1.5 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 text-xs font-mono">Pulse.sln</code> in Visual Studio 2019 or 2022.
