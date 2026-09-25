@@ -1,95 +1,87 @@
-# Roboter Astro Theme
+# begemotik.ee — Personal Embedded Electronics & Tech Blog
 
-This repository contains the **ev0-astro-theme**, a modern, premium‑looking blog template built with **Astro**, **Tailwind CSS**, and **React** integration. The site showcases:
+Welcome to the repository powering **[begemotik.ee](https://begemotik.ee)**, the personal technical blog and hardware project showcase of **Robby (@robby.roboter)**.
 
-- A clean, dark‑mode ready design with smooth micro‑animations.
-- Support for **Lottie** animations via `react-lottie`.
-- SEO‑friendly meta tags, Open Graph data, and a sitemap.
-- Automatic PWA support powered by `vite-plugin-pwa`.
-- Easy content management using Markdown and Astro components.
-
-The theme is fully configurable via `astro.config.mjs` and includes integrations for compression, sitemap generation, and Tailwind utilities. It is ready to be deployed to any static‑hosting platform.
-
-## Getting Started
-
-```bash
-# Install dependencies (using Yarn)
-yarn install
-
-# Run the development server
-yarn dev
-```
-
-Feel free to customize the theme, add your own pages, and extend it with additional Astro integrations.
-
-## Static Deploy
-
-To deploy the site as a static site, you can use any static hosting provider. Below are examples for Netlify, GitHub Pages, and Vercel.
-
-### Netlify
-```bash
-# Build the static site
-yarn build
-
-# Deploy the `dist` folder
-netlify deploy --prod --dir=dist
-```
-
-### GitHub Pages
-```bash
-# Build the static site
-yarn build
-
-# Push the `dist` folder to the `gh-pages` branch
-git checkout --orphan gh-pages
-git --work-tree=dist add .
-git commit -m "Deploy"
-git push origin gh-pages --force
-```
-
-### Vercel
-```bash
-# Install Vercel CLI if not installed
-yarn global add vercel
-
-# Deploy
-vercel --prod
-```
-
-
-
-
-### Netlify
-```bash
-# Build the static site
-npm run build
-
-# Deploy the `dist` folder
-netlify deploy --prod --dir=dist
-```
-
-### GitHub Pages
-```bash
-# Build the static site
-npm run build
-
-# Push the `dist` folder to the `gh-pages` branch
-git checkout --orphan gh-pages
-git --work-tree=dist add .
-git commit -m "Deploy"
-git push origin gh-pages --force
-```
-
-### Vercel
-```bash
-# Install Vercel CLI if not installed
-npm i -g vercel
-
-# Deploy
-vercel --prod
-```
-
+This site serves as an open collection of hands-on guides, hardware deep dives, circuit simulations, and project documentation covering **microcontrollers, embedded systems, IoT, 3D printing, CNC, and DIY electronics**.
 
 ---
 
-© 2025 Roboter. All rights reserved.
+## 🚀 About the Content
+
+The blog at [https://begemotik.ee](https://begemotik.ee) documents real-world hardware projects, low-level micro-controller programming, and electronic designs across a wide variety of platforms:
+
+### 🔬 Core Topics & Articles
+
+- **ESP32 & E-Ink Displays**:
+  - LilyGO TTGO T5 V1.2 ePaper (E-Ink) features, pinouts, and custom firmware testing.
+- **RISC-V & WCH Microcontrollers**:
+  - Driving WS2812B (NeoPixel) RGB LEDs and SSD1306 OLED displays on WCH CH32V003 MCUs.
+- **ARM & Microcontroller Hardware**:
+  - **STM32**: I2C scanners with STM32 HAL and OLED integrations on Nucleo C031C6.
+  - **GigaDevice & Geehy**: GD32E232K ARM processors with NeoPixel 8x8 matrices and Geehy APM32F072 MINI evaluation.
+  - **Arduino**: Interfacing HX711/CHX711 load cells with LCD displays and joystick shields.
+- **Retro Computing & Processor Architecture**:
+  - Deep-dive technical reviews of legacy chips like the 8-bit **Rabbit 2000** microprocessor.
+- **Electronics Simulation & Prototyping**:
+  - Simulating Hitachi HD44780 LCD controllers with **SimulIDE** and **Embeetle**.
+  - Direct Tinkercad LCD simulation without external libraries.
+- **PCB Design & Fabrication**:
+  - Hands-on reviews of online PCB design and manufacturing services (PCBX).
+- **Maker Tech & Workshop**:
+  - 3D printing, CNC machining, IoT sensors, and custom hardware builds.
+
+---
+
+## 🛠️ Built With
+
+- **[Astro](https://astro.build)** — Fast, content-driven static site generator with Content Collections.
+- **[Tailwind CSS](https://tailwindcss.com)** — Clean, responsive dark-mode styling.
+- **[React](https://react.dev)** — Embedded interactive components.
+- **[Vite PWA](https://vite-pwa-org.netlify.app/)** — Progressive Web App offline capabilities.
+- **Markdown & MDX** — Structured technical post authoring with code syntax highlighting.
+
+---
+
+## 💻 Getting Started
+
+### Prerequisites
+
+- [Node.js](https://nodejs.org/) (v18 or higher)
+- `npm` or `yarn`
+
+### Installation & Local Development
+
+```bash
+# Clone the repository
+git clone https://github.com/roboter/roboter.github.io.git
+cd roboter.github.io
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+```
+
+Open `http://localhost:4321` in your browser to view the blog locally.
+
+---
+
+## 🏗️ Build & Deployment
+
+To create a static production build:
+
+```bash
+# Build production bundle to dist/
+npm run build
+
+# Preview build locally
+npm run preview
+```
+
+The site is hosted live at **[https://begemotik.ee](https://begemotik.ee)**.
+
+---
+
+© 2026 **Robby roboter**. All rights reserved.
+

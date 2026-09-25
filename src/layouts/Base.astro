@@ -8,7 +8,7 @@ import { createOgImage } from "@utils/createOgImage";
 
 import "@styles/global.css";
 
-import { ViewTransitions } from "astro:transitions";
+import { ClientRouter } from "astro:transitions";
 
 export interface Props {
   title?: string;
@@ -114,7 +114,7 @@ const ogImage = createOgImage({
   <meta name="telegram:username" content="@robby_roboter">
   <meta name="telegram:contact" content="https://t.me/robby_roboter">
     <link rel="manifest" href="/manifest.webmanifest" />
-    <ViewTransitions />
+    <ClientRouter />
   </head>
   <body class="bg-white dark:bg-zinc-900/95">
     <Header />
