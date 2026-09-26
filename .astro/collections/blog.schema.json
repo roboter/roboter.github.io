@@ -72,6 +72,10 @@
             "gndx"
           ]
         },
+        "comments": {
+          "type": "boolean",
+          "default": true
+        },
         "$schema": {
           "type": "string"
         }
