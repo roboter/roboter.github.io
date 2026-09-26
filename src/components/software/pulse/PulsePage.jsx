@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Sparkles,
   Download,
@@ -36,6 +36,81 @@ export default function PulsePage() {
   const [activeArchNode, setActiveArchNode] = useState('base');
   const [buildMode, setBuildMode] = useState('cli'); // 'cli' | 'vs'
   const [copiedKey, setCopiedKey] = useState(null);
+
+  // Live GitHub Release & Download Count State
+  const [releaseInfo, setReleaseInfo] = useState({
+    downloadCount: 1,
+    version: 'v0.0.1',
+    size: '376 KB',
+    publishedAt: 'Sep 25, 2026',
+    downloadUrl: 'https://github.com/roboter/pulse/releases/download/v0.0.1/Pulse-v0.0.1.zip',
+    releaseUrl: 'https://github.com/roboter/pulse/releases/tag/v0.0.1',
+    assetName: 'Pulse-v0.0.1.zip',
+    sha256: 'd3b70c0892a35b1eb4b76df7268ec4faca068ddaff180e88b9bb587caa0da1b0',
+    loading: true,
+  });
+
+  useEffect(() => {
+    let isMounted = true;
+    fetch('https://api.github.com/repos/roboter/pulse/releases')
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.json();
+      })
+      .then((data) => {
+        if (!isMounted || !Array.isArray(data) || data.length === 0) return;
+        const latest = data[0];
+        let totalDownloads = 0;
+        let primaryAsset = null;
+
+        data.forEach((rel) => {
+          rel.assets?.forEach((asset) => {
+            totalDownloads += asset.download_count || 0;
+            if (!primaryAsset && asset.name.endsWith('.zip')) {
+              primaryAsset = asset;
+            }
+          });
+        });
+
+        const asset = primaryAsset || latest.assets?.[0];
+        const formattedSize = asset?.size
+          ? `${(asset.size / 1024).toFixed(0)} KB`
+          : '376 KB';
+
+        setReleaseInfo({
+          downloadCount: totalDownloads,
+          version: latest.tag_name || 'v0.0.1',
+          size: formattedSize,
+          publishedAt: latest.published_at
+            ? new Date(latest.published_at).toLocaleDateString('en-US', {
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric',
+              })
+            : 'Sep 25, 2026',
+          downloadUrl:
+            asset?.browser_download_url ||
+            'https://github.com/roboter/pulse/releases/download/v0.0.1/Pulse-v0.0.1.zip',
+          releaseUrl:
+            latest.html_url || 'https://github.com/roboter/pulse/releases/tag/v0.0.1',
+          assetName: asset?.name || 'Pulse-v0.0.1.zip',
+          sha256:
+            asset?.digest?.replace('sha256:', '') ||
+            'd3b70c0892a35b1eb4b76df7268ec4faca068ddaff180e88b9bb587caa0da1b0',
+          loading: false,
+        });
+      })
+      .catch((err) => {
+        console.warn('Could not fetch Pulse releases from GitHub API:', err);
+        if (isMounted) {
+          setReleaseInfo((prev) => ({ ...prev, loading: false }));
+        }
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   // Tray Simulator State
   const [trayStatus, setTrayStatus] = useState({
@@ -296,13 +371,17 @@ export default function PulsePage() {
           {/* BADGES & LINKS */}
           <div className="flex flex-wrap items-center justify-center gap-2 mb-8 text-xs font-mono">
             <a
-              href="https://github.com/roboter/pulse/releases/tag/v0.0.1"
+              href={releaseInfo.releaseUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-2.5 py-1 rounded-md bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 hover:bg-emerald-500/20 flex items-center gap-1.5 transition-colors"
+              className="px-2.5 py-1 rounded-md bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 hover:bg-emerald-500/20 flex items-center gap-1.5 transition-colors group"
+              title={`${releaseInfo.downloadCount} downloads on GitHub`}
             >
               <Download className="w-3.5 h-3.5" />
-              <span>v0.0.1 Release</span>
+              <span>{releaseInfo.version} Release</span>
+              <span className="px-1.5 py-0.2 rounded-full bg-emerald-600/20 text-emerald-700 dark:text-emerald-300 font-semibold text-[10px]">
+                {releaseInfo.downloadCount.toLocaleString()} {releaseInfo.downloadCount === 1 ? 'download' : 'downloads'}
+              </span>
             </a>
             <a
               href="https://github.com/roboter/pulse/fork"
@@ -330,14 +409,19 @@ export default function PulsePage() {
           {/* ACTION BUTTONS */}
           <div className="flex flex-wrap items-center justify-center gap-3.5 mb-10">
             <a
-              href="https://github.com/roboter/pulse/releases/tag/v0.0.1"
+              href={releaseInfo.downloadUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-6 py-3 rounded-lg font-medium bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-600/25 transition-all flex items-center gap-2 group"
+              className="px-5 py-2.5 rounded-lg font-medium bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-600/25 transition-all flex items-center gap-2.5 group"
             >
               <Download className="w-4 h-4" />
-              <span>Download v0.0.1</span>
-              <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+              <div className="flex flex-col text-left leading-tight">
+                <span className="font-semibold text-sm">Download {releaseInfo.version}</span>
+                <span className="text-[11px] text-emerald-100 opacity-90 font-mono">
+                  {releaseInfo.size} • {releaseInfo.downloadCount.toLocaleString()} {releaseInfo.downloadCount === 1 ? 'download' : 'downloads'}
+                </span>
+              </div>
+              <ChevronRight className="w-4 h-4 ml-1 group-hover:translate-x-0.5 transition-transform" />
             </a>
 
             <a
@@ -462,6 +546,95 @@ export default function PulsePage() {
                   alt="Pulse Wallpaper Manager UI Preview"
                   className="w-full h-auto object-cover max-h-[640px]"
                 />
+              </div>
+            </div>
+
+            {/* GITHUB RELEASES & DOWNLOAD CARD */}
+            <div className="p-6 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/80 shadow-md">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-5 border-b border-zinc-100 dark:border-zinc-800">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
+                    <Monitor className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <h3 className="font-bold text-lg text-zinc-900 dark:text-white">
+                        Pulse {releaseInfo.version} for Windows
+                      </h3>
+                      <span className="px-2 py-0.5 rounded-full text-[11px] font-mono font-medium bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                        Latest Release
+                      </span>
+                    </div>
+                    <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5 font-mono">
+                      Windows 7 / 8 / 10 / 11 • .NET Framework 4.8 • Portable Zero-Install
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 self-start sm:self-auto">
+                  <div className="text-right font-mono">
+                    <div className="text-xs font-semibold text-zinc-900 dark:text-zinc-100 flex items-center gap-1 sm:justify-end">
+                      <Download className="w-3.5 h-3.5 text-emerald-500" />
+                      <span>{releaseInfo.downloadCount.toLocaleString()} {releaseInfo.downloadCount === 1 ? 'download' : 'downloads'}</span>
+                    </div>
+                    <span className="text-[10px] text-zinc-400">tracked via GitHub API</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 my-5 text-xs font-mono">
+                <div className="p-3 rounded-lg bg-zinc-50 dark:bg-zinc-950/50 border border-zinc-200/80 dark:border-zinc-800">
+                  <span className="text-[10px] uppercase text-zinc-400 block mb-1">Package Asset</span>
+                  <span className="font-semibold text-zinc-800 dark:text-zinc-200 break-all">{releaseInfo.assetName}</span>
+                </div>
+                <div className="p-3 rounded-lg bg-zinc-50 dark:bg-zinc-950/50 border border-zinc-200/80 dark:border-zinc-800">
+                  <span className="text-[10px] uppercase text-zinc-400 block mb-1">Package Size</span>
+                  <span className="font-semibold text-zinc-800 dark:text-zinc-200">{releaseInfo.size}</span>
+                </div>
+                <div className="p-3 rounded-lg bg-zinc-50 dark:bg-zinc-950/50 border border-zinc-200/80 dark:border-zinc-800">
+                  <span className="text-[10px] uppercase text-zinc-400 block mb-1">Release Date</span>
+                  <span className="font-semibold text-zinc-800 dark:text-zinc-200">{releaseInfo.publishedAt}</span>
+                </div>
+              </div>
+
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                <a
+                  href={releaseInfo.downloadUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-5 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-mono text-xs font-semibold flex items-center justify-center gap-2 shadow-sm transition"
+                >
+                  <Download className="w-4 h-4" />
+                  <span>Download {releaseInfo.assetName} ({releaseInfo.size})</span>
+                </a>
+
+                <a
+                  href={releaseInfo.releaseUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-4 py-2.5 rounded-lg border border-zinc-300 dark:border-zinc-700 hover:border-zinc-400 dark:hover:border-zinc-600 text-zinc-700 dark:text-zinc-300 text-xs font-medium flex items-center justify-center gap-1.5 transition"
+                >
+                  <ExternalLink className="w-3.5 h-3.5" />
+                  <span>View Release on GitHub</span>
+                </a>
+              </div>
+
+              {/* SHA-256 Checksum */}
+              <div className="mt-4 p-3 rounded-lg bg-zinc-50 dark:bg-zinc-950/80 border border-zinc-200 dark:border-zinc-800 text-[11px] font-mono">
+                <div className="flex items-center justify-between text-zinc-500 mb-1">
+                  <span className="font-bold uppercase tracking-wider text-[10px]">SHA-256 Checksum</span>
+                  <button
+                    onClick={() => copyToClipboard(releaseInfo.sha256, 'sha-pulse')}
+                    className="flex items-center gap-1 text-emerald-600 dark:text-emerald-400 hover:underline text-[10px]"
+                    title="Copy SHA-256"
+                  >
+                    {copiedKey === 'sha-pulse' ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+                    <span>{copiedKey === 'sha-pulse' ? 'Copied' : 'Copy'}</span>
+                  </button>
+                </div>
+                <div className="text-zinc-700 dark:text-zinc-300 break-all select-all font-mono text-[10px] leading-tight">
+                  {releaseInfo.sha256}
+                </div>
               </div>
             </div>
 
