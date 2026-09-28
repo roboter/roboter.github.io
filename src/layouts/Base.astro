@@ -21,6 +21,7 @@ export interface Props {
   hideHero?: boolean;
   hideVideos?: boolean;
   fullWidth?: boolean;
+  filterTag?: string;
 }
 
 const {
@@ -32,6 +33,7 @@ const {
   hideHero = false,
   hideVideos = false,
   fullWidth = false,
+  filterTag,
 } = Astro.props;
 
 const ogImage = createOgImage({
@@ -122,7 +124,7 @@ const ogImage = createOgImage({
     <main class={fullWidth ? "w-full" : "mx-auto max-w-screen-lg px-4 py-8 sm:px-6 sm:py-12 lg:px-8"}>
       <slot />
     </main>
-    {!blogpost && !hideVideos && config.features.youtube && <FeaturedVideos />}
+    {!blogpost && !hideVideos && config.features.youtube && <FeaturedVideos filterTag={filterTag} />}
     <Footer />
     <script>
       // This is a hack to get vite-plugin-pwa to generate a sw.js file.

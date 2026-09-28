@@ -20,10 +20,17 @@ const { tag } = Astro.params;
 
 const posts = await getSinglePage("blog");
 const filterByTags = taxonomyFilter(posts, "tags", tag);
+const tagLabel = deslugify(tag);
 ---
 
-<Base>
-  <h1 class="text-2xl md:text-3xl font-bold mb-8">Tag: {deslugify(tag)}</h1>
+<Base
+  meta_title={`Tag: ${tagLabel}`}
+  filterTag={tag}
+>
+  <h1 class="text-2xl md:text-3xl font-bold mb-2">Tag: {tagLabel}</h1>
+  <p class="text-sm text-zinc-500 dark:text-zinc-400 mb-8">
+    {filterByTags.length} post{filterByTags.length !== 1 ? "s" : ""} tagged with <span class="font-semibold text-zinc-700 dark:text-zinc-300">#{tagLabel}</span>
+  </p>
   <ul class="space-y-4 text-left ml-4 text-zinc-500 dark:text-zinc-400">
     {
       filterByTags?.map((post) => (
@@ -31,7 +38,7 @@ const filterByTags = taxonomyFilter(posts, "tags", tag);
           <CategoryIcon />
           <a
             href={`/blog/${post.id || post.slug}/`}
-            class="text-zinc-500 dark:text-zinc-400 hover:text-zinc-800"
+            class="text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-100"
           >
             {post.data.title}
           </a>
@@ -40,3 +47,4 @@ const filterByTags = taxonomyFilter(posts, "tags", tag);
     }
   </ul>
 </Base>
+
