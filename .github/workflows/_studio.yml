@@ -1,7 +1,4 @@
-name: Astro Studio
-
-env:
-  ASTRO_STUDIO_APP_TOKEN: ${{secrets.ASTRO_STUDIO_APP_TOKEN }}
+name: Build
 
 on:
   push:
@@ -11,11 +8,9 @@ on:
     types: [opened, reopened, synchronize]
 
 jobs:
-  DB:
+  build:
     permissions:
       contents: read
-      actions: read
-      pull-requests: write
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -23,4 +18,4 @@ jobs:
         with:
           node-version: 22
       - uses: jaid/action-npm-install@v1.2.1
-      - uses: withastro/action-studio@main
+      - run: yarn build
