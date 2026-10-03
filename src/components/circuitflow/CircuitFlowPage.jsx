@@ -1,15 +1,14 @@
 import React, { useState, useMemo } from 'react';
+import CircuitFlowLiveUI from './CircuitFlowLiveUI';
 import {
   Cpu,
   Layers,
-  Zap,
   ShieldCheck,
   Download,
   Check,
   ExternalLink,
   Monitor,
   Apple,
-  Sliders,
   FileCode,
   CheckCircle2,
   AlertTriangle,
@@ -25,7 +24,7 @@ import {
 } from 'lucide-react';
 
 export default function CircuitFlowPage() {
-  const [heroView, setHeroView] = useState('screenshot'); // 'screenshot' | 'interactive'
+  const [heroView, setHeroView] = useState('screenshot'); // 'live' | 'screenshot'
   const [activePlatform, setActivePlatform] = useState('windows');
   const [activeLayer, setActiveLayer] = useState('topCopper');
   const [selectedCanvasItem, setSelectedCanvasItem] = useState('u1');
@@ -237,31 +236,35 @@ export default function CircuitFlowPage() {
           </div>
 
           {/* VIEW MODE TOGGLE */}
-          <div className="mt-8 flex items-center justify-center gap-2">
+          {/* <div className="mt-8 flex items-center justify-center gap-2">
             <div className="inline-flex p-1 rounded-xl bg-zinc-900 border border-zinc-800 shadow-xl backdrop-blur-md">
               <button
-                onClick={() => setHeroView('screenshot')}
-                className={`px-4 py-2 rounded-lg text-xs font-mono font-medium transition flex items-center gap-2 ${heroView === 'screenshot'
+                onClick={() => setHeroView('live')}
+                className={`px-4 py-2 rounded-lg text-xs font-mono font-medium transition flex items-center gap-2 ${
+                  heroView === 'live'
                     ? 'bg-emerald-600 text-white shadow'
                     : 'text-zinc-400 hover:text-white'
-                  }`}
+                }`}
               >
                 <Monitor className="w-4 h-4" />
-                <span>macOS Native App (Screenshot)</span>
-                <span className="text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-sans">Live UI</span>
+                <span>macOS Live UI (Interactive)</span>
+                <span className="text-[10px] px-1.5 py-0.5 rounded bg-emerald-400/20 text-emerald-300 font-sans font-bold animate-pulse">
+                  Live
+                </span>
               </button>
               <button
-                onClick={() => setHeroView('interactive')}
-                className={`px-4 py-2 rounded-lg text-xs font-mono font-medium transition flex items-center gap-2 ${heroView === 'interactive'
+                onClick={() => setHeroView('screenshot')}
+                className={`px-4 py-2 rounded-lg text-xs font-mono font-medium transition flex items-center gap-2 ${
+                  heroView === 'screenshot'
                     ? 'bg-emerald-600 text-white shadow'
                     : 'text-zinc-400 hover:text-white'
-                  }`}
+                }`}
               >
                 <Layers className="w-4 h-4" />
-                <span>Interactive Canvas Demo</span>
+                <span>macOS Native App (Original Screenshot)</span>
               </button>
             </div>
-          </div>
+          </div> */}
         </div>
 
         {/* SCREENSHOT HERO VIEW */}
@@ -330,334 +333,10 @@ export default function CircuitFlowPage() {
           </div>
         )}
 
-        {/* INTERACTIVE PCB CAD CANVAS MOCKUP */}
-        {heroView === 'interactive' && (
-          <div className="mt-10 max-w-5xl mx-auto px-4">
-            <div className="rounded-2xl border border-zinc-700/80 bg-zinc-950 shadow-2xl overflow-hidden">
-              {/* WINDOW TOP BAR */}
-              <div className="flex items-center justify-between px-4 py-3 bg-zinc-900 border-b border-zinc-800 select-none">
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
-                  <div className="w-3 h-3 rounded-full bg-yellow-500/80"></div>
-                  <div className="w-3 h-3 rounded-full bg-green-500/80"></div>
-                  <span className="ml-2 text-xs font-mono text-zinc-400">
-                    CircuitFlow.NET — [Blink_Shield_v1.json *]
-                  </span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="inline-flex items-center gap-1 text-[11px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
-                    <CheckCircle2 className="w-3 h-3" /> DRC: PASS (0 violations)
-                  </span>
-                </div>
-              </div>
-
-              {/* CAD ACTION TOOLBAR */}
-              <div className="flex flex-wrap items-center justify-between gap-2 px-4 py-2 bg-zinc-900/60 border-b border-zinc-800/80 text-xs font-sans text-zinc-300">
-                <div className="flex items-center gap-1">
-                  <button
-                    onClick={() => setSelectedCanvasItem('u1')}
-                    className="px-2.5 py-1 rounded bg-zinc-800 hover:bg-zinc-700 text-white font-medium flex items-center gap-1.5"
-                  >
-                    <MousePointer className="w-3.5 h-3.5 text-emerald-400" /> Select (R)
-                  </button>
-                  <button className="px-2.5 py-1 rounded hover:bg-zinc-800 text-zinc-300 flex items-center gap-1.5">
-                    <Zap className="w-3.5 h-3.5 text-teal-400" /> Route Trace (T)
-                  </button>
-                  <button
-                    onClick={() => setDrcPassed(!drcPassed)}
-                    className={`px-2.5 py-1 rounded flex items-center gap-1.5 transition ${drcPassed ? 'text-emerald-400 bg-emerald-950/40' : 'text-amber-400 bg-amber-950/40'}`}
-                  >
-                    <ShieldCheck className="w-3.5 h-3.5" /> Check DRC
-                  </button>
-                </div>
-
-                {/* LAYER TOGGLES */}
-                <div className="flex items-center gap-1 text-[11px] font-mono">
-                  <span className="text-zinc-500 mr-1">Layer:</span>
-                  <button
-                    onClick={() => setActiveLayer('topCopper')}
-                    className={`px-2 py-0.5 rounded ${activeLayer === 'topCopper' ? 'bg-emerald-600 text-white font-semibold' : 'text-zinc-400 hover:text-white'}`}
-                  >
-                    F.Cu (Top)
-                  </button>
-                  <button
-                    onClick={() => setActiveLayer('bottomCopper')}
-                    className={`px-2 py-0.5 rounded ${activeLayer === 'bottomCopper' ? 'bg-cyan-600 text-white font-semibold' : 'text-zinc-400 hover:text-white'}`}
-                  >
-                    B.Cu (Bottom)
-                  </button>
-                  <button
-                    onClick={() => setActiveLayer('silkscreen')}
-                    className={`px-2 py-0.5 rounded ${activeLayer === 'silkscreen' ? 'bg-zinc-200 text-black font-semibold' : 'text-zinc-400 hover:text-white'}`}
-                  >
-                    F.Silk
-                  </button>
-                </div>
-
-                <div className="hidden sm:flex items-center gap-3 text-zinc-400 font-mono text-[11px]">
-                  <span>Grid: 1.27mm</span>
-                  <span>Zoom: 100%</span>
-                </div>
-              </div>
-
-              {/* CAD MAIN WORKSPACE */}
-              <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[380px] bg-[#07130c]">
-                {/* LEFT COMPONENT LIST */}
-                <div className="lg:col-span-3 border-r border-zinc-800/80 bg-zinc-950/80 p-3 flex flex-col justify-between">
-                  <div>
-                    <div className="text-[11px] font-mono uppercase tracking-wider text-zinc-400 font-semibold mb-2 flex items-center justify-between">
-                      <span>Parts in Design</span>
-                      <span className="text-[10px] text-zinc-500">5 Placed</span>
-                    </div>
-                    <div className="space-y-1 text-xs">
-                      {Object.entries(componentsList).map(([id, comp]) => (
-                        <button
-                          key={id}
-                          onClick={() => setSelectedCanvasItem(id)}
-                          className={`w-full text-left px-2.5 py-2 rounded-lg flex items-center justify-between transition ${selectedCanvasItem === id
-                              ? 'bg-emerald-950/80 border border-emerald-500/50 text-emerald-300 font-medium'
-                              : 'hover:bg-zinc-900 text-zinc-400 hover:text-zinc-200'
-                            }`}
-                        >
-                          <div className="flex items-center gap-2">
-                            <Cpu className="w-3.5 h-3.5 text-emerald-400" />
-                            <span className="font-mono text-xs">{comp.name.split(' ')[0]}</span>
-                          </div>
-                          <span className="text-[10px] text-zinc-500 truncate max-w-[85px]">{comp.type}</span>
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="mt-4 pt-3 border-t border-zinc-800/80 text-[11px] text-zinc-500">
-                    <span className="font-semibold text-zinc-400 block mb-1">Click to inspect:</span>
-                    Interactive canvas demo. Click any part or trace on the board.
-                  </div>
-                </div>
-
-                {/* CENTER INTERACTIVE PCB CANVAS */}
-                <div className="lg:col-span-6 relative p-4 flex items-center justify-center overflow-hidden bg-[#091811] select-none">
-                  {/* CANVAS GRID */}
-                  <div className="absolute inset-0 opacity-15 pointer-events-none">
-                    <svg width="100%" height="100%">
-                      <pattern id="pcb-grid" width="20" height="20" patternUnits="userSpaceOnUse">
-                        <circle cx="2" cy="2" r="0.8" fill="#10b981" />
-                      </pattern>
-                      <rect width="100%" height="100%" fill="url(#pcb-grid)" />
-                    </svg>
-                  </div>
-
-                  {/* THE PCB BOARD (80mm x 50mm representation) */}
-                  <div className="relative w-full max-w-[420px] aspect-[16/10] rounded-xl border-2 border-emerald-500/40 bg-gradient-to-b from-[#0b2417] to-[#06150d] shadow-2xl p-4 overflow-hidden">
-                    {/* MOUNTING HOLES */}
-                    <div className="absolute top-2 left-2 w-4 h-4 rounded-full border border-amber-400/80 bg-zinc-950/80 flex items-center justify-center">
-                      <div className="w-2 h-2 rounded-full bg-zinc-950"></div>
-                    </div>
-                    <div className="absolute top-2 right-2 w-4 h-4 rounded-full border border-amber-400/80 bg-zinc-950/80 flex items-center justify-center">
-                      <div className="w-2 h-2 rounded-full bg-zinc-950"></div>
-                    </div>
-                    <div className="absolute bottom-2 left-2 w-4 h-4 rounded-full border border-amber-400/80 bg-zinc-950/80 flex items-center justify-center">
-                      <div className="w-2 h-2 rounded-full bg-zinc-950"></div>
-                    </div>
-                    <div className="absolute bottom-2 right-2 w-4 h-4 rounded-full border border-amber-400/80 bg-zinc-950/80 flex items-center justify-center">
-                      <div className="w-2 h-2 rounded-full bg-zinc-950"></div>
-                    </div>
-
-                    {/* SILKSCREEN TEXT */}
-                    <div className="absolute bottom-2 left-10 text-[9px] font-mono text-zinc-300/80 font-bold uppercase tracking-wider">
-                      CircuitFlow.NET • REV 1.0
-                    </div>
-
-                    {/* SVG COPPER TRACES */}
-                    <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 420 260">
-                      {/* TOP COPPER TRACES */}
-                      {(activeLayer === 'topCopper' || activeLayer === 'silkscreen') && (
-                        <g stroke="#10b981" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9">
-                          <path d="M 60 90 L 95 90 L 120 115 L 140 115" />
-                          <path d="M 140 115 L 180 115 L 210 85 L 250 85" />
-                          <path d="M 250 175 L 290 175 L 320 145 L 330 145" />
-                          <path d="M 330 115 L 330 85 L 350 65 L 370 65" />
-                        </g>
-                      )}
-
-                      {/* BOTTOM COPPER TRACES */}
-                      {(activeLayer === 'bottomCopper' || activeLayer === 'silkscreen') && (
-                        <g stroke="#06b6d4" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.85">
-                          <path d="M 60 120 L 100 120 L 140 145 L 180 145 L 210 175 L 250 175" />
-                          <path d="M 250 175 L 250 210 L 330 210 L 370 170 L 370 125" />
-                        </g>
-                      )}
-
-                      {/* DRC CLEARANCE RING */}
-                      {drcPassed && (
-                        <circle cx="250" cy="85" r="14" fill="none" stroke="#10b981" strokeWidth="1" strokeDasharray="2,2" opacity="0.6" />
-                      )}
-                    </svg>
-
-                    {/* J1 HEADER */}
-                    <div
-                      onClick={() => setSelectedCanvasItem('j1')}
-                      className={`absolute top-[75px] left-[45px] cursor-pointer p-1 rounded transition ${selectedCanvasItem === 'j1' ? 'ring-2 ring-emerald-400 bg-emerald-500/20' : 'hover:bg-zinc-800/40'
-                        }`}
-                    >
-                      <div className="flex flex-col gap-1.5 p-1 border border-zinc-400/50 rounded bg-zinc-900/90 shadow">
-                        {[1, 2, 3, 4].map((pin) => (
-                          <div key={pin} className="w-3.5 h-3.5 rounded-full bg-amber-400 flex items-center justify-center border border-amber-600">
-                            <div className="w-1.5 h-1.5 rounded-full bg-zinc-950"></div>
-                          </div>
-                        ))}
-                      </div>
-                      <span className="text-[8px] font-mono text-zinc-300 block text-center font-bold">J1</span>
-                    </div>
-
-                    {/* C1 CAP */}
-                    <div
-                      onClick={() => setSelectedCanvasItem('c1')}
-                      className={`absolute top-[100px] left-[130px] cursor-pointer p-1 rounded transition ${selectedCanvasItem === 'c1' ? 'ring-2 ring-emerald-400 bg-emerald-500/20' : 'hover:bg-zinc-800/40'
-                        }`}
-                    >
-                      <div className="w-4 h-9 rounded-sm border border-amber-300/80 bg-amber-900/60 flex flex-col justify-between items-center py-1">
-                        <div className="w-2 h-2 rounded-full bg-amber-400 border border-zinc-950"></div>
-                        <div className="w-2 h-2 rounded-full bg-amber-400 border border-zinc-950"></div>
-                      </div>
-                      <span className="text-[8px] font-mono text-zinc-300 block text-center font-bold">C1</span>
-                    </div>
-
-                    {/* U1 DIP-8 IC */}
-                    <div
-                      onClick={() => setSelectedCanvasItem('u1')}
-                      className={`absolute top-[70px] left-[200px] cursor-pointer p-2 rounded transition ${selectedCanvasItem === 'u1' ? 'ring-2 ring-emerald-400 bg-emerald-500/20' : 'hover:bg-zinc-800/40'
-                        }`}
-                    >
-                      <div className="relative w-24 h-28 rounded border-2 border-zinc-400 bg-zinc-950 flex flex-col justify-between p-2 shadow-lg">
-                        <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-4 h-2 rounded-b-full border border-zinc-400 bg-zinc-900"></div>
-
-                        <div className="text-center my-auto">
-                          <span className="block text-[10px] font-mono font-bold text-zinc-200">ATTINY85</span>
-                          <span className="block text-[8px] font-mono text-zinc-500">20PU • DIP-8</span>
-                        </div>
-
-                        <div className="absolute -left-2 top-3 bottom-3 flex flex-col justify-between">
-                          {[1, 2, 3, 4].map((p) => (
-                            <div key={p} className="w-3 h-2 rounded-l bg-amber-400 border border-amber-600"></div>
-                          ))}
-                        </div>
-
-                        <div className="absolute -right-2 top-3 bottom-3 flex flex-col justify-between">
-                          {[8, 7, 6, 5].map((p) => (
-                            <div key={p} className="w-3 h-2 rounded-r bg-amber-400 border border-amber-600"></div>
-                          ))}
-                        </div>
-                      </div>
-                      <span className="text-[9px] font-mono text-zinc-200 block text-center font-bold mt-1">U1</span>
-                    </div>
-
-                    {/* R1 RESISTOR */}
-                    <div
-                      onClick={() => setSelectedCanvasItem('r1')}
-                      className={`absolute top-[105px] right-[75px] cursor-pointer p-1 rounded transition ${selectedCanvasItem === 'r1' ? 'ring-2 ring-emerald-400 bg-emerald-500/20' : 'hover:bg-zinc-800/40'
-                        }`}
-                    >
-                      <div className="w-5 h-12 rounded-sm border border-zinc-400 bg-amber-100 flex flex-col justify-around items-center py-1">
-                        <div className="w-full h-1 bg-amber-800"></div>
-                        <div className="w-full h-1 bg-black"></div>
-                        <div className="w-full h-1 bg-red-600"></div>
-                        <div className="w-full h-1 bg-yellow-500"></div>
-                      </div>
-                      <span className="text-[8px] font-mono text-zinc-200 block text-center font-bold">R1 (10k)</span>
-                    </div>
-
-                    {/* D1 LED */}
-                    <div
-                      onClick={() => setSelectedCanvasItem('d1')}
-                      className={`absolute top-[40px] right-[40px] cursor-pointer p-1 rounded transition ${selectedCanvasItem === 'd1' ? 'ring-2 ring-emerald-400 bg-emerald-500/20' : 'hover:bg-zinc-800/40'
-                        }`}
-                    >
-                      <div className="w-6 h-6 rounded-full border-2 border-emerald-400 bg-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/50 animate-pulse">
-                        <div className="w-2 h-2 rounded-full bg-white"></div>
-                      </div>
-                      <span className="text-[8px] font-mono text-zinc-200 block text-center font-bold mt-0.5">D1 (LED)</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* RIGHT INSPECTOR PANEL */}
-                <div className="lg:col-span-3 border-l border-zinc-800/80 bg-zinc-950/80 p-4 flex flex-col justify-between">
-                  <div>
-                    <div className="text-[11px] font-mono uppercase tracking-wider text-zinc-400 font-semibold mb-3 flex items-center gap-1.5">
-                      <Sliders className="w-3.5 h-3.5 text-emerald-400" />
-                      <span>Component Properties</span>
-                    </div>
-
-                    {componentsList[selectedCanvasItem] ? (
-                      <div className="space-y-3 text-xs">
-                        <div>
-                          <span className="text-zinc-500 block text-[10px]">Reference &amp; Device</span>
-                          <span className="font-semibold text-zinc-200 text-sm">
-                            {componentsList[selectedCanvasItem].name}
-                          </span>
-                        </div>
-
-                        <div className="grid grid-cols-2 gap-2 text-[11px]">
-                          <div className="p-2 rounded bg-zinc-900 border border-zinc-800">
-                            <span className="text-zinc-500 block text-[10px]">Footprint</span>
-                            <span className="font-mono text-zinc-300 truncate block">
-                              {componentsList[selectedCanvasItem].footprint.split('_')[0]}
-                            </span>
-                          </div>
-                          <div className="p-2 rounded bg-zinc-900 border border-zinc-800">
-                            <span className="text-zinc-500 block text-[10px]">Pin Count</span>
-                            <span className="font-mono text-zinc-300">
-                              {componentsList[selectedCanvasItem].pins} Pins
-                            </span>
-                          </div>
-                        </div>
-
-                        <div>
-                          <span className="text-zinc-500 block text-[10px] mb-1">Assigned Net Connections</span>
-                          <div className="space-y-1">
-                            {componentsList[selectedCanvasItem].nets.map((net, i) => (
-                              <div key={i} className="text-[10px] font-mono px-2 py-1 rounded bg-zinc-900 border border-zinc-850 text-emerald-400/90 truncate">
-                                {net}
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-
-                        <div className="pt-2">
-                          <span className="text-zinc-500 block text-[10px]">DRC Clearance Status</span>
-                          <span className="inline-flex items-center gap-1 text-[11px] font-mono text-emerald-400 font-semibold mt-0.5">
-                            <Check className="w-3 h-3" /> {componentsList[selectedCanvasItem].status}
-                          </span>
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="text-xs text-zinc-500">Select an item on the canvas to inspect geometry and nets.</div>
-                    )}
-                  </div>
-
-                  <div className="mt-4 pt-3 border-t border-zinc-800/80 flex items-center justify-between text-[11px] font-mono text-zinc-400">
-                    <span>Coord: 35.00, 22.50</span>
-                    <span className="text-emerald-400">Layer: F.Cu</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* STATUS BAR FOOTER */}
-              <div className="flex flex-wrap items-center justify-between px-4 py-2 bg-zinc-950 border-t border-zinc-800 text-[11px] font-mono text-zinc-400">
-                <div className="flex items-center gap-4">
-                  <span className="flex items-center gap-1 text-emerald-400">
-                    <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block"></span> Ready
-                  </span>
-                  <span>Canvas: SkiaSharp Hardware Accelerated</span>
-                </div>
-                <div className="flex items-center gap-4">
-                  <span>Units: Metric (mm)</span>
-                  <span>Trace Width: 0.40mm</span>
-                  <span>Clearance: 0.25mm</span>
-                </div>
-              </div>
-            </div>
+        {/* LIVE UI HERO VIEW (BASED ON MACOS SCREENSHOT) */}
+        {heroView === 'live' && (
+          <div className="mt-10 max-w-6xl mx-auto px-4">
+            <CircuitFlowLiveUI />
           </div>
         )}
       </div>
@@ -1027,8 +706,8 @@ export default function CircuitFlowPage() {
                   key={p.id}
                   onClick={() => setActivePlatform(p.id)}
                   className={`flex items-center gap-2 px-6 py-4 font-medium text-sm transition border-b-2 whitespace-nowrap ${activePlatform === p.id
-                      ? 'border-emerald-500 text-emerald-600 dark:text-emerald-400 bg-white dark:bg-zinc-900'
-                      : 'border-transparent text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-200'
+                    ? 'border-emerald-500 text-emerald-600 dark:text-emerald-400 bg-white dark:bg-zinc-900'
+                    : 'border-transparent text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-200'
                     }`}
                 >
                   <Icon className="w-4 h-4" />
@@ -1118,8 +797,8 @@ export default function CircuitFlowPage() {
                   key={cat}
                   onClick={() => setShortcutCategory(cat)}
                   className={`px-2 py-1 rounded capitalize transition ${shortcutCategory === cat
-                      ? 'bg-emerald-600 text-white font-medium shadow-sm'
-                      : 'text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-200'
+                    ? 'bg-emerald-600 text-white font-medium shadow-sm'
+                    : 'text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-200'
                     }`}
                 >
                   {cat}
