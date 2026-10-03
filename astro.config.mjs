@@ -1,13 +1,11 @@
 import { defineConfig } from 'astro/config';
-import tailwind from '@astrojs/tailwind';
 
 import sitemap from '@astrojs/sitemap';
 import robotsTxt from 'astro-robots-txt';
 import { VitePWA } from 'vite-plugin-pwa';
 import { manifest } from './src/utils/manifest';
 import react from "@astrojs/react";
-
-
+import mdx from "@astrojs/mdx";
 
 // https://astro.build/config
 export default defineConfig({
@@ -25,11 +23,10 @@ export default defineConfig({
     }
   },
   integrations: [
-
     sitemap(),
-    tailwind(),
     robotsTxt(),
     react(),
+    mdx(),
   ],
   vite: {
     plugins: [VitePWA({

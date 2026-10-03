@@ -1,0 +1,19 @@
+---
+import Base from "@layouts/Base.astro";
+import PulsePage from "@components/software/pulse/PulsePage.jsx";
+
+const pageTitle = "Pulse — Automated Desktop Wallpaper Changer";
+const pageDescription =
+  "Pulse is an automated Windows system tray wallpaper changer driven by search terms. Cycles resolution-aware desktop backgrounds from Wallhaven, NASA APOD, Media RSS feeds, and local folders.";
+---
+
+<Base
+  title={pageTitle}
+  meta_title={pageTitle}
+  description={pageDescription}
+  hideHero={true}
+  hideVideos={true}
+  fullWidth={false}
+>
+  <PulsePage client:load />
+</Base>

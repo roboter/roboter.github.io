@@ -11,7 +11,23 @@
   },
   "features": {
     "youtube": true,
-    "dark_mode": true
+    "dark_mode": true,
+    "comments": true
+  },
+  "giscus": {
+    "enabled": true,
+    "repo": "roboter/roboter.github.io",
+    "repoId": "MDEwOlJlcG9zaXRvcnk1OTU0OTkxMA==",
+    "category": "Announcements",
+    "categoryId": "DIC_kwDOA4yo1s4DGa_N",
+    "mapping": "pathname",
+    "strict": "0",
+    "reactionsEnabled": "1",
+    "emitMetadata": "0",
+    "inputPosition": "top",
+    "theme": "preferred_color_scheme",
+    "lang": "en",
+    "loading": "lazy"
   },
   "metadata": {
     "meta_author": "Robby roboter @robby.roboter",

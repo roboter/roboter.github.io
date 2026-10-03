@@ -57,7 +57,7 @@ type PostType = {
         </div>
         <div class="relative">
           <h2 class="mt-3 text-xl font-semibold leading-6 text-zinc-900 dark:text-white group-hover:text-zinc-600">
-            <a href={`/blog/${post.slug}/`}>
+            <a href={`/blog/${post.id || post.slug}/`}>
               <span class="absolute inset-0" />
               {post.data.title}
             </a>

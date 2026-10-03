@@ -1,0 +1,334 @@
+---
+import config from "@config/config.json";
+
+const giscus = config.giscus || {
+  enabled: true,
+  repo: "roboter/roboter.github.io",
+  repoId: "",
+  category: "Announcements",
+  categoryId: "",
+  mapping: "pathname",
+  strict: "0",
+  reactionsEnabled: "1",
+  emitMetadata: "0",
+  inputPosition: "top",
+  theme: "preferred_color_scheme",
+  lang: "en",
+  loading: "lazy",
+};
+
+const isConfigured = Boolean(
+  giscus.repo &&
+    giscus.repoId &&
+    giscus.repoId.trim() !== "" &&
+    giscus.categoryId &&
+    giscus.categoryId.trim() !== ""
+);
+
+const repoUrl = `https://github.com/${giscus.repo}`;
+const discussionsUrl = `${repoUrl}/discussions`;
+const repoSettingsUrl = `${repoUrl}/settings`;
+---
+
+{
+  giscus.enabled && (
+    <section
+      id="comments"
+      class="mt-12 pt-8 border-t border-zinc-200 dark:border-zinc-800"
+      aria-label="Comments and Discussion"
+    >
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+        <div>
+          <h2 class="text-xl md:text-2xl font-bold text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-6 h-6 text-emerald-600 dark:text-emerald-400"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+            </svg>
+            Comments
+          </h2>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400 mt-1">
+            Join the conversation powered by GitHub Discussions.
+          </p>
+        </div>
+
+        <a
+          href={discussionsUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-1.5 self-start sm:self-auto text-xs font-medium px-3 py-1.5 rounded-lg border border-zinc-300 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:border-emerald-500 dark:hover:border-emerald-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
+        >
+          <svg
+            class="w-4 h-4"
+            viewBox="0 0 16 16"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z" />
+          </svg>
+          <span>Discussions on GitHub</span>
+          <svg
+            class="w-3.5 h-3.5 opacity-70"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+            <polyline points="15 3 21 3 21 9" />
+            <line x1="10" y1="14" x2="21" y2="3" />
+          </svg>
+        </a>
+      </div>
+
+      {isConfigured ? (
+        <div
+          id="giscus-container"
+          class="giscus-container min-h-[160px] my-4"
+          data-repo={giscus.repo}
+          data-repo-id={giscus.repoId}
+          data-category={giscus.category}
+          data-category-id={giscus.categoryId}
+          data-mapping={giscus.mapping || "pathname"}
+          data-strict={giscus.strict || "0"}
+          data-reactions-enabled={giscus.reactionsEnabled || "1"}
+          data-emit-metadata={giscus.emitMetadata || "0"}
+          data-input-position={giscus.inputPosition || "top"}
+          data-lang={giscus.lang || "en"}
+          data-loading={giscus.loading || "lazy"}
+        >
+          <div class="flex items-center justify-center py-10 text-zinc-400 dark:text-zinc-500 text-sm">
+            <span>Loading discussion...</span>
+          </div>
+        </div>
+      ) : (
+        <div class="rounded-xl border border-dashed border-emerald-500/40 bg-emerald-50/50 dark:bg-emerald-950/20 p-5 md:p-6 text-zinc-800 dark:text-zinc-200">
+          <div class="flex items-start gap-3">
+            <div class="p-2 rounded-lg bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-5 h-5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="8" x2="12" y2="12" />
+                <line x1="12" y1="16" x2="12.01" y2="16" />
+              </svg>
+            </div>
+            <div class="flex-1">
+              <h3 class="text-base font-semibold text-zinc-900 dark:text-zinc-100">
+                GitHub Discussions Comments Setup
+              </h3>
+              <p class="text-xs md:text-sm text-zinc-600 dark:text-zinc-400 mt-1">
+                Giscus is integrated into your blog, but requires your GitHub
+                repository and category IDs to connect with Discussions.
+              </p>
+
+              <ol class="mt-4 space-y-2 text-xs md:text-sm text-zinc-700 dark:text-zinc-300 list-decimal list-inside">
+                <li>
+                  <span class="font-medium">Enable Discussions:</span> Go to{" "}
+                  <a
+                    href={repoSettingsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="text-emerald-600 dark:text-emerald-400 underline font-semibold"
+                  >
+                    GitHub Settings
+                  </a>{" "}
+                  and ensure <em>Discussions</em> is checked under Features.
+                </li>
+                <li>
+                  <span class="font-medium">Install Giscus App:</span> Install the{" "}
+                  <a
+                    href="https://github.com/apps/giscus"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="text-emerald-600 dark:text-emerald-400 underline font-semibold"
+                  >
+                    Giscus GitHub App
+                  </a>{" "}
+                  and grant access to <code>{giscus.repo}</code>.
+                </li>
+                <li>
+                  <span class="font-medium">Generate IDs:</span> Visit{" "}
+                  <a
+                    href="https://giscus.app"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="text-emerald-600 dark:text-emerald-400 underline font-semibold"
+                  >
+                    giscus.app
+                  </a>
+                  , enter <code>{giscus.repo}</code>, select your Discussion
+                  Category (e.g. <code>General</code> or <code>Announcements</code>),
+                  and copy <code>data-repo-id</code> and{" "}
+                  <code>data-category-id</code>.
+                </li>
+                <li>
+                  <span class="font-medium">Save to Config:</span> Paste{" "}
+                  <code>repoId</code> and <code>categoryId</code> into{" "}
+                  <code class="bg-zinc-200 dark:bg-zinc-800 px-1 py-0.5 rounded text-xs">
+                    src/config/config.json
+                  </code>{" "}
+                  under <code>"giscus"</code>.
+                </li>
+              </ol>
+
+              <div class="mt-5 flex flex-wrap gap-2.5">
+                <a
+                  href="https://giscus.app"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white transition-colors"
+                >
+                  <span>Open Giscus.app Setup</span>
+                  <svg
+                    class="w-3.5 h-3.5"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                    <polyline points="15 3 21 3 21 9" />
+                    <line x1="10" y1="14" x2="21" y2="3" />
+                  </svg>
+                </a>
+                <a
+                  href={repoSettingsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg border border-zinc-300 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+                >
+                  <span>Repo Settings</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </section>
+  )
+}
+
+<script>
+  function getGiscusTheme() {
+    const isDark = document.documentElement.classList.contains("dark");
+    return isDark ? "dark" : "light";
+  }
+
+  function sendThemeToGiscus(theme: string) {
+    const iframe = document.querySelector<HTMLIFrameElement>("iframe.giscus-frame");
+    if (!iframe || !iframe.contentWindow) return;
+    iframe.contentWindow.postMessage(
+      { giscus: { setConfig: { theme } } },
+      "https://giscus.app"
+    );
+  }
+
+  let lastMountedPath = "";
+
+  function mountGiscus() {
+    const container = document.getElementById("giscus-container");
+    if (!container) return;
+
+    const repo = container.dataset.repo;
+    const repoId = container.dataset.repoId;
+    const category = container.dataset.category;
+    const categoryId = container.dataset.categoryId;
+
+    if (!repo || !repoId || !categoryId) return;
+
+    const currentPath = window.location.pathname;
+    if (
+      lastMountedPath === currentPath &&
+      container.querySelector("iframe.giscus-frame")
+    ) {
+      return;
+    }
+
+    lastMountedPath = currentPath;
+    container.innerHTML = "";
+
+    const script = document.createElement("script");
+    script.src = "https://giscus.app/client.js";
+    script.setAttribute("data-repo", repo);
+    script.setAttribute("data-repo-id", repoId);
+    script.setAttribute("data-category", category);
+    script.setAttribute("data-category-id", categoryId);
+    script.setAttribute(
+      "data-mapping",
+      container.dataset.mapping || "pathname"
+    );
+    script.setAttribute("data-strict", container.dataset.strict || "0");
+    script.setAttribute(
+      "data-reactions-enabled",
+      container.dataset.reactionsEnabled || "1"
+    );
+    script.setAttribute(
+      "data-emit-metadata",
+      container.dataset.emitMetadata || "0"
+    );
+    script.setAttribute(
+      "data-input-position",
+      container.dataset.inputPosition || "top"
+    );
+    script.setAttribute("data-theme", getGiscusTheme());
+    script.setAttribute("data-lang", container.dataset.lang || "en");
+    script.setAttribute("data-loading", container.dataset.loading || "lazy");
+    script.setAttribute("crossorigin", "anonymous");
+    script.async = true;
+
+    container.appendChild(script);
+  }
+
+  // Observe theme changes on documentElement
+  let themeObserver: MutationObserver | null = null;
+  function setupThemeObserver() {
+    if (themeObserver) return;
+    themeObserver = new MutationObserver((mutations) => {
+      for (const mutation of mutations) {
+        if (
+          mutation.type === "attributes" &&
+          mutation.attributeName === "class"
+        ) {
+          sendThemeToGiscus(getGiscusTheme());
+          break;
+        }
+      }
+    });
+    themeObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+  }
+
+  // Astro page-load runs on both initial load and ClientRouter swaps
+  document.addEventListener("astro:page-load", () => {
+    mountGiscus();
+    setupThemeObserver();
+  });
+
+  // Fallback for initial render if document is already ready
+  if (
+    document.readyState === "complete" ||
+    document.readyState === "interactive"
+  ) {
+    mountGiscus();
+    setupThemeObserver();
+  }
+</script>

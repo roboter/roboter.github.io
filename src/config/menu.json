@@ -5,12 +5,16 @@
       "url": "/"
     },
     {
-      "name": "CircuitFlow",
-      "url": "/circuitflow"
+      "name": "Software",
+      "url": "/software"
     },
     {
       "name": "Tools",
       "url": "/tools"
+    },
+    {
+      "name": "Videos",
+      "url": "/videos"
     },
     {
       "name": "Tags",
