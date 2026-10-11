@@ -271,8 +271,8 @@ export default function CircuitFlowPage() {
               <button
                 onClick={() => setHeroView('screenshot')}
                 className={`px-4 py-2 rounded-lg text-xs font-mono font-medium transition flex items-center gap-2 ${heroView === 'screenshot'
-                    ? 'bg-emerald-600 text-white shadow'
-                    : 'text-zinc-400 hover:text-white'
+                  ? 'bg-emerald-600 text-white shadow'
+                  : 'text-zinc-400 hover:text-white'
                   }`}
               >
                 <Monitor className="w-4 h-4" />
@@ -282,8 +282,8 @@ export default function CircuitFlowPage() {
               <button
                 onClick={() => setHeroView('interactive')}
                 className={`px-4 py-2 rounded-lg text-xs font-mono font-medium transition flex items-center gap-2 ${heroView === 'interactive'
-                    ? 'bg-emerald-600 text-white shadow'
-                    : 'text-zinc-400 hover:text-white'
+                  ? 'bg-emerald-600 text-white shadow'
+                  : 'text-zinc-400 hover:text-white'
                   }`}
               >
                 <Layers className="w-4 h-4" />
@@ -444,8 +444,8 @@ export default function CircuitFlowPage() {
                           key={id}
                           onClick={() => setSelectedCanvasItem(id)}
                           className={`w-full text-left px-2.5 py-2 rounded-lg flex items-center justify-between transition ${selectedCanvasItem === id
-                              ? 'bg-emerald-950/80 border border-emerald-500/50 text-emerald-300 font-medium'
-                              : 'hover:bg-zinc-900 text-zinc-400 hover:text-zinc-200'
+                            ? 'bg-emerald-950/80 border border-emerald-500/50 text-emerald-300 font-medium'
+                            : 'hover:bg-zinc-900 text-zinc-400 hover:text-zinc-200'
                             }`}
                         >
                           <div className="flex items-center gap-2">
@@ -1056,8 +1056,8 @@ export default function CircuitFlowPage() {
                   key={p.id}
                   onClick={() => setActivePlatform(p.id)}
                   className={`flex items-center gap-2 px-6 py-4 font-medium text-sm transition border-b-2 whitespace-nowrap ${activePlatform === p.id
-                      ? 'border-emerald-500 text-emerald-600 dark:text-emerald-400 bg-white dark:bg-zinc-900'
-                      : 'border-transparent text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-200'
+                    ? 'border-emerald-500 text-emerald-600 dark:text-emerald-400 bg-white dark:bg-zinc-900'
+                    : 'border-transparent text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-200'
                     }`}
                 >
                   <Icon className="w-4 h-4" />
@@ -1158,8 +1158,8 @@ export default function CircuitFlowPage() {
                   key={cat}
                   onClick={() => setShortcutCategory(cat)}
                   className={`px-2 py-1 rounded capitalize transition ${shortcutCategory === cat
-                      ? 'bg-emerald-600 text-white font-medium shadow-sm'
-                      : 'text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-200'
+                    ? 'bg-emerald-600 text-white font-medium shadow-sm'
+                    : 'text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-200'
                     }`}
                 >
                   {cat}
@@ -1336,7 +1336,7 @@ export default function CircuitFlowPage() {
                 <div className="flex items-center justify-between text-zinc-500 mb-1">
                   <span className="font-bold uppercase tracking-wider text-[10px]">SHA-256 Checksum</span>
                   <button
-                    onClick={() => copyToClipboard('ac36e8f7b09076c97bcfbc2ff4d918225510d198d0370691193a6b97f67df43c', 'sha-mac')}
+                    onClick={() => copyToClipboard('71bbf46c1ac9448a68fa74522a58c124d0cc007ff341b7d5fc399f664eb668da', 'sha-mac')}
                     className="flex items-center gap-1 text-emerald-500 hover:text-emerald-400 text-[10px]"
                     title="Copy SHA-256"
                   >
@@ -1345,7 +1345,7 @@ export default function CircuitFlowPage() {
                   </button>
                 </div>
                 <div className="text-zinc-700 dark:text-zinc-300 break-all select-all font-mono text-[10px] leading-tight">
-                  ac36e8f7b09076c97bcfbc2ff4d918225510d198d0370691193a6b97f67df43c
+                  71bbf46c1ac9448a68fa74522a58c124d0cc007ff341b7d5fc399f664eb668da
                 </div>
               </div>
             </div>
