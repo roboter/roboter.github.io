@@ -87,8 +87,6 @@ export default function CircuitFlowPage() {
     { input: 'Ctrl + A', action: 'Select all components and traces', category: 'canvas' },
     { input: 'Ctrl + D', action: 'Duplicate selected components', category: 'canvas' },
     { input: 'Delete / Backspace', action: 'Delete selected items', category: 'canvas' },
-    { input: 'R', action: 'Switch to Selection Tool', category: 'tools' },
-    { input: 'T', action: 'Switch to Interactive Route Tool', category: 'tools' },
     { input: '+ / - / 0', action: 'Zoom in / out / reset 100% view', category: 'navigation' },
     { input: 'Escape', action: 'Clear selection or cancel active operation', category: 'tools' },
   ];
