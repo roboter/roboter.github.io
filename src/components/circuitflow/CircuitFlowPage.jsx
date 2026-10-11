@@ -1036,7 +1036,7 @@ export default function CircuitFlowPage() {
                 <div className="flex items-center justify-between text-zinc-500 mb-1">
                   <span className="font-bold uppercase tracking-wider text-[10px]">SHA-256 Checksum</span>
                   <button
-                    onClick={() => copyToClipboard('ac36e8f7b09076c97bcfbc2ff4d918225510d198d0370691193a6b97f67df43c', 'sha-mac')}
+                    onClick={() => copyToClipboard('71bbf46c1ac9448a68fa74522a58c124d0cc007ff341b7d5fc399f664eb668da', 'sha-mac')}
                     className="flex items-center gap-1 text-emerald-500 hover:text-emerald-400 text-[10px]"
                     title="Copy SHA-256"
                   >
@@ -1045,7 +1045,7 @@ export default function CircuitFlowPage() {
                   </button>
                 </div>
                 <div className="text-zinc-700 dark:text-zinc-300 break-all select-all font-mono text-[10px] leading-tight">
-                  ac36e8f7b09076c97bcfbc2ff4d918225510d198d0370691193a6b97f67df43c
+                  71bbf46c1ac9448a68fa74522a58c124d0cc007ff341b7d5fc399f664eb668da
                 </div>
               </div>
             </div>
