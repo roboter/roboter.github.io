@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import {
   Cpu,
-  Layers,
+  Globe,
   ShieldCheck,
   Download,
   Check,
@@ -90,6 +90,23 @@ export default function CircuitFlowPage() {
       packageType: 'Apple TestFlight Public Beta',
       status: 'Available on TestFlight',
       testFlightUrl: 'https://testflight.apple.com/join/U9AfcNk2'
+    },
+    {
+      id: 'wasm',
+      name: 'Web App',
+      icon: Globe,
+      badge: 'WebAssembly',
+      osVersion: 'Any modern browser (Chrome, Edge, Firefox, Safari)',
+      architecture: 'WASM • Platform-independent',
+      highlights: [
+        'Runs entirely in the browser with no installation required',
+        'Same SkiaSharp rendering and simulation engine compiled to WebAssembly',
+        'Works on Windows, macOS, Linux, ChromeOS, and tablets',
+        'Always up to date, so every visit loads the latest build'
+      ],
+      packageType: 'Hosted WebAssembly Web App',
+      status: 'Live',
+      localUrl: '/circuitflow/app/'
     },
   ];
 
@@ -231,6 +248,15 @@ export default function CircuitFlowPage() {
               <Download className="w-4 h-4" />
               <span>Download Releases</span>
               <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+            </a>
+
+            <a
+              href="/circuitflow/app/" target="_blank" rel="noopener noreferrer"
+              className="px-5 py-3 rounded-lg font-medium bg-zinc-900 hover:bg-zinc-800 text-white dark:bg-zinc-800 dark:hover:bg-zinc-700 border border-zinc-700 shadow transition-all flex items-center gap-2"
+            >
+              <Globe className="w-4 h-4 text-sky-400" />
+              <span>Test in Browser</span>
+              <ExternalLink className="w-3.5 h-3.5 text-zinc-400" />
             </a>
 
             <a
@@ -717,21 +743,21 @@ export default function CircuitFlowPage() {
 
         {/* PLATFORM TABS */}
         <div className="border border-zinc-200 dark:border-zinc-800 rounded-2xl overflow-hidden bg-white dark:bg-zinc-900 shadow-sm">
-          <div className="flex border-b border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950/80 overflow-x-auto">
+          <div className="flex w-full border-b border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950/80">
             {platforms.map((p) => {
               const Icon = p.icon;
               return (
                 <button
                   key={p.id}
                   onClick={() => setActivePlatform(p.id)}
-                  className={`flex items-center gap-2 px-6 py-4 font-medium text-sm transition border-b-2 whitespace-nowrap ${activePlatform === p.id
+                  className={`flex-1 basis-0 min-w-0 flex items-center justify-center gap-1.5 px-2 sm:px-3 py-3 font-medium text-xs sm:text-sm transition border-b-2 ${activePlatform === p.id
                     ? 'border-emerald-500 text-emerald-600 dark:text-emerald-400 bg-white dark:bg-zinc-900'
                     : 'border-transparent text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-200'
                     }`}
                 >
-                  <Icon className="w-4 h-4" />
-                  <span>{p.name}</span>
-                  <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400">
+                  <Icon className="w-3.5 h-3.5 flex-shrink-0" />
+                  <span className="truncate">{p.name}</span>
+                  <span className="hidden lg:inline truncate text-[9px] font-mono px-1 py-px rounded bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400">
                     {p.badge}
                   </span>
                 </button>
@@ -781,6 +807,13 @@ export default function CircuitFlowPage() {
                         className="text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1 font-semibold"
                       >
                         Join TestFlight Beta <ExternalLink className="w-3.5 h-3.5" />
+                      </a>
+                    ) : p.localUrl ? (
+                      <a
+                        href={p.localUrl}
+                        className="text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1 font-semibold"
+                      >
+                        Launch Web App <ExternalLink className="w-3.5 h-3.5" />
                       </a>
                     ) : (
                       <a href="#downloads" className="text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1 font-semibold">
@@ -1063,6 +1096,57 @@ export default function CircuitFlowPage() {
                 </div>
                 <div className="text-zinc-700 dark:text-zinc-300 break-all select-all font-mono text-[10px] leading-tight">
                   https://testflight.apple.com/join/U9AfcNk2
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* WASM WEB APP RELEASE CARD */}
+          <div className="p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 shadow-sm flex flex-col justify-between hover:border-emerald-500/50 transition">
+            <div>
+              <div className="flex items-center justify-between mb-3">
+                <div className="w-10 h-10 rounded-lg bg-sky-500/10 text-sky-500 flex items-center justify-center">
+                  <Globe className="w-5 h-5" />
+                </div>
+                <span className="text-xs font-mono px-2 py-0.5 rounded bg-sky-500/10 text-sky-400 font-semibold border border-sky-500/20">
+                  WebAssembly
+                </span>
+              </div>
+              <h3 className="font-bold text-lg text-zinc-900 dark:text-white mb-1">Web App</h3>
+              <span className="text-xs font-mono text-zinc-500 block mb-3">Any modern browser • WASM</span>
+              <p className="text-xs text-zinc-600 dark:text-zinc-400 mb-6">
+                Run CircuitFlow directly in your browser with no install required. Same simulation engine compiled to WebAssembly for near-native performance.
+              </p>
+            </div>
+
+            <div className="space-y-3">
+              <a
+                href="/circuitflow/app/"
+                className="w-full py-2.5 px-4 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-mono text-xs flex items-center justify-center gap-2 shadow-md transition font-semibold"
+              >
+                <ExternalLink className="w-4 h-4" /> Launch Web App
+              </a>
+
+              {/* WEB APP LINK BOX */}
+              <div className="p-2.5 rounded-lg bg-zinc-100 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-[11px] font-mono">
+                <div className="flex items-center justify-between text-zinc-500 mb-1">
+                  <span className="font-bold uppercase tracking-wider text-[10px]">Web App Link</span>
+                  <button
+                    onClick={() =>
+                      copyToClipboard(
+                        `${typeof window !== 'undefined' ? window.location.origin : ''}/circuitflow/app/`,
+                        'link-wasm'
+                      )
+                    }
+                    className="flex items-center gap-1 text-emerald-500 hover:text-emerald-400 text-[10px]"
+                    title="Copy Web App URL"
+                  >
+                    {copiedKey === 'link-wasm' ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+                    <span>{copiedKey === 'link-wasm' ? 'Copied' : 'Copy'}</span>
+                  </button>
+                </div>
+                <div className="text-zinc-700 dark:text-zinc-300 break-all select-all font-mono text-[10px] leading-tight">
+                  {typeof window !== 'undefined' ? window.location.origin : ''}/circuitflow/app/
                 </div>
               </div>
             </div>
