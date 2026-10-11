@@ -801,16 +801,14 @@ export default function CircuitFlowPage() {
                     <span className="text-zinc-500">Release Stage: <span className="text-emerald-500 font-semibold">{p.status}</span></span>
                     {p.testFlightUrl ? (
                       <a
-                        href={p.testFlightUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                        href={p.testFlightUrl} target="_blank" rel="noopener noreferrer"
                         className="text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1 font-semibold"
                       >
                         Join TestFlight Beta <ExternalLink className="w-3.5 h-3.5" />
                       </a>
                     ) : p.localUrl ? (
                       <a
-                        href={p.localUrl}
+                        href={p.localUrl} target="_blank" rel="noopener noreferrer"
                         className="text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1 font-semibold"
                       >
                         Launch Web App <ExternalLink className="w-3.5 h-3.5" />
