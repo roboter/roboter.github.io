@@ -1,5 +1,4 @@
 import React, { useState, useMemo } from 'react';
-import CircuitFlowLiveUI from './CircuitFlowLiveUI';
 import {
   Cpu,
   Layers,
@@ -9,6 +8,7 @@ import {
   ExternalLink,
   Monitor,
   Apple,
+  Tablet,
   FileCode,
   CheckCircle2,
   AlertTriangle,
@@ -56,7 +56,7 @@ export default function CircuitFlowPage() {
         'Self-contained installation with zero runtime dependencies'
       ],
       packageType: 'MSIX Installer & Portable .zip',
-      status: 'Coming in v0.1 Release'
+      status: 'v1.0.3 Released'
     },
     {
       id: 'macos',
@@ -72,7 +72,24 @@ export default function CircuitFlowPage() {
         'Signed universal application bundle'
       ],
       packageType: 'Universal Disk Image (.dmg) & Signed App',
-      status: 'Live Capture Verified • Packaging Release'
+      status: 'v1.0.3 Released'
+    },
+    {
+      id: 'ipad',
+      name: 'iPad',
+      icon: Tablet,
+      badge: 'Apple TestFlight Beta',
+      osVersion: 'iPadOS 17 & iPadOS 18+',
+      architecture: 'Apple Silicon (M-series) & A-series Native',
+      highlights: [
+        'Multi-touch canvas manipulation with smooth pinch-to-zoom and pan',
+        'Apple Pencil precision routing and component placement support',
+        'Optimized SkiaSharp vector rendering on Liquid Retina displays',
+        'Over-the-air continuous updates and beta feedback via TestFlight'
+      ],
+      packageType: 'Apple TestFlight Public Beta',
+      status: 'Available on TestFlight',
+      testFlightUrl: 'https://testflight.apple.com/join/U9AfcNk2'
     },
   ];
 
@@ -181,7 +198,7 @@ export default function CircuitFlowPage() {
               <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
             </span>
             <span>CircuitFlow.NET • Modern Cross-Platform PCB Editor</span>
-            <span className="hidden sm:inline-block px-1.5 py-0.5 rounded text-[10px] bg-emerald-500/20 text-emerald-500">v0.1.0 Preview</span>
+            <span className="hidden sm:inline-block px-1.5 py-0.5 rounded text-[10px] bg-emerald-500/20 text-emerald-500">v1.0.3 Release</span>
           </div>
 
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight mb-4 text-zinc-900 dark:text-white">
@@ -217,8 +234,19 @@ export default function CircuitFlowPage() {
             </a>
 
             <a
+              href="https://testflight.apple.com/join/U9AfcNk2"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-5 py-3 rounded-lg font-medium bg-zinc-900 hover:bg-zinc-800 text-white dark:bg-zinc-800 dark:hover:bg-zinc-700 border border-zinc-700 shadow transition-all flex items-center gap-2"
+            >
+              <Tablet className="w-4 h-4 text-purple-400" />
+              <span>iPad TestFlight Beta</span>
+              <ExternalLink className="w-3.5 h-3.5 text-zinc-400" />
+            </a>
+
+            <a
               href="#features"
-              className="px-6 py-3 rounded-lg font-medium bg-zinc-900 hover:bg-zinc-800 text-white dark:bg-zinc-800 dark:hover:bg-zinc-700 border border-zinc-700 shadow transition-all flex items-center gap-2"
+              className="px-5 py-3 rounded-lg font-medium text-zinc-700 hover:text-zinc-950 dark:text-zinc-300 dark:hover:text-white border border-zinc-300 dark:border-zinc-700 hover:border-zinc-400 dark:hover:border-zinc-500 transition-all flex items-center gap-2"
             >
               <Cpu className="w-4 h-4 text-emerald-400" />
               <span>Explore Features</span>
@@ -328,13 +356,6 @@ export default function CircuitFlowPage() {
                 </div>
               </div>
             </div>
-          </div>
-        )}
-
-        {/* LIVE UI HERO VIEW (BASED ON MACOS SCREENSHOT) */}
-        {heroView === 'live' && (
-          <div className="mt-10 max-w-6xl mx-auto px-4">
-            <CircuitFlowLiveUI />
           </div>
         )}
       </div>
@@ -690,7 +711,7 @@ export default function CircuitFlowPage() {
             Supported Operating Systems
           </h2>
           <p className="text-zinc-600 dark:text-zinc-400 text-base sm:text-lg">
-            CircuitFlow runs as a high-performance native desktop application on Windows and macOS workstations.
+            CircuitFlow runs as a high-performance native application across Windows, macOS, and iPad also via WebAssembly in browser.
           </p>
         </div>
 
@@ -752,9 +773,20 @@ export default function CircuitFlowPage() {
 
                   <div className="pt-2 flex items-center justify-between border-t border-zinc-200 dark:border-zinc-800 text-xs font-mono">
                     <span className="text-zinc-500">Release Stage: <span className="text-emerald-500 font-semibold">{p.status}</span></span>
-                    <a href="#downloads" className="text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1 font-semibold">
-                      View Download Slots <ChevronRight className="w-3.5 h-3.5" />
-                    </a>
+                    {p.testFlightUrl ? (
+                      <a
+                        href={p.testFlightUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1 font-semibold"
+                      >
+                        Join TestFlight Beta <ExternalLink className="w-3.5 h-3.5" />
+                      </a>
+                    ) : (
+                      <a href="#downloads" className="text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1 font-semibold">
+                        View Download Slots <ChevronRight className="w-3.5 h-3.5" />
+                      </a>
+                    )}
                   </div>
                 </div>
               );
@@ -893,7 +925,7 @@ export default function CircuitFlowPage() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
           {/* WINDOWS RELEASE CARD */}
           <div className="p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 shadow-sm flex flex-col justify-between hover:border-emerald-500/50 transition">
             <div>
@@ -902,11 +934,11 @@ export default function CircuitFlowPage() {
                   <Monitor className="w-5 h-5" />
                 </div>
                 <span className="text-xs font-mono px-2 py-0.5 rounded bg-blue-500/10 text-blue-400 font-semibold border border-blue-500/20">
-                  45 MB
+                  42 MB
                 </span>
               </div>
               <h3 className="font-bold text-lg text-zinc-900 dark:text-white mb-1">Windows</h3>
-              <span className="text-xs font-mono text-zinc-500 block mb-3">x64 Native • WinUI 3 Desktop</span>
+              <span className="text-xs font-mono text-zinc-500 block mb-3">x64 Native • WinUI 3 Desktop • v1.0.3</span>
               <p className="text-xs text-zinc-600 dark:text-zinc-400 mb-6">
                 Standalone portable release package for Windows 10 &amp; 11 workstations. Extract and run directly without complex prerequisites.
               </p>
@@ -914,11 +946,11 @@ export default function CircuitFlowPage() {
 
             <div className="space-y-3">
               <a
-                href="/circuitflow/artifacts/CircuitFlow-win-x64-Release.zip"
-                download="CircuitFlow-win-x64-Release.zip"
+                href="/circuitflow/artifacts/CircuitFlow-win-x64-v1.0.3.zip"
+                download="CircuitFlow-win-x64-v1.0.3.zip"
                 className="w-full py-2.5 px-4 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-mono text-xs flex items-center justify-center gap-2 shadow-md transition font-semibold"
               >
-                <Download className="w-4 h-4" /> Download CircuitFlow-win-x64-Release.zip
+                <Download className="w-4 h-4" /> Download CircuitFlow-win-x64-v1.0.3.zip
               </a>
 
               {/* SHA256 BOX */}
@@ -926,7 +958,7 @@ export default function CircuitFlowPage() {
                 <div className="flex items-center justify-between text-zinc-500 mb-1">
                   <span className="font-bold uppercase tracking-wider text-[10px]">SHA-256 Checksum</span>
                   <button
-                    onClick={() => copyToClipboard('a482e9ca5b3885e7b7b1312a8ae37bef20beae5aabcfa17b85fdc4d406c49eb3', 'sha-win')}
+                    onClick={() => copyToClipboard('5a65149a5ee080f9c4b7fda7b096986b6278e995a7a71cbd3558c0c631ea6b91', 'sha-win')}
                     className="flex items-center gap-1 text-emerald-500 hover:text-emerald-400 text-[10px]"
                     title="Copy SHA-256"
                   >
@@ -935,7 +967,7 @@ export default function CircuitFlowPage() {
                   </button>
                 </div>
                 <div className="text-zinc-700 dark:text-zinc-300 break-all select-all font-mono text-[10px] leading-tight">
-                  a482e9ca5b3885e7b7b1312a8ae37bef20beae5aabcfa17b85fdc4d406c49eb3
+                  5a65149a5ee080f9c4b7fda7b096986b6278e995a7a71cbd3558c0c631ea6b91
                 </div>
               </div>
             </div>
@@ -949,11 +981,11 @@ export default function CircuitFlowPage() {
                   <Apple className="w-5 h-5" />
                 </div>
                 <span className="text-xs font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 font-semibold border border-emerald-500/20">
-                  11 MB
+                  23 MB
                 </span>
               </div>
               <h3 className="font-bold text-lg text-zinc-900 dark:text-white mb-1">macOS</h3>
-              <span className="text-xs font-mono text-zinc-500 block mb-3">Apple Silicon (arm64) • Mac Catalyst</span>
+              <span className="text-xs font-mono text-zinc-500 block mb-3">Apple Silicon (arm64) • Mac Catalyst • v1.0.3</span>
               <p className="text-xs text-zinc-600 dark:text-zinc-400 mb-6">
                 Native release bundle optimized for Apple Silicon (M1/M2/M3/M4) running macOS Sonoma (14) &amp; Sequoia (15+).
               </p>
@@ -961,11 +993,11 @@ export default function CircuitFlowPage() {
 
             <div className="space-y-3">
               <a
-                href="/circuitflow/artifacts/CircuitFlow-macOS-arm64-Release.zip"
-                download="CircuitFlow-macOS-arm64-Release.zip"
+                href="/circuitflow/artifacts/CircuitFlow-maccatalyst-arm64-v1.0.3.zip"
+                download="CircuitFlow-maccatalyst-arm64-v1.0.3.zip"
                 className="w-full py-2.5 px-4 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-mono text-xs flex items-center justify-center gap-2 shadow-md transition font-semibold"
               >
-                <Download className="w-4 h-4" /> Download CircuitFlow-macOS-arm64-Release.zip
+                <Download className="w-4 h-4" /> Download CircuitFlow-maccatalyst-arm64-v1.0.3.zip
               </a>
 
               {/* SHA256 BOX */}
@@ -973,7 +1005,7 @@ export default function CircuitFlowPage() {
                 <div className="flex items-center justify-between text-zinc-500 mb-1">
                   <span className="font-bold uppercase tracking-wider text-[10px]">SHA-256 Checksum</span>
                   <button
-                    onClick={() => copyToClipboard('ac607950e9ebd4bf5f3bea2c9ccf04ca2f7c98694abc431ef92145fd717f76ee', 'sha-mac')}
+                    onClick={() => copyToClipboard('ac36e8f7b09076c97bcfbc2ff4d918225510d198d0370691193a6b97f67df43c', 'sha-mac')}
                     className="flex items-center gap-1 text-emerald-500 hover:text-emerald-400 text-[10px]"
                     title="Copy SHA-256"
                   >
@@ -982,7 +1014,55 @@ export default function CircuitFlowPage() {
                   </button>
                 </div>
                 <div className="text-zinc-700 dark:text-zinc-300 break-all select-all font-mono text-[10px] leading-tight">
-                  ac607950e9ebd4bf5f3bea2c9ccf04ca2f7c98694abc431ef92145fd717f76ee
+                  ac36e8f7b09076c97bcfbc2ff4d918225510d198d0370691193a6b97f67df43c
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* IPAD RELEASE CARD */}
+          <div className="p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 shadow-sm flex flex-col justify-between hover:border-emerald-500/50 transition">
+            <div>
+              <div className="flex items-center justify-between mb-3">
+                <div className="w-10 h-10 rounded-lg bg-purple-500/10 text-purple-500 flex items-center justify-center">
+                  <Tablet className="w-5 h-5" />
+                </div>
+                <span className="text-xs font-mono px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 font-semibold border border-purple-500/20">
+                  TestFlight Beta
+                </span>
+              </div>
+              <h3 className="font-bold text-lg text-zinc-900 dark:text-white mb-1">iPad</h3>
+              <span className="text-xs font-mono text-zinc-500 block mb-3">iPadOS 17+ • Apple TestFlight</span>
+              <p className="text-xs text-zinc-600 dark:text-zinc-400 mb-6">
+                Native iPad build featuring multi-touch canvas navigation, pinch-to-zoom, and Apple Pencil precision. Install via TestFlight.
+              </p>
+            </div>
+
+            <div className="space-y-3">
+              <a
+                href="https://testflight.apple.com/join/U9AfcNk2"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full py-2.5 px-4 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-mono text-xs flex items-center justify-center gap-2 shadow-md transition font-semibold"
+              >
+                <ExternalLink className="w-4 h-4" /> Join TestFlight Public Beta
+              </a>
+
+              {/* TESTFLIGHT LINK BOX */}
+              <div className="p-2.5 rounded-lg bg-zinc-100 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-[11px] font-mono">
+                <div className="flex items-center justify-between text-zinc-500 mb-1">
+                  <span className="font-bold uppercase tracking-wider text-[10px]">TestFlight Link</span>
+                  <button
+                    onClick={() => copyToClipboard('https://testflight.apple.com/join/U9AfcNk2', 'link-ipad')}
+                    className="flex items-center gap-1 text-emerald-500 hover:text-emerald-400 text-[10px]"
+                    title="Copy TestFlight URL"
+                  >
+                    {copiedKey === 'link-ipad' ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+                    <span>{copiedKey === 'link-ipad' ? 'Copied' : 'Copy'}</span>
+                  </button>
+                </div>
+                <div className="text-zinc-700 dark:text-zinc-300 break-all select-all font-mono text-[10px] leading-tight">
+                  https://testflight.apple.com/join/U9AfcNk2
                 </div>
               </div>
             </div>
