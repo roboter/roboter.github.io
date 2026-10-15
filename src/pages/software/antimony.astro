@@ -1,0 +1,19 @@
+---
+import Base from "@layouts/Base.astro";
+import AntimonyPage from "@components/software/antimony/AntimonyPage.jsx";
+
+const pageTitle = "Antimony — Graph-Based Parametric CAD Engine";
+const pageDescription =
+  "Antimony is a node-based CAD tool built on functional representations (Signed Distance Fields / F-Reps) and Python scripts. Forked and maintained at roboter/antimony with native Windows build support and pre-compiled Windows and macOS releases.";
+---
+
+<Base
+  title={pageTitle}
+  meta_title={pageTitle}
+  description={pageDescription}
+  hideHero={true}
+  hideVideos={true}
+  fullWidth={false}
+>
+  <AntimonyPage client:load />
+</Base>

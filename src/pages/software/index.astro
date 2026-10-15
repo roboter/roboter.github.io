@@ -63,9 +63,33 @@ const softwareProjects = [
     fullPageUrl: "/software/pulse",
     githubUrl: "https://github.com/roboter/pulse",
     downloadUrl: "https://github.com/roboter/pulse/releases/tag/v0.0.1",
-    previewImage: "/images/pulse/ui.jpg",
+    previewImage: "/images/pulse/ui.png",
     accentColor: "from-indigo-500 to-sky-500",
     buttonBg: "bg-indigo-600 hover:bg-indigo-500",
+  },
+  {
+    id: "antimony",
+    title: "Antimony",
+    tagline: "Graph-Based Parametric CAD Engine",
+    shortDescription:
+      "A CAD tool from a parallel universe, built around signed distance functions (F-Reps) and Python scripts. Forked from Matt Keeter's project — this fork adds native Windows build support with pre-compiled releases for Windows (.zip) and macOS (.dmg).",
+    category: "Parametric 3D CAD",
+    statusBadge: "v0.9.5 • Windows & Mac Release",
+    statusColor: "emerald",
+    platforms: ["Windows (.zip)", "macOS (.dmg)", "Linux (Source)"],
+    techStack: ["C++11", "Qt5", "Python 3", "OpenGL", "Boost", "libantimony", "Signed Distance Functions"],
+    features: [
+      "Node-based parametric modeling graph with real-time 3D viewport",
+      "Pre-compiled Windows build and macOS DMG installer releases",
+      "Geometry represented by functional signed distance fields (F-Reps)",
+      "Custom Python-scripted shapes, math expressions & functional transforms",
+    ],
+    fullPageUrl: "/software/antimony",
+    githubUrl: "https://github.com/roboter/antimony",
+    downloadUrl: "https://github.com/roboter/antimony/releases/tag/0.9.5",
+    previewImage: "/antimony/preview.png",
+    accentColor: "from-amber-500 to-orange-500",
+    buttonBg: "bg-amber-600 hover:bg-amber-500",
   },
 ];
 ---
@@ -102,17 +126,29 @@ const softwareProjects = [
           key={software.id}
           class="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/80 shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col md:flex-row group"
         >
-          {/* LEFT: PREVIEW IMAGE */}
+          {/* LEFT: PREVIEW IMAGE OR VIDEO */}
           <div class="md:w-5/12 bg-zinc-950 relative overflow-hidden flex items-center justify-center min-h-[220px] md:min-h-[280px]">
             <a href={software.fullPageUrl} class="block w-full h-full relative group/img overflow-hidden">
-              <img
-                src={software.previewImage}
-                alt={`${software.title} interface preview`}
-                class="w-full h-full object-cover object-top transition-transform duration-500 group-hover/img:scale-105"
-                loading="lazy"
-              />
-              <div class="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-transparent to-transparent md:bg-gradient-to-r md:from-transparent md:to-zinc-900/40"></div>
-              <div class="absolute bottom-3 left-3 flex items-center gap-1.5 px-2.5 py-1 rounded bg-zinc-900/90 text-white text-[11px] font-mono backdrop-blur-md border border-white/10 opacity-0 group-hover/img:opacity-100 transition-opacity">
+              {software.previewVideo ? (
+                <video
+                  src={software.previewVideo}
+                  poster={software.previewImage}
+                  autoplay
+                  loop
+                  muted
+                  playsinline
+                  class="w-full h-full object-cover transition-transform duration-500 group-hover/img:scale-105"
+                />
+              ) : (
+                <img
+                  src={software.previewImage}
+                  alt={`${software.title} interface preview`}
+                  class="w-full h-full object-cover object-top transition-transform duration-500 group-hover/img:scale-105"
+                  loading="lazy"
+                />
+              )}
+              <div class="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-transparent to-transparent md:bg-gradient-to-r md:from-transparent md:to-zinc-900/40 pointer-events-none"></div>
+              <div class="absolute bottom-3 left-3 flex items-center gap-1.5 px-2.5 py-1 rounded bg-zinc-900/90 text-white text-[11px] font-mono backdrop-blur-md border border-white/10 opacity-0 group-hover/img:opacity-100 transition-opacity pointer-events-none">
                 <span>View Full Page</span>
                 <ArrowRight className="w-3 h-3" />
               </div>
@@ -132,6 +168,8 @@ const softwareProjects = [
                   class={`text-[11px] font-mono px-2.5 py-0.5 rounded-full font-medium ${
                     software.statusColor === 'emerald'
                       ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20'
+                      : software.statusColor === 'amber'
+                      ? 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20'
                       : 'bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20'
                   }`}
                 >

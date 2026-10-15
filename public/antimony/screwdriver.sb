@@ -1,0 +1,453 @@
+{
+    "nodes": [
+        {
+            "datums": [
+                {
+                    "expr": "0",
+                    "name": "x0",
+                    "type": "float",
+                    "uid": 0
+                },
+                {
+                    "expr": "0 ",
+                    "name": "y0",
+                    "type": "float",
+                    "uid": 1
+                },
+                {
+                    "expr": "1",
+                    "name": "r",
+                    "type": "float",
+                    "uid": 2
+                },
+                {
+                    "expr": "0",
+                    "name": "_a",
+                    "type": "float",
+                    "uid": 3
+                },
+                {
+                    "expr": "\u0012fab.types.Shape('-r+qXqYf1',float('-1.000000'),float('-1.000000'),float('-inf'),float('1.000000'),float('1.000000'),float('inf'))",
+                    "name": "shape",
+                    "type": "_fabtypes.Shape",
+                    "uid": 4
+                }
+            ],
+            "inspector": [
+                -450,
+                -379
+            ],
+            "name": "c0",
+            "script": [
+                "# Neil Gershenfeld 1/24/15\r",
+                "# Matt Keeter 6/11/18\r",
+                "\r",
+                "import fab\r",
+                "import math\r",
+                "\r",
+                "title('Circle (center)')\r",
+                "\r",
+                "input('x0',float)\r",
+                "input('y0',float)\r",
+                "input('r',float)\r",
+                "input('_a',float)\r",
+                "\r",
+                "output('shape', fab.shapes.circle(x0, y0, r))\r",
+                "\r",
+                "def drag_r(this,x,y,z):\r",
+                "    dx = x - this.x0\r",
+                "    dy = y - this.y0\r",
+                "    this.r = math.sqrt(dx**2 + dy**2)\r",
+                "    this._a = math.atan2(dy, dx)\r",
+                "\r",
+                "# UI\r",
+                "sb.ui.wireframe([\r",
+                "    (math.cos(i/36. * 2*math.pi) * r + x0,\r",
+                "     math.sin(i/36. * 2*math.pi) * r + y0, 0)\r",
+                "    for i in range(36)], close=True)\r",
+                "sb.ui.point(x0,y0)\r",
+                "sb.ui.point(x0 + r*math.cos(_a),\r",
+                "             y0 + r*math.sin(_a),\r",
+                "             drag=drag_r, relative=False)\r",
+                "\r",
+                ""
+            ],
+            "uid": 0
+        },
+        {
+            "datums": [
+                {
+                    "expr": "0",
+                    "name": "x0",
+                    "type": "float",
+                    "uid": 0
+                },
+                {
+                    "expr": "0.0",
+                    "name": "y0",
+                    "type": "float",
+                    "uid": 1
+                },
+                {
+                    "expr": "\u0011[__0.__2]",
+                    "name": "x1",
+                    "type": "float",
+                    "uid": 2
+                },
+                {
+                    "expr": "6.349883556365967",
+                    "name": "y1",
+                    "type": "float",
+                    "uid": 3
+                },
+                {
+                    "expr": "\u0012fab.types.Shape('aa-f0X-Xf1a-f0Y-Yf6.34988',float('0.000000'),float('0.000000'),float('-inf'),float('1.000000'),float('6.349884'),float('inf'))",
+                    "name": "shape",
+                    "type": "_fabtypes.Shape",
+                    "uid": 4
+                }
+            ],
+            "inspector": [
+                -413,
+                -84
+            ],
+            "name": "r0",
+            "script": [
+                "# Neil Gershenfeld 1/24/15\r",
+                "# Matt Keeter 6/11/15\r",
+                "\r",
+                "import fab\r",
+                "\r",
+                "title('Rectangle (corner)')\r",
+                "\r",
+                "input('x0', float)\r",
+                "input('y0', float)\r",
+                "input('x1', float)\r",
+                "input('y1', float)\r",
+                "\r",
+                "output('shape', fab.shapes.rectangle(x0, x1, y0, y1))\r",
+                "\r",
+                "# UI\r",
+                "sb.ui.wireframe([(x0, y0, 0), (x1, y0, 0),\r",
+                "                  (x1, y1, 0), (x0, y1, 0)], close=True)\r",
+                "sb.ui.point(x0, y0)\r",
+                "sb.ui.point(x1, y1)\r",
+                "\r",
+                ""
+            ],
+            "uid": 1
+        },
+        {
+            "datums": [
+                {
+                    "expr": "\u0011[__0.__4,__4.__2]",
+                    "name": "a",
+                    "type": "_fabtypes.Shape",
+                    "uid": 0
+                },
+                {
+                    "expr": "0",
+                    "name": "x",
+                    "type": "float",
+                    "uid": 1
+                },
+                {
+                    "expr": "\u0012fab.types.Shape('m-Xf0-Yf0-Zf0imr+qXqZ__m-Xf-0-Yf0-Zf0i-r+qXqYf1aaa-f0X-Xf1a-f0Y-Yf6.34988nni-*f1.6151-Xf2.19362*f-1.65536-Yf4.1002i-*f0.829629-Xf0.53826*f1.00764-Yf5.71531-*f-2.44473-Xf1.5459*f0.647721-Yf6.54494mnr+qXqZ__m-Xf-0-Yf0-Zf0i-r+qXqYf1aaa-f0X-Xf1a-f0Y-Yf6.34988nni-*f1.6151-Xf2.19362*f-1.65536-Yf4.1002i-*f0.829629-Xf0.53826*f1.00764-Yf5.71531-*f-2.44473-Xf1.5459*f0.647721-Yf6.54494',float('-1.000000'),float('-1.000000'),float('-1.000000'),float('1.000000'),float('6.349884'),float('1.000000'))",
+                    "name": "out",
+                    "type": "_fabtypes.Shape",
+                    "uid": 2
+                }
+            ],
+            "inspector": [
+                84,
+                -84
+            ],
+            "name": "r1",
+            "script": [
+                "# Neil Gershenfeld 2/1/15\r",
+                "# Matt Keeter 6/13/15\r",
+                "\r",
+                "import fab\r",
+                "\r",
+                "title('Revolve (Y)')\r",
+                "\r",
+                "input('a', fab.types.Shape)\r",
+                "input('x', float)\r",
+                "\r",
+                "output('out', fab.shapes.revolve_xy_y(a, x))\r",
+                "\r",
+                ""
+            ],
+            "uid": 2
+        },
+        {
+            "datums": [
+                {
+                    "expr": "0.5382599830627441",
+                    "name": "x0",
+                    "type": "float",
+                    "uid": 0
+                },
+                {
+                    "expr": "5.715306997299194",
+                    "name": "y0",
+                    "type": "float",
+                    "uid": 1
+                },
+                {
+                    "expr": "2.1936246156692505",
+                    "name": "x1",
+                    "type": "float",
+                    "uid": 2
+                },
+                {
+                    "expr": "4.1002037525177",
+                    "name": "y1",
+                    "type": "float",
+                    "uid": 3
+                },
+                {
+                    "expr": "1.5459038019180298",
+                    "name": "x2",
+                    "type": "float",
+                    "uid": 4
+                },
+                {
+                    "expr": "6.544935703277588",
+                    "name": "y2",
+                    "type": "float",
+                    "uid": 5
+                },
+                {
+                    "expr": "\u0012fab.types.Shape('ni-*f1.6151-Xf2.19362*f-1.65536-Yf4.1002i-*f0.829629-Xf0.53826*f1.00764-Yf5.71531-*f-2.44473-Xf1.5459*f0.647721-Yf6.54494',float('0.538260'),float('4.100204'),float('-inf'),float('2.193624'),float('6.544936'),float('inf'))",
+                    "name": "shape",
+                    "type": "_fabtypes.Shape",
+                    "uid": 6
+                }
+            ],
+            "inspector": [
+                -486,
+                177
+            ],
+            "name": "t0",
+            "script": [
+                "import fab\r",
+                "\r",
+                "title('Triangle')\r",
+                "\r",
+                "input('x0', float)\r",
+                "input('y0', float)\r",
+                "input('x1', float)\r",
+                "input('y1', float)\r",
+                "input('x2', float)\r",
+                "input('y2', float)\r",
+                "\r",
+                "output('shape', fab.shapes.triangle(x0, y0, x1, y1, x2, y2))\r",
+                "\r",
+                "# UI\r",
+                "sb.ui.wireframe([(x0, y0, 0), (x1, y1, 0), (x2, y2, 0)], close=True)\r",
+                "sb.ui.point(x0, y0, 0)\r",
+                "sb.ui.point(x1, y1, 0)\r",
+                "sb.ui.point(x2, y2, 0)\r",
+                ""
+            ],
+            "uid": 3
+        },
+        {
+            "datums": [
+                {
+                    "expr": "\u0011[__1.__4]",
+                    "name": "a",
+                    "type": "_fabtypes.Shape",
+                    "uid": 0
+                },
+                {
+                    "expr": "\u0011[__3.__6]",
+                    "name": "b",
+                    "type": "_fabtypes.Shape",
+                    "uid": 1
+                },
+                {
+                    "expr": "\u0012fab.types.Shape('aaa-f0X-Xf1a-f0Y-Yf6.34988nni-*f1.6151-Xf2.19362*f-1.65536-Yf4.1002i-*f0.829629-Xf0.53826*f1.00764-Yf5.71531-*f-2.44473-Xf1.5459*f0.647721-Yf6.54494',float('0.000000'),float('0.000000'),float('-inf'),float('1.000000'),float('6.349884'),float('inf'))",
+                    "name": "shape",
+                    "type": "_fabtypes.Shape",
+                    "uid": 2
+                }
+            ],
+            "inspector": [
+                -24,
+                177
+            ],
+            "name": "d0",
+            "script": [
+                "import fab.types\r",
+                "\r",
+                "title('Difference')\r",
+                "input('a', fab.types.Shape)\r",
+                "input('b', fab.types.Shape)\r",
+                "\r",
+                "output('shape', a & ~b)\r",
+                ""
+            ],
+            "uid": 4
+        },
+        {
+            "datums": [
+                {
+                    "expr": "2.921504110097885",
+                    "name": "x0",
+                    "type": "float",
+                    "uid": 0
+                },
+                {
+                    "expr": "-2.20037579536438",
+                    "name": "y0",
+                    "type": "float",
+                    "uid": 1
+                },
+                {
+                    "expr": "0.7663692194818779",
+                    "name": "r",
+                    "type": "float",
+                    "uid": 2
+                },
+                {
+                    "expr": "-0.4262553178880672",
+                    "name": "_a",
+                    "type": "float",
+                    "uid": 3
+                },
+                {
+                    "expr": "\u0012fab.types.Shape('-r+q-Xf2.9215q-Yf-2.20038f0.766369',float('2.155135'),float('-2.966745'),float('-inf'),float('3.687873'),float('-1.434007'),float('inf'))",
+                    "name": "shape",
+                    "type": "_fabtypes.Shape",
+                    "uid": 4
+                }
+            ],
+            "inspector": [
+                274.3203379464662,
+                -129.022347419055
+            ],
+            "name": "c1",
+            "script": [
+                "# Neil Gershenfeld 1/24/15\r",
+                "# Matt Keeter 6/11/18\r",
+                "\r",
+                "import fab\r",
+                "import math\r",
+                "\r",
+                "title('Circle (center)')\r",
+                "\r",
+                "input('x0',float)\r",
+                "input('y0',float)\r",
+                "input('r',float)\r",
+                "input('_a',float)\r",
+                "\r",
+                "output('shape', fab.shapes.circle(x0, y0, r))\r",
+                "\r",
+                "def drag_r(this,x,y,z):\r",
+                "    dx = x - this.x0\r",
+                "    dy = y - this.y0\r",
+                "    this.r = math.sqrt(dx**2 + dy**2)\r",
+                "    this._a = math.atan2(dy, dx)\r",
+                "\r",
+                "# UI\r",
+                "sb.ui.wireframe([\r",
+                "    (math.cos(i/36. * 2*math.pi) * r + x0,\r",
+                "     math.sin(i/36. * 2*math.pi) * r + y0, 0)\r",
+                "    for i in range(36)], close=True)\r",
+                "sb.ui.point(x0,y0)\r",
+                "sb.ui.point(x0 + r*math.cos(_a),\r",
+                "             y0 + r*math.sin(_a),\r",
+                "             drag=drag_r, relative=False)\r",
+                "\r",
+                ""
+            ],
+            "uid": 5
+        },
+        {
+            "datums": [
+                {
+                    "expr": "0.0",
+                    "name": "_x",
+                    "type": "float",
+                    "uid": 0
+                },
+                {
+                    "expr": "0.0",
+                    "name": "y",
+                    "type": "float",
+                    "uid": 1
+                },
+                {
+                    "expr": "0.0",
+                    "name": "z",
+                    "type": "float",
+                    "uid": 2
+                },
+                {
+                    "expr": "45",
+                    "name": "a",
+                    "type": "float",
+                    "uid": 3
+                },
+                {
+                    "expr": "\u0011[__5.__4]",
+                    "name": "shape",
+                    "type": "_fabtypes.Shape",
+                    "uid": 4
+                },
+                {
+                    "expr": "\u0012fab.types.Shape('m-Xf0-Yf0-Zf0m_+*f0.707107Y*f0.707107Z+*f-0.707107Y*f0.707107Zm-Xf0-Yf-0-Zf-0-r+q-Xf2.9215q-Yf-2.20038f0.766369',float('2.155135'),float('-inf'),float('-inf'),float('3.687873'),float('inf'),float('inf'))",
+                    "name": "rotated",
+                    "type": "_fabtypes.Shape",
+                    "uid": 5
+                }
+            ],
+            "inspector": [
+                356.57673790948854,
+                103.2746716450182
+            ],
+            "name": "r2",
+            "script": [
+                "import fab\r",
+                "import math\r",
+                "\r",
+                "title('Rotate (X)')\r",
+                "\r",
+                "input('_x', float)\r",
+                "input('y', float)\r",
+                "input('z', float)\r",
+                "input('a', float)\r",
+                "\r",
+                "input('shape', fab.types.Shape)\r",
+                "output('rotated', fab.shapes.rotate_x(shape, a, y, z))\r",
+                "\r",
+                "# UI\r",
+                "rad = math.radians(a)\r",
+                "sb.ui.wireframe([(_x, y + math.cos(rad), z + math.sin(rad)),\r",
+                "                  (_x, y, z),\r",
+                "                  (_x, y + 1, z)], color=sb.color.teal)\r",
+                "\r",
+                "# Draw a semi-circular arc showing the rotation\r",
+                "if int(a) % 360 != 0:\r",
+                "    sb.ui.wireframe([\r",
+                "        (_x, y + math.cos(math.radians(a_)) * 0.3,\r",
+                "             z + math.sin(math.radians(a_)) * 0.3)\r",
+                "        for a_ in range(int(a) % 360)], color=sb.color.teal)\r",
+                "\r",
+                "sb.ui.point(_x, y, z, color=sb.color.teal)\r",
+                "\r",
+                "def drag_pt(this, x, y, z):\r",
+                "    this.a = math.degrees(math.atan2(z - this.z, y - this.y))\r",
+                "sb.ui.point(_x, y + math.cos(rad), z + math.sin(rad),\r",
+                "             color=sb.color.teal, drag=drag_pt, relative=False)\r",
+                "\r",
+                ""
+            ],
+            "uid": 6
+        }
+    ],
+    "protocol": 6,
+    "type": "sb"
+}

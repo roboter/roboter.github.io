@@ -530,21 +530,21 @@ export default function PulsePage() {
         {/* TAB CONTENT: APP PREVIEW */}
         {activeTab === 'overview' && (
           <div className="max-w-5xl mx-auto px-4 space-y-8">
-            <div className="rounded-2xl overflow-hidden border border-zinc-200 dark:border-zinc-800 shadow-2xl bg-zinc-950">
-              <div className="flex items-center justify-between px-4 py-3 bg-zinc-900 border-b border-zinc-800 text-xs text-zinc-400 font-mono">
+            <div className="rounded-2xl overflow-hidden border border-zinc-200 dark:border-zinc-800 shadow-2xl bg-zinc-900/60 dark:bg-zinc-950">
+              <div className="flex items-center justify-between px-4 py-3 bg-zinc-100 dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800 text-xs text-zinc-600 dark:text-zinc-400 font-mono">
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 rounded-full bg-rose-500/80"></div>
                   <div className="w-3 h-3 rounded-full bg-amber-500/80"></div>
                   <div className="w-3 h-3 rounded-full bg-emerald-500/80"></div>
-                  <span className="ml-2 font-medium text-zinc-300">Pulse — Modern Wallpaper Manager</span>
+                  <span className="ml-2 font-medium text-zinc-800 dark:text-zinc-200">Pulse Options Configuration</span>
                 </div>
-                <span className="text-[11px] text-zinc-500">Windows 11 Desktop Workspace</span>
+                <span className="text-[11px] text-zinc-500">PulseForm • Pulse.Forms.UI</span>
               </div>
-              <div className="relative group">
+              <div className="relative group p-4 sm:p-8 flex items-center justify-center bg-zinc-950/90">
                 <img
-                  src="/images/pulse/ui.jpg"
-                  alt="Pulse Wallpaper Manager UI Preview"
-                  className="w-full h-auto object-cover max-h-[640px]"
+                  src="/images/pulse/ui.png"
+                  alt="Pulse Options Interface Preview"
+                  className="rounded-lg shadow-2xl border border-zinc-800 max-h-[640px] w-auto max-w-full object-contain"
                 />
               </div>
             </div>
