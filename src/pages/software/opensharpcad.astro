@@ -1,0 +1,19 @@
+---
+import Base from "@layouts/Base.astro";
+import OpenSharpCADPage from "../../components/software/opensharpcad/OpenSharpCADPage.jsx";
+
+const pageTitle = "OpenSharpCAD — Parametric 3D CAD with C#";
+const pageDescription =
+  "OpenSharpCAD is an OpenSCAD-inspired parametric CAD system for designing 3D parts with C# and .NET 10. Explore the project, capabilities, and source build instructions.";
+---
+
+<Base
+  title={pageTitle}
+  meta_title={pageTitle}
+  description={pageDescription}
+  hideHero={true}
+  hideVideos={true}
+  fullWidth={false}
+>
+  <OpenSharpCADPage client:load />
+</Base>
