@@ -1,0 +1,19 @@
+---
+import Base from "@layouts/Base.astro";
+import AVRSimulatorPage from "@components/software/avrsimulator/AVRSimulatorPage.jsx";
+
+const pageTitle = "AVR Simulator — ATmega328 Emulator in C#";
+const pageDescription =
+  "AVR Simulator is a lightweight ATmega328 emulator written in C# and WPF. Load Intel HEX firmware, step through the disassembly, and watch GPIO, ADC, and DAC state update live on Windows.";
+---
+
+<Base
+  title={pageTitle}
+  meta_title={pageTitle}
+  description={pageDescription}
+  hideHero={true}
+  hideVideos={true}
+  fullWidth={false}
+>
+  <AVRSimulatorPage client:load />
+</Base>

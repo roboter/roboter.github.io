@@ -114,6 +114,30 @@ const softwareProjects = [
     accentColor: "from-sky-500 to-indigo-500",
     buttonBg: "bg-sky-600 hover:bg-sky-500",
   },
+  {
+    id: "avrsimulator",
+    title: "AVR Simulator",
+    tagline: "ATmega328 Emulator in C#",
+    shortDescription:
+      "A lightweight AVR microcontroller emulator built with C# and WPF. Load firmware compiled into Intel HEX format, step through the disassembly, and watch GPIO, ADC, and DAC state update in real time on the desktop.",
+    category: "Embedded Simulator",
+    statusBadge: "v0.1 Release",
+    statusColor: "emerald",
+    platforms: ["Windows (.zip)"],
+    techStack: ["C#", ".NET 10", "WPF", "Intel HEX", "ATmega328"],
+    features: [
+      "AVR instruction emulation with a live disassembly and program counter view",
+      "Intel HEX firmware loading from AVR-GCC / avrdude output",
+      "Real-time PORTB, PORTC, and PORTD pin state indicators",
+      "Interactive ADC voltage control and virtual DAC output readout",
+    ],
+    fullPageUrl: "/software/avrsimulator",
+    githubUrl: "https://github.com/roboter/AVR-Simulator",
+    downloadUrl: "https://github.com/roboter/AVR-Simulator/releases/tag/v0.1",
+    previewImage: "/avrsimulator/main-window.png",
+    accentColor: "from-rose-500 to-orange-400",
+    buttonBg: "bg-rose-600 hover:bg-rose-500",
+  },
 ];
 ---
 
