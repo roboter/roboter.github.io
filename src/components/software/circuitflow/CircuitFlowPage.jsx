@@ -1,8 +1,11 @@
 import React, { useState, useMemo } from 'react';
 import {
+  ArrowLeft,
+  ArrowRight,
+  CircuitBoard,
   Cpu,
-  Layers,
-  Zap,
+  Globe,
+  GitFork,
   ShieldCheck,
   Download,
   Check,
@@ -10,7 +13,6 @@ import {
   Monitor,
   Apple,
   Tablet,
-  Sliders,
   FileCode,
   CheckCircle2,
   AlertTriangle,
@@ -25,8 +27,43 @@ import {
   Copy
 } from 'lucide-react';
 
+const repositoryUrl = "https://github.com/roboter/CircuitFlow.NET";
+
+const readmeBadges = [
+  {
+    label: ".NET 10",
+    href: "https://dotnet.microsoft.com/download/dotnet/10.0",
+    image: "https://img.shields.io/badge/.NET-10.0-512BD4?style=flat&logo=dotnet&logoColor=white",
+  },
+  {
+    label: "C# 13",
+    href: "https://learn.microsoft.com/en-us/dotnet/csharp/",
+    image: "https://img.shields.io/badge/C%23-13-239120?style=flat&logo=csharp&logoColor=white",
+  },
+  {
+    label: "SkiaSharp",
+    href: "https://github.com/mono/SkiaSharp",
+    image: "https://img.shields.io/badge/Canvas-SkiaSharp-orange?style=flat",
+  },
+  {
+    label: ".NET MAUI",
+    href: "https://dotnet.microsoft.com/apps/maui",
+    image: "https://img.shields.io/badge/Platform-.NET_MAUI-blueviolet?style=flat&logo=dotnet",
+  },
+  {
+    label: "WebAssembly",
+    href: "/circuitflow/app/",
+    image: "https://img.shields.io/badge/Web-WebAssembly-654FF0?style=flat&logo=webassembly&logoColor=white",
+  },
+  {
+    label: "License: MIT",
+    href: `${repositoryUrl}/blob/main/LICENSE`,
+    image: "https://img.shields.io/badge/license-MIT-blue?style=flat",
+  },
+];
+
 export default function CircuitFlowPage() {
-  const [heroView, setHeroView] = useState('screenshot'); // 'screenshot' | 'interactive'
+  const [heroView, setHeroView] = useState('screenshot'); // 'live' | 'screenshot'
   const [activePlatform, setActivePlatform] = useState('windows');
   const [activeLayer, setActiveLayer] = useState('topCopper');
   const [selectedCanvasItem, setSelectedCanvasItem] = useState('u1');
@@ -93,6 +130,23 @@ export default function CircuitFlowPage() {
       status: 'Available on TestFlight',
       testFlightUrl: 'https://testflight.apple.com/join/U9AfcNk2'
     },
+    {
+      id: 'wasm',
+      name: 'Web App',
+      icon: Globe,
+      badge: 'WebAssembly',
+      osVersion: 'Any modern browser (Chrome, Edge, Firefox, Safari)',
+      architecture: 'WASM • Platform-independent',
+      highlights: [
+        'Runs entirely in the browser with no installation required',
+        'Same SkiaSharp rendering and simulation engine compiled to WebAssembly',
+        'Works on Windows, macOS, Linux, ChromeOS, and tablets',
+        'Always up to date, so every visit loads the latest build'
+      ],
+      packageType: 'Hosted WebAssembly Web App',
+      status: 'Live',
+      localUrl: '/circuitflow/app/'
+    },
   ];
 
   const shortcuts = [
@@ -106,8 +160,6 @@ export default function CircuitFlowPage() {
     { input: 'Ctrl + A', action: 'Select all components and traces', category: 'canvas' },
     { input: 'Ctrl + D', action: 'Duplicate selected components', category: 'canvas' },
     { input: 'Delete / Backspace', action: 'Delete selected items', category: 'canvas' },
-    { input: 'R', action: 'Switch to Selection Tool', category: 'tools' },
-    { input: 'T', action: 'Switch to Interactive Route Tool', category: 'tools' },
     { input: '+ / - / 0', action: 'Zoom in / out / reset 100% view', category: 'navigation' },
     { input: 'Escape', action: 'Clear selection or cancel active operation', category: 'tools' },
   ];
@@ -177,123 +229,121 @@ export default function CircuitFlowPage() {
   };
 
   return (
-    <div className="w-full text-zinc-800 dark:text-zinc-100 selection:bg-emerald-500 selection:text-black">
-      {/* BACKGROUND CIRCUIT ACCENT */}
-      <div className="relative overflow-hidden pt-4 pb-12">
-        <div className="absolute inset-0 -z-10 opacity-20 dark:opacity-30 pointer-events-none">
-          <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <pattern id="circuit-pattern" width="60" height="60" patternUnits="userSpaceOnUse">
-                <path d="M 10 10 L 30 10 L 40 20 L 50 20 M 10 30 L 20 30 L 30 40 L 30 50 M 50 40 L 40 40 L 30 50" fill="none" stroke="#10b981" strokeWidth="0.75" strokeOpacity="0.4" />
-                <circle cx="10" cy="10" r="2" fill="#10b981" fillOpacity="0.5" />
-                <circle cx="50" cy="20" r="2" fill="#10b981" fillOpacity="0.5" />
-                <circle cx="30" cy="50" r="2" fill="#10b981" fillOpacity="0.5" />
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#circuit-pattern)" />
-          </svg>
+    <main className="relative pb-16 text-zinc-800 selection:bg-emerald-500 selection:text-white dark:text-zinc-100">
+      <div className="pointer-events-none fixed right-0 top-0 z-50 h-36 w-36 overflow-hidden">
+        <a
+          href={repositoryUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="pointer-events-auto absolute -right-10 top-7 block w-44 rotate-45 border-y border-white/20 bg-zinc-900 py-1.5 text-center text-[10px] font-bold uppercase tracking-wider text-white shadow-xl transition hover:scale-105 hover:bg-emerald-600"
+        >
+          View on GitHub
+        </a>
+      </div>
+
+      <div className="mb-6">
+        <a
+          href="/software"
+          className="inline-flex items-center gap-1.5 text-xs font-mono font-medium text-emerald-600 hover:underline dark:text-emerald-400"
+        >
+          <ArrowLeft className="h-3.5 w-3.5" />
+          Back to Software Catalog
+        </a>
+      </div>
+
+      <section className="relative overflow-hidden rounded-3xl border border-zinc-200 bg-white px-5 py-12 shadow-xl dark:border-zinc-800 dark:bg-zinc-900 sm:px-10 sm:py-16">
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          <div className="absolute -right-32 -top-40 h-96 w-96 rounded-full bg-emerald-500/10 blur-3xl" />
+          <div className="absolute -bottom-48 -left-32 h-96 w-96 rounded-full bg-teal-500/10 blur-3xl" />
         </div>
 
-        {/* HERO SECTION */}
-        <div className="text-center max-w-4xl mx-auto px-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 mb-6 text-xs font-mono font-medium rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 shadow-sm backdrop-blur-sm">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-            </span>
+        <div className="relative mx-auto max-w-4xl text-center">
+          <div className="mb-6 inline-flex flex-wrap items-center justify-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1.5 text-xs font-mono font-medium text-emerald-700 shadow-sm backdrop-blur-sm dark:text-emerald-300">
+            <CircuitBoard className="h-3.5 w-3.5 text-emerald-500" />
             <span>CircuitFlow.NET • Modern Cross-Platform PCB Editor</span>
-            <span className="hidden sm:inline-block px-1.5 py-0.5 rounded text-[10px] bg-emerald-500/20 text-emerald-500">v1.0.3 Release</span>
+            <span className="rounded bg-emerald-500/15 px-1.5 py-0.5 text-[10px] font-semibold text-emerald-700 dark:text-emerald-200">
+              v1.0.3 Release
+            </span>
           </div>
 
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight mb-4 text-zinc-900 dark:text-white">
+          <h1 className="mb-4 text-4xl font-black tracking-tight text-zinc-900 dark:text-white sm:text-5xl md:text-6xl">
             Design, Route &amp; Verify PCBs with{' '}
             <span className="bg-gradient-to-r from-emerald-500 via-teal-400 to-cyan-500 bg-clip-text text-transparent">
               Modern Precision
             </span>
           </h1>
 
-          <p className="text-lg sm:text-xl text-zinc-600 dark:text-zinc-300 max-w-3xl mx-auto leading-relaxed mb-8">
-            A lightweight, cross-platform PCB layout CAD editor powered by <span className="font-semibold text-zinc-900 dark:text-white">SkiaSharp</span>.
-            Engineered with interactive vector routing, real-time Design Rule Checking (DRC), transparent JSON project files, and manufacturing-grade Gerber &amp; GRBL export.
+          <p className="mx-auto mb-7 max-w-3xl text-lg leading-relaxed text-zinc-600 dark:text-zinc-300 sm:text-xl">
+            A lightweight, cross-platform PCB layout CAD editor powered by{' '}
+            <span className="font-semibold text-zinc-900 dark:text-white">SkiaSharp</span>.
+            Engineered with interactive vector routing, real-time Design Rule Checking (DRC), transparent JSON project files, and manufacturing-grade Gerber &amp; GRBL exports.
           </p>
 
-          {/* ACTIVE DEVELOPMENT CALLOUT */}
-          <div className="max-w-2xl mx-auto mb-8 p-4 rounded-xl border border-amber-500/30 bg-amber-500/10 text-amber-900 dark:text-amber-200 text-sm flex items-start gap-3 shadow-inner">
-            <AlertTriangle className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" />
-            <div className="text-left">
-              <span className="font-semibold block text-amber-950 dark:text-amber-100">Active Development Preview</span>
-              This project is under rapid active development. Export output (Gerber/GRBL) and design-rule checks should be reviewed before fabricating physical circuit boards.
-            </div>
+          <div className="mb-8 flex flex-wrap justify-center gap-1.5">
+            {readmeBadges.map((badge) => (
+              <a
+                key={badge.label}
+                href={badge.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                title={badge.label}
+              >
+                <img src={badge.image} alt={badge.label} className="h-5" loading="lazy" />
+              </a>
+            ))}
           </div>
 
-          {/* ACTION BUTTONS */}
-          <div className="flex flex-wrap items-center justify-center gap-4 mb-4">
+          <div className="flex flex-wrap items-center justify-center gap-3">
             <a
               href="#downloads"
-              className="px-6 py-3 rounded-lg font-medium bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-600/25 transition-all flex items-center gap-2 group"
+              className="group inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-emerald-600/25 transition hover:bg-emerald-500"
             >
-              <Download className="w-4 h-4" />
-              <span>Download Releases</span>
-              <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+              <Download className="h-4 w-4" />
+              Download Releases
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             </a>
-
+            <a
+              href={repositoryUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-lg border border-zinc-300 bg-white px-5 py-3 text-sm font-semibold text-zinc-800 transition hover:border-emerald-400 hover:text-emerald-700 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100 dark:hover:border-emerald-500 dark:hover:text-emerald-300"
+            >
+              <GitFork className="h-4 w-4" />
+              Source on GitHub
+              <ExternalLink className="h-3.5 w-3.5 opacity-60" />
+            </a>
+            <a
+              href="/circuitflow/app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-lg px-4 py-3 text-sm font-semibold text-zinc-600 transition hover:text-emerald-600 dark:text-zinc-300 dark:hover:text-emerald-300"
+            >
+              <Globe className="h-4 w-4 text-emerald-500" />
+              Test in Browser (WASM)
+            </a>
             <a
               href="https://testflight.apple.com/join/U9AfcNk2"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-5 py-3 rounded-lg font-medium bg-zinc-900 hover:bg-zinc-800 text-white dark:bg-zinc-800 dark:hover:bg-zinc-700 border border-zinc-700 shadow transition-all flex items-center gap-2"
+              className="inline-flex items-center gap-2 rounded-lg px-4 py-3 text-sm font-semibold text-zinc-600 transition hover:text-emerald-600 dark:text-zinc-300 dark:hover:text-emerald-300"
             >
-              <Tablet className="w-4 h-4 text-purple-400" />
-              <span>iPad TestFlight Beta</span>
-              <ExternalLink className="w-3.5 h-3.5 text-zinc-400" />
-            </a>
-
-            <a
-              href="#features"
-              className="px-6 py-3 rounded-lg font-medium text-zinc-700 hover:text-zinc-950 dark:text-zinc-300 dark:hover:text-white border border-zinc-300 dark:border-zinc-700 hover:border-zinc-400 dark:hover:border-zinc-500 transition-all flex items-center gap-2"
-            >
-              <Cpu className="w-4 h-4 text-emerald-400" />
-              <span>Explore Features</span>
-            </a>
-
-            <a
-              href="#platforms"
-              className="px-5 py-3 rounded-lg font-medium text-zinc-700 hover:text-zinc-950 dark:text-zinc-300 dark:hover:text-white border border-zinc-300 dark:border-zinc-700 hover:border-zinc-400 dark:hover:border-zinc-500 transition-all flex items-center gap-2"
-            >
-              <Monitor className="w-4 h-4" />
-              <span>Supported Platforms</span>
+              <Tablet className="h-4 w-4 text-purple-400" />
+              iPad TestFlight Beta
+              <ExternalLink className="h-3.5 w-3.5 opacity-60" />
             </a>
           </div>
 
-          {/* VIEW MODE TOGGLE */}
-          <div className="mt-8 flex items-center justify-center gap-2">
-            <div className="inline-flex p-1 rounded-xl bg-zinc-900 border border-zinc-800 shadow-xl backdrop-blur-md">
-              <button
-                onClick={() => setHeroView('screenshot')}
-                className={`px-4 py-2 rounded-lg text-xs font-mono font-medium transition flex items-center gap-2 ${heroView === 'screenshot'
-                  ? 'bg-emerald-600 text-white shadow'
-                  : 'text-zinc-400 hover:text-white'
-                  }`}
-              >
-                <Monitor className="w-4 h-4" />
-                <span>macOS Native App (Screenshot)</span>
-                <span className="text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-sans">Live UI</span>
-              </button>
-              <button
-                onClick={() => setHeroView('interactive')}
-                className={`px-4 py-2 rounded-lg text-xs font-mono font-medium transition flex items-center gap-2 ${heroView === 'interactive'
-                  ? 'bg-emerald-600 text-white shadow'
-                  : 'text-zinc-400 hover:text-white'
-                  }`}
-              >
-                <Layers className="w-4 h-4" />
-                <span>Interactive Canvas Demo</span>
-              </button>
+          <div className="mt-8 max-w-2xl mx-auto p-4 rounded-2xl border border-amber-500/30 bg-amber-500/10 text-amber-900 dark:text-amber-200 text-xs sm:text-sm flex items-start gap-3 shadow-inner text-left">
+            <AlertTriangle className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" />
+            <div>
+              <span className="font-semibold block text-amber-950 dark:text-amber-100 mb-0.5">Active Development Preview</span>
+              This project is under rapid active development. Export output (Gerber/GRBL) and design-rule checks should be reviewed before fabricating physical circuit boards.
             </div>
           </div>
         </div>
+      </section>
 
-        {/* SCREENSHOT HERO VIEW */}
+      {/* SCREENSHOT HERO VIEW */}
         {heroView === 'screenshot' && (
           <div className="mt-10 max-w-5xl mx-auto px-4">
             <div className="rounded-2xl border border-zinc-700/80 bg-zinc-950 shadow-2xl overflow-hidden">
@@ -358,338 +408,6 @@ export default function CircuitFlowPage() {
             </div>
           </div>
         )}
-
-        {/* INTERACTIVE PCB CAD CANVAS MOCKUP */}
-        {heroView === 'interactive' && (
-          <div className="mt-10 max-w-5xl mx-auto px-4">
-            <div className="rounded-2xl border border-zinc-700/80 bg-zinc-950 shadow-2xl overflow-hidden">
-              {/* WINDOW TOP BAR */}
-              <div className="flex items-center justify-between px-4 py-3 bg-zinc-900 border-b border-zinc-800 select-none">
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
-                  <div className="w-3 h-3 rounded-full bg-yellow-500/80"></div>
-                  <div className="w-3 h-3 rounded-full bg-green-500/80"></div>
-                  <span className="ml-2 text-xs font-mono text-zinc-400">
-                    CircuitFlow.NET — [Blink_Shield_v1.json *]
-                  </span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="inline-flex items-center gap-1 text-[11px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
-                    <CheckCircle2 className="w-3 h-3" /> DRC: PASS (0 violations)
-                  </span>
-                </div>
-              </div>
-
-              {/* CAD ACTION TOOLBAR */}
-              <div className="flex flex-wrap items-center justify-between gap-2 px-4 py-2 bg-zinc-900/60 border-b border-zinc-800/80 text-xs font-sans text-zinc-300">
-                <div className="flex items-center gap-1">
-                  <button
-                    onClick={() => setSelectedCanvasItem('u1')}
-                    className="px-2.5 py-1 rounded bg-zinc-800 hover:bg-zinc-700 text-white font-medium flex items-center gap-1.5"
-                  >
-                    <MousePointer className="w-3.5 h-3.5 text-emerald-400" /> Select (R)
-                  </button>
-                  <button className="px-2.5 py-1 rounded hover:bg-zinc-800 text-zinc-300 flex items-center gap-1.5">
-                    <Zap className="w-3.5 h-3.5 text-teal-400" /> Route Trace (T)
-                  </button>
-                  <button
-                    onClick={() => setDrcPassed(!drcPassed)}
-                    className={`px-2.5 py-1 rounded flex items-center gap-1.5 transition ${drcPassed ? 'text-emerald-400 bg-emerald-950/40' : 'text-amber-400 bg-amber-950/40'}`}
-                  >
-                    <ShieldCheck className="w-3.5 h-3.5" /> Check DRC
-                  </button>
-                </div>
-
-                {/* LAYER TOGGLES */}
-                <div className="flex items-center gap-1 text-[11px] font-mono">
-                  <span className="text-zinc-500 mr-1">Layer:</span>
-                  <button
-                    onClick={() => setActiveLayer('topCopper')}
-                    className={`px-2 py-0.5 rounded ${activeLayer === 'topCopper' ? 'bg-emerald-600 text-white font-semibold' : 'text-zinc-400 hover:text-white'}`}
-                  >
-                    F.Cu (Top)
-                  </button>
-                  <button
-                    onClick={() => setActiveLayer('bottomCopper')}
-                    className={`px-2 py-0.5 rounded ${activeLayer === 'bottomCopper' ? 'bg-cyan-600 text-white font-semibold' : 'text-zinc-400 hover:text-white'}`}
-                  >
-                    B.Cu (Bottom)
-                  </button>
-                  <button
-                    onClick={() => setActiveLayer('silkscreen')}
-                    className={`px-2 py-0.5 rounded ${activeLayer === 'silkscreen' ? 'bg-zinc-200 text-black font-semibold' : 'text-zinc-400 hover:text-white'}`}
-                  >
-                    F.Silk
-                  </button>
-                </div>
-
-                <div className="hidden sm:flex items-center gap-3 text-zinc-400 font-mono text-[11px]">
-                  <span>Grid: 1.27mm</span>
-                  <span>Zoom: 100%</span>
-                </div>
-              </div>
-
-              {/* CAD MAIN WORKSPACE */}
-              <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[380px] bg-[#07130c]">
-                {/* LEFT COMPONENT LIST */}
-                <div className="lg:col-span-3 border-r border-zinc-800/80 bg-zinc-950/80 p-3 flex flex-col justify-between">
-                  <div>
-                    <div className="text-[11px] font-mono uppercase tracking-wider text-zinc-400 font-semibold mb-2 flex items-center justify-between">
-                      <span>Parts in Design</span>
-                      <span className="text-[10px] text-zinc-500">5 Placed</span>
-                    </div>
-                    <div className="space-y-1 text-xs">
-                      {Object.entries(componentsList).map(([id, comp]) => (
-                        <button
-                          key={id}
-                          onClick={() => setSelectedCanvasItem(id)}
-                          className={`w-full text-left px-2.5 py-2 rounded-lg flex items-center justify-between transition ${selectedCanvasItem === id
-                            ? 'bg-emerald-950/80 border border-emerald-500/50 text-emerald-300 font-medium'
-                            : 'hover:bg-zinc-900 text-zinc-400 hover:text-zinc-200'
-                            }`}
-                        >
-                          <div className="flex items-center gap-2">
-                            <Cpu className="w-3.5 h-3.5 text-emerald-400" />
-                            <span className="font-mono text-xs">{comp.name.split(' ')[0]}</span>
-                          </div>
-                          <span className="text-[10px] text-zinc-500 truncate max-w-[85px]">{comp.type}</span>
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="mt-4 pt-3 border-t border-zinc-800/80 text-[11px] text-zinc-500">
-                    <span className="font-semibold text-zinc-400 block mb-1">Click to inspect:</span>
-                    Interactive canvas demo. Click any part or trace on the board.
-                  </div>
-                </div>
-
-                {/* CENTER INTERACTIVE PCB CANVAS */}
-                <div className="lg:col-span-6 relative p-4 flex items-center justify-center overflow-hidden bg-[#091811] select-none">
-                  {/* CANVAS GRID */}
-                  <div className="absolute inset-0 opacity-15 pointer-events-none">
-                    <svg width="100%" height="100%">
-                      <pattern id="pcb-grid" width="20" height="20" patternUnits="userSpaceOnUse">
-                        <circle cx="2" cy="2" r="0.8" fill="#10b981" />
-                      </pattern>
-                      <rect width="100%" height="100%" fill="url(#pcb-grid)" />
-                    </svg>
-                  </div>
-
-                  {/* THE PCB BOARD (80mm x 50mm representation) */}
-                  <div className="relative w-full max-w-[420px] aspect-[16/10] rounded-xl border-2 border-emerald-500/40 bg-gradient-to-b from-[#0b2417] to-[#06150d] shadow-2xl p-4 overflow-hidden">
-                    {/* MOUNTING HOLES */}
-                    <div className="absolute top-2 left-2 w-4 h-4 rounded-full border border-amber-400/80 bg-zinc-950/80 flex items-center justify-center">
-                      <div className="w-2 h-2 rounded-full bg-zinc-950"></div>
-                    </div>
-                    <div className="absolute top-2 right-2 w-4 h-4 rounded-full border border-amber-400/80 bg-zinc-950/80 flex items-center justify-center">
-                      <div className="w-2 h-2 rounded-full bg-zinc-950"></div>
-                    </div>
-                    <div className="absolute bottom-2 left-2 w-4 h-4 rounded-full border border-amber-400/80 bg-zinc-950/80 flex items-center justify-center">
-                      <div className="w-2 h-2 rounded-full bg-zinc-950"></div>
-                    </div>
-                    <div className="absolute bottom-2 right-2 w-4 h-4 rounded-full border border-amber-400/80 bg-zinc-950/80 flex items-center justify-center">
-                      <div className="w-2 h-2 rounded-full bg-zinc-950"></div>
-                    </div>
-
-                    {/* SILKSCREEN TEXT */}
-                    <div className="absolute bottom-2 left-10 text-[9px] font-mono text-zinc-300/80 font-bold uppercase tracking-wider">
-                      CircuitFlow.NET • REV 1.0
-                    </div>
-
-                    {/* SVG COPPER TRACES */}
-                    <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 420 260">
-                      {/* TOP COPPER TRACES */}
-                      {(activeLayer === 'topCopper' || activeLayer === 'silkscreen') && (
-                        <g stroke="#10b981" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9">
-                          <path d="M 60 90 L 95 90 L 120 115 L 140 115" />
-                          <path d="M 140 115 L 180 115 L 210 85 L 250 85" />
-                          <path d="M 250 175 L 290 175 L 320 145 L 330 145" />
-                          <path d="M 330 115 L 330 85 L 350 65 L 370 65" />
-                        </g>
-                      )}
-
-                      {/* BOTTOM COPPER TRACES */}
-                      {(activeLayer === 'bottomCopper' || activeLayer === 'silkscreen') && (
-                        <g stroke="#06b6d4" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.85">
-                          <path d="M 60 120 L 100 120 L 140 145 L 180 145 L 210 175 L 250 175" />
-                          <path d="M 250 175 L 250 210 L 330 210 L 370 170 L 370 125" />
-                        </g>
-                      )}
-
-                      {/* DRC CLEARANCE RING */}
-                      {drcPassed && (
-                        <circle cx="250" cy="85" r="14" fill="none" stroke="#10b981" strokeWidth="1" strokeDasharray="2,2" opacity="0.6" />
-                      )}
-                    </svg>
-
-                    {/* J1 HEADER */}
-                    <div
-                      onClick={() => setSelectedCanvasItem('j1')}
-                      className={`absolute top-[75px] left-[45px] cursor-pointer p-1 rounded transition ${selectedCanvasItem === 'j1' ? 'ring-2 ring-emerald-400 bg-emerald-500/20' : 'hover:bg-zinc-800/40'
-                        }`}
-                    >
-                      <div className="flex flex-col gap-1.5 p-1 border border-zinc-400/50 rounded bg-zinc-900/90 shadow">
-                        {[1, 2, 3, 4].map((pin) => (
-                          <div key={pin} className="w-3.5 h-3.5 rounded-full bg-amber-400 flex items-center justify-center border border-amber-600">
-                            <div className="w-1.5 h-1.5 rounded-full bg-zinc-950"></div>
-                          </div>
-                        ))}
-                      </div>
-                      <span className="text-[8px] font-mono text-zinc-300 block text-center font-bold">J1</span>
-                    </div>
-
-                    {/* C1 CAP */}
-                    <div
-                      onClick={() => setSelectedCanvasItem('c1')}
-                      className={`absolute top-[100px] left-[130px] cursor-pointer p-1 rounded transition ${selectedCanvasItem === 'c1' ? 'ring-2 ring-emerald-400 bg-emerald-500/20' : 'hover:bg-zinc-800/40'
-                        }`}
-                    >
-                      <div className="w-4 h-9 rounded-sm border border-amber-300/80 bg-amber-900/60 flex flex-col justify-between items-center py-1">
-                        <div className="w-2 h-2 rounded-full bg-amber-400 border border-zinc-950"></div>
-                        <div className="w-2 h-2 rounded-full bg-amber-400 border border-zinc-950"></div>
-                      </div>
-                      <span className="text-[8px] font-mono text-zinc-300 block text-center font-bold">C1</span>
-                    </div>
-
-                    {/* U1 DIP-8 IC */}
-                    <div
-                      onClick={() => setSelectedCanvasItem('u1')}
-                      className={`absolute top-[70px] left-[200px] cursor-pointer p-2 rounded transition ${selectedCanvasItem === 'u1' ? 'ring-2 ring-emerald-400 bg-emerald-500/20' : 'hover:bg-zinc-800/40'
-                        }`}
-                    >
-                      <div className="relative w-24 h-28 rounded border-2 border-zinc-400 bg-zinc-950 flex flex-col justify-between p-2 shadow-lg">
-                        <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-4 h-2 rounded-b-full border border-zinc-400 bg-zinc-900"></div>
-
-                        <div className="text-center my-auto">
-                          <span className="block text-[10px] font-mono font-bold text-zinc-200">ATTINY85</span>
-                          <span className="block text-[8px] font-mono text-zinc-500">20PU • DIP-8</span>
-                        </div>
-
-                        <div className="absolute -left-2 top-3 bottom-3 flex flex-col justify-between">
-                          {[1, 2, 3, 4].map((p) => (
-                            <div key={p} className="w-3 h-2 rounded-l bg-amber-400 border border-amber-600"></div>
-                          ))}
-                        </div>
-
-                        <div className="absolute -right-2 top-3 bottom-3 flex flex-col justify-between">
-                          {[8, 7, 6, 5].map((p) => (
-                            <div key={p} className="w-3 h-2 rounded-r bg-amber-400 border border-amber-600"></div>
-                          ))}
-                        </div>
-                      </div>
-                      <span className="text-[9px] font-mono text-zinc-200 block text-center font-bold mt-1">U1</span>
-                    </div>
-
-                    {/* R1 RESISTOR */}
-                    <div
-                      onClick={() => setSelectedCanvasItem('r1')}
-                      className={`absolute top-[105px] right-[75px] cursor-pointer p-1 rounded transition ${selectedCanvasItem === 'r1' ? 'ring-2 ring-emerald-400 bg-emerald-500/20' : 'hover:bg-zinc-800/40'
-                        }`}
-                    >
-                      <div className="w-5 h-12 rounded-sm border border-zinc-400 bg-amber-100 flex flex-col justify-around items-center py-1">
-                        <div className="w-full h-1 bg-amber-800"></div>
-                        <div className="w-full h-1 bg-black"></div>
-                        <div className="w-full h-1 bg-red-600"></div>
-                        <div className="w-full h-1 bg-yellow-500"></div>
-                      </div>
-                      <span className="text-[8px] font-mono text-zinc-200 block text-center font-bold">R1 (10k)</span>
-                    </div>
-
-                    {/* D1 LED */}
-                    <div
-                      onClick={() => setSelectedCanvasItem('d1')}
-                      className={`absolute top-[40px] right-[40px] cursor-pointer p-1 rounded transition ${selectedCanvasItem === 'd1' ? 'ring-2 ring-emerald-400 bg-emerald-500/20' : 'hover:bg-zinc-800/40'
-                        }`}
-                    >
-                      <div className="w-6 h-6 rounded-full border-2 border-emerald-400 bg-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/50 animate-pulse">
-                        <div className="w-2 h-2 rounded-full bg-white"></div>
-                      </div>
-                      <span className="text-[8px] font-mono text-zinc-200 block text-center font-bold mt-0.5">D1 (LED)</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* RIGHT INSPECTOR PANEL */}
-                <div className="lg:col-span-3 border-l border-zinc-800/80 bg-zinc-950/80 p-4 flex flex-col justify-between">
-                  <div>
-                    <div className="text-[11px] font-mono uppercase tracking-wider text-zinc-400 font-semibold mb-3 flex items-center gap-1.5">
-                      <Sliders className="w-3.5 h-3.5 text-emerald-400" />
-                      <span>Component Properties</span>
-                    </div>
-
-                    {componentsList[selectedCanvasItem] ? (
-                      <div className="space-y-3 text-xs">
-                        <div>
-                          <span className="text-zinc-500 block text-[10px]">Reference &amp; Device</span>
-                          <span className="font-semibold text-zinc-200 text-sm">
-                            {componentsList[selectedCanvasItem].name}
-                          </span>
-                        </div>
-
-                        <div className="grid grid-cols-2 gap-2 text-[11px]">
-                          <div className="p-2 rounded bg-zinc-900 border border-zinc-800">
-                            <span className="text-zinc-500 block text-[10px]">Footprint</span>
-                            <span className="font-mono text-zinc-300 truncate block">
-                              {componentsList[selectedCanvasItem].footprint.split('_')[0]}
-                            </span>
-                          </div>
-                          <div className="p-2 rounded bg-zinc-900 border border-zinc-800">
-                            <span className="text-zinc-500 block text-[10px]">Pin Count</span>
-                            <span className="font-mono text-zinc-300">
-                              {componentsList[selectedCanvasItem].pins} Pins
-                            </span>
-                          </div>
-                        </div>
-
-                        <div>
-                          <span className="text-zinc-500 block text-[10px] mb-1">Assigned Net Connections</span>
-                          <div className="space-y-1">
-                            {componentsList[selectedCanvasItem].nets.map((net, i) => (
-                              <div key={i} className="text-[10px] font-mono px-2 py-1 rounded bg-zinc-900 border border-zinc-850 text-emerald-400/90 truncate">
-                                {net}
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-
-                        <div className="pt-2">
-                          <span className="text-zinc-500 block text-[10px]">DRC Clearance Status</span>
-                          <span className="inline-flex items-center gap-1 text-[11px] font-mono text-emerald-400 font-semibold mt-0.5">
-                            <Check className="w-3 h-3" /> {componentsList[selectedCanvasItem].status}
-                          </span>
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="text-xs text-zinc-500">Select an item on the canvas to inspect geometry and nets.</div>
-                    )}
-                  </div>
-
-                  <div className="mt-4 pt-3 border-t border-zinc-800/80 flex items-center justify-between text-[11px] font-mono text-zinc-400">
-                    <span>Coord: 35.00, 22.50</span>
-                    <span className="text-emerald-400">Layer: F.Cu</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* STATUS BAR FOOTER */}
-              <div className="flex flex-wrap items-center justify-between px-4 py-2 bg-zinc-950 border-t border-zinc-800 text-[11px] font-mono text-zinc-400">
-                <div className="flex items-center gap-4">
-                  <span className="flex items-center gap-1 text-emerald-400">
-                    <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block"></span> Ready
-                  </span>
-                  <span>Canvas: SkiaSharp Hardware Accelerated</span>
-                </div>
-                <div className="flex items-center gap-4">
-                  <span>Units: Metric (mm)</span>
-                  <span>Trace Width: 0.40mm</span>
-                  <span>Clearance: 0.25mm</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
 
       {/* CORE FEATURES DEEP DIVE */}
       <section id="features" className="py-16 max-w-6xl mx-auto px-4">
@@ -1042,27 +760,27 @@ export default function CircuitFlowPage() {
             Supported Operating Systems
           </h2>
           <p className="text-zinc-600 dark:text-zinc-400 text-base sm:text-lg">
-            CircuitFlow runs as a high-performance native application across Windows, macOS, and iPad.
+            CircuitFlow runs as a high-performance native application across Windows, macOS, and iPad also via WebAssembly in browser.
           </p>
         </div>
 
         {/* PLATFORM TABS */}
         <div className="border border-zinc-200 dark:border-zinc-800 rounded-2xl overflow-hidden bg-white dark:bg-zinc-900 shadow-sm">
-          <div className="flex border-b border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950/80 overflow-x-auto">
+          <div className="flex w-full border-b border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950/80">
             {platforms.map((p) => {
               const Icon = p.icon;
               return (
                 <button
                   key={p.id}
                   onClick={() => setActivePlatform(p.id)}
-                  className={`flex items-center gap-2 px-6 py-4 font-medium text-sm transition border-b-2 whitespace-nowrap ${activePlatform === p.id
+                  className={`flex-1 basis-0 min-w-0 flex items-center justify-center gap-1.5 px-2 sm:px-3 py-3 font-medium text-xs sm:text-sm transition border-b-2 ${activePlatform === p.id
                     ? 'border-emerald-500 text-emerald-600 dark:text-emerald-400 bg-white dark:bg-zinc-900'
                     : 'border-transparent text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-200'
                     }`}
                 >
-                  <Icon className="w-4 h-4" />
-                  <span>{p.name}</span>
-                  <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400">
+                  <Icon className="w-3.5 h-3.5 flex-shrink-0" />
+                  <span className="truncate">{p.name}</span>
+                  <span className="hidden lg:inline truncate text-[9px] font-mono px-1 py-px rounded bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400">
                     {p.badge}
                   </span>
                 </button>
@@ -1106,12 +824,17 @@ export default function CircuitFlowPage() {
                     <span className="text-zinc-500">Release Stage: <span className="text-emerald-500 font-semibold">{p.status}</span></span>
                     {p.testFlightUrl ? (
                       <a
-                        href={p.testFlightUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                        href={p.testFlightUrl} target="_blank" rel="noopener noreferrer"
                         className="text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1 font-semibold"
                       >
                         Join TestFlight Beta <ExternalLink className="w-3.5 h-3.5" />
+                      </a>
+                    ) : p.localUrl ? (
+                      <a
+                        href={p.localUrl} target="_blank" rel="noopener noreferrer"
+                        className="text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1 font-semibold"
+                      >
+                        Launch Web App <ExternalLink className="w-3.5 h-3.5" />
                       </a>
                     ) : (
                       <a href="#downloads" className="text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1 font-semibold">
@@ -1398,6 +1121,57 @@ export default function CircuitFlowPage() {
               </div>
             </div>
           </div>
+
+          {/* WASM WEB APP RELEASE CARD */}
+          <div className="p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 shadow-sm flex flex-col justify-between hover:border-emerald-500/50 transition">
+            <div>
+              <div className="flex items-center justify-between mb-3">
+                <div className="w-10 h-10 rounded-lg bg-sky-500/10 text-sky-500 flex items-center justify-center">
+                  <Globe className="w-5 h-5" />
+                </div>
+                <span className="text-xs font-mono px-2 py-0.5 rounded bg-sky-500/10 text-sky-400 font-semibold border border-sky-500/20">
+                  WebAssembly
+                </span>
+              </div>
+              <h3 className="font-bold text-lg text-zinc-900 dark:text-white mb-1">Web App</h3>
+              <span className="text-xs font-mono text-zinc-500 block mb-3">Any modern browser • WASM</span>
+              <p className="text-xs text-zinc-600 dark:text-zinc-400 mb-6">
+                Run CircuitFlow directly in your browser with no install required. Same simulation engine compiled to WebAssembly for near-native performance.
+              </p>
+            </div>
+
+            <div className="space-y-3">
+              <a
+                href="/circuitflow/app/"
+                className="w-full py-2.5 px-4 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-mono text-xs flex items-center justify-center gap-2 shadow-md transition font-semibold"
+              >
+                <ExternalLink className="w-4 h-4" /> Launch Web App
+              </a>
+
+              {/* WEB APP LINK BOX */}
+              <div className="p-2.5 rounded-lg bg-zinc-100 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-[11px] font-mono">
+                <div className="flex items-center justify-between text-zinc-500 mb-1">
+                  <span className="font-bold uppercase tracking-wider text-[10px]">Web App Link</span>
+                  <button
+                    onClick={() =>
+                      copyToClipboard(
+                        `${typeof window !== 'undefined' ? window.location.origin : ''}/circuitflow/app/`,
+                        'link-wasm'
+                      )
+                    }
+                    className="flex items-center gap-1 text-emerald-500 hover:text-emerald-400 text-[10px]"
+                    title="Copy Web App URL"
+                  >
+                    {copiedKey === 'link-wasm' ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+                    <span>{copiedKey === 'link-wasm' ? 'Copied' : 'Copy'}</span>
+                  </button>
+                </div>
+                <div className="text-zinc-700 dark:text-zinc-300 break-all select-all font-mono text-[10px] leading-tight">
+                  {typeof window !== 'undefined' ? window.location.origin : ''}/circuitflow/app/
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -1410,6 +1184,6 @@ export default function CircuitFlowPage() {
           All rights reserved © 2026 Robby Roboter. Contact the author for licensing and beta access inquiries.
         </p>
       </section>
-    </div>
+    </main>
   );
 }

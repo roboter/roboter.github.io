@@ -7,6 +7,8 @@ import { manifest } from './src/utils/manifest';
 import react from "@astrojs/react";
 import mdx from "@astrojs/mdx";
 
+const isBuild = process.argv.includes('build') || process.env.NODE_ENV === 'production';
+
 // https://astro.build/config
 export default defineConfig({
   site: 'http://begemotik.ee/',
@@ -29,6 +31,7 @@ export default defineConfig({
     mdx(),
   ],
   vite: {
+    ...(isBuild ? { cacheDir: 'node_modules/.vite-build' } : {}),
     plugins: [VitePWA({
       registerType: 'autoUpdate',
       manifest,

@@ -30,6 +30,34 @@ import {
   ShieldAlert
 } from 'lucide-react';
 
+const readmeBadges = [
+  {
+    label: ".NET Framework 4.8",
+    href: "https://dotnet.microsoft.com/download/dotnet-framework/net48",
+    image: "https://img.shields.io/badge/.NET%20Framework-4.8-512BD4?style=flat&logo=dotnet&logoColor=white",
+  },
+  {
+    label: "C#",
+    href: "https://learn.microsoft.com/en-us/dotnet/csharp/",
+    image: "https://img.shields.io/badge/C%23-239120?style=flat&logo=csharp&logoColor=white",
+  },
+  {
+    label: "Windows Forms",
+    href: "https://learn.microsoft.com/en-us/dotnet/desktop/winforms/",
+    image: "https://img.shields.io/badge/UI-WinForms-blueviolet?style=flat&logo=microsoft&logoColor=white",
+  },
+  {
+    label: "Wallhaven API",
+    href: "https://wallhaven.cc/help/api",
+    image: "https://img.shields.io/badge/API-Wallhaven-orange?style=flat",
+  },
+  {
+    label: "License: GPL-2.0",
+    href: "https://github.com/roboter/pulse/blob/master/LICENSE.txt",
+    image: "https://img.shields.io/badge/license-GPL--2.0-blue?style=flat",
+  },
+];
+
 export default function PulsePage() {
   const [activeTab, setActiveTab] = useState('overview'); // 'overview' | 'providers' | 'tray' | 'architecture' | 'build'
   const [providerFilter, setProviderFilter] = useState('all'); // 'all' | 'input' | 'output'
@@ -323,15 +351,14 @@ export default function PulsePage() {
   return (
     <div className="w-full text-zinc-800 dark:text-zinc-100 selection:bg-indigo-500 selection:text-white relative">
       {/* GITHUB RIBBON (https://github.blog/news-insights/the-library/github-ribbons/) */}
-      <div className="fixed top-0 right-0 z-50 overflow-hidden w-36 h-36 pointer-events-none">
+      <div className="pointer-events-none fixed right-0 top-0 z-50 h-36 w-36 overflow-hidden">
         <a
           href="https://github.com/roboter/pulse"
           target="_blank"
           rel="noopener noreferrer"
-          className="pointer-events-auto block absolute top-7 -right-10 w-44 py-1.5 text-center text-[10px] font-bold font-mono tracking-wider uppercase text-white bg-zinc-900 dark:bg-indigo-600 hover:bg-indigo-600 dark:hover:bg-indigo-500 shadow-xl rotate-45 border-y border-white/20 transition-all hover:scale-105"
-          title="Fork me on GitHub"
+          className="pointer-events-auto absolute -right-10 top-7 block w-44 rotate-45 border-y border-white/20 bg-zinc-900 py-1.5 text-center text-[10px] font-bold uppercase tracking-wider text-white shadow-xl transition hover:scale-105 hover:bg-indigo-600"
         >
-          Fork me on GitHub
+          View on GitHub
         </a>
       </div>
 
@@ -339,120 +366,89 @@ export default function PulsePage() {
       <div className="mb-6">
         <a
           href="/software"
-          className="inline-flex items-center gap-1.5 text-xs font-mono font-medium text-indigo-600 dark:text-indigo-400 hover:underline"
+          className="inline-flex items-center gap-1.5 text-xs font-mono font-medium text-indigo-600 hover:underline dark:text-indigo-400"
         >
-          <ArrowLeft className="w-3.5 h-3.5" />
+          <ArrowLeft className="h-3.5 w-3.5" />
           <span>Back to Software Catalog</span>
         </a>
       </div>
 
       {/* HERO SECTION */}
-      <div className="relative overflow-hidden pt-2 pb-10">
-        <div className="text-center max-w-4xl mx-auto px-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 mb-6 text-xs font-mono font-medium rounded-full bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 shadow-sm backdrop-blur-sm">
-            <Sparkles className="w-3.5 h-3.5 text-indigo-500" />
+      <section className="relative overflow-hidden rounded-3xl border border-zinc-200 bg-white px-5 py-12 shadow-xl dark:border-zinc-800 dark:bg-zinc-900 sm:px-10 sm:py-16 mb-12">
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          <div className="absolute -right-32 -top-40 h-96 w-96 rounded-full bg-indigo-500/10 blur-3xl" />
+          <div className="absolute -bottom-48 -left-32 h-96 w-96 rounded-full bg-sky-500/10 blur-3xl" />
+        </div>
+
+        <div className="relative mx-auto max-w-4xl text-center">
+          <div className="mb-6 inline-flex flex-wrap items-center justify-center gap-2 rounded-full border border-indigo-500/20 bg-indigo-500/10 px-3 py-1.5 text-xs font-mono font-medium text-indigo-700 shadow-sm backdrop-blur-sm dark:text-indigo-300">
+            <Sparkles className="h-3.5 w-3.5 text-indigo-500" />
             <span>Pulse • Automated Wallpaper Engine</span>
-            <span className="hidden sm:inline-block px-1.5 py-0.5 rounded text-[10px] bg-indigo-500/20 text-indigo-500">
-              .NET 4.8 Maintained Fork
+            <span className="rounded bg-indigo-500/15 px-1.5 py-0.5 text-[10px] font-semibold text-indigo-700 dark:text-indigo-200">
+              {releaseInfo.version}
             </span>
           </div>
 
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight mb-4 text-zinc-900 dark:text-white">
+          <h1 className="mb-4 text-4xl font-black tracking-tight text-zinc-900 dark:text-white sm:text-5xl md:text-6xl">
             Fresh, High-Resolution Wallpapers{' '}
             <span className="bg-gradient-to-r from-indigo-500 via-sky-400 to-teal-400 bg-clip-text text-transparent">
               On Your Own Terms
             </span>
           </h1>
 
-          <p className="text-lg sm:text-xl text-zinc-600 dark:text-zinc-300 max-w-3xl mx-auto leading-relaxed mb-6">
-            An open-source Windows application that automatically fetches and cycles gorgeous desktop backgrounds matching your screen resolution from <span className="font-semibold text-zinc-900 dark:text-white">Wallhaven</span>, <span className="font-semibold text-zinc-900 dark:text-white">NASA APOD</span>, <span className="font-semibold text-zinc-900 dark:text-white">Media RSS</span>, and local folders.
+          <p className="mx-auto mb-7 max-w-3xl text-lg leading-relaxed text-zinc-600 dark:text-zinc-300 sm:text-xl">
+            An open-source Windows application that automatically fetches and cycles gorgeous desktop backgrounds matching your screen resolution from{' '}
+            <span className="font-semibold text-zinc-900 dark:text-white">Wallhaven</span>,{' '}
+            <span className="font-semibold text-zinc-900 dark:text-white">NASA APOD</span>,{' '}
+            <span className="font-semibold text-zinc-900 dark:text-white">Media RSS</span>, and local folders.
           </p>
 
-          {/* BADGES & LINKS */}
-          <div className="flex flex-wrap items-center justify-center gap-2 mb-8 text-xs font-mono">
-            <a
-              href={releaseInfo.releaseUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-2.5 py-1 rounded-md bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 hover:bg-emerald-500/20 flex items-center gap-1.5 transition-colors group"
-              title={`${releaseInfo.downloadCount} downloads on GitHub`}
-            >
-              <Download className="w-3.5 h-3.5" />
-              <span>{releaseInfo.version} Release</span>
-              <span className="px-1.5 py-0.2 rounded-full bg-emerald-600/20 text-emerald-700 dark:text-emerald-300 font-semibold text-[10px]">
-                {releaseInfo.downloadCount.toLocaleString()} {releaseInfo.downloadCount === 1 ? 'download' : 'downloads'}
-              </span>
-            </a>
-            <a
-              href="https://github.com/roboter/pulse/fork"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-2.5 py-1 rounded-md bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-700 hover:border-indigo-500/50 flex items-center gap-1.5 transition-colors"
-            >
-              <GitFork className="w-3.5 h-3.5 text-amber-500" />
-              <span>Fork on GitHub</span>
-            </a>
-            <span className="px-2.5 py-1 rounded-md bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-700 flex items-center gap-1.5">
-              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
-              Windows 7 / 8 / 10 / 11
-            </span>
-            <span className="px-2.5 py-1 rounded-md bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-700 flex items-center gap-1.5">
-              <Cpu className="w-3.5 h-3.5 text-sky-500" />
-              C# &amp; WinForms (.NET 4.8)
-            </span>
-            <span className="px-2.5 py-1 rounded-md bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-700 flex items-center gap-1.5">
-              <Layers className="w-3.5 h-3.5 text-purple-500" />
-              Extensible Plugin Providers
-            </span>
+          <div className="mb-8 flex flex-wrap justify-center gap-1.5">
+            {readmeBadges.map((badge) => (
+              <a
+                key={badge.label}
+                href={badge.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                title={badge.label}
+              >
+                <img src={badge.image} alt={badge.label} className="h-5" loading="lazy" />
+              </a>
+            ))}
           </div>
 
-          {/* ACTION BUTTONS */}
-          <div className="flex flex-wrap items-center justify-center gap-3.5 mb-10">
+          <div className="flex flex-wrap items-center justify-center gap-3">
             <a
               href={releaseInfo.downloadUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-5 py-2.5 rounded-lg font-medium bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-600/25 transition-all flex items-center gap-2.5 group"
+              className="group inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-600/25 transition hover:bg-indigo-500"
             >
-              <Download className="w-4 h-4" />
-              <div className="flex flex-col text-left leading-tight">
-                <span className="font-semibold text-sm">Download {releaseInfo.version}</span>
-                <span className="text-[11px] text-emerald-100 opacity-90 font-mono">
-                  {releaseInfo.size} • {releaseInfo.downloadCount.toLocaleString()} {releaseInfo.downloadCount === 1 ? 'download' : 'downloads'}
-                </span>
-              </div>
-              <ChevronRight className="w-4 h-4 ml-1 group-hover:translate-x-0.5 transition-transform" />
+              <Download className="h-4 w-4" />
+              Download {releaseInfo.version}
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             </a>
-
-            <a
-              href="https://github.com/roboter/pulse/fork"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-5 py-3 rounded-lg font-medium bg-zinc-900 hover:bg-zinc-800 text-white dark:bg-zinc-800 dark:hover:bg-zinc-700 border border-zinc-700 shadow transition-all flex items-center gap-2 group"
-            >
-              <GitFork className="w-4 h-4 text-amber-400 group-hover:rotate-12 transition-transform" />
-              <span>Fork me on GitHub</span>
-            </a>
-
             <a
               href="https://github.com/roboter/pulse"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-5 py-3 rounded-lg font-medium text-zinc-700 hover:text-zinc-950 dark:text-zinc-300 dark:hover:text-white border border-zinc-300 dark:border-zinc-700 hover:border-zinc-400 dark:hover:border-zinc-500 transition-all flex items-center gap-2"
+              className="inline-flex items-center gap-2 rounded-lg border border-zinc-300 bg-white px-5 py-3 text-sm font-semibold text-zinc-800 transition hover:border-indigo-400 hover:text-indigo-700 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100 dark:hover:border-indigo-500 dark:hover:text-indigo-300"
             >
-              <ExternalLink className="w-4 h-4" />
-              <span>GitHub Repo</span>
+              <GitFork className="h-4 w-4" />
+              Source on GitHub
+              <ExternalLink className="h-3.5 w-3.5 opacity-60" />
             </a>
-
             <button
+              type="button"
               onClick={() => setActiveTab('tray')}
-              className="px-5 py-3 rounded-lg font-medium bg-indigo-50 text-indigo-700 dark:bg-indigo-950/40 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 hover:bg-indigo-100 transition-all flex items-center gap-2"
+              className="inline-flex items-center gap-2 rounded-lg px-4 py-3 text-sm font-semibold text-zinc-600 transition hover:text-indigo-600 dark:text-zinc-300 dark:hover:text-indigo-300"
             >
-              <Sliders className="w-4 h-4 text-indigo-500" />
-              <span>Try Tray Simulator</span>
+              <Sliders className="h-4 w-4 text-indigo-500" />
+              Try Tray Simulator
             </button>
           </div>
         </div>
+      </section>
 
         {/* FEATURE HIGHLIGHTS GRID */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto px-4 mb-12">
@@ -1118,7 +1114,6 @@ nuget restore Pulse.sln`}
             )}
           </div>
         )}
-      </div>
     </div>
   );
 }
