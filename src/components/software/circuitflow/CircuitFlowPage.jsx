@@ -1153,9 +1153,10 @@ export default function CircuitFlowPage() {
                 <div className="flex items-center justify-between text-zinc-500 mb-1">
                   <span className="font-bold uppercase tracking-wider text-[10px]">Web App Link</span>
                   <button
+                    type="button"
                     onClick={() =>
                       copyToClipboard(
-                        `${typeof window !== 'undefined' ? window.location.origin : ''}/circuitflow/app/`,
+                        typeof window !== 'undefined' ? `${window.location.origin}/circuitflow/app/` : '/circuitflow/app/',
                         'link-wasm'
                       )
                     }
@@ -1166,8 +1167,11 @@ export default function CircuitFlowPage() {
                     <span>{copiedKey === 'link-wasm' ? 'Copied' : 'Copy'}</span>
                   </button>
                 </div>
-                <div className="text-zinc-700 dark:text-zinc-300 break-all select-all font-mono text-[10px] leading-tight">
-                  {typeof window !== 'undefined' ? window.location.origin : ''}/circuitflow/app/
+                <div
+                  suppressHydrationWarning
+                  className="text-zinc-700 dark:text-zinc-300 break-all select-all font-mono text-[10px] leading-tight"
+                >
+                  /circuitflow/app/
                 </div>
               </div>
             </div>

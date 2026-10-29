@@ -228,7 +228,7 @@ const PulseSoftwarePage = () => {
               <Download className="w-3.5 h-3.5" />
               <span>{mockRelease.version} Release</span>
               <span className="px-1.5 py-0.2 rounded-full bg-emerald-600/20 text-emerald-700 dark:text-emerald-300 font-semibold text-[10px]">
-                {mockRelease.downloadCount.toLocaleString()} {mockRelease.downloadCount === 1 ? 'download' : 'downloads'}
+                {mockRelease.downloadCount.toLocaleString('en-US')} {mockRelease.downloadCount === 1 ? 'download' : 'downloads'}
               </span>
             </a>
             
@@ -270,7 +270,7 @@ const PulseSoftwarePage = () => {
               <div className="flex flex-col text-left leading-tight">
                 <span className="font-semibold text-sm">Download {mockRelease.version}</span>
                 <span className="text-[11px] text-emerald-100 opacity-90 font-mono">
-                  {mockRelease.size} • {mockRelease.downloadCount.toLocaleString()} {mockRelease.downloadCount === 1 ? 'download' : 'downloads'}
+                  {mockRelease.size} • {mockRelease.downloadCount.toLocaleString('en-US')} {mockRelease.downloadCount === 1 ? 'download' : 'downloads'}
                 </span>
               </div>
               <ChevronRight className="w-4 h-4 ml-1 group-hover:translate-x-0.5 transition-transform" />

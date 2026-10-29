@@ -31,6 +31,11 @@ export default defineConfig({
     mdx(),
   ],
   vite: {
+    server: {
+      watch: {
+        ignored: ['**/dist/**', '**/.astro/**']
+      }
+    },
     ...(isBuild ? { cacheDir: 'node_modules/.vite-build' } : {}),
     plugins: [VitePWA({
       registerType: 'autoUpdate',

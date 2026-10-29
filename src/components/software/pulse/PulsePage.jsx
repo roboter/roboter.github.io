@@ -65,6 +65,22 @@ export default function PulsePage() {
   const [buildMode, setBuildMode] = useState('cli'); // 'cli' | 'vs'
   const [copiedKey, setCopiedKey] = useState(null);
 
+  const handleTabChange = (tabId) => {
+    setActiveTab(tabId);
+    if (typeof window !== 'undefined' && window.history?.replaceState) {
+      window.history.replaceState(null, '', `#${tabId}`);
+    }
+  };
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.location.hash) {
+      const hash = window.location.hash.replace('#', '');
+      if (['overview', 'providers', 'tray', 'architecture', 'build'].includes(hash)) {
+        setActiveTab(hash);
+      }
+    }
+  }, []);
+
   // Live GitHub Release & Download Count State
   const [releaseInfo, setReleaseInfo] = useState({
     downloadCount: 1,
@@ -440,7 +456,7 @@ export default function PulsePage() {
             </a>
             <button
               type="button"
-              onClick={() => setActiveTab('tray')}
+              onClick={() => handleTabChange('tray')}
               className="inline-flex items-center gap-2 rounded-lg px-4 py-3 text-sm font-semibold text-zinc-600 transition hover:text-indigo-600 dark:text-zinc-300 dark:hover:text-indigo-300"
             >
               <Sliders className="h-4 w-4 text-indigo-500" />
@@ -507,11 +523,14 @@ export default function PulsePage() {
               const isActive = activeTab === tab.id;
               return (
                 <button
+                  type="button"
+                  role="tab"
+                  aria-selected={isActive}
                   key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-lg whitespace-nowrap transition-all ${
+                  onClick={() => handleTabChange(tab.id)}
+                  className={`flex items-center gap-2 px-3.5 py-2 text-sm font-medium rounded-lg whitespace-nowrap transition-all cursor-pointer ${
                     isActive
-                      ? 'bg-indigo-600 text-white shadow-sm'
+                      ? 'bg-indigo-600 text-white shadow-sm ring-1 ring-indigo-500 font-semibold'
                       : 'text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-zinc-800'
                   }`}
                 >
@@ -571,7 +590,7 @@ export default function PulsePage() {
                   <div className="text-right font-mono">
                     <div className="text-xs font-semibold text-zinc-900 dark:text-zinc-100 flex items-center gap-1 sm:justify-end">
                       <Download className="w-3.5 h-3.5 text-emerald-500" />
-                      <span>{releaseInfo.downloadCount.toLocaleString()} {releaseInfo.downloadCount === 1 ? 'download' : 'downloads'}</span>
+                      <span>{releaseInfo.downloadCount.toLocaleString('en-US')} {releaseInfo.downloadCount === 1 ? 'download' : 'downloads'}</span>
                     </div>
                     <span className="text-[10px] text-zinc-400">tracked via GitHub API</span>
                   </div>

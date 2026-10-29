@@ -1,50 +1,393 @@
 ---
 import Base from "@layouts/Base.astro";
-import CategoryIcon from "@components/icons/CategoryIcon.astro";
-import { getTaxonomy } from "@utils/getAllTags";
-import { getSinglePage } from "@utils/getAllTags";
-import { taxonomyFilter } from "@utils/getAllTags";
-import { deslugify } from "@utils/slug";
+import { getAllUnifiedTags, getUnifiedTagBySlug, type UnifiedTag } from "@utils/taxonomy";
+import {
+  Tag,
+  ArrowLeft,
+  BookOpen,
+  Play,
+  Cpu,
+  Wrench,
+  ArrowRight,
+  ExternalLink,
+  Calendar,
+  Clock,
+  Eye,
+} from "lucide-react";
 
 export async function getStaticPaths() {
-  const tags = await getTaxonomy("blog", "tags");
+  const allTags = await getAllUnifiedTags();
+  return allTags.map((tag) => ({
+    params: { tag: tag.slug },
+    props: { tagData: tag },
+  }));
+}
 
-  return tags.map((tag) => {
-    return {
-      params: { tag: tag.slug },
-    };
-  });
+interface Props {
+  tagData?: UnifiedTag;
 }
 
 const { tag } = Astro.params;
+const { tagData } = Astro.props;
 
-const posts = await getSinglePage("blog");
-const filterByTags = taxonomyFilter(posts, "tags", tag);
-const tagLabel = deslugify(tag);
+const currentTag = tagData || (tag ? await getUnifiedTagBySlug(tag) : undefined);
+
+if (!currentTag) {
+  return Astro.redirect("/tags");
+}
+
+const articles = currentTag.items.filter((i) => i.type === "article");
+const videos = currentTag.items.filter((i) => i.type === "video");
+const software = currentTag.items.filter((i) => i.type === "software");
+const toolItems = currentTag.items.filter((i) => i.type === "tool");
+
+const pageTitle = `#${currentTag.name} — Articles, Videos, Software & Tools`;
+const pageDescription = `Explore all articles, tutorials, software applications, and tools tagged with #${currentTag.name} on Robby roboter.`;
 ---
 
 <Base
-  meta_title={`Tag: ${tagLabel}`}
-  filterTag={tag}
+  title={pageTitle}
+  meta_title={pageTitle}
+  description={pageDescription}
+  hideHero={true}
+  hideVideos={true}
 >
-  <h1 class="text-2xl md:text-3xl font-bold mb-2">Tag: {tagLabel}</h1>
-  <p class="text-sm text-zinc-500 dark:text-zinc-400 mb-8">
-    {filterByTags.length} post{filterByTags.length !== 1 ? "s" : ""} tagged with <span class="font-semibold text-zinc-700 dark:text-zinc-300">#{tagLabel}</span>
-  </p>
-  <ul class="space-y-4 text-left ml-4 text-zinc-500 dark:text-zinc-400">
-    {
-      filterByTags?.map((post) => (
-        <li class="flex items-center space-x-1">
-          <CategoryIcon />
-          <a
-            href={`/blog/${post.id || post.slug}/`}
-            class="text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-100"
-          >
-            {post.data.title}
-          </a>
-        </li>
-      ))
-    }
-  </ul>
-</Base>
+  <div class="py-4 max-w-5xl mx-auto">
+    {/* BREADCRUMB / BACK LINK */}
+    <div class="mb-6">
+      <a
+        href="/tags"
+        class="inline-flex items-center gap-1.5 text-xs font-mono font-medium text-zinc-500 hover:text-cyan-600 dark:text-zinc-400 dark:hover:text-cyan-400 transition-colors"
+      >
+        <ArrowLeft className="w-3.5 h-3.5" />
+        <span>Back to All Topics</span>
+      </a>
+    </div>
 
+    {/* HEADER */}
+    <div class="rounded-3xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/90 p-6 sm:p-10 mb-12 shadow-sm">
+      <div class="flex flex-wrap items-center gap-2 mb-3">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-semibold bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border border-cyan-500/20">
+          <Tag className="w-3 h-3" />
+          <span>Topic Index</span>
+        </span>
+        <span class="text-xs font-mono text-zinc-400">
+          slug: #{currentTag.slug}
+        </span>
+      </div>
+
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-black text-zinc-900 dark:text-white mb-4">
+        #{currentTag.name}
+      </h1>
+
+      <p class="text-sm sm:text-base text-zinc-600 dark:text-zinc-300 leading-relaxed mb-6 max-w-2xl">
+        Showing all content matching <span class="font-semibold text-zinc-900 dark:text-white">#{currentTag.name}</span> across articles, video tutorials, desktop software, and interactive web tools.
+      </p>
+
+      {/* Breakdown Pills */}
+      <div class="flex flex-wrap items-center gap-2 text-xs font-mono">
+        <span class="px-3 py-1 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-semibold border border-zinc-200/80 dark:border-zinc-700/80">
+          {currentTag.totalCount} Total Item{currentTag.totalCount !== 1 ? "s" : ""}
+        </span>
+
+        {articles.length > 0 && (
+          <a
+            href="#articles"
+            class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-blue-500/10 text-blue-600 dark:text-blue-400 hover:bg-blue-500/20 border border-blue-500/20 transition-colors"
+          >
+            <BookOpen className="w-3 h-3" />
+            <span>{articles.length} Article{articles.length !== 1 ? "s" : ""}</span>
+          </a>
+        )}
+
+        {videos.length > 0 && (
+          <a
+            href="#videos"
+            class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-red-500/10 text-red-600 dark:text-red-400 hover:bg-red-500/20 border border-red-500/20 transition-colors"
+          >
+            <Play className="w-3 h-3" />
+            <span>{videos.length} Video{videos.length !== 1 ? "s" : ""}</span>
+          </a>
+        )}
+
+        {software.length > 0 && (
+          <a
+            href="#software"
+            class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-500/20 border border-indigo-500/20 transition-colors"
+          >
+            <Cpu className="w-3 h-3" />
+            <span>{software.length} Software</span>
+          </a>
+        )}
+
+        {toolItems.length > 0 && (
+          <a
+            href="#tools"
+            class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500/20 border border-emerald-500/20 transition-colors"
+          >
+            <Wrench className="w-3 h-3" />
+            <span>{toolItems.length} Tool{toolItems.length !== 1 ? "s" : ""}</span>
+          </a>
+        )}
+      </div>
+    </div>
+
+    {/* CONTENT SECTIONS */}
+    <div class="space-y-14">
+      {/* 1. ARTICLES */}
+      {articles.length > 0 && (
+        <section id="articles" class="scroll-mt-8">
+          <div class="flex items-center gap-2 mb-6 border-b border-zinc-200 dark:border-zinc-800 pb-3">
+            <BookOpen className="w-5 h-5 text-blue-500" />
+            <h2 class="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-white">
+              Articles &amp; Guides
+            </h2>
+            <span class="ml-auto text-xs font-mono px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 font-semibold">
+              {articles.length}
+            </span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {articles.map((item) => (
+              <article class="p-5 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/80 hover:border-blue-500/50 dark:hover:border-blue-500/40 shadow-sm hover:shadow-md transition-all duration-200 flex flex-col justify-between group">
+                <div>
+                  {item.date && (
+                    <div class="flex items-center gap-1.5 text-xs font-mono text-zinc-400 mb-2">
+                      <Calendar className="w-3 h-3" />
+                      <span>{new Date(item.date).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })}</span>
+                    </div>
+                  )}
+
+                  <h3 class="text-base sm:text-lg font-bold text-zinc-900 dark:text-zinc-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors mb-2 line-clamp-2">
+                    <a href={item.url}>{item.title}</a>
+                  </h3>
+
+                  {item.description && (
+                    <p class="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed mb-4 line-clamp-2">
+                      {item.description}
+                    </p>
+                  )}
+                </div>
+
+                <div class="pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between">
+                  <div class="flex flex-wrap gap-1">
+                    {item.tags.slice(0, 3).map((t) => (
+                      <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400">
+                        #{t}
+                      </span>
+                    ))}
+                  </div>
+
+                  <a
+                    href={item.url}
+                    class="inline-flex items-center gap-1 text-xs font-semibold text-blue-600 dark:text-blue-400 group-hover:translate-x-0.5 transition-transform"
+                  >
+                    <span>Read</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </a>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* 2. SOFTWARE */}
+      {software.length > 0 && (
+        <section id="software" class="scroll-mt-8">
+          <div class="flex items-center gap-2 mb-6 border-b border-zinc-200 dark:border-zinc-800 pb-3">
+            <Cpu className="w-5 h-5 text-indigo-500" />
+            <h2 class="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-white">
+              Software Applications
+            </h2>
+            <span class="ml-auto text-xs font-mono px-2 py-0.5 rounded-full bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 font-semibold">
+              {software.length}
+            </span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {software.map((item) => (
+              <article class="p-6 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/80 hover:border-indigo-500/50 dark:hover:border-indigo-500/40 shadow-sm hover:shadow-md transition-all duration-200 flex flex-col justify-between group">
+                <div>
+                  <div class="flex items-center justify-between text-xs font-mono text-zinc-500 dark:text-zinc-400 mb-2">
+                    <span class="uppercase font-semibold tracking-wider">{item.extra?.category || "Desktop App"}</span>
+                    <span class="text-[11px] px-2 py-0.5 rounded-full bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 font-medium">Software</span>
+                  </div>
+
+                  <h3 class="text-xl font-bold text-zinc-900 dark:text-zinc-100 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-2">
+                    <a href={item.url}>{item.title}</a>
+                  </h3>
+
+                  {item.description && (
+                    <p class="text-xs sm:text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed mb-4">
+                      {item.description}
+                    </p>
+                  )}
+
+                  {item.extra?.techStack && (
+                    <div class="flex flex-wrap gap-1.5 mb-4">
+                      {item.extra.techStack.map((tech) => (
+                        <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 border border-zinc-200/80 dark:border-zinc-700/60">
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                <div class="pt-4 border-t border-zinc-100 dark:border-zinc-800 flex items-center justify-between">
+                  {item.extra?.platforms && (
+                    <span class="text-[11px] font-mono text-zinc-400 truncate max-w-[200px]">
+                      {item.extra.platforms.join(" • ")}
+                    </span>
+                  )}
+
+                  <a
+                    href={item.url}
+                    class="ml-auto inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 hover:bg-indigo-500 text-white shadow-sm transition-all"
+                  >
+                    <span>View Software</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </a>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* 3. TOOLS */}
+      {toolItems.length > 0 && (
+        <section id="tools" class="scroll-mt-8">
+          <div class="flex items-center gap-2 mb-6 border-b border-zinc-200 dark:border-zinc-800 pb-3">
+            <Wrench className="w-5 h-5 text-emerald-500" />
+            <h2 class="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-white">
+              Interactive Web Tools
+            </h2>
+            <span class="ml-auto text-xs font-mono px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-semibold">
+              {toolItems.length}
+            </span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {toolItems.map((item) => (
+              <article class="p-6 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/80 hover:border-emerald-500/50 dark:hover:border-emerald-500/40 shadow-sm hover:shadow-md transition-all duration-200 flex flex-col justify-between group">
+                <div>
+                  <div class="flex items-center justify-between text-xs font-mono text-zinc-500 dark:text-zinc-400 mb-2">
+                    <span class="uppercase font-semibold tracking-wider">{item.extra?.category || "Browser Tool"}</span>
+                    <span class="text-[11px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-medium">Interactive Tool</span>
+                  </div>
+
+                  <h3 class="text-xl font-bold text-zinc-900 dark:text-zinc-100 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors mb-2">
+                    <a href={item.url}>{item.title}</a>
+                  </h3>
+
+                  {item.description && (
+                    <p class="text-xs sm:text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed mb-4">
+                      {item.description}
+                    </p>
+                  )}
+
+                  {item.extra?.techStack && (
+                    <div class="flex flex-wrap gap-1.5 mb-4">
+                      {item.extra.techStack.map((tech) => (
+                        <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 border border-zinc-200/80 dark:border-zinc-700/60">
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                <div class="pt-4 border-t border-zinc-100 dark:border-zinc-800 flex items-center justify-between">
+                  {item.extra?.platforms && (
+                    <span class="text-[11px] font-mono text-zinc-400 truncate max-w-[200px]">
+                      {item.extra.platforms.join(" • ")}
+                    </span>
+                  )}
+
+                  <a
+                    href={item.url}
+                    class="ml-auto inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-600 hover:bg-emerald-500 text-white shadow-sm transition-all"
+                  >
+                    <span>Launch Tool</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </a>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* 4. VIDEOS */}
+      {videos.length > 0 && (
+        <section id="videos" class="scroll-mt-8">
+          <div class="flex items-center gap-2 mb-6 border-b border-zinc-200 dark:border-zinc-800 pb-3">
+            <Play className="w-5 h-5 text-red-500" />
+            <h2 class="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-white">
+              YouTube Videos &amp; Tutorials
+            </h2>
+            <span class="ml-auto text-xs font-mono px-2 py-0.5 rounded-full bg-red-500/10 text-red-600 dark:text-red-400 font-semibold">
+              {videos.length}
+            </span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {videos.map((item) => (
+              <article class="flex flex-col overflow-hidden rounded-2xl bg-white dark:bg-zinc-900/90 border border-zinc-200 dark:border-zinc-800 hover:border-red-500/50 dark:hover:border-red-500/40 shadow-sm hover:shadow-lg transition-all duration-300 group">
+                <a
+                  href={item.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="relative aspect-video w-full overflow-hidden bg-zinc-950 block"
+                >
+                  <img
+                    src={`https://i.ytimg.com/vi/${item.extra?.videoId}/hqdefault.jpg`}
+                    alt={item.title}
+                    class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    loading="lazy"
+                  />
+                  <div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors flex items-center justify-center">
+                    <div class="w-10 h-10 rounded-full bg-red-600/90 text-white flex items-center justify-center shadow-lg opacity-85 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300">
+                      <Play className="w-4 h-4 fill-current ml-0.5" />
+                    </div>
+                  </div>
+                  {item.extra?.duration && (
+                    <span class="absolute bottom-2 right-2 px-2 py-0.5 text-[10px] font-mono font-medium text-white bg-black/85 backdrop-blur-md rounded">
+                      {item.extra.duration}
+                    </span>
+                  )}
+                </a>
+
+                <div class="p-4 flex-1 flex flex-col justify-between">
+                  <h3 class="text-sm font-semibold text-zinc-900 dark:text-zinc-100 group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors line-clamp-2 leading-snug mb-3">
+                    <a href={item.url} target="_blank" rel="noopener noreferrer">
+                      {item.title}
+                    </a>
+                  </h3>
+
+                  <div class="pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs text-zinc-500 dark:text-zinc-400">
+                    <div class="flex items-center gap-1.5 truncate">
+                      {item.extra?.views && <span>{item.extra.views}</span>}
+                    </div>
+
+                    <a
+                      href={item.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="text-red-600 dark:text-red-400 font-semibold hover:underline flex items-center gap-1"
+                    >
+                      <span>Watch</span>
+                      <ExternalLink className="w-3 h-3" />
+                    </a>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
+    </div>
+  </div>
+</Base>

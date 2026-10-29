@@ -2,10 +2,11 @@ import { useState, useEffect } from 'react';
 
 export default function CharGenerator() {
   const VERSION = 'v15';
-  const [gridData, setGridData] = useState([]);
   const [cols, setCols] = useState(5);
   const [rows, setRows] = useState(5);
-  const [isReady, setIsReady] = useState(false);
+  const [gridData, setGridData] = useState(() =>
+    Array(5).fill(null).map(() => Array(5).fill(0))
+  );
 
   const presets = {
     triangle_up: { hex: [0x20, 0x50, 0x88, 0x88, 0xF8] },
@@ -101,10 +102,6 @@ export default function CharGenerator() {
     
     return ascii;
   };
-
-  if (!isReady || gridData.length === 0) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '30px', margin: '30px 0' }}>

@@ -25,18 +25,22 @@ export function getAllTags(posts: MDXInstance<Post>[] = []) {
 export const getTaxonomy = async (collection: string, name: string) => {
   const singlePages = await getCollection(collection);
   const taxonomyPages = singlePages.map((page) => page.data[name]);
-  let taxonomies = [];
+  const map = new Map<string, { name: string; slug: string }>();
   for (let i = 0; i < taxonomyPages.length; i++) {
-    const categoryArray = taxonomyPages[i];
+    const categoryArray = taxonomyPages[i] || [];
     for (let j = 0; j < categoryArray.length; j++) {
-      taxonomies.push({
-        name: categoryArray[j],
-        slug: slugify(categoryArray[j]),
-      });
+      const val = categoryArray[j];
+      if (!val) continue;
+      const slug = slugify(val).toLowerCase();
+      if (!map.has(slug)) {
+        map.set(slug, {
+          name: val,
+          slug,
+        });
+      }
     }
   }
-  const taxonomy = [...new Set(taxonomies)];
-  return taxonomy;
+  return [...map.values()];
 };
 
 export const getSinglePage = async (collection: any) => {

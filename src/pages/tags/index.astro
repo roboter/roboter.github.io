@@ -1,43 +1,308 @@
 ---
 import Base from "@layouts/Base.astro";
-import { getTaxonomy } from "@utils/getAllTags";
+import { getAllUnifiedTags } from "@utils/taxonomy";
+import {
+  Tag,
+  Search,
+  BookOpen,
+  Play,
+  Cpu,
+  Wrench,
+  Layers,
+} from "lucide-react";
 
-const tags = await getTaxonomy("blog", "tags");
+const allTags = await getAllUnifiedTags();
 
-const textClasses: string[] = [
-  "text-3xl text-cyan-400 capitalize",
-  "text-xl text-teal-400 capitalize",
-  "text-md text-red-400 capitalize",
-  "text-lg text-green-400 capitalize",
-  "text-sm text-orange-400 capitalize",
-  "text-lg text-zinc-400 capitalize",
-  "text-4xl text-red-400 capitalize",
-  "text-xs text-cyan-400 capitalize",
-];
+// Counts for filter pills
+const totalTagsCount = allTags.length;
+const withArticlesCount = allTags.filter((t) => t.articleCount > 0).length;
+const withVideosCount = allTags.filter((t) => t.videoCount > 0).length;
+const withSoftwareCount = allTags.filter((t) => t.softwareCount > 0).length;
+const withToolsCount = allTags.filter((t) => t.toolCount > 0).length;
 
-const getRandomClass = (classList: string[]): string => {
-  const randomIndex: number = Math.floor(Math.random() * classList.length);
-  return classList[randomIndex];
-};
+const pageTitle = "Explore Topics & Tags — Robby roboter";
+const pageDescription =
+  "Browse hardware deep-dives, video tutorials, desktop engineering software, and interactive embedded tools by topic.";
 ---
 
-<Base>
-  <section class="grid grid-cols-1">
-    <h1 class="text-2xl md:text-3xl font-bold mb-8">Tags:</h1>
-    <ul class="flex justify-center flex-wrap align-center gap-3">
+<Base
+  title={pageTitle}
+  meta_title={pageTitle}
+  description={pageDescription}
+  hideHero={true}
+  hideVideos={true}
+>
+  <div class="py-4">
+    {/* HEADER */}
+    <div class="text-center max-w-3xl mx-auto mb-10">
+      <div class="inline-flex items-center gap-2 px-3 py-1.5 mb-4 text-xs font-mono font-medium rounded-full bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border border-cyan-500/20 shadow-sm backdrop-blur-sm">
+        <Tag className="w-3.5 h-3.5" />
+        <span>Unified Topic Catalog • {totalTagsCount} Active Topics</span>
+      </div>
+
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight mb-4 text-zinc-900 dark:text-white">
+        Explore Topics &amp; Tags
+      </h1>
+
+      <p class="text-base sm:text-lg text-zinc-600 dark:text-zinc-300 leading-relaxed">
+        Discover articles, YouTube videos, desktop applications, and interactive web tools categorized across engineering disciplines.
+      </p>
+    </div>
+
+    {/* SEARCH & FILTER BAR */}
+    <div class="max-w-4xl mx-auto mb-8 space-y-4">
+      {/* Search Input */}
+      <div class="relative w-full">
+        <div class="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400 pointer-events-none">
+          <Search className="w-4 h-4" />
+        </div>
+        <input
+          id="tag-search-input"
+          type="text"
+          placeholder="Filter tags (e.g. Arduino, STM32, CAD, PCB, Tools, ESP32)..."
+          class="w-full pl-11 pr-4 py-3 text-sm rounded-2xl bg-zinc-50 dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700/80 text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/40 focus:border-cyan-500 transition-all shadow-sm"
+        />
+      </div>
+
+      {/* Type Filter Pills */}
+      <div class="flex flex-wrap items-center justify-center gap-2 text-xs font-medium">
+        <button
+          type="button"
+          data-filter="all"
+          class="tag-filter-btn active inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 transition-all cursor-pointer shadow-sm"
+        >
+          <Layers className="w-3.5 h-3.5" />
+          <span>All Topics</span>
+          <span class="px-1.5 py-0.2 rounded-full text-[10px] bg-white/20 dark:bg-black/10 font-mono">
+            {totalTagsCount}
+          </span>
+        </button>
+
+        <button
+          type="button"
+          data-filter="article"
+          class="tag-filter-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-zinc-200 dark:border-zinc-700/60 bg-white dark:bg-zinc-800/60 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-all cursor-pointer"
+        >
+          <BookOpen className="w-3.5 h-3.5 text-blue-500" />
+          <span>Articles</span>
+          <span class="px-1.5 py-0.2 rounded-full text-[10px] bg-blue-500/10 text-blue-600 dark:text-blue-400 font-mono">
+            {withArticlesCount}
+          </span>
+        </button>
+
+        <button
+          type="button"
+          data-filter="video"
+          class="tag-filter-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-zinc-200 dark:border-zinc-700/60 bg-white dark:bg-zinc-800/60 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-all cursor-pointer"
+        >
+          <Play className="w-3.5 h-3.5 text-red-500" />
+          <span>Videos</span>
+          <span class="px-1.5 py-0.2 rounded-full text-[10px] bg-red-500/10 text-red-600 dark:text-red-400 font-mono">
+            {withVideosCount}
+          </span>
+        </button>
+
+        <button
+          type="button"
+          data-filter="software"
+          class="tag-filter-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-zinc-200 dark:border-zinc-700/60 bg-white dark:bg-zinc-800/60 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-all cursor-pointer"
+        >
+          <Cpu className="w-3.5 h-3.5 text-indigo-500" />
+          <span>Software</span>
+          <span class="px-1.5 py-0.2 rounded-full text-[10px] bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 font-mono">
+            {withSoftwareCount}
+          </span>
+        </button>
+
+        <button
+          type="button"
+          data-filter="tool"
+          class="tag-filter-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-zinc-200 dark:border-zinc-700/60 bg-white dark:bg-zinc-800/60 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-all cursor-pointer"
+        >
+          <Wrench className="w-3.5 h-3.5 text-emerald-500" />
+          <span>Tools</span>
+          <span class="px-1.5 py-0.2 rounded-full text-[10px] bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-mono">
+            {withToolsCount}
+          </span>
+        </button>
+      </div>
+
+      <div class="text-right text-xs text-zinc-500 dark:text-zinc-400 pr-1">
+        Showing <span id="tag-active-count" class="font-bold text-zinc-900 dark:text-white">{totalTagsCount}</span> of {totalTagsCount} topics
+      </div>
+    </div>
+
+    {/* TAGS GRID */}
+    <div
+      id="tags-container"
+      class="flex flex-wrap justify-center gap-3 max-w-5xl mx-auto"
+    >
       {
-        tags.map((tag) => (
-          <li>
-            <a
-              class={getRandomClass(textClasses)}
-              href={`/tags/${tag.slug}`}
-              title={`View posts with the tag: ${tag.name}`}
-            >
+        allTags.map((tag) => (
+          <a
+            href={`/tags/${tag.slug}`}
+            class="tag-item group relative flex items-center gap-2.5 px-3.5 py-2 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/80 hover:bg-zinc-50 dark:hover:bg-zinc-800/80 hover:border-cyan-500/50 dark:hover:border-cyan-500/40 shadow-sm hover:shadow-md transition-all duration-200"
+            data-slug={tag.slug}
+            data-name={tag.name.toLowerCase()}
+            data-has-article={tag.articleCount > 0 ? "true" : "false"}
+            data-has-video={tag.videoCount > 0 ? "true" : "false"}
+            data-has-software={tag.softwareCount > 0 ? "true" : "false"}
+            data-has-tool={tag.toolCount > 0 ? "true" : "false"}
+            title={`Explore ${tag.totalCount} items in #${tag.name}`}
+          >
+            <span class="text-xs font-mono text-cyan-600 dark:text-cyan-400 group-hover:text-cyan-500">
+              #
+            </span>
+
+            <span class="text-sm font-semibold text-zinc-800 dark:text-zinc-200 group-hover:text-cyan-600 dark:group-hover:text-cyan-300 transition-colors">
               {tag.name}
-            </a>
-          </li>
+            </span>
+
+            {/* Total items badge */}
+            <span class="ml-0.5 px-1.5 py-0.5 rounded-full text-[10px] font-mono font-medium bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 group-hover:bg-cyan-500/10 group-hover:text-cyan-600 dark:group-hover:text-cyan-300 border border-zinc-200/60 dark:border-zinc-700/60 transition-colors">
+              {tag.totalCount}
+            </span>
+
+            {/* Type indicator dots */}
+            <span class="flex items-center gap-1 opacity-60 group-hover:opacity-100 transition-opacity">
+              {tag.articleCount > 0 && (
+                <span
+                  class="w-1.5 h-1.5 rounded-full bg-blue-500"
+                  title={`${tag.articleCount} article${tag.articleCount > 1 ? "s" : ""}`}
+                />
+              )}
+              {tag.videoCount > 0 && (
+                <span
+                  class="w-1.5 h-1.5 rounded-full bg-red-500"
+                  title={`${tag.videoCount} video${tag.videoCount > 1 ? "s" : ""}`}
+                />
+              )}
+              {tag.softwareCount > 0 && (
+                <span
+                  class="w-1.5 h-1.5 rounded-full bg-indigo-500"
+                  title={`${tag.softwareCount} software project${tag.softwareCount > 1 ? "s" : ""}`}
+                />
+              )}
+              {tag.toolCount > 0 && (
+                <span
+                  class="w-1.5 h-1.5 rounded-full bg-emerald-500"
+                  title={`${tag.toolCount} interactive tool${tag.toolCount > 1 ? "s" : ""}`}
+                />
+              )}
+            </span>
+          </a>
         ))
       }
-    </ul>
-  </section>
+    </div>
+
+    {/* EMPTY FILTER STATE */}
+    <div
+      id="tag-empty-state"
+      class="hidden text-center py-16 max-w-md mx-auto"
+    >
+      <div class="w-14 h-14 mx-auto rounded-full bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-zinc-400 mb-3">
+        <Tag className="w-6 h-6" />
+      </div>
+      <h3 class="text-base font-semibold text-zinc-800 dark:text-zinc-200">
+        No topics found
+      </h3>
+      <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1">
+        Try typing a different keyword or reset the filter pills above.
+      </p>
+    </div>
+  </div>
 </Base>
+
+<script>
+  function setupTagFilter() {
+    const input = document.getElementById("tag-search-input") as HTMLInputElement | null;
+    const filterButtons = document.querySelectorAll(".tag-filter-btn") as NodeListOf<HTMLButtonElement>;
+    const tagItems = document.querySelectorAll(".tag-item") as NodeListOf<HTMLElement>;
+    const activeCountEl = document.getElementById("tag-active-count");
+    const emptyState = document.getElementById("tag-empty-state");
+
+    if (!tagItems.length) return;
+
+    let currentTypeFilter = "all";
+
+    function update() {
+      const query = (input?.value || "").toLowerCase().trim();
+      let visibleCount = 0;
+
+      tagItems.forEach((item) => {
+        const name = item.getAttribute("data-name") || "";
+        const slug = item.getAttribute("data-slug") || "";
+
+        // Text match
+        const matchesQuery = !query || name.includes(query) || slug.includes(query);
+
+        // Type match
+        let matchesType = true;
+        if (currentTypeFilter === "article") {
+          matchesType = item.getAttribute("data-has-article") === "true";
+        } else if (currentTypeFilter === "video") {
+          matchesType = item.getAttribute("data-has-video") === "true";
+        } else if (currentTypeFilter === "software") {
+          matchesType = item.getAttribute("data-has-software") === "true";
+        } else if (currentTypeFilter === "tool") {
+          matchesType = item.getAttribute("data-has-tool") === "true";
+        }
+
+        const isVisible = matchesQuery && matchesType;
+        item.style.display = isVisible ? "" : "none";
+        if (isVisible) visibleCount++;
+      });
+
+      if (activeCountEl) activeCountEl.textContent = String(visibleCount);
+      if (emptyState) {
+        emptyState.classList.toggle("hidden", visibleCount > 0);
+      }
+    }
+
+    if (input) {
+      input.addEventListener("input", update);
+    }
+
+    filterButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const type = btn.getAttribute("data-filter") || "all";
+        currentTypeFilter = type;
+
+        filterButtons.forEach((b) => {
+          b.classList.remove(
+            "active",
+            "bg-zinc-900",
+            "text-white",
+            "dark:bg-zinc-100",
+            "dark:text-zinc-900"
+          );
+          b.classList.add(
+            "bg-white",
+            "dark:bg-zinc-800/60",
+            "text-zinc-600",
+            "dark:text-zinc-400"
+          );
+        });
+
+        btn.classList.add(
+          "active",
+          "bg-zinc-900",
+          "text-white",
+          "dark:bg-zinc-100",
+          "dark:text-zinc-900"
+        );
+        btn.classList.remove(
+          "bg-white",
+          "dark:bg-zinc-800/60",
+          "text-zinc-600",
+          "dark:text-zinc-400"
+        );
+
+        update();
+      });
+    });
+  }
+
+  setupTagFilter();
+  document.addEventListener("astro:page-load", setupTagFilter);
+</script>

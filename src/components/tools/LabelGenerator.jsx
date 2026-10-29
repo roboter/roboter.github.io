@@ -1,15 +1,17 @@
 import { useState, useEffect, useRef } from "react";
 
-if (typeof window !== "undefined" && !window.qrcode) {
-  const script = document.createElement("script");
-  script.src = "https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js";
-  script.async = true;
-  document.head.appendChild(script);
-}
-
 export default function LabelGenerator() {
   const previewRef = useRef(null);
   const sheetRef = useRef(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && !window.qrcode) {
+      const script = document.createElement("script");
+      script.src = "https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js";
+      script.async = true;
+      document.head.appendChild(script);
+    }
+  }, []);
 
   const [name, setName] = useState("RESISTOR");
   const [headerColor, setHeaderColor] = useState("#1f8f3a");
