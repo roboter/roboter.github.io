@@ -3,6 +3,17 @@
 @tailwind utilities;
 
 @layer base {
+  html {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply selection:bg-emerald-500/20 selection:text-emerald-900 dark:selection:bg-emerald-400/25 dark:selection:text-emerald-100;
+  }
+
   .prose code {
     @apply text-base;
   }
@@ -12,7 +23,16 @@
   h4,
   h5,
   h6 {
-    @apply text-zinc-800 dark:text-zinc-200 !important;
+    @apply text-zinc-900 dark:text-zinc-100 !important;
+  }
+  h1 {
+    letter-spacing: -0.025em;
+  }
+  h2 {
+    letter-spacing: -0.02em;
+  }
+  h3 {
+    letter-spacing: -0.015em;
   }
   p,
   li,
@@ -22,10 +42,10 @@
     @apply text-zinc-700 dark:text-zinc-300;
   }
   kbd {
-    @apply bg-white text-zinc-700;
+    @apply bg-white text-zinc-700 shadow-sm border border-zinc-200 dark:bg-zinc-800 dark:text-zinc-300 dark:border-zinc-700 rounded px-1.5 py-0.5 text-xs;
   }
   mark {
-    @apply bg-yellow-300;
+    @apply bg-yellow-300/80 dark:bg-yellow-500/30 dark:text-yellow-200 rounded px-1;
   }
 }
 
@@ -73,6 +93,15 @@ input#nav-toggle:checked ~ #nav-menu {
 }
 .dark #themeToggle:hover .moon {
   @apply stroke-zinc-200;
+}
+
+/* Apple-style interactive feedback: instant pointer-down response */
+button:active,
+a.button:active,
+#themeToggle:active,
+.tag-pill:active {
+  transform: scale(0.97);
+  transition: transform 100ms cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 /* Blog badge rows: paragraphs containing multiple badge links or SVG badges */
@@ -136,4 +165,27 @@ input#nav-toggle:checked ~ #nav-menu {
 .prose .badge-row::-webkit-scrollbar-thumb {
   background-color: rgba(156, 163, 175, 0.5);
   border-radius: 9999px;
+}
+
+/* Reduced motion accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Hide scrollbars utility */
+.scrollbar-none::-webkit-scrollbar,
+.no-scrollbar::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+.scrollbar-none,
+.no-scrollbar {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
 }

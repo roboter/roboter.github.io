@@ -1,8 +1,10 @@
 ---
 import LeftArrowIcon from "@components/icons/LeftArrowIcon.astro";
+import Base from "@layouts/Base.astro";
 ---
 
-<div class="grid h-screen px-4 bg-white place-content-center">
+<Base title="404 — Page Not Found · Robby roboter" meta_title="404 — Page Not Found · Robby roboter" description="Sorry, the page you are looking for does not exist or has been moved." noindex={true} hideHero={true} hideVideos={true}>
+  <div class="py-12 px-4 place-content-center">
   <div class="text-center">
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -54,3 +56,4 @@ import LeftArrowIcon from "@components/icons/LeftArrowIcon.astro";
     </div>
   </div>
 </div>
+</Base>

@@ -1,76 +1,180 @@
 [
   {
     "title": "Coding 3D Models Is Easier Than You Think! #OpenSCAD",
-    "description": "Coding 3D Models Is Easier Than You Think! #OpenSCAD",
-    "tags": ["OpenSCAD", "3D Printing", "CAD", "DIY"],
+    "description": "Welcome to my quick introduction to OpenSCAD — a powerful 3D modeling program that combines coding and 3D design! In this video, I show you the basics of creating 3D and 2D objects, using transformations like translate, rotate, and scale, and working with Boolean operations like union, difference, and intersection.\n\nYou’ll also see how to highlight objects, use parametric models, and customize designs from Thingiverse. Whether you’re a beginner or just curious about OpenSCAD, this video will help you get started with coding your own 3D models.\n\nIf you enjoy this video, don’t forget to like, subscribe, and hit the bell for more 3D modeling tutorials!\n\nDownload Links / Resources:\n • OpenSCAD: https://www.openscad.org\n • Thingiverse: https://www.thingiverse.com",
+    "tags": [
+      "OpenSCAD",
+      "3D Printing",
+      "CAD",
+      "DIY",
+      "HX711"
+    ],
     "channelId": "UCBHWZ3DA4f7c1eKFUC4f1cA",
     "channelTitle": "Robby roboter",
-    "channelUrl": "https://www.youtube.com/@robby.roboter",
+    "channelUrl": "https://www.youtube.com/channel/UCBHWZ3DA4f7c1eKFUC4f1cA",
     "videoId": "zVtgzvR9rKE",
-    "views": "897 views",
-    "published": "11 months ago",
+    "views": "1076 views",
+    "published": "19.10.2025",
     "duration": "8:31",
     "thumbnails": {
-      "default": { "url": "https://i.ytimg.com/vi/zVtgzvR9rKE/default.jpg", "width": 120, "height": 90 },
-      "medium": { "url": "https://i.ytimg.com/vi/zVtgzvR9rKE/mqdefault.jpg", "width": 320, "height": 180 },
-      "high": { "url": "https://i.ytimg.com/vi/zVtgzvR9rKE/hqdefault.jpg", "width": 480, "height": 360 }
-    }
+      "default": {
+        "url": "https://i.ytimg.com/vi/zVtgzvR9rKE/default.jpg",
+        "width": 120,
+        "height": 90
+      },
+      "medium": {
+        "url": "https://i.ytimg.com/vi/zVtgzvR9rKE/mqdefault.jpg",
+        "width": 320,
+        "height": 180
+      },
+      "high": {
+        "url": "https://i3.ytimg.com/vi/zVtgzvR9rKE/hqdefault.jpg",
+        "width": 480,
+        "height": 360
+      }
+    },
+    "categories": [
+      "electronics"
+    ]
   },
   {
     "title": "Another arduino review: joystick shield v1.0",
-    "description": "Another arduino review: joystick shield v1.0",
-    "tags": ["Arduino", "Shield", "Review", "Joystick"],
+    "description": "🚀 Explore the Arduino Joystick Shield!\nThis versatile shield features a 2-axis joystick with a built-in push button, multiple tactile buttons (A–F), and headers for I2C, serial, and analog connections. It even includes a dedicated interface for a Nokia 5110 (PCD8544) LCD display and support for the nRF24L01 wireless module, making it perfect for creating remote controls, game controllers, and interactive projects.\n\n👉 Whether you’re building a robot, wireless gamepad, or display interface, this shield is packed with possibilities.\n🎮 Watch the video for a full walkthrough and demo!\n💾 http://begemotik.ee/blog/20250525-arduino-joystik-shield/",
+    "tags": [
+      "Arduino",
+      "Shield",
+      "Review",
+      "Joystick",
+      "LCD",
+      "I2C"
+    ],
     "channelId": "UCBHWZ3DA4f7c1eKFUC4f1cA",
     "channelTitle": "Robby roboter",
-    "channelUrl": "https://www.youtube.com/@robby.roboter",
+    "channelUrl": "https://www.youtube.com/channel/UCBHWZ3DA4f7c1eKFUC4f1cA",
     "videoId": "FjimpLuksX4",
-    "views": "1.1 thousand views",
-    "published": "1 year ago",
+    "views": "1195 views",
+    "published": "25.5.2025",
     "duration": "5:12",
     "thumbnails": {
-      "default": { "url": "https://i.ytimg.com/vi/FjimpLuksX4/default.jpg", "width": 120, "height": 90 },
-      "medium": { "url": "https://i.ytimg.com/vi/FjimpLuksX4/mqdefault.jpg", "width": 320, "height": 180 },
-      "high": { "url": "https://i.ytimg.com/vi/FjimpLuksX4/hqdefault.jpg", "width": 480, "height": 360 }
-    }
+      "default": {
+        "url": "https://i.ytimg.com/vi/FjimpLuksX4/default.jpg",
+        "width": 120,
+        "height": 90
+      },
+      "medium": {
+        "url": "https://i.ytimg.com/vi/FjimpLuksX4/mqdefault.jpg",
+        "width": 320,
+        "height": 180
+      },
+      "high": {
+        "url": "https://i3.ytimg.com/vi/FjimpLuksX4/hqdefault.jpg",
+        "width": 480,
+        "height": 360
+      }
+    },
+    "categories": [
+      "arduino",
+      "electronics"
+    ]
   },
   {
     "title": "🚀 Exploring My Collection of Development Boards – STM, Arduino, nRF, and More!",
-    "description": "🚀 Exploring My Collection of Development Boards – STM, Arduino, nRF, and More!",
-    "tags": ["STM32", "Arduino", "nRF", "Dev Boards", "Collection"],
+    "description": "Hey everyone! 👋 In today's video, I’m doing a quick review of all the development boards I have in my collection. From STM and Arduino clones to nRF and specialty debug boards, there’s a lot to cover—so let’s dive in!\nBoards Featured in This Video:\n\n✔ Nuclear boards (Arduino Nano form factor)\n✔ WB55 – Bluetooth debugging board\n✔ Geehy Board +  Programmer Emulator (Geeky Link) for debugging\n✔ nRF52833 Development Board\n✔ STM232 with Ethernet (NUCLEO-H563ZI) \n✔ Two Discovery Boards + Nuclear boards with a small display\n✔ Feature-packed board with a big display\n✔ Boards with display connectors (easy to connect via big cable to J-Link/ST-Link)\n✔ Blue Pill &amp; Black Pill boards + Mini Debugger programmer\n✔ Interface boards (I2C, etc.)\n✔ STM8 Boards (x3) + ST-Link (original &amp; clone)\n\n🔧 Tools Mentioned:\n\n    ✔ J-Link / ST-Link\n    ✔ U Programmer Emulator\n    ✔ Mini Debugger\n\nThat’s pretty much it for this overview! If you’re into embedded systems, DIY electronics, or just love development boards, let me know in the comments which one is your favorite or if you’d like a deeper review on any of these.\n\n🔔 Subscribe for more tech reviews, tutorials, and electronics projects!\n\n#STM32 #Arduino #DevelopmentBoards #Electronics #EmbeddedSystems #DIY #NRF #Debugging #TechReview",
+    "tags": [
+      "STM32",
+      "Arduino",
+      "nRF",
+      "Dev Boards",
+      "Collection",
+      "DevelopmentBoards",
+      "Electronics",
+      "EmbeddedSystems",
+      "DIY",
+      "Debugging",
+      "TechReview",
+      "Geehy",
+      "I2C",
+      "Review"
+    ],
     "channelId": "UCBHWZ3DA4f7c1eKFUC4f1cA",
     "channelTitle": "Robby roboter",
-    "channelUrl": "https://www.youtube.com/@robby.roboter",
+    "channelUrl": "https://www.youtube.com/channel/UCBHWZ3DA4f7c1eKFUC4f1cA",
     "videoId": "H1pTcb-K3u4",
-    "views": "284 views",
-    "published": "1 year ago",
+    "views": "287 views",
+    "published": "30.3.2025",
     "duration": "2:37",
     "thumbnails": {
-      "default": { "url": "https://i.ytimg.com/vi/H1pTcb-K3u4/default.jpg", "width": 120, "height": 90 },
-      "medium": { "url": "https://i.ytimg.com/vi/H1pTcb-K3u4/mqdefault.jpg", "width": 320, "height": 180 },
-      "high": { "url": "https://i.ytimg.com/vi/H1pTcb-K3u4/hqdefault.jpg", "width": 480, "height": 360 }
-    }
+      "default": {
+        "url": "https://i.ytimg.com/vi/H1pTcb-K3u4/default.jpg",
+        "width": 120,
+        "height": 90
+      },
+      "medium": {
+        "url": "https://i.ytimg.com/vi/H1pTcb-K3u4/mqdefault.jpg",
+        "width": 320,
+        "height": 180
+      },
+      "high": {
+        "url": "https://i1.ytimg.com/vi/H1pTcb-K3u4/hqdefault.jpg",
+        "width": 480,
+        "height": 360
+      }
+    },
+    "categories": [
+      "arduino",
+      "stm32",
+      "geehy",
+      "electronics",
+      "embedded"
+    ]
   },
   {
     "title": "Stealing code? Linux keep Russian dev contribution but remove credit!",
-    "description": "Stealing code? Linux keep Russian dev contribution but remove credit!",
-    "tags": ["Linux", "Open Source", "Opinion"],
+    "description": "Did Linux just betray its own developers? In a shocking move, the Linux Foundation erased several Russian maintainers from the list, keeping their code but stripping away their recognition. This act of political censorship goes against everything open source stands for. Is Linux now pirating code by using these contributions without credit? Where’s the justice in a license meant to empower everyone, regardless of nationality? Let’s expose the hypocrisy and demand that Linux stay true to its core principles—without political interference.",
+    "tags": [
+      "Linux",
+      "Open Source",
+      "Opinion"
+    ],
     "channelId": "UCBHWZ3DA4f7c1eKFUC4f1cA",
     "channelTitle": "Robby roboter",
-    "channelUrl": "https://www.youtube.com/@robby.roboter",
+    "channelUrl": "https://www.youtube.com/channel/UCBHWZ3DA4f7c1eKFUC4f1cA",
     "videoId": "uciZjWyW3qM",
-    "views": "829 views",
-    "published": "1 year ago",
+    "views": "831 views",
+    "published": "11.11.2024",
     "duration": "1:51",
     "thumbnails": {
-      "default": { "url": "https://i.ytimg.com/vi/uciZjWyW3qM/default.jpg", "width": 120, "height": 90 },
-      "medium": { "url": "https://i.ytimg.com/vi/uciZjWyW3qM/mqdefault.jpg", "width": 320, "height": 180 },
-      "high": { "url": "https://i.ytimg.com/vi/uciZjWyW3qM/hqdefault.jpg", "width": 480, "height": 360 }
-    }
+      "default": {
+        "url": "https://i.ytimg.com/vi/uciZjWyW3qM/default.jpg",
+        "width": 120,
+        "height": 90
+      },
+      "medium": {
+        "url": "https://i.ytimg.com/vi/uciZjWyW3qM/mqdefault.jpg",
+        "width": 320,
+        "height": 180
+      },
+      "high": {
+        "url": "https://i2.ytimg.com/vi/uciZjWyW3qM/hqdefault.jpg",
+        "width": 480,
+        "height": 360
+      }
+    },
+    "categories": [
+      "embedded"
+    ]
   },
   {
     "title": "FREE PCBs for Your STM32 or CH32 Projects with PCBX!",
     "description": "FREE PCBs for Your STM32 or CH32 Projects with PCBX!",
-    "tags": ["PCB", "STM32", "CH32", "PCBX", "Embedded"],
+    "tags": [
+      "PCB",
+      "STM32",
+      "CH32",
+      "PCBX",
+      "Embedded",
+      "WCH"
+    ],
     "channelId": "UCBHWZ3DA4f7c1eKFUC4f1cA",
     "channelTitle": "Robby roboter",
     "channelUrl": "https://www.youtube.com/@robby.roboter",
@@ -79,15 +183,38 @@
     "published": "1 year ago",
     "duration": "1:27",
     "thumbnails": {
-      "default": { "url": "https://i.ytimg.com/vi/Bx1xEhnN-Bg/default.jpg", "width": 120, "height": 90 },
-      "medium": { "url": "https://i.ytimg.com/vi/Bx1xEhnN-Bg/mqdefault.jpg", "width": 320, "height": 180 },
-      "high": { "url": "https://i.ytimg.com/vi/Bx1xEhnN-Bg/hqdefault.jpg", "width": 480, "height": 360 }
-    }
+      "default": {
+        "url": "https://i.ytimg.com/vi/Bx1xEhnN-Bg/default.jpg",
+        "width": 120,
+        "height": 90
+      },
+      "medium": {
+        "url": "https://i.ytimg.com/vi/Bx1xEhnN-Bg/mqdefault.jpg",
+        "width": 320,
+        "height": 180
+      },
+      "high": {
+        "url": "https://i.ytimg.com/vi/Bx1xEhnN-Bg/hqdefault.jpg",
+        "width": 480,
+        "height": 360
+      }
+    },
+    "categories": [
+      "stm32",
+      "wch",
+      "pcb"
+    ]
   },
   {
     "title": "Quick Arduino Project: DHT11 Arduino Weather Station | Electronics DIY channel",
     "description": "Quick Arduino Project: DHT11 Arduino Weather Station | Electronics DIY channel",
-    "tags": ["Arduino", "DHT11", "Sensor", "Weather", "DIY"],
+    "tags": [
+      "Arduino",
+      "DHT11",
+      "Sensor",
+      "Weather",
+      "DIY"
+    ],
     "channelId": "UCBHWZ3DA4f7c1eKFUC4f1cA",
     "channelTitle": "Robby roboter",
     "channelUrl": "https://www.youtube.com/@robby.roboter",
@@ -96,15 +223,37 @@
     "published": "1 year ago",
     "duration": "3:21",
     "thumbnails": {
-      "default": { "url": "https://i.ytimg.com/vi/Fvgn_GjVZmk/default.jpg", "width": 120, "height": 90 },
-      "medium": { "url": "https://i.ytimg.com/vi/Fvgn_GjVZmk/mqdefault.jpg", "width": 320, "height": 180 },
-      "high": { "url": "https://i.ytimg.com/vi/Fvgn_GjVZmk/hqdefault.jpg", "width": 480, "height": 360 }
-    }
+      "default": {
+        "url": "https://i.ytimg.com/vi/Fvgn_GjVZmk/default.jpg",
+        "width": 120,
+        "height": 90
+      },
+      "medium": {
+        "url": "https://i.ytimg.com/vi/Fvgn_GjVZmk/mqdefault.jpg",
+        "width": 320,
+        "height": 180
+      },
+      "high": {
+        "url": "https://i.ytimg.com/vi/Fvgn_GjVZmk/hqdefault.jpg",
+        "width": 480,
+        "height": 360
+      }
+    },
+    "categories": [
+      "arduino",
+      "electronics"
+    ]
   },
   {
     "title": "Mastering Liquid-crystal Displays and I2C Expansion",
     "description": "Mastering Liquid-crystal Displays and I2C Expansion",
-    "tags": ["LCD", "I2C", "Arduino", "Display", "Tutorial"],
+    "tags": [
+      "LCD",
+      "I2C",
+      "Arduino",
+      "Display",
+      "Tutorial"
+    ],
     "channelId": "UCBHWZ3DA4f7c1eKFUC4f1cA",
     "channelTitle": "Robby roboter",
     "channelUrl": "https://www.youtube.com/@robby.roboter",
@@ -113,15 +262,34 @@
     "published": "2 years ago",
     "duration": "11:30",
     "thumbnails": {
-      "default": { "url": "https://i.ytimg.com/vi/LbEu6JlpDgs/default.jpg", "width": 120, "height": 90 },
-      "medium": { "url": "https://i.ytimg.com/vi/LbEu6JlpDgs/mqdefault.jpg", "width": 320, "height": 180 },
-      "high": { "url": "https://i.ytimg.com/vi/LbEu6JlpDgs/hqdefault.jpg", "width": 480, "height": 360 }
-    }
+      "default": {
+        "url": "https://i.ytimg.com/vi/LbEu6JlpDgs/default.jpg",
+        "width": 120,
+        "height": 90
+      },
+      "medium": {
+        "url": "https://i.ytimg.com/vi/LbEu6JlpDgs/mqdefault.jpg",
+        "width": 320,
+        "height": 180
+      },
+      "high": {
+        "url": "https://i.ytimg.com/vi/LbEu6JlpDgs/hqdefault.jpg",
+        "width": 480,
+        "height": 360
+      }
+    },
+    "categories": [
+      "electronics"
+    ]
   },
   {
     "title": "What should I do with all that stuff? Arduinos and more!",
     "description": "What should I do with all that stuff? Arduinos and more!",
-    "tags": ["Arduino", "Dev Boards", "DIY"],
+    "tags": [
+      "Arduino",
+      "Dev Boards",
+      "DIY"
+    ],
     "channelId": "UCBHWZ3DA4f7c1eKFUC4f1cA",
     "channelTitle": "Robby roboter",
     "channelUrl": "https://www.youtube.com/@robby.roboter",
@@ -130,15 +298,35 @@
     "published": "2 years ago",
     "duration": "7:41",
     "thumbnails": {
-      "default": { "url": "https://i.ytimg.com/vi/dii9vnZBbYg/default.jpg", "width": 120, "height": 90 },
-      "medium": { "url": "https://i.ytimg.com/vi/dii9vnZBbYg/mqdefault.jpg", "width": 320, "height": 180 },
-      "high": { "url": "https://i.ytimg.com/vi/dii9vnZBbYg/hqdefault.jpg", "width": 480, "height": 360 }
-    }
+      "default": {
+        "url": "https://i.ytimg.com/vi/dii9vnZBbYg/default.jpg",
+        "width": 120,
+        "height": 90
+      },
+      "medium": {
+        "url": "https://i.ytimg.com/vi/dii9vnZBbYg/mqdefault.jpg",
+        "width": 320,
+        "height": 180
+      },
+      "high": {
+        "url": "https://i.ytimg.com/vi/dii9vnZBbYg/hqdefault.jpg",
+        "width": 480,
+        "height": 360
+      }
+    },
+    "categories": [
+      "electronics"
+    ]
   },
   {
     "title": "HAYEAR 51MP Digital Video Microscope Camera Review",
     "description": "HAYEAR 51MP Digital Video Microscope Camera Review",
-    "tags": ["Microscope", "Review", "Tools", "Soldering"],
+    "tags": [
+      "Microscope",
+      "Review",
+      "Tools",
+      "Soldering"
+    ],
     "channelId": "UCBHWZ3DA4f7c1eKFUC4f1cA",
     "channelTitle": "Robby roboter",
     "channelUrl": "https://www.youtube.com/@robby.roboter",
@@ -147,15 +335,35 @@
     "published": "2 years ago",
     "duration": "7:07",
     "thumbnails": {
-      "default": { "url": "https://i.ytimg.com/vi/7YoFTNO0su0/default.jpg", "width": 120, "height": 90 },
-      "medium": { "url": "https://i.ytimg.com/vi/7YoFTNO0su0/mqdefault.jpg", "width": 320, "height": 180 },
-      "high": { "url": "https://i.ytimg.com/vi/7YoFTNO0su0/hqdefault.jpg", "width": 480, "height": 360 }
-    }
+      "default": {
+        "url": "https://i.ytimg.com/vi/7YoFTNO0su0/default.jpg",
+        "width": 120,
+        "height": 90
+      },
+      "medium": {
+        "url": "https://i.ytimg.com/vi/7YoFTNO0su0/mqdefault.jpg",
+        "width": 320,
+        "height": 180
+      },
+      "high": {
+        "url": "https://i.ytimg.com/vi/7YoFTNO0su0/hqdefault.jpg",
+        "width": 480,
+        "height": 360
+      }
+    },
+    "categories": [
+      "electronics"
+    ]
   },
   {
     "title": "Custom Characters Just Got a WHOLE LOT BETTER!",
     "description": "Custom Characters Just Got a WHOLE LOT BETTER!",
-    "tags": ["LCD", "Arduino", "Display", "Tutorial"],
+    "tags": [
+      "LCD",
+      "Arduino",
+      "Display",
+      "Tutorial"
+    ],
     "channelId": "UCBHWZ3DA4f7c1eKFUC4f1cA",
     "channelTitle": "Robby roboter",
     "channelUrl": "https://www.youtube.com/@robby.roboter",
@@ -164,15 +372,36 @@
     "published": "2 years ago",
     "duration": "4:49",
     "thumbnails": {
-      "default": { "url": "https://i.ytimg.com/vi/T9Hh5K2cmZA/default.jpg", "width": 120, "height": 90 },
-      "medium": { "url": "https://i.ytimg.com/vi/T9Hh5K2cmZA/mqdefault.jpg", "width": 320, "height": 180 },
-      "high": { "url": "https://i.ytimg.com/vi/T9Hh5K2cmZA/hqdefault.jpg", "width": 480, "height": 360 }
-    }
+      "default": {
+        "url": "https://i.ytimg.com/vi/T9Hh5K2cmZA/default.jpg",
+        "width": 120,
+        "height": 90
+      },
+      "medium": {
+        "url": "https://i.ytimg.com/vi/T9Hh5K2cmZA/mqdefault.jpg",
+        "width": 320,
+        "height": 180
+      },
+      "high": {
+        "url": "https://i.ytimg.com/vi/T9Hh5K2cmZA/hqdefault.jpg",
+        "width": 480,
+        "height": 360
+      }
+    },
+    "categories": [
+      "electronics"
+    ]
   },
   {
     "title": "SimulIDE: The Easiest Way to Prototype Your LCD Projects",
     "description": "SimulIDE: The Easiest Way to Prototype Your LCD Projects",
-    "tags": ["SimulIDE", "LCD", "Simulation", "Arduino", "Tutorial"],
+    "tags": [
+      "SimulIDE",
+      "LCD",
+      "Simulation",
+      "Arduino",
+      "Tutorial"
+    ],
     "channelId": "UCBHWZ3DA4f7c1eKFUC4f1cA",
     "channelTitle": "Robby roboter",
     "channelUrl": "https://www.youtube.com/@robby.roboter",
@@ -181,15 +410,35 @@
     "published": "2 years ago",
     "duration": "6:33",
     "thumbnails": {
-      "default": { "url": "https://i.ytimg.com/vi/hfW3rGCxj0Q/default.jpg", "width": 120, "height": 90 },
-      "medium": { "url": "https://i.ytimg.com/vi/hfW3rGCxj0Q/mqdefault.jpg", "width": 320, "height": 180 },
-      "high": { "url": "https://i.ytimg.com/vi/hfW3rGCxj0Q/hqdefault.jpg", "width": 480, "height": 360 }
-    }
+      "default": {
+        "url": "https://i.ytimg.com/vi/hfW3rGCxj0Q/default.jpg",
+        "width": 120,
+        "height": 90
+      },
+      "medium": {
+        "url": "https://i.ytimg.com/vi/hfW3rGCxj0Q/mqdefault.jpg",
+        "width": 320,
+        "height": 180
+      },
+      "high": {
+        "url": "https://i.ytimg.com/vi/hfW3rGCxj0Q/hqdefault.jpg",
+        "width": 480,
+        "height": 360
+      }
+    },
+    "categories": [
+      "electronics"
+    ]
   },
   {
     "title": "Mixing Bluetooth and Digital Multimeter: Is It Worth It?",
     "description": "Mixing Bluetooth and Digital Multimeter: Is It Worth It?",
-    "tags": ["Bluetooth", "Multimeter", "Tools", "Review"],
+    "tags": [
+      "Bluetooth",
+      "Multimeter",
+      "Tools",
+      "Review"
+    ],
     "channelId": "UCBHWZ3DA4f7c1eKFUC4f1cA",
     "channelTitle": "Robby roboter",
     "channelUrl": "https://www.youtube.com/@robby.roboter",
@@ -198,15 +447,36 @@
     "published": "2 years ago",
     "duration": "3:59",
     "thumbnails": {
-      "default": { "url": "https://i.ytimg.com/vi/jEHxb082lDI/default.jpg", "width": 120, "height": 90 },
-      "medium": { "url": "https://i.ytimg.com/vi/jEHxb082lDI/mqdefault.jpg", "width": 320, "height": 180 },
-      "high": { "url": "https://i.ytimg.com/vi/jEHxb082lDI/hqdefault.jpg", "width": 480, "height": 360 }
-    }
+      "default": {
+        "url": "https://i.ytimg.com/vi/jEHxb082lDI/default.jpg",
+        "width": 120,
+        "height": 90
+      },
+      "medium": {
+        "url": "https://i.ytimg.com/vi/jEHxb082lDI/mqdefault.jpg",
+        "width": 320,
+        "height": 180
+      },
+      "high": {
+        "url": "https://i.ytimg.com/vi/jEHxb082lDI/hqdefault.jpg",
+        "width": 480,
+        "height": 360
+      }
+    },
+    "categories": [
+      "electronics"
+    ]
   },
   {
     "title": "Milk v Duo 9$ computer",
     "description": "Milk v Duo 9$ computer",
-    "tags": ["Milk-V", "RISC-V", "SBC", "Linux", "Embedded"],
+    "tags": [
+      "Milk-V",
+      "RISC-V",
+      "SBC",
+      "Linux",
+      "Embedded"
+    ],
     "channelId": "UCBHWZ3DA4f7c1eKFUC4f1cA",
     "channelTitle": "Robby roboter",
     "channelUrl": "https://www.youtube.com/@robby.roboter",
@@ -215,15 +485,35 @@
     "published": "2 years ago",
     "duration": "16:37",
     "thumbnails": {
-      "default": { "url": "https://i.ytimg.com/vi/rcffWcwhL-c/default.jpg", "width": 120, "height": 90 },
-      "medium": { "url": "https://i.ytimg.com/vi/rcffWcwhL-c/mqdefault.jpg", "width": 320, "height": 180 },
-      "high": { "url": "https://i.ytimg.com/vi/rcffWcwhL-c/hqdefault.jpg", "width": 480, "height": 360 }
-    }
+      "default": {
+        "url": "https://i.ytimg.com/vi/rcffWcwhL-c/default.jpg",
+        "width": 120,
+        "height": 90
+      },
+      "medium": {
+        "url": "https://i.ytimg.com/vi/rcffWcwhL-c/mqdefault.jpg",
+        "width": 320,
+        "height": 180
+      },
+      "high": {
+        "url": "https://i.ytimg.com/vi/rcffWcwhL-c/hqdefault.jpg",
+        "width": 480,
+        "height": 360
+      }
+    },
+    "categories": [
+      "electronics"
+    ]
   },
   {
     "title": "Learn arduino fast with this shield: Rich Shield TWO",
     "description": "Learn arduino fast with this shield: Rich Shield TWO",
-    "tags": ["Arduino", "Shield", "Tutorial", "Beginner"],
+    "tags": [
+      "Arduino",
+      "Shield",
+      "Tutorial",
+      "Beginner"
+    ],
     "channelId": "UCBHWZ3DA4f7c1eKFUC4f1cA",
     "channelTitle": "Robby roboter",
     "channelUrl": "https://www.youtube.com/@robby.roboter",
@@ -232,15 +522,36 @@
     "published": "2 years ago",
     "duration": "7:32",
     "thumbnails": {
-      "default": { "url": "https://i.ytimg.com/vi/T7r7coMm-Wk/default.jpg", "width": 120, "height": 90 },
-      "medium": { "url": "https://i.ytimg.com/vi/T7r7coMm-Wk/mqdefault.jpg", "width": 320, "height": 180 },
-      "high": { "url": "https://i.ytimg.com/vi/T7r7coMm-Wk/hqdefault.jpg", "width": 480, "height": 360 }
-    }
+      "default": {
+        "url": "https://i.ytimg.com/vi/T7r7coMm-Wk/default.jpg",
+        "width": 120,
+        "height": 90
+      },
+      "medium": {
+        "url": "https://i.ytimg.com/vi/T7r7coMm-Wk/mqdefault.jpg",
+        "width": 320,
+        "height": 180
+      },
+      "high": {
+        "url": "https://i.ytimg.com/vi/T7r7coMm-Wk/hqdefault.jpg",
+        "width": 480,
+        "height": 360
+      }
+    },
+    "categories": [
+      "arduino"
+    ]
   },
   {
     "title": "Pico: Finally Getting Embeetle IDE Support",
     "description": "Pico: Finally Getting Embeetle IDE Support",
-    "tags": ["Raspberry Pi Pico", "Embeetle", "IDE", "RP2040", "Embedded"],
+    "tags": [
+      "Raspberry Pi Pico",
+      "Embeetle",
+      "IDE",
+      "RP2040",
+      "Embedded"
+    ],
     "channelId": "UCBHWZ3DA4f7c1eKFUC4f1cA",
     "channelTitle": "Robby roboter",
     "channelUrl": "https://www.youtube.com/@robby.roboter",
@@ -249,15 +560,35 @@
     "published": "3 years ago",
     "duration": "6:56",
     "thumbnails": {
-      "default": { "url": "https://i.ytimg.com/vi/uQn5PcgrL20/default.jpg", "width": 120, "height": 90 },
-      "medium": { "url": "https://i.ytimg.com/vi/uQn5PcgrL20/mqdefault.jpg", "width": 320, "height": 180 },
-      "high": { "url": "https://i.ytimg.com/vi/uQn5PcgrL20/hqdefault.jpg", "width": 480, "height": 360 }
-    }
+      "default": {
+        "url": "https://i.ytimg.com/vi/uQn5PcgrL20/default.jpg",
+        "width": 120,
+        "height": 90
+      },
+      "medium": {
+        "url": "https://i.ytimg.com/vi/uQn5PcgrL20/mqdefault.jpg",
+        "width": 320,
+        "height": 180
+      },
+      "high": {
+        "url": "https://i.ytimg.com/vi/uQn5PcgrL20/hqdefault.jpg",
+        "width": 480,
+        "height": 360
+      }
+    },
+    "categories": [
+      "embedded"
+    ]
   },
   {
     "title": "Get Ready for the Most Advanced 8-Port Function Tester Ever!",
     "description": "Get Ready for the Most Advanced 8-Port Function Tester Ever!",
-    "tags": ["Test Equipment", "Tools", "Review", "Electronics"],
+    "tags": [
+      "Test Equipment",
+      "Tools",
+      "Review",
+      "Electronics"
+    ],
     "channelId": "UCBHWZ3DA4f7c1eKFUC4f1cA",
     "channelTitle": "Robby roboter",
     "channelUrl": "https://www.youtube.com/@robby.roboter",
@@ -266,15 +597,36 @@
     "published": "3 years ago",
     "duration": "11:55",
     "thumbnails": {
-      "default": { "url": "https://i.ytimg.com/vi/njwtLtJ7tJ4/default.jpg", "width": 120, "height": 90 },
-      "medium": { "url": "https://i.ytimg.com/vi/njwtLtJ7tJ4/mqdefault.jpg", "width": 320, "height": 180 },
-      "high": { "url": "https://i.ytimg.com/vi/njwtLtJ7tJ4/hqdefault.jpg", "width": 480, "height": 360 }
-    }
+      "default": {
+        "url": "https://i.ytimg.com/vi/njwtLtJ7tJ4/default.jpg",
+        "width": 120,
+        "height": 90
+      },
+      "medium": {
+        "url": "https://i.ytimg.com/vi/njwtLtJ7tJ4/mqdefault.jpg",
+        "width": 320,
+        "height": 180
+      },
+      "high": {
+        "url": "https://i.ytimg.com/vi/njwtLtJ7tJ4/hqdefault.jpg",
+        "width": 480,
+        "height": 360
+      }
+    },
+    "categories": [
+      "electronics"
+    ]
   },
   {
     "title": "Arduino vs STM: Which is the Better DIY Electronics?",
     "description": "Arduino vs STM: Which is the Better DIY Electronics?",
-    "tags": ["Arduino", "STM32", "Comparison", "DIY", "Embedded"],
+    "tags": [
+      "Arduino",
+      "STM32",
+      "Comparison",
+      "DIY",
+      "Embedded"
+    ],
     "channelId": "UCBHWZ3DA4f7c1eKFUC4f1cA",
     "channelTitle": "Robby roboter",
     "channelUrl": "https://www.youtube.com/@robby.roboter",
@@ -283,15 +635,36 @@
     "published": "3 years ago",
     "duration": "8:56",
     "thumbnails": {
-      "default": { "url": "https://i.ytimg.com/vi/Yqu_3O_iy8M/default.jpg", "width": 120, "height": 90 },
-      "medium": { "url": "https://i.ytimg.com/vi/Yqu_3O_iy8M/mqdefault.jpg", "width": 320, "height": 180 },
-      "high": { "url": "https://i.ytimg.com/vi/Yqu_3O_iy8M/hqdefault.jpg", "width": 480, "height": 360 }
-    }
+      "default": {
+        "url": "https://i.ytimg.com/vi/Yqu_3O_iy8M/default.jpg",
+        "width": 120,
+        "height": 90
+      },
+      "medium": {
+        "url": "https://i.ytimg.com/vi/Yqu_3O_iy8M/mqdefault.jpg",
+        "width": 320,
+        "height": 180
+      },
+      "high": {
+        "url": "https://i.ytimg.com/vi/Yqu_3O_iy8M/hqdefault.jpg",
+        "width": 480,
+        "height": 360
+      }
+    },
+    "categories": [
+      "arduino",
+      "electronics"
+    ]
   },
   {
     "title": "Inside Embedded World 2023: Firsthand Insights from Nürnberg",
     "description": "Inside Embedded World 2023: Firsthand Insights from Nürnberg",
-    "tags": ["Embedded World", "Conference", "Embedded", "Electronics"],
+    "tags": [
+      "Embedded World",
+      "Conference",
+      "Embedded",
+      "Electronics"
+    ],
     "channelId": "UCBHWZ3DA4f7c1eKFUC4f1cA",
     "channelTitle": "Robby roboter",
     "channelUrl": "https://www.youtube.com/@robby.roboter",
@@ -300,15 +673,36 @@
     "published": "3 years ago",
     "duration": "37:34",
     "thumbnails": {
-      "default": { "url": "https://i.ytimg.com/vi/0osgKQllUwg/default.jpg", "width": 120, "height": 90 },
-      "medium": { "url": "https://i.ytimg.com/vi/0osgKQllUwg/mqdefault.jpg", "width": 320, "height": 180 },
-      "high": { "url": "https://i.ytimg.com/vi/0osgKQllUwg/hqdefault.jpg", "width": 480, "height": 360 }
-    }
+      "default": {
+        "url": "https://i.ytimg.com/vi/0osgKQllUwg/default.jpg",
+        "width": 120,
+        "height": 90
+      },
+      "medium": {
+        "url": "https://i.ytimg.com/vi/0osgKQllUwg/mqdefault.jpg",
+        "width": 320,
+        "height": 180
+      },
+      "high": {
+        "url": "https://i.ytimg.com/vi/0osgKQllUwg/hqdefault.jpg",
+        "width": 480,
+        "height": 360
+      }
+    },
+    "categories": [
+      "electronics"
+    ]
   },
   {
     "title": "Get Ready to Revolutionize Your Projects with 5 Simple MP3 Arduino Shield Hacks",
     "description": "Get Ready to Revolutionize Your Projects with 5 Simple MP3 Arduino Shield Hacks",
-    "tags": ["Arduino", "MP3", "Shield", "Audio", "DIY"],
+    "tags": [
+      "Arduino",
+      "MP3",
+      "Shield",
+      "Audio",
+      "DIY"
+    ],
     "channelId": "UCBHWZ3DA4f7c1eKFUC4f1cA",
     "channelTitle": "Robby roboter",
     "channelUrl": "https://www.youtube.com/@robby.roboter",
@@ -317,15 +711,36 @@
     "published": "3 years ago",
     "duration": "7:21",
     "thumbnails": {
-      "default": { "url": "https://i.ytimg.com/vi/29uiQsmofSg/default.jpg", "width": 120, "height": 90 },
-      "medium": { "url": "https://i.ytimg.com/vi/29uiQsmofSg/mqdefault.jpg", "width": 320, "height": 180 },
-      "high": { "url": "https://i.ytimg.com/vi/29uiQsmofSg/hqdefault.jpg", "width": 480, "height": 360 }
-    }
+      "default": {
+        "url": "https://i.ytimg.com/vi/29uiQsmofSg/default.jpg",
+        "width": 120,
+        "height": 90
+      },
+      "medium": {
+        "url": "https://i.ytimg.com/vi/29uiQsmofSg/mqdefault.jpg",
+        "width": 320,
+        "height": 180
+      },
+      "high": {
+        "url": "https://i.ytimg.com/vi/29uiQsmofSg/hqdefault.jpg",
+        "width": 480,
+        "height": 360
+      }
+    },
+    "categories": [
+      "arduino"
+    ]
   },
   {
     "title": "GigaDevice GD32E232K-start with embeetle IDE",
     "description": "GigaDevice GD32E232K-start with embeetle IDE",
-    "tags": ["GigaDevice", "GD32", "Embeetle", "IDE", "Embedded"],
+    "tags": [
+      "GigaDevice",
+      "GD32",
+      "Embeetle",
+      "IDE",
+      "Embedded"
+    ],
     "channelId": "UCBHWZ3DA4f7c1eKFUC4f1cA",
     "channelTitle": "Robby roboter",
     "channelUrl": "https://www.youtube.com/@robby.roboter",
@@ -334,15 +749,35 @@
     "published": "3 years ago",
     "duration": "18:14",
     "thumbnails": {
-      "default": { "url": "https://i.ytimg.com/vi/s6HjRECwhps/default.jpg", "width": 120, "height": 90 },
-      "medium": { "url": "https://i.ytimg.com/vi/s6HjRECwhps/mqdefault.jpg", "width": 320, "height": 180 },
-      "high": { "url": "https://i.ytimg.com/vi/s6HjRECwhps/hqdefault.jpg", "width": 480, "height": 360 }
-    }
+      "default": {
+        "url": "https://i.ytimg.com/vi/s6HjRECwhps/default.jpg",
+        "width": 120,
+        "height": 90
+      },
+      "medium": {
+        "url": "https://i.ytimg.com/vi/s6HjRECwhps/mqdefault.jpg",
+        "width": 320,
+        "height": 180
+      },
+      "high": {
+        "url": "https://i.ytimg.com/vi/s6HjRECwhps/hqdefault.jpg",
+        "width": 480,
+        "height": 360
+      }
+    },
+    "categories": [
+      "gigadevice"
+    ]
   },
   {
     "title": "Mastering Arduino Shield for Ultimate IOT Training",
     "description": "Mastering Arduino Shield for Ultimate IOT Training",
-    "tags": ["Arduino", "IoT", "Shield", "Tutorial"],
+    "tags": [
+      "Arduino",
+      "IoT",
+      "Shield",
+      "Tutorial"
+    ],
     "channelId": "UCBHWZ3DA4f7c1eKFUC4f1cA",
     "channelTitle": "Robby roboter",
     "channelUrl": "https://www.youtube.com/@robby.roboter",
@@ -351,15 +786,35 @@
     "published": "3 years ago",
     "duration": "5:20",
     "thumbnails": {
-      "default": { "url": "https://i.ytimg.com/vi/xvhdm8M2sTE/default.jpg", "width": 120, "height": 90 },
-      "medium": { "url": "https://i.ytimg.com/vi/xvhdm8M2sTE/mqdefault.jpg", "width": 320, "height": 180 },
-      "high": { "url": "https://i.ytimg.com/vi/xvhdm8M2sTE/hqdefault.jpg", "width": 480, "height": 360 }
-    }
+      "default": {
+        "url": "https://i.ytimg.com/vi/xvhdm8M2sTE/default.jpg",
+        "width": 120,
+        "height": 90
+      },
+      "medium": {
+        "url": "https://i.ytimg.com/vi/xvhdm8M2sTE/mqdefault.jpg",
+        "width": 320,
+        "height": 180
+      },
+      "high": {
+        "url": "https://i.ytimg.com/vi/xvhdm8M2sTE/hqdefault.jpg",
+        "width": 480,
+        "height": 360
+      }
+    },
+    "categories": [
+      "arduino"
+    ]
   },
   {
     "title": "Thanks embeetle: More boards to play with",
     "description": "Thanks embeetle: More boards to play with",
-    "tags": ["Embeetle", "Dev Boards", "Embedded", "IDE"],
+    "tags": [
+      "Embeetle",
+      "Dev Boards",
+      "Embedded",
+      "IDE"
+    ],
     "channelId": "UCBHWZ3DA4f7c1eKFUC4f1cA",
     "channelTitle": "Robby roboter",
     "channelUrl": "https://www.youtube.com/@robby.roboter",
@@ -368,15 +823,36 @@
     "published": "3 years ago",
     "duration": "3:59",
     "thumbnails": {
-      "default": { "url": "https://i.ytimg.com/vi/gcXD1ylRWX4/default.jpg", "width": 120, "height": 90 },
-      "medium": { "url": "https://i.ytimg.com/vi/gcXD1ylRWX4/mqdefault.jpg", "width": 320, "height": 180 },
-      "high": { "url": "https://i.ytimg.com/vi/gcXD1ylRWX4/hqdefault.jpg", "width": 480, "height": 360 }
-    }
+      "default": {
+        "url": "https://i.ytimg.com/vi/gcXD1ylRWX4/default.jpg",
+        "width": 120,
+        "height": 90
+      },
+      "medium": {
+        "url": "https://i.ytimg.com/vi/gcXD1ylRWX4/mqdefault.jpg",
+        "width": 320,
+        "height": 180
+      },
+      "high": {
+        "url": "https://i.ytimg.com/vi/gcXD1ylRWX4/hqdefault.jpg",
+        "width": 480,
+        "height": 360
+      }
+    },
+    "categories": [
+      "electronics"
+    ]
   },
   {
     "title": "Learn Arduino and Embedded Development with ChatGPT: Your AI-Powered Coding Assistant!",
     "description": "Learn Arduino and Embedded Development with ChatGPT: Your AI-Powered Coding Assistant!",
-    "tags": ["Arduino", "ChatGPT", "AI", "Embedded", "Tutorial"],
+    "tags": [
+      "Arduino",
+      "ChatGPT",
+      "AI",
+      "Embedded",
+      "Tutorial"
+    ],
     "channelId": "UCBHWZ3DA4f7c1eKFUC4f1cA",
     "channelTitle": "Robby roboter",
     "channelUrl": "https://www.youtube.com/@robby.roboter",
@@ -385,15 +861,36 @@
     "published": "3 years ago",
     "duration": "19:02",
     "thumbnails": {
-      "default": { "url": "https://i.ytimg.com/vi/n8VBDxiOct0/default.jpg", "width": 120, "height": 90 },
-      "medium": { "url": "https://i.ytimg.com/vi/n8VBDxiOct0/mqdefault.jpg", "width": 320, "height": 180 },
-      "high": { "url": "https://i.ytimg.com/vi/n8VBDxiOct0/hqdefault.jpg", "width": 480, "height": 360 }
-    }
+      "default": {
+        "url": "https://i.ytimg.com/vi/n8VBDxiOct0/default.jpg",
+        "width": 120,
+        "height": 90
+      },
+      "medium": {
+        "url": "https://i.ytimg.com/vi/n8VBDxiOct0/mqdefault.jpg",
+        "width": 320,
+        "height": 180
+      },
+      "high": {
+        "url": "https://i.ytimg.com/vi/n8VBDxiOct0/hqdefault.jpg",
+        "width": 480,
+        "height": 360
+      }
+    },
+    "categories": [
+      "arduino"
+    ]
   },
   {
     "title": "RISC-V: GD32VF103 Development Board First Look",
     "description": "RISC-V: GD32VF103 Development Board First Look",
-    "tags": ["RISC-V", "GD32VF103", "GigaDevice", "Dev Boards", "Embedded"],
+    "tags": [
+      "RISC-V",
+      "GD32VF103",
+      "GigaDevice",
+      "Dev Boards",
+      "Embedded"
+    ],
     "channelId": "UCBHWZ3DA4f7c1eKFUC4f1cA",
     "channelTitle": "Robby roboter",
     "channelUrl": "https://www.youtube.com/@robby.roboter",
@@ -402,15 +899,36 @@
     "published": "4 years ago",
     "duration": "11:58",
     "thumbnails": {
-      "default": { "url": "https://i.ytimg.com/vi/ZxnsTlVpj80/default.jpg", "width": 120, "height": 90 },
-      "medium": { "url": "https://i.ytimg.com/vi/ZxnsTlVpj80/mqdefault.jpg", "width": 320, "height": 180 },
-      "high": { "url": "https://i.ytimg.com/vi/ZxnsTlVpj80/hqdefault.jpg", "width": 480, "height": 360 }
-    }
+      "default": {
+        "url": "https://i.ytimg.com/vi/ZxnsTlVpj80/default.jpg",
+        "width": 120,
+        "height": 90
+      },
+      "medium": {
+        "url": "https://i.ytimg.com/vi/ZxnsTlVpj80/mqdefault.jpg",
+        "width": 320,
+        "height": 180
+      },
+      "high": {
+        "url": "https://i.ytimg.com/vi/ZxnsTlVpj80/hqdefault.jpg",
+        "width": 480,
+        "height": 360
+      }
+    },
+    "categories": [
+      "gigadevice",
+      "embedded"
+    ]
   },
   {
     "title": "The Future of Arduino: Beyond BLINK Shields",
     "description": "The Future of Arduino: Beyond BLINK Shields",
-    "tags": ["Arduino", "Shield", "DIY", "Opinion"],
+    "tags": [
+      "Arduino",
+      "Shield",
+      "DIY",
+      "Opinion"
+    ],
     "channelId": "UCBHWZ3DA4f7c1eKFUC4f1cA",
     "channelTitle": "Robby roboter",
     "channelUrl": "https://www.youtube.com/@robby.roboter",
@@ -419,9 +937,425 @@
     "published": "4 years ago",
     "duration": "3:23",
     "thumbnails": {
-      "default": { "url": "https://i.ytimg.com/vi/lbBf6CoG6ho/default.jpg", "width": 120, "height": 90 },
-      "medium": { "url": "https://i.ytimg.com/vi/lbBf6CoG6ho/mqdefault.jpg", "width": 320, "height": 180 },
-      "high": { "url": "https://i.ytimg.com/vi/lbBf6CoG6ho/hqdefault.jpg", "width": 480, "height": 360 }
-    }
+      "default": {
+        "url": "https://i.ytimg.com/vi/lbBf6CoG6ho/default.jpg",
+        "width": 120,
+        "height": 90
+      },
+      "medium": {
+        "url": "https://i.ytimg.com/vi/lbBf6CoG6ho/mqdefault.jpg",
+        "width": 320,
+        "height": 180
+      },
+      "high": {
+        "url": "https://i.ytimg.com/vi/lbBf6CoG6ho/hqdefault.jpg",
+        "width": 480,
+        "height": 360
+      }
+    },
+    "categories": [
+      "arduino"
+    ]
+  },
+  {
+    "title": "Almost made it, it booted only once",
+    "description": "",
+    "videoId": "-Xkgddwc4-4",
+    "channelId": "UCBHWZ3DA4f7c1eKFUC4f1cA",
+    "channelTitle": "Robby roboter",
+    "channelUrl": "https://www.youtube.com/channel/UCBHWZ3DA4f7c1eKFUC4f1cA",
+    "published": "22.12.2025",
+    "views": "1578 views",
+    "thumbnails": {
+      "default": {
+        "url": "https://i.ytimg.com/vi/-Xkgddwc4-4/default.jpg",
+        "width": 120,
+        "height": 90
+      },
+      "medium": {
+        "url": "https://i.ytimg.com/vi/-Xkgddwc4-4/mqdefault.jpg",
+        "width": 320,
+        "height": 180
+      },
+      "high": {
+        "url": "https://i2.ytimg.com/vi/-Xkgddwc4-4/hqdefault.jpg",
+        "width": 480,
+        "height": 360
+      }
+    },
+    "tags": [
+      "Electronics"
+    ],
+    "categories": [
+      "electronics"
+    ]
+  },
+  {
+    "title": "&quot;Thanks to #Claude and other AI tools,  programming is easier than ever!  #AI #Tech #Embedded",
+    "description": "&quot;Thanks to #Claude and other AI tools, embedded programming is easier than ever! Instead of just creating a single character, I built a full #CharacterGenerator. Check it out on my website and feel free to use it! #AI #Tech #EmbeddedProgramming",
+    "videoId": "uo-AuYLquYo",
+    "channelId": "UCBHWZ3DA4f7c1eKFUC4f1cA",
+    "channelTitle": "Robby roboter",
+    "channelUrl": "https://www.youtube.com/channel/UCBHWZ3DA4f7c1eKFUC4f1cA",
+    "published": "20.11.2025",
+    "views": "1684 views",
+    "thumbnails": {
+      "default": {
+        "url": "https://i.ytimg.com/vi/uo-AuYLquYo/default.jpg",
+        "width": 120,
+        "height": 90
+      },
+      "medium": {
+        "url": "https://i.ytimg.com/vi/uo-AuYLquYo/mqdefault.jpg",
+        "width": 320,
+        "height": 180
+      },
+      "high": {
+        "url": "https://i2.ytimg.com/vi/uo-AuYLquYo/hqdefault.jpg",
+        "width": 480,
+        "height": 360
+      }
+    },
+    "tags": [
+      "Claude",
+      "AI",
+      "Tech",
+      "Embedded",
+      "CharacterGenerator",
+      "EmbeddedProgramming"
+    ],
+    "categories": [
+      "electronics"
+    ]
+  },
+  {
+    "title": "OpenSCAD song",
+    "description": "",
+    "videoId": "nTThphGncLc",
+    "channelId": "UCBHWZ3DA4f7c1eKFUC4f1cA",
+    "channelTitle": "Robby roboter",
+    "channelUrl": "https://www.youtube.com/channel/UCBHWZ3DA4f7c1eKFUC4f1cA",
+    "published": "20.10.2025",
+    "views": "183 views",
+    "thumbnails": {
+      "default": {
+        "url": "https://i.ytimg.com/vi/nTThphGncLc/default.jpg",
+        "width": 120,
+        "height": 90
+      },
+      "medium": {
+        "url": "https://i.ytimg.com/vi/nTThphGncLc/mqdefault.jpg",
+        "width": 320,
+        "height": 180
+      },
+      "high": {
+        "url": "https://i3.ytimg.com/vi/nTThphGncLc/hqdefault.jpg",
+        "width": 480,
+        "height": 360
+      }
+    },
+    "tags": [
+      "CAD",
+      "OpenSCAD"
+    ],
+    "categories": [
+      "electronics"
+    ]
+  },
+  {
+    "title": "Joystick Shield  For your new cool Arduino Projects #arduino #arduinoproject #electronics",
+    "description": "Arduino SHIELD to unleash your creativity, #JOYSTICK #display #wireless #games #nrf24",
+    "videoId": "slxiyEVNqGY",
+    "channelId": "UCBHWZ3DA4f7c1eKFUC4f1cA",
+    "channelTitle": "Robby roboter",
+    "channelUrl": "https://www.youtube.com/channel/UCBHWZ3DA4f7c1eKFUC4f1cA",
+    "published": "18.10.2025",
+    "views": "1310 views",
+    "thumbnails": {
+      "default": {
+        "url": "https://i.ytimg.com/vi/slxiyEVNqGY/default.jpg",
+        "width": 120,
+        "height": 90
+      },
+      "medium": {
+        "url": "https://i.ytimg.com/vi/slxiyEVNqGY/mqdefault.jpg",
+        "width": 320,
+        "height": 180
+      },
+      "high": {
+        "url": "https://i4.ytimg.com/vi/slxiyEVNqGY/hqdefault.jpg",
+        "width": 480,
+        "height": 360
+      }
+    },
+    "tags": [
+      "Arduino",
+      "Arduinoproject",
+      "Electronics",
+      "Joystick",
+      "Display",
+      "Wireless",
+      "Games",
+      "Nrf24",
+      "nRF",
+      "Shield"
+    ],
+    "categories": [
+      "arduino",
+      "embedded"
+    ]
+  },
+  {
+    "title": "Hearing The Click Of A 5 Volt Relay Switch REK-11 РЕК11",
+    "description": "Relay REK-11 is a hermetically sealed electromagnetic relay designed for switching DC and AC circuits (up to 10 kHz). It is widely used in aviation, aerospace, and military equipment due to its high reliability and resistance to extreme conditions.\nKey Specifications\n\n    Relay Type:\n\n        Two-position, single-stable (self-resetting).\n\n        2 changeover (SPDT) contacts.\n\n        Hermetic housing (protection against moisture, dust, and vibration).\n\n    Electrical Parameters:\n\n        Coil Voltage:\n\n            YAL4.550.005: 27 V ±5% (standard version).\n\n            YAL4.550.005-01: 12 V ±10%.\n\n            YAL4.550.005-02: 6 V ±10%.\n\n        Coil Resistance:\n\n            1650 Ω (27 V), 420 Ω (12 V), 105 Ω (6 V).\n\n        Operating Current:\n\n            From 9 mA (27 V) to 32.6 mA (6 V).\n\n        Switching Time: 1–5 ms.\n\n    Switching Capabilities:\n\n        Max. Current: Up to 3 A (resistive load).\n\n        Open-Contact Voltage: Up to 34 V.\n\n        Lifespan:\n\n            500,000 cycles (low-current loads).\n\n            25,000 cycles (inductive loads).\n\n    Operating Conditions:\n\n        Temperature Range: –60°C to +125°C.\n\n        Humidity: Up to 98% at +35°C.\n\n        Vibration Resistance: Up to 5000 Hz (300 m/s² acceleration).\n\n        Shock Resistance: Up to 5000 m/s² (short-term).\n\n    Service Life:\n\n        15 years (when stored in a heated facility).\n\n        Reduced under harsh conditions (see coefficient table).\n\nConstruction &amp; Wiring\n\n    Contact Groups:\n\n        11, 12, 13 – First group (COM, NO, NC).\n\n        21, 22, 23 – Second group (COM, NO, NC).\n\n    Contact Material: P-1 alloy with gold plating (Zl1tv).\n\n    Contact Resistance: ≤ 0.25 Ω.",
+    "videoId": "VOlyBYdDKg0",
+    "channelId": "UCBHWZ3DA4f7c1eKFUC4f1cA",
+    "channelTitle": "Robby roboter",
+    "channelUrl": "https://www.youtube.com/channel/UCBHWZ3DA4f7c1eKFUC4f1cA",
+    "published": "29.3.2025",
+    "views": "2303 views",
+    "thumbnails": {
+      "default": {
+        "url": "https://i.ytimg.com/vi/VOlyBYdDKg0/default.jpg",
+        "width": 120,
+        "height": 90
+      },
+      "medium": {
+        "url": "https://i.ytimg.com/vi/VOlyBYdDKg0/mqdefault.jpg",
+        "width": 320,
+        "height": 180
+      },
+      "high": {
+        "url": "https://i3.ytimg.com/vi/VOlyBYdDKg0/hqdefault.jpg",
+        "width": 480,
+        "height": 360
+      }
+    },
+    "tags": [
+      "Electronics"
+    ],
+    "categories": [
+      "electronics"
+    ]
+  },
+  {
+    "title": "Copy pasting machine demonstration",
+    "description": "",
+    "videoId": "zQfoBG-NO9s",
+    "channelId": "UCBHWZ3DA4f7c1eKFUC4f1cA",
+    "channelTitle": "Robby roboter",
+    "channelUrl": "https://www.youtube.com/channel/UCBHWZ3DA4f7c1eKFUC4f1cA",
+    "published": "2.12.2024",
+    "views": "391 views",
+    "thumbnails": {
+      "default": {
+        "url": "https://i.ytimg.com/vi/zQfoBG-NO9s/default.jpg",
+        "width": 120,
+        "height": 90
+      },
+      "medium": {
+        "url": "https://i.ytimg.com/vi/zQfoBG-NO9s/mqdefault.jpg",
+        "width": 320,
+        "height": 180
+      },
+      "high": {
+        "url": "https://i3.ytimg.com/vi/zQfoBG-NO9s/hqdefault.jpg",
+        "width": 480,
+        "height": 360
+      }
+    },
+    "tags": [
+      "Electronics"
+    ],
+    "categories": [
+      "electronics"
+    ]
+  },
+  {
+    "title": "STOP Buying from #lolin Until You See This",
+    "description": "Looking to build a modern subscriber counter? Using an ESP32 and arduino combination, this project demonstrates creating a dynamic display system that connects via google api to track your channel stats. The esp8266 serves as an alternative microcontroller option, while the pcb assembly allows for a clean, professional finish. 🛠️ Join me as we explore this exciting build! 💻",
+    "videoId": "9D6CcF9X3wU",
+    "channelId": "UCBHWZ3DA4f7c1eKFUC4f1cA",
+    "channelTitle": "Robby roboter",
+    "channelUrl": "https://www.youtube.com/channel/UCBHWZ3DA4f7c1eKFUC4f1cA",
+    "published": "30.11.2024",
+    "views": "541 views",
+    "thumbnails": {
+      "default": {
+        "url": "https://i.ytimg.com/vi/9D6CcF9X3wU/default.jpg",
+        "width": 120,
+        "height": 90
+      },
+      "medium": {
+        "url": "https://i.ytimg.com/vi/9D6CcF9X3wU/mqdefault.jpg",
+        "width": 320,
+        "height": 180
+      },
+      "high": {
+        "url": "https://i2.ytimg.com/vi/9D6CcF9X3wU/hqdefault.jpg",
+        "width": 480,
+        "height": 360
+      }
+    },
+    "tags": [
+      "Lolin",
+      "Arduino",
+      "ESP32",
+      "PCB",
+      "Dev Boards"
+    ],
+    "categories": [
+      "arduino",
+      "esp32",
+      "pcb",
+      "embedded"
+    ]
+  },
+  {
+    "title": "Display your youtube follower count with #arduino #tm1637",
+    "description": "Here’s a detailed description for a project that uses a TM1637-based 4-digit 7-segment display with an Arduino R4 (with Wi-Fi capabilities) to fetch and display a YouTube subscriber count using the Google API:\n\nIn this project, I’ll show you how to create a real-time YouTube subscriber counter using an Arduino R4 with Wi-Fi, a TM1637 4-digit 7-segment display, and the Google API. This setup is ideal for tracking your YouTube channel’s subscriber growth in real time, making it perfect for YouTubers, content creators, and electronics enthusiasts interested in IoT projects.\n\nThe Arduino R4’s built-in Wi-Fi capabilities allow us to connect directly to the internet, where we can access Google’s YouTube Data API to fetch subscriber count data. The TM1637 display is compact, power-efficient, and easy to integrate, making it a great choice for this project to show dynamic data in a simple, visible way.\n\nProject Overview\n\nWith the YouTube Data API and a little code, we can retrieve the current subscriber count for any YouTube channel. The Arduino R4 will connect to Wi-Fi, use the Google API to query the subscriber data, and then update the TM1637 display with the current count. I’ll walk you through each step, from setting up the API credentials to coding the Arduino and wiring up the display.\n\nWhat You’ll Learn\n\n 1. How to set up the Google API Console to obtain API keys and authorize your Arduino to access YouTube channel data.\n 2. Programming the Arduino R4 with Wi-Fi to connect to your Wi-Fi network and query the YouTube Data API.\n 3. Integrating the TM1637 4-digit 7-segment display with Arduino to display numbers in a clear, compact format.\n 4. Coding the Arduino to fetch data, parse the response, and update the display.\n\nKey Components:\n\n • Arduino R4 Wi-Fi: A powerful microcontroller with built-in Wi-Fi capability, making it perfect for IoT projects and web-based data applications.\n • TM1637 4-Digit 7-Segment Display: A simple, bright display used to show numbers clearly, ideal for presenting subscriber counts.\n • YouTube Data API: An API provided by Google that allows us to fetch YouTube channel metrics, including subscriber count.\n\nSteps:\n\n 1. Setup the YouTube Data API: Register your project on the Google API Console, enable the YouTube Data API, and generate API keys for access.\n 2. Programming the Arduino R4: Write code to connect to Wi-Fi, send HTTP requests to the YouTube API, and retrieve subscriber count data.\n 3. Displaying the Subscriber Count: Use the TM1637 library to display the count on the 4-digit 7-segment display, updating it periodically.\n\nSample Applications\n\n • YouTube Subscriber Display: Place this counter on your desk or shelf to keep track of your subscribers as they grow!\n • Real-Time Metrics Display: Modify the code to fetch other YouTube metrics, such as view count or video count.\n • IoT Projects: This project can be adapted to show other real-time data by changing the API endpoint.\n\nChallenges and Tips\n\n • API Limits: Be mindful of the request limits for the YouTube Data API to avoid exceeding the daily quota.\n • Error Handling: Implement error handling to reconnect if Wi-Fi is lost or if there are issues with the API response.\n • Display Constraints: The 4-digit display can only show four digits, so if your subscriber count is in the thousands, you’ll need to handle this by displaying only the last 4 digits, scrolling, or flashing the display for larger numbers.\n\nWith this setup, you’ll have a live YouTube subscriber counter that updates periodically to reflect changes in real-time! This project combines IoT, API usage, and Arduino programming to create a useful display that’s easy to customize. Make sure to like, subscribe, and hit the notification bell if you found this project interesting, and stay tuned for more fun with Arduino and IoT!",
+    "videoId": "Bc-mqCD9xo4",
+    "channelId": "UCBHWZ3DA4f7c1eKFUC4f1cA",
+    "channelTitle": "Robby roboter",
+    "channelUrl": "https://www.youtube.com/channel/UCBHWZ3DA4f7c1eKFUC4f1cA",
+    "published": "6.11.2024",
+    "views": "779 views",
+    "thumbnails": {
+      "default": {
+        "url": "https://i.ytimg.com/vi/Bc-mqCD9xo4/default.jpg",
+        "width": 120,
+        "height": 90
+      },
+      "medium": {
+        "url": "https://i.ytimg.com/vi/Bc-mqCD9xo4/mqdefault.jpg",
+        "width": 320,
+        "height": 180
+      },
+      "high": {
+        "url": "https://i3.ytimg.com/vi/Bc-mqCD9xo4/hqdefault.jpg",
+        "width": 480,
+        "height": 360
+      }
+    },
+    "tags": [
+      "Arduino",
+      "Tm1637",
+      "Dev Boards"
+    ],
+    "categories": [
+      "arduino",
+      "embedded"
+    ]
+  },
+  {
+    "title": "Can #arduino emulate mouse?",
+    "description": "Discover how you can use your Arduino to emulate a mouse! This fun DIY project will show you how to create a virtual clicker using your Arduino board.",
+    "videoId": "ew3E6qL7Bdk",
+    "channelId": "UCBHWZ3DA4f7c1eKFUC4f1cA",
+    "channelTitle": "Robby roboter",
+    "channelUrl": "https://www.youtube.com/channel/UCBHWZ3DA4f7c1eKFUC4f1cA",
+    "published": "5.11.2024",
+    "views": "212 views",
+    "thumbnails": {
+      "default": {
+        "url": "https://i.ytimg.com/vi/ew3E6qL7Bdk/default.jpg",
+        "width": 120,
+        "height": 90
+      },
+      "medium": {
+        "url": "https://i.ytimg.com/vi/ew3E6qL7Bdk/mqdefault.jpg",
+        "width": 320,
+        "height": 180
+      },
+      "high": {
+        "url": "https://i2.ytimg.com/vi/ew3E6qL7Bdk/hqdefault.jpg",
+        "width": 480,
+        "height": 360
+      }
+    },
+    "tags": [
+      "Arduino",
+      "DIY"
+    ],
+    "categories": [
+      "arduino",
+      "electronics"
+    ]
+  },
+  {
+    "title": "What's the SECRET to Soldering WCH Chips to Custom PCBs?",
+    "description": "Learn the secret to soldering WCH chips to custom PCBs in this DIY tutorial. Discover the best techniques for soldering LEDs and more on your PCB design!",
+    "videoId": "QeGx3RunoCg",
+    "channelId": "UCBHWZ3DA4f7c1eKFUC4f1cA",
+    "channelTitle": "Robby roboter",
+    "channelUrl": "https://www.youtube.com/channel/UCBHWZ3DA4f7c1eKFUC4f1cA",
+    "published": "3.11.2024",
+    "views": "387 views",
+    "thumbnails": {
+      "default": {
+        "url": "https://i.ytimg.com/vi/QeGx3RunoCg/default.jpg",
+        "width": 120,
+        "height": 90
+      },
+      "medium": {
+        "url": "https://i.ytimg.com/vi/QeGx3RunoCg/mqdefault.jpg",
+        "width": 320,
+        "height": 180
+      },
+      "high": {
+        "url": "https://i2.ytimg.com/vi/QeGx3RunoCg/hqdefault.jpg",
+        "width": 480,
+        "height": 360
+      }
+    },
+    "tags": [
+      "WCH",
+      "PCB",
+      "NeoPixel",
+      "DIY",
+      "Tutorial"
+    ],
+    "categories": [
+      "wch",
+      "pcb",
+      "electronics"
+    ]
+  },
+  {
+    "title": "Want Accurate Measurements? Try This Little Module Now HX711",
+    "description": "To display readings from the HX711 on an I2C LCD using an Arduino Uno, you'll need to set up your code to initialize both the HX711 and the LCD, read data from the HX711, and then print that data to the LCD. Below is a complete example sketch for your setup:\nComponents Required:\n\n    HX711\n    Load Cell (connected to HX711)\n    Arduino Uno\n    I2C LCD (with PCF8574 module)\n\nWiring:\n\nYour connections are already set up correctly as follows:\n\n    HX711:\n        VCC to 5V\n        GND to GND\n        SCK to D5\n        DT to D6\n    LCD_I2C:\n        SDA to A4\n        SCL to A5\n\nArduino Sketch:\nhttps://gist.github.com/roboter/a097e4176e5e89a86056eea6906fdb0c\n\nExplanation of the Code:\n\n    Library Inclusions: We include the HX711 and LiquidCrystal_I2C libraries for interfacing with the HX711 load cell and the I2C LCD.\n    Initialization: In the setup() function, we initialize the serial communication, LCD, and the HX711 scale.\n    Taring: The scale.tare() function sets the current reading to 0, which is useful if you have a load on the scale.\n    Reading Weight: In the loop() function, we continuously read the weight using scale.get_units(10), which averages 10 readings for better accuracy.\n    Displaying Weight: We display the weight on the LCD and also print it to the serial monitor for debugging.\n\nAdditional Notes:\n\n    Ensure that you have installed the necessary libraries (HX711 and LiquidCrystal_I2C) via the Arduino Library Manager.\n    You may need to adjust the scale factor using scale.set_scale(scale_factor); if your readings are off. You can do this by weighing a known weight and adjusting the scale factor accordingly.",
+    "videoId": "0nN-AD7uDsY",
+    "channelId": "UCBHWZ3DA4f7c1eKFUC4f1cA",
+    "channelTitle": "Robby roboter",
+    "channelUrl": "https://www.youtube.com/channel/UCBHWZ3DA4f7c1eKFUC4f1cA",
+    "published": "1.11.2024",
+    "views": "12 308 views",
+    "thumbnails": {
+      "default": {
+        "url": "https://i.ytimg.com/vi/0nN-AD7uDsY/default.jpg",
+        "width": 120,
+        "height": 90
+      },
+      "medium": {
+        "url": "https://i.ytimg.com/vi/0nN-AD7uDsY/mqdefault.jpg",
+        "width": 320,
+        "height": 180
+      },
+      "high": {
+        "url": "https://i1.ytimg.com/vi/0nN-AD7uDsY/hqdefault.jpg",
+        "width": 480,
+        "height": 360
+      }
+    },
+    "tags": [
+      "Arduino",
+      "LCD",
+      "I2C",
+      "HX711"
+    ],
+    "categories": [
+      "arduino",
+      "electronics"
+    ]
   }
 ]

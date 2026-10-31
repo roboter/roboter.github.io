@@ -11,7 +11,7 @@ const isBuild = process.argv.includes('build') || process.env.NODE_ENV === 'prod
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'http://begemotik.ee/',
+  site: 'https://begemotik.ee',
   image: {
     remotePatterns: [{
       protocol: 'https'

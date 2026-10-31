@@ -12,7 +12,10 @@ const posts = (await getCollection("blog")).sort(
 const totalPages = Math.ceil(posts.length / config.site.pageSize);
 ---
 
-<Base>
+<Base
+  meta_title="Robby roboter — Hardware, Electronics & Embedded Engineering"
+  description="Explore hardware deep-dives, microcontroller tutorials (Arduino, STM32, ESP32, WCH), desktop engineering software, and interactive web tools by Robby roboter."
+>
   <Posts posts={posts} />
   {
     totalPages > 1 && (

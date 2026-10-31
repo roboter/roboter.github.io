@@ -1,7 +1,7 @@
 {
   "site": {
     "title": "Robby roboter Blog",
-    "base_url": "https://ev0.robby.roboter.io",
+    "base_url": "https://begemotik.ee",
     "base_path": "/",
     "favicon": "/favicon.png",
     "logo": "https://s3.amazonaws.com/gndx.dev/ev0-astro-logo.png",

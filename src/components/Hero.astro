@@ -21,7 +21,12 @@ const socialItems = social.networks;
         <div class="flex space-x-5 pt-8 m-auto">
           {
             socialItems?.map((item) => (
-              <a href={item.url} target="_blank" rel="noopener noreferrer">
+              <a
+                href={item.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Visit Robby on ${item.name}`}
+              >
                 <figure>
                   <Fragment set:html={item.svg} />
                 </figure>

@@ -32,7 +32,9 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "youtube": "node scripts/youtube.cjs",
+    "youtube": "node scripts/update-youtube.cjs",
+    "update": "node scripts/update-youtube.cjs",
+    "update:youtube": "node scripts/update-youtube.cjs",
     "newpost": "astro-md-generator",
     "format": "prettier -w .",
     "lint:eslint": "eslint . --ext .js,.ts,.astro"

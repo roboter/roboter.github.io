@@ -17,7 +17,10 @@ export async function getStaticPaths({ paginate }) {
 const { page } = Astro.props;
 ---
 
-<Base meta_title="Blog">
+<Base
+  meta_title={page.currentPage > 1 ? `Blog — Page ${page.currentPage}` : "Blog & Hardware Articles"}
+  description={page.currentPage > 1 ? `Browse page ${page.currentPage} of microcontroller tutorials, embedded programming, and hardware engineering articles.` : "Read in-depth guides and articles on STM32, Arduino, ESP32, WCH, PCB design, and maker electronics."}
+>
   <h1 class="text-2xl md:text-3xl font-bold mb-8">Blog</h1>
   <Posts posts={page.data} />
   <Pagination

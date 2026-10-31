@@ -25,7 +25,6 @@ export default function CharGenerator() {
   useEffect(() => {
     const newGrid = Array(rows).fill(null).map(() => Array(cols).fill(0));
     setGridData(newGrid);
-    setIsReady(true);
   }, [cols, rows]);
 
   const togglePixel = (row, col) => {

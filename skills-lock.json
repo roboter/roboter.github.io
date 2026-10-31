@@ -18,6 +18,18 @@
       "sourceType": "github",
       "skillPath": "skills/security-review/SKILL.md",
       "computedHash": "50b86d2020a367c207ee902881321d4491ea516bb48622724a06d097aaa26e66"
+    },
+    "seo": {
+      "source": "addyosmani/web-quality-skills",
+      "sourceType": "github",
+      "skillPath": "skills/seo/SKILL.md",
+      "computedHash": "aa081d7ee9f44d1b09ac521051630adac2fca0e595e3d0d0ec881d0b2644676f"
+    },
+    "seo-audit": {
+      "source": "coreyhaines31/marketingskills",
+      "sourceType": "github",
+      "skillPath": "skills/seo-audit/SKILL.md",
+      "computedHash": "00202d90242df3ba5f240ffcf6bedca8e12854b350c8be65831a9346a5c6d6fd"
     }
   }
 }

@@ -1,10 +1,171 @@
 ---
 import Base from "@layouts/Base.astro";
-import Page from "@layouts/Page.astro";
+import { Image } from "astro:assets";
+import config from "@config/config.json";
+import social from "@config/social";
+import {
+  Cpu,
+  Wrench,
+  Play,
+  Code2,
+  Mail,
+  Send,
+  Sparkles,
+  BookOpen,
+} from "lucide-react";
+
+const pageTitle = "About Robby roboter — Maker, Electronics Engineer & YouTuber";
+const pageDescription =
+  "Learn more about Robby roboter, an electronics engineer, maker, and YouTuber passionate about embedded systems, microcontroller programming, PCB design, 3D printing, and open-source tooling.";
 ---
 
-<Base meta_title="About">
-  <Page title="About US">
+<Base
+  title={pageTitle}
+  meta_title={pageTitle}
+  description={pageDescription}
+  hideHero={true}
+  hideVideos={true}
+>
+  <div class="py-6 max-w-4xl mx-auto">
+    <!-- HERO PROFILE HEADER -->
+    <div class="rounded-3xl border border-zinc-200/80 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/70 backdrop-blur-xl p-6 sm:p-10 mb-12 shadow-sm flex flex-col md:flex-row items-center gap-8">
+      <div class="shrink-0">
+        <Image
+          src={config.author.avatar}
+          alt={config.author.name}
+          width={180}
+          height={180}
+          class="rounded-3xl object-cover ring-2 ring-emerald-500/20 shadow-md"
+          loading="eager"
+        />
+      </div>
 
-  </Page>
+      <div class="text-center md:text-left flex-1">
+        <div class="inline-flex items-center gap-2 px-3 py-1 mb-3 text-xs font-mono font-medium rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+          <Sparkles className="w-3.5 h-3.5" />
+          <span>Creator &amp; Embedded Engineer</span>
+        </div>
+
+        <h1 class="text-3xl sm:text-4xl font-black tracking-tight text-zinc-900 dark:text-zinc-50 mb-3">
+          {config.author.name}
+        </h1>
+
+        <p class="text-base text-zinc-600 dark:text-zinc-300 leading-relaxed mb-6">
+          {config.author.bio}
+        </p>
+
+        <!-- Social Links Row -->
+        <div class="flex flex-wrap items-center justify-center md:justify-start gap-3">
+          <a
+            href="https://www.youtube.com/@robby.roboter"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-red-600 hover:bg-red-500 text-white text-xs font-semibold shadow-xs transition-all"
+          >
+            <Play className="w-3.5 h-3.5 fill-current" />
+            <span>YouTube Channel</span>
+          </a>
+
+          <a
+            href="https://github.com/roboter"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-white dark:bg-zinc-100 dark:hover:bg-zinc-200 dark:text-zinc-900 text-xs font-semibold shadow-xs transition-all"
+          >
+            <Code2 className="w-3.5 h-3.5" />
+            <span>GitHub Profile</span>
+          </a>
+
+          <a
+            href="https://t.me/robby_roboter"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-sky-500/10 hover:bg-sky-500/20 text-sky-600 dark:text-sky-400 border border-sky-500/20 text-xs font-semibold transition-all"
+          >
+            <Send className="w-3.5 h-3.5" />
+            <span>Telegram (@robby_roboter)</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN ABOUT CONTENT -->
+    <div class="space-y-10 text-zinc-700 dark:text-zinc-300 text-base leading-relaxed">
+      <!-- WHAT I DO -->
+      <section class="rounded-3xl border border-zinc-200/70 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 p-6 sm:p-8">
+        <h2 class="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white mb-4">
+          What I Do &amp; Explore
+        </h2>
+        <p class="mb-4">
+          Welcome to my digital workshop! I document practical electronics engineering, microcontroller experimentation, and maker tooling. My focus spans embedded systems design, firmware development, custom PCB layouts, and 3D modeling for functional prototyping.
+        </p>
+        <p>
+          Through in-depth tutorials, open-source software, and hands-on YouTube video walkthroughs, I share every detail from circuit schematic design to soldering, debugging, and production firmware.
+        </p>
+      </section>
+
+      <!-- AREAS OF FOCUS GRID -->
+      <section class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+        <div class="p-6 rounded-2xl border border-zinc-200/70 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 shadow-xs">
+          <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 mb-4">
+            <Cpu className="w-5 h-5" />
+          </div>
+          <h3 class="text-lg font-bold text-zinc-900 dark:text-white mb-2">
+            Embedded &amp; Microcontrollers
+          </h3>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+            Deep-dives into STM32, Arduino, ESP32, WCH (CH32V003 RISC-V), GigaDevice GD32, and Geehy APM32 microcontrollers, including HAL programming, I2C, SPI, and RTOS fundamentals.
+          </p>
+        </div>
+
+        <div class="p-6 rounded-2xl border border-zinc-200/70 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 shadow-xs">
+          <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 mb-4">
+            <Wrench className="w-5 h-5" />
+          </div>
+          <h3 class="text-lg font-bold text-zinc-900 dark:text-white mb-2">
+            Engineering Tools &amp; CAD
+          </h3>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+            Creator of interactive engineering utilities like the LCD Character Generator and SSD1306 Simulator, alongside CircuitFlow.NET PCB design tools and OpenSCAD 3D modeling.
+          </p>
+        </div>
+      </section>
+
+      <!-- QUICK EXPLORATION LINKS -->
+      <section class="p-6 sm:p-8 rounded-3xl border border-zinc-200/70 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/40 text-center">
+        <h2 class="text-xl font-bold text-zinc-900 dark:text-white mb-2">
+          Explore the Site
+        </h2>
+        <p class="text-sm text-zinc-500 dark:text-zinc-400 mb-6">
+          Find guides, native applications, and browser tools created to assist your workflow.
+        </p>
+        <div class="flex flex-wrap items-center justify-center gap-3">
+          <a
+            href="/blog/"
+            class="px-4 py-2 rounded-xl text-xs font-semibold bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-900 dark:text-white hover:bg-zinc-100 transition-colors shadow-xs"
+          >
+            Read Articles
+          </a>
+          <a
+            href="/categories"
+            class="px-4 py-2 rounded-xl text-xs font-semibold bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-900 dark:text-white hover:bg-zinc-100 transition-colors shadow-xs"
+          >
+            Browse Categories &amp; Topics
+          </a>
+          <a
+            href="/software"
+            class="px-4 py-2 rounded-xl text-xs font-semibold bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-900 dark:text-white hover:bg-zinc-100 transition-colors shadow-xs"
+          >
+            Desktop Software
+          </a>
+          <a
+            href="/tools"
+            class="px-4 py-2 rounded-xl text-xs font-semibold bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-900 dark:text-white hover:bg-zinc-100 transition-colors shadow-xs"
+          >
+            Interactive Tools
+          </a>
+        </div>
+      </section>
+    </div>
+  </div>
 </Base>
