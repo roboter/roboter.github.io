@@ -1,0 +1,5 @@
+# Skip and ignore all Netlify automated builds
+# The site is hosted directly on GitHub Pages via GitHub Actions
+[build]
+  ignore = "exit 0"
+
