@@ -74,3 +74,66 @@ input#nav-toggle:checked ~ #nav-menu {
 .dark #themeToggle:hover .moon {
   @apply stroke-zinc-200;
 }
+
+/* Blog badge rows: paragraphs containing multiple badge links or SVG badges */
+.prose p:has(> a:nth-of-type(2) > img),
+.prose p:has(> a > img[src*="badge"]),
+.prose p:has(> a > img[src*="shields.io"]),
+.prose p:has(> img:nth-of-type(2)),
+.prose p:has(> img[src*="badge"]),
+.prose p:has(> img[src*="shields.io"]),
+.prose .badge-row {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  overflow-x: auto !important;
+  padding-bottom: 0.5rem !important;
+  margin-top: 0.75rem !important;
+  margin-bottom: 1.25rem !important;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+
+.prose p:has(> a:nth-of-type(2) > img) > a,
+.prose p:has(> a > img[src*="badge"]) > a,
+.prose p:has(> a > img[src*="shields.io"]) > a,
+.prose .badge-row > a {
+  display: inline-flex !important;
+  align-items: center !important;
+  flex-shrink: 0 !important;
+  background-image: none !important;
+  text-decoration: none !important;
+  line-height: 1 !important;
+}
+
+.prose p:has(> a:nth-of-type(2) > img) img,
+.prose p:has(> a > img[src*="badge"]) img,
+.prose p:has(> a > img[src*="shields.io"]) img,
+.prose p:has(> img:nth-of-type(2)) img,
+.prose p:has(> img[src*="badge"]) img,
+.prose p:has(> img[src*="shields.io"]) img,
+.prose .badge-row img {
+  display: inline-block !important;
+  margin: 0 !important;
+  height: auto !important;
+  max-height: 28px !important;
+  width: auto !important;
+  vertical-align: middle !important;
+}
+
+.prose p:has(> a:nth-of-type(2) > img)::-webkit-scrollbar,
+.prose p:has(> a > img[src*="badge"])::-webkit-scrollbar,
+.prose p:has(> a > img[src*="shields.io"])::-webkit-scrollbar,
+.prose .badge-row::-webkit-scrollbar {
+  height: 4px;
+}
+
+.prose p:has(> a:nth-of-type(2) > img)::-webkit-scrollbar-thumb,
+.prose p:has(> a > img[src*="badge"])::-webkit-scrollbar-thumb,
+.prose p:has(> a > img[src*="shields.io"])::-webkit-scrollbar-thumb,
+.prose .badge-row::-webkit-scrollbar-thumb {
+  background-color: rgba(156, 163, 175, 0.5);
+  border-radius: 9999px;
+}

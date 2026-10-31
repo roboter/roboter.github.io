@@ -73,7 +73,7 @@ const { title, description, pubDate, heroImage, categories, tags, comments = tru
     <div class="prose prose-green prose-md md:prose-lg min-w-full">
       <slot />
     </div>
-    <div class="mt-8">
+    <div class="mt-8 flex flex-wrap items-center">
       {
         tags?.map((tag) => (
           <a
@@ -90,3 +90,22 @@ const { title, description, pubDate, heroImage, categories, tags, comments = tru
     )}
   </article>
 </Base>
+
+<script>
+  function applyBadgeRowStyles() {
+    document.querySelectorAll('.prose p').forEach((p) => {
+      const imgLinks = p.querySelectorAll('a > img, img');
+      if (
+        imgLinks.length >= 2 ||
+        p.querySelector('img[src*="shields.io"], img[src*="badge"]')
+      ) {
+        if ((p.textContent || '').trim().length === 0 || imgLinks.length >= 2) {
+          p.classList.add('badge-row');
+        }
+      }
+    });
+  }
+
+  applyBadgeRowStyles();
+  document.addEventListener('astro:after-swap', applyBadgeRowStyles);
+</script>

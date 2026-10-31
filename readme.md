@@ -57,10 +57,12 @@ The blog at [https://begemotik.ee](https://begemotik.ee) documents real-world ha
 # Clone the repository
 git clone https://github.com/roboter/roboter.github.io.git
 cd roboter.github.io
-
+```
+```bash
 # Install dependencies
 npm install
-
+```
+```bash
 # Start development server
 npm run dev
 ```
@@ -76,7 +78,8 @@ To create a static production build:
 ```bash
 # Build production bundle to dist/
 npm run build
-
+```
+```bash
 # Preview build locally
 npm run preview
 ```
