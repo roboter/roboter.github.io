@@ -102,7 +102,10 @@ const currentUrl = `https://begemotik.ee/videos/${video.videoId}/`;
     </div>
 
     <!-- EMBEDDED VIDEO PLAYER -->
-    <div class="relative w-full aspect-video rounded-3xl overflow-hidden bg-black shadow-2xl ring-1 ring-zinc-900/10 dark:ring-white/10 mb-8">
+    <div
+      class="video-wrapper relative w-full aspect-video rounded-3xl overflow-hidden bg-black shadow-2xl ring-1 ring-zinc-900/10 dark:ring-white/10 mb-8"
+      style="aspect-ratio: 16 / 9; min-height: 240px;"
+    >
       <iframe
         src={`https://www.youtube.com/embed/${video.videoId}?rel=0`}
         title={video.title}
