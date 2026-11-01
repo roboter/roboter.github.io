@@ -197,16 +197,13 @@ const currentUrl = `https://begemotik.ee/videos/${video.videoId}/`;
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {similarVideos.map((item) => (
           <article class="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-zinc-200/80 dark:border-zinc-800 bg-white dark:bg-zinc-900/80 hover:border-red-500/50 dark:hover:border-red-500/40 shadow-sm hover:shadow-xl hover:shadow-red-500/5 transition-all duration-300 hover:-translate-y-1">
-            <!-- Stretched Link to play directly on site -->
-            <a
-              href={`/videos/${item.videoId}/`}
-              class="absolute inset-0 z-10"
-              aria-label={`Play: ${item.title}`}
-            />
-
             <div>
-              <!-- Thumbnail -->
-              <div class="relative aspect-video w-full overflow-hidden bg-zinc-950 rounded-t-2xl">
+              <!-- Clickable Thumbnail -->
+              <a
+                href={`/videos/${item.videoId}/`}
+                class="relative aspect-video w-full overflow-hidden bg-zinc-950 rounded-t-2xl block cursor-pointer"
+                aria-label={`Play: ${item.title}`}
+              >
                 <img
                   src={`https://i.ytimg.com/vi/${item.videoId}/hqdefault.jpg`}
                   alt={item.title}
@@ -224,20 +221,25 @@ const currentUrl = `https://begemotik.ee/videos/${video.videoId}/`;
                     {item.duration}
                   </span>
                 )}
-              </div>
+              </a>
 
               <!-- Title -->
               <div class="p-4">
                 <h3 class="text-sm font-semibold text-zinc-900 dark:text-zinc-100 group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors line-clamp-2 leading-snug">
-                  {item.title}
+                  <a href={`/videos/${item.videoId}/`} class="hover:underline">
+                    {item.title}
+                  </a>
                 </h3>
 
                 {item.tags && item.tags.length > 0 && (
                   <div class="relative z-20 mt-2.5 flex flex-wrap gap-1">
                     {item.tags.slice(0, 3).map((t) => (
-                      <span class="inline-block px-1.5 py-0.5 rounded text-[10px] font-medium bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400">
+                      <a
+                        href={`/categories?tag=${tagToSlug(t)}`}
+                        class="inline-block px-1.5 py-0.5 rounded text-[10px] font-medium bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-600 hover:text-red-600 dark:text-zinc-400 dark:hover:text-red-400 transition-colors"
+                      >
                         #{t}
-                      </span>
+                      </a>
                     ))}
                   </div>
                 )}
@@ -247,10 +249,13 @@ const currentUrl = `https://begemotik.ee/videos/${video.videoId}/`;
             <!-- Card Footer -->
             <div class="px-4 pb-4 pt-2 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs text-zinc-500 dark:text-zinc-400">
               <span>{item.views}</span>
-              <span class="text-red-600 dark:text-red-400 font-semibold group-hover:underline flex items-center gap-1">
+              <a
+                href={`/videos/${item.videoId}/`}
+                class="text-red-600 dark:text-red-400 font-semibold hover:underline flex items-center gap-1"
+              >
                 <span>Play</span>
                 <Play className="w-2.5 h-2.5 fill-current" />
-              </span>
+              </a>
             </div>
           </article>
         ))}

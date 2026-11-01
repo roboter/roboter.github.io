@@ -103,15 +103,12 @@ const hasMore = allVideos.length > videos.length;
           data-title={(item.title + " " + (item.tags || []).join(" ")).toLowerCase()}
           data-tags={(item.tags || []).map((t) => t.toLowerCase()).join(",")}
         >
-          {/* Stretched Link to play directly on site */}
+          {/* Clickable Thumbnail */}
           <a
             href={`/videos/${item.videoId}/`}
-            class="absolute inset-0 z-0"
+            class="relative aspect-video w-full overflow-hidden bg-zinc-950 block cursor-pointer"
             aria-label={`Play: ${item.title}`}
-          />
-
-          {/* Thumbnail */}
-          <div class="relative aspect-video w-full overflow-hidden bg-zinc-950">
+          >
             <img
               src={`https://i.ytimg.com/vi/${item.videoId}/hqdefault.jpg`}
               alt={item.title}
@@ -131,12 +128,14 @@ const hasMore = allVideos.length > videos.length;
                 {item.duration}
               </span>
             )}
-          </div>
+          </a>
 
           {/* Content */}
           <div class="p-4 flex-1 flex flex-col justify-between">
             <h3 class="text-sm sm:text-base font-semibold text-zinc-900 dark:text-zinc-100 group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors line-clamp-2 leading-snug">
-              {item.title}
+              <a href={`/videos/${item.videoId}/`} class="hover:underline">
+                {item.title}
+              </a>
             </h3>
 
             {item.tags && item.tags.length > 0 && (
