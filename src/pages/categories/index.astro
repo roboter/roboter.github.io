@@ -421,7 +421,11 @@ const pageDescription = "Explore hardware deep-dives, video tutorials, and inter
                     <article class="group relative flex flex-col justify-between rounded-2xl border border-zinc-200/70 dark:border-zinc-800 bg-white dark:bg-zinc-800/40 p-5 shadow-sm hover:shadow-md hover:border-zinc-300 dark:hover:border-zinc-700 transition-all duration-200 active:scale-[0.99]">
                       <div>
                         {post.data.heroImage && (
-                          <div class="aspect-video w-full rounded-xl overflow-hidden mb-4 bg-zinc-100 dark:bg-zinc-800">
+                          <a
+                            href={`/blog/${post.id || post.slug}/`}
+                            class="aspect-video w-full rounded-xl overflow-hidden mb-4 bg-zinc-100 dark:bg-zinc-800 block cursor-pointer relative z-10"
+                            aria-label={post.data.title}
+                          >
                             <Image
                               src={post.data.heroImage}
                               alt={post.data.title}
@@ -431,7 +435,7 @@ const pageDescription = "Explore hardware deep-dives, video tutorials, and inter
                               decoding="async"
                               loading="lazy"
                             />
-                          </div>
+                          </a>
                         )}
                         <div class="flex items-center gap-2 text-xs font-medium text-zinc-500 dark:text-zinc-400 mb-2">
                           <CalendarIcon />
@@ -594,7 +598,11 @@ const pageDescription = "Explore hardware deep-dives, video tutorials, and inter
               >
                 <div>
                   {post.data.heroImage && (
-                    <div class="aspect-video w-full rounded-xl overflow-hidden mb-4 bg-zinc-100 dark:bg-zinc-800">
+                    <a
+                      href={`/blog/${post.id || post.slug}/`}
+                      class="aspect-video w-full rounded-xl overflow-hidden mb-4 bg-zinc-100 dark:bg-zinc-800 block cursor-pointer relative z-10"
+                      aria-label={post.data.title}
+                    >
                       <Image
                         src={post.data.heroImage}
                         alt={post.data.title}
@@ -604,7 +612,7 @@ const pageDescription = "Explore hardware deep-dives, video tutorials, and inter
                         decoding="async"
                         loading="lazy"
                       />
-                    </div>
+                    </a>
                   )}
                   <div class="flex items-center gap-2 text-xs font-medium text-zinc-500 dark:text-zinc-400 mb-2">
                     <CalendarIcon />

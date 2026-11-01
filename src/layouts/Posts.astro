@@ -29,8 +29,12 @@ type PostType = {
   {
     posts?.slice(0, config.site.pageSize).map((post: PostType) => (
       <article class="group flex w-full flex-col items-start active:scale-[0.99] transition-transform duration-100">
-        <div class="w-full rounded-2xl block overflow-hidden mb-4 shadow-sm ring-1 ring-zinc-900/5 dark:ring-white/10 bg-zinc-100 dark:bg-zinc-800">
-          {post.data.heroImage && (
+        {post.data.heroImage && (
+          <a
+            href={`/blog/${post.id || post.slug}/`}
+            class="w-full rounded-2xl block overflow-hidden mb-4 shadow-sm ring-1 ring-zinc-900/5 dark:ring-white/10 bg-zinc-100 dark:bg-zinc-800 cursor-pointer"
+            aria-label={post.data.title}
+          >
             <figure class="w-full h-[180px] md:h-[160px] overflow-hidden">
               <Image
                 class="w-full h-full object-cover transition duration-500 ease-out group-hover:scale-105"
@@ -42,8 +46,8 @@ type PostType = {
                 loading="lazy"
               />
             </figure>
-          )}
-        </div>
+          </a>
+        )}
         <div class="flex items-center gap-x-3 text-xs font-medium text-zinc-500 dark:text-zinc-400">
           <FormattedDate date={post.data.pubDate} />
           {post.data.categories.slice(0, 2).map((item) => (
