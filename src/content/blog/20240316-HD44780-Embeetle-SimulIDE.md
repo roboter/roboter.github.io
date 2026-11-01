@@ -9,12 +9,12 @@ author: '["robby.roboter"]'
 ---
 
 ## [SimulIDE](https://simulide.com/)
+
 `SimulIDE` is a cool tool to simulate analog and digital Circuits, Here how they describe itself on their site: `SimulIDE` is a simple real time electronic circuit simulator, intended for hobbyist or students to learn and experiment with analog and digital electronic circuits and microcontrollers.
 
-The more important thing for me is: It supports `PIC`, `AVR`, `Arduino` and other MCUs and MPUs. 
+The more important thing for me is: It supports `PIC`, `AVR`, `Arduino` and other MCUs and MPUs.
 
 ![SimulIDE](/images/20240316-SimulIDE/SimulIDE.png)
-
 
 ## So lets build our own Circuit!
 
@@ -44,6 +44,7 @@ And click `Next` and after some time click `Finish` after importing is done we c
 ![Embeetle-Build](/images/20240316-SimulIDE/Embeetle-Build.png)
 
 We should see a build log with result:
+
 ```bash
 Preparing: application.size
 "/embeetle/beetle_tools/windows/gnu_avr_toolchain_7.3.0_32b/bin/avr-size" application.elf
@@ -54,15 +55,18 @@ make.exe: Leaving directory 'E:/projects/PololuHD44780-Test/build'
 ```
 
 Now we need to check what connections we need to make, it described in comments in another example `BasicTest.ino` I will copy it here:
+
 ```c++
 /* The pins specified below will need to be connected to your
 LCD.  The pins are specified in this order:
 RS, E, DB4, DB5, DB6, DB7. */
 PololuHD44780 lcd(7, 6, 5, 4, 3, 2);
 ```
+
 ![Connections](/images/20240316-SimulIDE/Connections.png)
 
 ## Running firmware
+
 Now we need to load `Firmware` to `SimulIDE` `nano` board, Righ-click on board to get a menu
 ![SimulIDE-Firmware](/images/20240316-SimulIDE/SimulIDE-Firmware.png)
 
@@ -71,6 +75,7 @@ We need to select `hex` file from `BasicTest\build` folder
 ![Application-HEX](/images/20240316-SimulIDE/Application-HEX.png)
 
 ### finally run
+
 ![SimulIDE-run](/images/20240316-SimulIDE/SimulIDE-run.png)
 
 and ... nothing on a display ...
@@ -85,6 +90,7 @@ void loop()
   lcd.reinitialize();
   loadCustomCharacters();
 ```
+
 and comment out call to `loadCustomCharacters`
 
 ```c

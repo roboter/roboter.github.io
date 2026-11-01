@@ -23,96 +23,96 @@ OLED_print("SSD1306 128x64");`);
   // Complete 5x7 font
   const font = {
     ' ': [0x00, 0x00, 0x00, 0x00, 0x00],
-    '!': [0x00, 0x00, 0x5F, 0x00, 0x00],
+    '!': [0x00, 0x00, 0x5f, 0x00, 0x00],
     '"': [0x00, 0x07, 0x00, 0x07, 0x00],
-    '#': [0x14, 0x7F, 0x14, 0x7F, 0x14],
-    '$': [0x24, 0x2A, 0x7F, 0x2A, 0x12],
+    '#': [0x14, 0x7f, 0x14, 0x7f, 0x14],
+    $: [0x24, 0x2a, 0x7f, 0x2a, 0x12],
     '%': [0x23, 0x13, 0x08, 0x64, 0x62],
     '&': [0x36, 0x49, 0x55, 0x22, 0x50],
     "'": [0x00, 0x05, 0x03, 0x00, 0x00],
-    '(': [0x00, 0x1C, 0x22, 0x41, 0x00],
-    ')': [0x00, 0x41, 0x22, 0x1C, 0x00],
-    '*': [0x14, 0x08, 0x3E, 0x08, 0x14],
-    '+': [0x08, 0x08, 0x3E, 0x08, 0x08],
+    '(': [0x00, 0x1c, 0x22, 0x41, 0x00],
+    ')': [0x00, 0x41, 0x22, 0x1c, 0x00],
+    '*': [0x14, 0x08, 0x3e, 0x08, 0x14],
+    '+': [0x08, 0x08, 0x3e, 0x08, 0x08],
     ',': [0x00, 0x50, 0x30, 0x00, 0x00],
     '-': [0x08, 0x08, 0x08, 0x08, 0x08],
     '.': [0x00, 0x60, 0x60, 0x00, 0x00],
     '/': [0x20, 0x10, 0x08, 0x04, 0x02],
-    '0': [0x3E, 0x51, 0x49, 0x45, 0x3E],
-    '1': [0x00, 0x42, 0x7F, 0x40, 0x00],
-    '2': [0x42, 0x61, 0x51, 0x49, 0x46],
-    '3': [0x21, 0x41, 0x45, 0x4B, 0x31],
-    '4': [0x18, 0x14, 0x12, 0x7F, 0x10],
-    '5': [0x27, 0x45, 0x45, 0x45, 0x39],
-    '6': [0x3C, 0x4A, 0x49, 0x49, 0x30],
-    '7': [0x01, 0x71, 0x09, 0x05, 0x03],
-    '8': [0x36, 0x49, 0x49, 0x49, 0x36],
-    '9': [0x06, 0x49, 0x49, 0x29, 0x1E],
+    0: [0x3e, 0x51, 0x49, 0x45, 0x3e],
+    1: [0x00, 0x42, 0x7f, 0x40, 0x00],
+    2: [0x42, 0x61, 0x51, 0x49, 0x46],
+    3: [0x21, 0x41, 0x45, 0x4b, 0x31],
+    4: [0x18, 0x14, 0x12, 0x7f, 0x10],
+    5: [0x27, 0x45, 0x45, 0x45, 0x39],
+    6: [0x3c, 0x4a, 0x49, 0x49, 0x30],
+    7: [0x01, 0x71, 0x09, 0x05, 0x03],
+    8: [0x36, 0x49, 0x49, 0x49, 0x36],
+    9: [0x06, 0x49, 0x49, 0x29, 0x1e],
     ':': [0x00, 0x36, 0x36, 0x00, 0x00],
     ';': [0x00, 0x56, 0x36, 0x00, 0x00],
     '<': [0x08, 0x14, 0x22, 0x41, 0x00],
     '=': [0x14, 0x14, 0x14, 0x14, 0x14],
     '>': [0x00, 0x41, 0x22, 0x14, 0x08],
     '?': [0x02, 0x01, 0x51, 0x09, 0x06],
-    '@': [0x32, 0x49, 0x79, 0x41, 0x3E],
-    'A': [0x7E, 0x11, 0x11, 0x11, 0x7E],
-    'B': [0x7F, 0x49, 0x49, 0x49, 0x36],
-    'C': [0x3E, 0x41, 0x41, 0x41, 0x22],
-    'D': [0x7F, 0x41, 0x41, 0x41, 0x3E],
-    'E': [0x7F, 0x49, 0x49, 0x49, 0x41],
-    'F': [0x7F, 0x09, 0x09, 0x09, 0x01],
-    'G': [0x3E, 0x41, 0x49, 0x49, 0x7A],
-    'H': [0x7F, 0x08, 0x08, 0x08, 0x7F],
-    'I': [0x00, 0x41, 0x7F, 0x41, 0x00],
-    'J': [0x20, 0x40, 0x41, 0x3F, 0x01],
-    'K': [0x7F, 0x08, 0x14, 0x22, 0x41],
-    'L': [0x7F, 0x40, 0x40, 0x40, 0x40],
-    'M': [0x7F, 0x02, 0x0C, 0x02, 0x7F],
-    'N': [0x7F, 0x04, 0x08, 0x10, 0x7F],
-    'O': [0x3E, 0x41, 0x41, 0x41, 0x3E],
-    'P': [0x7F, 0x09, 0x09, 0x09, 0x06],
-    'Q': [0x3E, 0x41, 0x51, 0x21, 0x5E],
-    'R': [0x7F, 0x09, 0x19, 0x29, 0x46],
-    'S': [0x46, 0x49, 0x49, 0x49, 0x31],
-    'T': [0x01, 0x01, 0x7F, 0x01, 0x01],
-    'U': [0x3F, 0x40, 0x40, 0x40, 0x3F],
-    'V': [0x1F, 0x20, 0x40, 0x20, 0x1F],
-    'W': [0x3F, 0x40, 0x38, 0x40, 0x3F],
-    'X': [0x63, 0x14, 0x08, 0x14, 0x63],
-    'Y': [0x07, 0x08, 0x70, 0x08, 0x07],
-    'Z': [0x61, 0x51, 0x49, 0x45, 0x43],
-    '[': [0x00, 0x7F, 0x41, 0x41, 0x00],
+    '@': [0x32, 0x49, 0x79, 0x41, 0x3e],
+    A: [0x7e, 0x11, 0x11, 0x11, 0x7e],
+    B: [0x7f, 0x49, 0x49, 0x49, 0x36],
+    C: [0x3e, 0x41, 0x41, 0x41, 0x22],
+    D: [0x7f, 0x41, 0x41, 0x41, 0x3e],
+    E: [0x7f, 0x49, 0x49, 0x49, 0x41],
+    F: [0x7f, 0x09, 0x09, 0x09, 0x01],
+    G: [0x3e, 0x41, 0x49, 0x49, 0x7a],
+    H: [0x7f, 0x08, 0x08, 0x08, 0x7f],
+    I: [0x00, 0x41, 0x7f, 0x41, 0x00],
+    J: [0x20, 0x40, 0x41, 0x3f, 0x01],
+    K: [0x7f, 0x08, 0x14, 0x22, 0x41],
+    L: [0x7f, 0x40, 0x40, 0x40, 0x40],
+    M: [0x7f, 0x02, 0x0c, 0x02, 0x7f],
+    N: [0x7f, 0x04, 0x08, 0x10, 0x7f],
+    O: [0x3e, 0x41, 0x41, 0x41, 0x3e],
+    P: [0x7f, 0x09, 0x09, 0x09, 0x06],
+    Q: [0x3e, 0x41, 0x51, 0x21, 0x5e],
+    R: [0x7f, 0x09, 0x19, 0x29, 0x46],
+    S: [0x46, 0x49, 0x49, 0x49, 0x31],
+    T: [0x01, 0x01, 0x7f, 0x01, 0x01],
+    U: [0x3f, 0x40, 0x40, 0x40, 0x3f],
+    V: [0x1f, 0x20, 0x40, 0x20, 0x1f],
+    W: [0x3f, 0x40, 0x38, 0x40, 0x3f],
+    X: [0x63, 0x14, 0x08, 0x14, 0x63],
+    Y: [0x07, 0x08, 0x70, 0x08, 0x07],
+    Z: [0x61, 0x51, 0x49, 0x45, 0x43],
+    '[': [0x00, 0x7f, 0x41, 0x41, 0x00],
     '\\': [0x02, 0x04, 0x08, 0x10, 0x20],
-    ']': [0x00, 0x41, 0x41, 0x7F, 0x00],
+    ']': [0x00, 0x41, 0x41, 0x7f, 0x00],
     '^': [0x04, 0x02, 0x01, 0x02, 0x04],
-    '_': [0x40, 0x40, 0x40, 0x40, 0x40],
+    _: [0x40, 0x40, 0x40, 0x40, 0x40],
     '`': [0x00, 0x01, 0x02, 0x04, 0x00],
-    'a': [0x20, 0x54, 0x54, 0x54, 0x78],
-    'b': [0x7F, 0x48, 0x44, 0x44, 0x38],
-    'c': [0x38, 0x44, 0x44, 0x44, 0x20],
-    'd': [0x38, 0x44, 0x44, 0x48, 0x7F],
-    'e': [0x38, 0x54, 0x54, 0x54, 0x18],
-    'f': [0x08, 0x7E, 0x09, 0x01, 0x02],
-    'g': [0x0C, 0x52, 0x52, 0x52, 0x3E],
-    'h': [0x7F, 0x08, 0x04, 0x04, 0x78],
-    'i': [0x00, 0x44, 0x7D, 0x40, 0x00],
-    'j': [0x20, 0x40, 0x44, 0x3D, 0x00],
-    'k': [0x7F, 0x10, 0x28, 0x44, 0x00],
-    'l': [0x00, 0x41, 0x7F, 0x40, 0x00],
-    'm': [0x7C, 0x04, 0x18, 0x04, 0x78],
-    'n': [0x7C, 0x08, 0x04, 0x04, 0x78],
-    'o': [0x38, 0x44, 0x44, 0x44, 0x38],
-    'p': [0x7C, 0x14, 0x14, 0x14, 0x08],
-    'q': [0x08, 0x14, 0x14, 0x18, 0x7C],
-    'r': [0x7C, 0x08, 0x04, 0x04, 0x08],
-    's': [0x48, 0x54, 0x54, 0x54, 0x20],
-    't': [0x04, 0x3F, 0x44, 0x40, 0x20],
-    'u': [0x3C, 0x40, 0x40, 0x20, 0x7C],
-    'v': [0x1C, 0x20, 0x40, 0x20, 0x1C],
-    'w': [0x3C, 0x40, 0x30, 0x40, 0x3C],
-    'x': [0x44, 0x28, 0x10, 0x28, 0x44],
-    'y': [0x0C, 0x50, 0x50, 0x50, 0x3C],
-    'z': [0x44, 0x64, 0x54, 0x4C, 0x44],
+    a: [0x20, 0x54, 0x54, 0x54, 0x78],
+    b: [0x7f, 0x48, 0x44, 0x44, 0x38],
+    c: [0x38, 0x44, 0x44, 0x44, 0x20],
+    d: [0x38, 0x44, 0x44, 0x48, 0x7f],
+    e: [0x38, 0x54, 0x54, 0x54, 0x18],
+    f: [0x08, 0x7e, 0x09, 0x01, 0x02],
+    g: [0x0c, 0x52, 0x52, 0x52, 0x3e],
+    h: [0x7f, 0x08, 0x04, 0x04, 0x78],
+    i: [0x00, 0x44, 0x7d, 0x40, 0x00],
+    j: [0x20, 0x40, 0x44, 0x3d, 0x00],
+    k: [0x7f, 0x10, 0x28, 0x44, 0x00],
+    l: [0x00, 0x41, 0x7f, 0x40, 0x00],
+    m: [0x7c, 0x04, 0x18, 0x04, 0x78],
+    n: [0x7c, 0x08, 0x04, 0x04, 0x78],
+    o: [0x38, 0x44, 0x44, 0x44, 0x38],
+    p: [0x7c, 0x14, 0x14, 0x14, 0x08],
+    q: [0x08, 0x14, 0x14, 0x18, 0x7c],
+    r: [0x7c, 0x08, 0x04, 0x04, 0x08],
+    s: [0x48, 0x54, 0x54, 0x54, 0x20],
+    t: [0x04, 0x3f, 0x44, 0x40, 0x20],
+    u: [0x3c, 0x40, 0x40, 0x20, 0x7c],
+    v: [0x1c, 0x20, 0x40, 0x20, 0x1c],
+    w: [0x3c, 0x40, 0x30, 0x40, 0x3c],
+    x: [0x44, 0x28, 0x10, 0x28, 0x44],
+    y: [0x0c, 0x50, 0x50, 0x50, 0x3c],
+    z: [0x44, 0x64, 0x54, 0x4c, 0x44],
   };
 
   useEffect(() => {
@@ -124,7 +124,7 @@ OLED_print("SSD1306 128x64");`);
     if (executeTimeoutRef.current) {
       clearTimeout(executeTimeoutRef.current);
     }
-    
+
     executeTimeoutRef.current = setTimeout(() => {
       executeCode();
     }, 500);
@@ -139,16 +139,16 @@ OLED_print("SSD1306 128x64");`);
   const drawScreen = () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    
+
     const ctx = canvas.getContext('2d');
     const scale = 6;
-    
+
     // Background
     ctx.fillStyle = displayOn ? '#000' : '#111';
     ctx.fillRect(0, 0, 768, 384);
-    
+
     if (!displayOn) return;
-    
+
     // Draw grid
     ctx.strokeStyle = '#1a1a1a';
     ctx.lineWidth = 0.5;
@@ -164,21 +164,21 @@ OLED_print("SSD1306 128x64");`);
       ctx.lineTo(128 * scale, y * scale);
       ctx.stroke();
     }
-    
+
     // Draw pixels
     for (let page = 0; page < 8; page++) {
       for (let col = 0; col < 128; col++) {
         const bufferIndex = page * 128 + col;
         const byte = buffer[bufferIndex];
-        
+
         for (let bit = 0; bit < 8; bit++) {
           const pixelOn = (byte >> bit) & 1;
           let shouldDraw = inverted ? !pixelOn : pixelOn;
-          
+
           if (shouldDraw) {
-            let x = xFlip ? (127 - col) : col;
-            let y = yFlip ? (63 - (page * 8 + bit)) : (page * 8 + bit);
-            
+            let x = xFlip ? 127 - col : col;
+            let y = yFlip ? 63 - (page * 8 + bit) : page * 8 + bit;
+
             const alpha = contrast / 255;
             // Use yellow for upper 16 pixels if enabled
             if (yellowTop && y < 16) {
@@ -202,21 +202,21 @@ OLED_print("SSD1306 128x64");`);
 
   const writeChar = (char, x, y, bufferRef) => {
     const charData = font[char] || font[' '];
-    
+
     for (let i = 0; i < 5; i++) {
       if (x + i >= 128) break;
       const col = charData[i];
       const bufferIndex = y * 128 + x + i;
       bufferRef[bufferIndex] = col;
     }
-    
+
     return x + 6;
   };
 
   const printText = (text, bufferRef, startX, startY) => {
     let x = startX;
     let y = startY;
-    
+
     for (let char of text) {
       if (char === '\n') {
         x = 0;
@@ -229,19 +229,19 @@ OLED_print("SSD1306 128x64");`);
         }
       }
     }
-    
+
     return { x, y };
   };
 
   const drawPixel = (bufferRef, x, y, color) => {
     if (x < 0 || x >= 128 || y < 0 || y >= 64) return;
-    
+
     const page = Math.floor(y / 8);
     const bit = y % 8;
     const bufferIndex = page * 128 + x;
-    
+
     if (color) {
-      bufferRef[bufferIndex] |= (1 << bit);
+      bufferRef[bufferIndex] |= 1 << bit;
     } else {
       bufferRef[bufferIndex] &= ~(1 << bit);
     }
@@ -258,7 +258,7 @@ OLED_print("SSD1306 128x64");`);
       drawPixel(bufferRef, x0, y0, color);
 
       if (x0 === x1 && y0 === y1) break;
-      
+
       const e2 = 2 * err;
       if (e2 > -dy) {
         err -= dy;
@@ -288,11 +288,11 @@ OLED_print("SSD1306 128x64");`);
     const newBuffer = new Array(1024).fill(0);
     let x = 0;
     let y = 0;
-    
+
     const lines = code.split('\n');
     for (let line of lines) {
       line = line.trim();
-      
+
       if (line.includes('OLED_clear()')) {
         newBuffer.fill(0);
         x = 0;
@@ -354,7 +354,7 @@ OLED_print("SSD1306 128x64");`);
         }
       }
     }
-    
+
     setBuffer(newBuffer);
     setCursorX(x);
     setCursorY(y);
@@ -372,166 +372,189 @@ OLED_print("SSD1306 128x64");`);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 p-8">
-      <div className="max-w-6xl mx-auto">
-        <h1 className="text-3xl font-bold text-white mb-2">SSD1306 OLED Simulator</h1>
-        <p className="text-slate-400 mb-8">128x64 Pixel Display Preview</p>
-        
-        <div className="grid lg:grid-cols-1 gap-6">
+      <div className="mx-auto max-w-6xl">
+        <h1 className="mb-2 text-3xl font-bold text-white">SSD1306 OLED Simulator</h1>
+        <p className="mb-8 text-slate-400">128x64 Pixel Display Preview</p>
+
+        <div className="grid gap-6 lg:grid-cols-1">
           {/* Display Panel */}
-          <div className="bg-slate-800 rounded-lg p-6 shadow-xl">
-            <h2 className="text-xl font-semibold text-white mb-4">Display Output</h2>
-            <div className="bg-black p-4 rounded-lg inline-block overflow-auto">
-              <canvas 
-                ref={canvasRef} 
-                width={768} 
-                height={384}
-                className="border-2 border-slate-700"
-              />
+          <div className="rounded-lg bg-slate-800 p-6 shadow-xl">
+            <h2 className="mb-4 text-xl font-semibold text-white">Display Output</h2>
+            <div className="inline-block overflow-auto rounded-lg bg-black p-4">
+              <canvas ref={canvasRef} width={768} height={384} className="border-2 border-slate-700" />
             </div>
-            <div className="mt-2 text-xs text-slate-400">
-              128x64 pixels • Grid overlay enabled • Scale: 6x
-            </div>
-            
+            <div className="mt-2 text-xs text-slate-400">128x64 pixels • Grid overlay enabled • Scale: 6x</div>
+
             {/* Display Controls */}
             <div className="mt-6 space-y-3">
               <div className="flex items-center justify-between">
                 <label className="text-slate-300">Contrast: {contrast}</label>
-                <input 
-                  type="range" 
-                  min="0" 
-                  max="255" 
+                <input
+                  type="range"
+                  min="0"
+                  max="255"
                   value={contrast}
                   onChange={(e) => setContrast(parseInt(e.target.value))}
                   className="w-48"
                 />
               </div>
-              
+
               <div className="flex flex-wrap gap-3">
                 <button
                   onClick={() => setDisplayOn(!displayOn)}
-                  className={`px-3 py-1 rounded ${displayOn ? 'bg-green-600' : 'bg-red-600'} text-white text-sm`}
+                  className={`rounded px-3 py-1 ${displayOn ? 'bg-green-600' : 'bg-red-600'} text-sm text-white`}
                 >
                   {displayOn ? 'ON' : 'OFF'}
                 </button>
                 <button
                   onClick={() => setInverted(!inverted)}
-                  className={`px-3 py-1 rounded ${inverted ? 'bg-blue-600' : 'bg-slate-600'} text-white text-sm`}
+                  className={`rounded px-3 py-1 ${inverted ? 'bg-blue-600' : 'bg-slate-600'} text-sm text-white`}
                 >
                   Invert
                 </button>
                 <button
                   onClick={() => setXFlip(!xFlip)}
-                  className={`px-3 py-1 rounded ${xFlip ? 'bg-blue-600' : 'bg-slate-600'} text-white text-sm`}
+                  className={`rounded px-3 py-1 ${xFlip ? 'bg-blue-600' : 'bg-slate-600'} text-sm text-white`}
                 >
                   X-Flip
                 </button>
                 <button
                   onClick={() => setYFlip(!yFlip)}
-                  className={`px-3 py-1 rounded ${yFlip ? 'bg-blue-600' : 'bg-slate-600'} text-white text-sm`}
+                  className={`rounded px-3 py-1 ${yFlip ? 'bg-blue-600' : 'bg-slate-600'} text-sm text-white`}
                 >
                   Y-Flip
                 </button>
                 <button
                   onClick={() => setYellowTop(!yellowTop)}
-                  className={`px-3 py-1 rounded ${yellowTop ? 'bg-yellow-600' : 'bg-slate-600'} text-white text-sm`}
+                  className={`rounded px-3 py-1 ${yellowTop ? 'bg-yellow-600' : 'bg-slate-600'} text-sm text-white`}
                 >
                   Yellow Top 16px
                 </button>
               </div>
             </div>
           </div>
-          
+
           {/* Code Editor Panel */}
-          <div className="bg-slate-800 rounded-lg p-6 shadow-xl">
-            <div className="flex items-center justify-between mb-4">
+          <div className="rounded-lg bg-slate-800 p-6 shadow-xl">
+            <div className="mb-4 flex items-center justify-between">
               <h2 className="text-xl font-semibold text-white">Code Editor</h2>
               <button
                 onClick={copyCode}
-                className="flex items-center gap-2 px-3 py-1 bg-slate-700 hover:bg-slate-600 text-white rounded text-sm transition-colors"
+                className="flex items-center gap-2 rounded bg-slate-700 px-3 py-1 text-sm text-white transition-colors hover:bg-slate-600"
               >
                 {copied ? <Check size={16} /> : <Copy size={16} />}
                 {copied ? 'Copied!' : 'Copy'}
               </button>
             </div>
-            
+
             <textarea
               value={code}
               onChange={(e) => setCode(e.target.value)}
-              className="w-full h-80 bg-slate-900 text-green-400 font-mono text-sm p-4 rounded border border-slate-700 focus:border-blue-500 focus:outline-none resize-none"
+              className="h-80 w-full resize-none rounded border border-slate-700 bg-slate-900 p-4 font-mono text-sm text-green-400 focus:border-blue-500 focus:outline-none"
               spellCheck={false}
             />
-            
+
             <div className="mt-4 flex gap-3">
               <button
                 onClick={clearBuffer}
-                className="flex items-center gap-2 px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded font-medium transition-colors"
+                className="flex items-center gap-2 rounded bg-slate-700 px-4 py-2 font-medium text-white transition-colors hover:bg-slate-600"
               >
                 <RotateCcw size={18} />
                 Clear Display
               </button>
-              <div className="text-slate-400 text-sm flex items-center">
-                Updates automatically as you type
-              </div>
+              <div className="flex items-center text-sm text-slate-400">Updates automatically as you type</div>
             </div>
-            
+
             {/* Quick Examples */}
-            <div className="mt-6 bg-slate-900 rounded p-4">
-              <h3 className="text-sm font-semibold text-slate-300 mb-3">Quick Examples</h3>
+            <div className="mt-6 rounded bg-slate-900 p-4">
+              <h3 className="mb-3 text-sm font-semibold text-slate-300">Quick Examples</h3>
               <div className="space-y-2">
-                <button 
-                  onClick={() => insertExample('OLED_init();\nOLED_clear();\nOLED_print("Hello World!");\nOLED_newline();\nOLED_print("Line 2");')}
-                  className="w-full text-left text-xs text-slate-400 hover:text-blue-400 font-mono bg-slate-800 p-2 rounded hover:bg-slate-700 transition-colors"
+                <button
+                  onClick={() =>
+                    insertExample(
+                      'OLED_init();\nOLED_clear();\nOLED_print("Hello World!");\nOLED_newline();\nOLED_print("Line 2");'
+                    )
+                  }
+                  className="w-full rounded bg-slate-800 p-2 text-left font-mono text-xs text-slate-400 transition-colors hover:bg-slate-700 hover:text-blue-400"
                 >
                   Basic Text
                 </button>
-                <button 
-                  onClick={() => insertExample('OLED_init();\nOLED_clear();\nOLED_println("Line 1");\nOLED_println("Line 2");\nOLED_println("Line 3");\nOLED_print("Line 4");')}
-                  className="w-full text-left text-xs text-slate-400 hover:text-blue-400 font-mono bg-slate-800 p-2 rounded hover:bg-slate-700 transition-colors"
+                <button
+                  onClick={() =>
+                    insertExample(
+                      'OLED_init();\nOLED_clear();\nOLED_println("Line 1");\nOLED_println("Line 2");\nOLED_println("Line 3");\nOLED_print("Line 4");'
+                    )
+                  }
+                  className="w-full rounded bg-slate-800 p-2 text-left font-mono text-xs text-slate-400 transition-colors hover:bg-slate-700 hover:text-blue-400"
                 >
                   Multiple Lines
                 </button>
-                <button 
-                  onClick={() => insertExample('OLED_init();\nOLED_clear();\nOLED_print("Temperature: 25C");\nOLED_newline();\nOLED_print("Humidity: 60%");\nOLED_newline();\nOLED_print("Pressure: 1013");')}
-                  className="w-full text-left text-xs text-slate-400 hover:text-blue-400 font-mono bg-slate-800 p-2 rounded hover:bg-slate-700 transition-colors"
+                <button
+                  onClick={() =>
+                    insertExample(
+                      'OLED_init();\nOLED_clear();\nOLED_print("Temperature: 25C");\nOLED_newline();\nOLED_print("Humidity: 60%");\nOLED_newline();\nOLED_print("Pressure: 1013");'
+                    )
+                  }
+                  className="w-full rounded bg-slate-800 p-2 text-left font-mono text-xs text-slate-400 transition-colors hover:bg-slate-700 hover:text-blue-400"
                 >
                   Sensor Display
                 </button>
-                <button 
-                  onClick={() => insertExample('OLED_init();\nOLED_clear();\nOLED_DrawLine(0, 0, 127, 63, 1);\nOLED_DrawLine(127, 0, 0, 63, 1);\nOLED_DrawLine(0, 31, 127, 31, 1);\nOLED_DrawLine(63, 0, 63, 63, 1);')}
-                  className="w-full text-left text-xs text-slate-400 hover:text-blue-400 font-mono bg-slate-800 p-2 rounded hover:bg-slate-700 transition-colors"
+                <button
+                  onClick={() =>
+                    insertExample(
+                      'OLED_init();\nOLED_clear();\nOLED_DrawLine(0, 0, 127, 63, 1);\nOLED_DrawLine(127, 0, 0, 63, 1);\nOLED_DrawLine(0, 31, 127, 31, 1);\nOLED_DrawLine(63, 0, 63, 63, 1);'
+                    )
+                  }
+                  className="w-full rounded bg-slate-800 p-2 text-left font-mono text-xs text-slate-400 transition-colors hover:bg-slate-700 hover:text-blue-400"
                 >
                   Lines (Cross Pattern)
                 </button>
-                <button 
-                  onClick={() => insertExample('OLED_init();\nOLED_clear();\nOLED_DrawRect(10, 10, 40, 30, 1);\nOLED_FillRect(60, 10, 40, 30, 1);\nOLED_DrawRect(5, 45, 118, 15, 1);')}
-                  className="w-full text-left text-xs text-slate-400 hover:text-blue-400 font-mono bg-slate-800 p-2 rounded hover:bg-slate-700 transition-colors"
+                <button
+                  onClick={() =>
+                    insertExample(
+                      'OLED_init();\nOLED_clear();\nOLED_DrawRect(10, 10, 40, 30, 1);\nOLED_FillRect(60, 10, 40, 30, 1);\nOLED_DrawRect(5, 45, 118, 15, 1);'
+                    )
+                  }
+                  className="w-full rounded bg-slate-800 p-2 text-left font-mono text-xs text-slate-400 transition-colors hover:bg-slate-700 hover:text-blue-400"
                 >
                   Rectangles
                 </button>
-                <button 
-                  onClick={() => insertExample('OLED_init();\nOLED_clear();\nOLED_DrawPixel(20, 20, 1);\nOLED_DrawPixel(30, 20, 1);\nOLED_DrawPixel(40, 20, 1);\nOLED_DrawLine(20, 30, 40, 30, 1);\nOLED_DrawLine(25, 35, 35, 35, 1);')}
-                  className="w-full text-left text-xs text-slate-400 hover:text-blue-400 font-mono bg-slate-800 p-2 rounded hover:bg-slate-700 transition-colors"
->
-Pixels & Smiley Face
-</button>
-<button
-onClick={() => insertExample('OLED_init();\nOLED_clear();\nOLED_print("Status: OK");\nOLED_newline();\nOLED_DrawLine(0, 15, 127, 15, 1);\nOLED_FillRect(5, 20, 30, 8, 1);\nOLED_print("  Bar Chart");\nOLED_newline();\nOLED_FillRect(5, 35, 50, 8, 1);\nOLED_FillRect(5, 48, 80, 8, 1);')}
-className="w-full text-left text-xs text-slate-400 hover:text-blue-400 font-mono bg-slate-800 p-2 rounded hover:bg-slate-700 transition-colors"
->
-Mixed: Text + Graphics
-</button>
-<button
-onClick={() => insertExample('OLED_init();\nOLED_clear();\nOLED_DrawRect(0, 0, 128, 64, 1);\nOLED_DrawRect(5, 5, 118, 54, 1);\nOLED_print("  Frame Design");\nOLED_newline();\nOLED_newline();\nOLED_print("   Double Border");')}
-className="w-full text-left text-xs text-slate-400 hover:text-blue-400 font-mono bg-slate-800 p-2 rounded hover:bg-slate-700 transition-colors"
->
-Frame with Border
-</button>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-);
+                <button
+                  onClick={() =>
+                    insertExample(
+                      'OLED_init();\nOLED_clear();\nOLED_DrawPixel(20, 20, 1);\nOLED_DrawPixel(30, 20, 1);\nOLED_DrawPixel(40, 20, 1);\nOLED_DrawLine(20, 30, 40, 30, 1);\nOLED_DrawLine(25, 35, 35, 35, 1);'
+                    )
+                  }
+                  className="w-full rounded bg-slate-800 p-2 text-left font-mono text-xs text-slate-400 transition-colors hover:bg-slate-700 hover:text-blue-400"
+                >
+                  Pixels & Smiley Face
+                </button>
+                <button
+                  onClick={() =>
+                    insertExample(
+                      'OLED_init();\nOLED_clear();\nOLED_print("Status: OK");\nOLED_newline();\nOLED_DrawLine(0, 15, 127, 15, 1);\nOLED_FillRect(5, 20, 30, 8, 1);\nOLED_print("  Bar Chart");\nOLED_newline();\nOLED_FillRect(5, 35, 50, 8, 1);\nOLED_FillRect(5, 48, 80, 8, 1);'
+                    )
+                  }
+                  className="w-full rounded bg-slate-800 p-2 text-left font-mono text-xs text-slate-400 transition-colors hover:bg-slate-700 hover:text-blue-400"
+                >
+                  Mixed: Text + Graphics
+                </button>
+                <button
+                  onClick={() =>
+                    insertExample(
+                      'OLED_init();\nOLED_clear();\nOLED_DrawRect(0, 0, 128, 64, 1);\nOLED_DrawRect(5, 5, 118, 54, 1);\nOLED_print("  Frame Design");\nOLED_newline();\nOLED_newline();\nOLED_print("   Double Border");'
+                    )
+                  }
+                  className="w-full rounded bg-slate-800 p-2 text-left font-mono text-xs text-slate-400 transition-colors hover:bg-slate-700 hover:text-blue-400"
+                >
+                  Frame with Border
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
 export default OLEDSimulator;

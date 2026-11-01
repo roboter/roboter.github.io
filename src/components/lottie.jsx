@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import Lottie from 'react-lottie';
 import animationData from '../assets/instagram.json';
 
@@ -10,8 +10,8 @@ export default function LottiePlayer() {
         autoplay: true,
         animationData,
         rendererSettings: {
-          preserveAspectRatio: 'xMidYMid slice'
-        }
+          preserveAspectRatio: 'xMidYMid slice',
+        },
       }}
     />
   );

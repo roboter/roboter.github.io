@@ -1,13 +1,11 @@
 ---
-import { getCollection } from "astro:content";
-import Base from "@layouts/Base.astro";
-import Posts from "@layouts/Posts.astro";
-import Pagination from "@components/Pagination.astro";
-import config from "@config/config.json";
+import { getCollection } from 'astro:content';
+import Base from '@layouts/Base.astro';
+import Posts from '@layouts/Posts.astro';
+import Pagination from '@components/Pagination.astro';
+import config from '@config/config.json';
 
-const posts = (await getCollection("blog")).sort(
-  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
-);
+const posts = (await getCollection('blog')).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
 const totalPages = Math.ceil(posts.length / config.site.pageSize);
 ---
@@ -17,16 +15,13 @@ const totalPages = Math.ceil(posts.length / config.site.pageSize);
   description="Explore hardware deep-dives, microcontroller tutorials (Arduino, STM32, ESP32, WCH), desktop engineering software, and interactive web tools by Robby roboter."
 >
   <Posts posts={posts} />
-  {
-    totalPages > 1 && (
-      <Pagination
-        length={totalPages}
-        currentPage={1}
-        firstUrl="/blog/"
-        prevUrl={null}
-        nextUrl={totalPages > 1 ? "/blog/2" : null}
-      />
-    )
-  }
+  {totalPages > 1 && (
+    <Pagination
+      length={totalPages}
+      currentPage={1}
+      firstUrl="/blog/"
+      prevUrl={null}
+      nextUrl={totalPages > 1 ? '/blog/2' : null}
+    />
+  )}
 </Base>
-

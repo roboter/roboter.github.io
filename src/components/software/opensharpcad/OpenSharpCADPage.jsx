@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import {
   Apple,
   ArrowLeft,
@@ -26,50 +26,48 @@ import {
   Sparkles,
   Terminal,
   Workflow,
-} from "lucide-react";
+} from 'lucide-react';
 
-const repositoryUrl = "https://github.com/roboter/OpenSharpCAD";
+const repositoryUrl = 'https://github.com/roboter/OpenSharpCAD';
 const releasesUrl = `${repositoryUrl}/releases`;
-const videoUrl = "https://youtu.be/dlQ3HhHRtSU";
+const videoUrl = 'https://youtu.be/dlQ3HhHRtSU';
 
 const initialRelease = {
-  version: "0.0.1",
-  publishedAt: "October 20, 2026",
+  version: '0.0.1',
+  publishedAt: 'October 20, 2026',
   releaseUrl: `${releasesUrl}/tag/0.0.1`,
   assets: [
     {
-      id: "windows",
-      matchName: "win-x64",
-      name: "OpenSharpCAD-win-x64.zip",
-      platform: "Windows",
-      architecture: "x64",
-      size: "57.8 MB",
-      description:
-        "Packaged 64-bit Windows desktop build from the current GitHub release.",
-      url: "https://github.com/roboter/OpenSharpCAD/releases/download/0.0.1/OpenSharpCAD-win-x64.zip",
+      id: 'windows',
+      matchName: 'win-x64',
+      name: 'OpenSharpCAD-win-x64.zip',
+      platform: 'Windows',
+      architecture: 'x64',
+      size: '57.8 MB',
+      description: 'Packaged 64-bit Windows desktop build from the current GitHub release.',
+      url: 'https://github.com/roboter/OpenSharpCAD/releases/download/0.0.1/OpenSharpCAD-win-x64.zip',
       icon: Monitor,
     },
     {
-      id: "mac-arm",
-      matchName: "osx-arm64",
-      name: "OpenSharpCAD-osx-arm64.zip",
-      platform: "macOS",
-      architecture: "Apple Silicon",
-      size: "43.4 MB",
-      description:
-        "Packaged desktop build for Apple Silicon Macs, including M-series processors.",
-      url: "https://github.com/roboter/OpenSharpCAD/releases/download/0.0.1/OpenSharpCAD-osx-arm64.zip",
+      id: 'mac-arm',
+      matchName: 'osx-arm64',
+      name: 'OpenSharpCAD-osx-arm64.zip',
+      platform: 'macOS',
+      architecture: 'Apple Silicon',
+      size: '43.4 MB',
+      description: 'Packaged desktop build for Apple Silicon Macs, including M-series processors.',
+      url: 'https://github.com/roboter/OpenSharpCAD/releases/download/0.0.1/OpenSharpCAD-osx-arm64.zip',
       icon: Apple,
     },
     {
-      id: "mac-intel",
-      matchName: "osx-x64",
-      name: "OpenSharpCAD-osx-x64.zip",
-      platform: "macOS",
-      architecture: "Intel",
-      size: "45.2 MB",
-      description: "Packaged desktop build for Intel-based Macs.",
-      url: "https://github.com/roboter/OpenSharpCAD/releases/download/0.0.1/OpenSharpCAD-osx-x64.zip",
+      id: 'mac-intel',
+      matchName: 'osx-x64',
+      name: 'OpenSharpCAD-osx-x64.zip',
+      platform: 'macOS',
+      architecture: 'Intel',
+      size: '45.2 MB',
+      description: 'Packaged desktop build for Intel-based Macs.',
+      url: 'https://github.com/roboter/OpenSharpCAD/releases/download/0.0.1/OpenSharpCAD-osx-x64.zip',
       icon: Apple,
     },
   ],
@@ -77,107 +75,102 @@ const initialRelease = {
 
 const readmeBadges = [
   {
-    label: "Build & Publish workflow",
+    label: 'Build & Publish workflow',
     href: `${repositoryUrl}/actions/workflows/publish.yml`,
     image: `${repositoryUrl}/actions/workflows/publish.yml/badge.svg`,
   },
   {
-    label: ".NET 10",
-    href: "https://dotnet.microsoft.com/download/dotnet/10.0",
-    image:
-      "https://img.shields.io/badge/.NET-10.0-512BD4?style=flat&logo=dotnet&logoColor=white",
+    label: '.NET 10',
+    href: 'https://dotnet.microsoft.com/download/dotnet/10.0',
+    image: 'https://img.shields.io/badge/.NET-10.0-512BD4?style=flat&logo=dotnet&logoColor=white',
   },
   {
-    label: "C# 13",
-    href: "https://learn.microsoft.com/en-us/dotnet/csharp/",
-    image:
-      "https://img.shields.io/badge/C%23-13.0-239120?style=flat&logo=csharp&logoColor=white",
+    label: 'C# 13',
+    href: 'https://learn.microsoft.com/en-us/dotnet/csharp/',
+    image: 'https://img.shields.io/badge/C%23-13.0-239120?style=flat&logo=csharp&logoColor=white',
   },
   {
-    label: "Windows, macOS, and Linux",
+    label: 'Windows, macOS, and Linux',
     href: repositoryUrl,
     image:
-      "https://img.shields.io/badge/Platforms-macOS%20%7C%20Windows%20%7C%20Linux-blue?style=flat&logo=apple&logoColor=white",
+      'https://img.shields.io/badge/Platforms-macOS%20%7C%20Windows%20%7C%20Linux-blue?style=flat&logo=apple&logoColor=white',
   },
   {
-    label: "GitHub stars",
+    label: 'GitHub stars',
     href: repositoryUrl,
-    image:
-      "https://img.shields.io/github/stars/roboter/OpenSharpCAD?style=flat&logo=github",
+    image: 'https://img.shields.io/github/stars/roboter/OpenSharpCAD?style=flat&logo=github',
   },
   {
-    label: "GitHub forks",
+    label: 'GitHub forks',
     href: repositoryUrl,
-    image:
-      "https://img.shields.io/github/forks/roboter/OpenSharpCAD?style=flat&logo=github",
+    image: 'https://img.shields.io/github/forks/roboter/OpenSharpCAD?style=flat&logo=github',
   },
 ];
 
 const featureCards = [
   {
     icon: Layers,
-    title: "CSG that reads like algebra",
-    description:
-      "Build forms with natural C# operators: + for union, - for difference, and * for intersection.",
+    title: 'CSG that reads like algebra',
+    description: 'Build forms with natural C# operators: + for union, - for difference, and * for intersection.',
   },
   {
     icon: Box,
-    title: "Solids, sketches, and extrusions",
+    title: 'Solids, sketches, and extrusions',
     description:
-      "Work from Box, Cylinder, Sphere, Torus, and Cone primitives, then create 3D bodies from 2D shapes with linear and rotational extrusions.",
+      'Work from Box, Cylinder, Sphere, Torus, and Cone primitives, then create 3D bodies from 2D shapes with linear and rotational extrusions.',
   },
   {
     icon: Workflow,
-    title: "Parametric transformations",
+    title: 'Parametric transformations',
     description:
-      "Translate, rotate, scale, and mirror geometry with constructor wrappers or fluent C# extension methods.",
+      'Translate, rotate, scale, and mirror geometry with constructor wrappers or fluent C# extension methods.',
   },
   {
     icon: Cpu,
-    title: "Live Roslyn compilation",
+    title: 'Live Roslyn compilation',
     description:
-      "Edit code and receive instant 3D preview updates, compiler diagnostics, and familiar C# tooling in the desktop IDE.",
+      'Edit code and receive instant 3D preview updates, compiler diagnostics, and familiar C# tooling in the desktop IDE.',
   },
   {
     icon: Binary,
-    title: "Topology-aware models",
+    title: 'Topology-aware models',
     description:
-      "Use vertices, edges, corners, bounds, and anchor points to attach parts without manually calculating every coordinate.",
+      'Use vertices, edges, corners, bounds, and anchor points to attach parts without manually calculating every coordinate.',
   },
   {
     icon: Play,
-    title: "Parametric animation",
+    title: 'Parametric animation',
     description:
-      "Animate models with the OpenSCAD-compatible $t variable, plus playback controls, FPS, and step settings.",
+      'Animate models with the OpenSCAD-compatible $t variable, plus playback controls, FPS, and step settings.',
   },
 ];
 
 const sourceBuilds = [
   {
-    id: "windows",
-    title: "Windows",
-    badge: "NuGet GLFW · Visual Studio 2022",
+    id: 'windows',
+    title: 'Windows',
+    badge: 'NuGet GLFW · Visual Studio 2022',
     icon: Monitor,
     description:
-      "Use the .NET CLI, or open OpenSharpCAD.sln in Visual Studio 2022, select OpenSharpCAD as the startup project, and press F5.",
+      'Use the .NET CLI, or open OpenSharpCAD.sln in Visual Studio 2022, select OpenSharpCAD as the startup project, and press F5.',
     command: `dotnet build OpenSharpCAD/OpenSharpCAD.csproj\ndotnet run --project OpenSharpCAD/OpenSharpCAD.csproj`,
   },
   {
-    id: "macos",
-    title: "macOS",
-    badge: "Intel & Apple Silicon",
+    id: 'macos',
+    title: 'macOS',
+    badge: 'Intel & Apple Silicon',
     icon: Apple,
     description:
-      "Build with the .NET CLI. The repository includes GLFW binaries, or you can install GLFW with Homebrew if needed.",
+      'Build with the .NET CLI. The repository includes GLFW binaries, or you can install GLFW with Homebrew if needed.',
     command: `# Optional: brew install glfw\ndotnet build OpenSharpCAD/OpenSharpCAD.csproj\ndotnet run --project OpenSharpCAD/OpenSharpCAD.csproj`,
   },
   {
-    id: "linux",
-    title: "Linux",
-    badge: "GLFW source build",
+    id: 'linux',
+    title: 'Linux',
+    badge: 'GLFW source build',
     icon: Terminal,
     description:
-      "Build with the .NET CLI using the bundled GLFW binaries, or install the GLFW development package from your distribution.",
+      'Build with the .NET CLI using the bundled GLFW binaries, or install the GLFW development package from your distribution.',
     command: `# Optional: sudo apt install libglfw3-dev\ndotnet build OpenSharpCAD/OpenSharpCAD.csproj\ndotnet run --project OpenSharpCAD/OpenSharpCAD.csproj`,
   },
 ];
@@ -217,10 +210,10 @@ function formatDate(date) {
   const parsedDate = new Date(date);
   if (Number.isNaN(parsedDate.getTime())) return null;
 
-  return new Intl.DateTimeFormat("en-US", {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
+  return new Intl.DateTimeFormat('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
   }).format(parsedDate);
 }
 
@@ -235,20 +228,20 @@ function CopyButton({ content, copyKey, copiedKey, onCopy }) {
       aria-label="Copy code to clipboard"
     >
       {copied ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5" />}
-      {copied ? "Copied" : "Copy"}
+      {copied ? 'Copied' : 'Copy'}
     </button>
   );
 }
 
 export default function OpenSharpCADPage() {
   const [release, setRelease] = useState(initialRelease);
-  const [activeBuild, setActiveBuild] = useState("windows");
+  const [activeBuild, setActiveBuild] = useState('windows');
   const [copiedKey, setCopiedKey] = useState(null);
 
   useEffect(() => {
     let isMounted = true;
 
-    fetch("https://api.github.com/repos/roboter/OpenSharpCAD/releases/latest")
+    fetch('https://api.github.com/repos/roboter/OpenSharpCAD/releases/latest')
       .then((response) => {
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         return response.json();
@@ -258,9 +251,7 @@ export default function OpenSharpCADPage() {
 
         const latestAssets = Array.isArray(latest.assets) ? latest.assets : [];
         const assets = initialRelease.assets.map((fallback) => {
-          const current = latestAssets.find((asset) =>
-            asset.name?.toLowerCase().includes(fallback.matchName),
-          );
+          const current = latestAssets.find((asset) => asset.name?.toLowerCase().includes(fallback.matchName));
 
           return current
             ? {
@@ -315,7 +306,7 @@ export default function OpenSharpCADPage() {
       <div className="mb-6">
         <a
           href="/software"
-          className="inline-flex items-center gap-1.5 text-xs font-mono font-medium text-sky-600 hover:underline dark:text-sky-400"
+          className="inline-flex items-center gap-1.5 font-mono text-xs font-medium text-sky-600 hover:underline dark:text-sky-400"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
           Back to Software Catalog
@@ -329,7 +320,7 @@ export default function OpenSharpCADPage() {
         </div>
 
         <div className="relative mx-auto max-w-4xl text-center">
-          <div className="mb-6 inline-flex flex-wrap items-center justify-center gap-2 rounded-full border border-sky-500/20 bg-sky-500/10 px-3 py-1.5 text-xs font-mono font-medium text-sky-700 shadow-sm backdrop-blur-sm dark:text-sky-300">
+          <div className="mb-6 inline-flex flex-wrap items-center justify-center gap-2 rounded-full border border-sky-500/20 bg-sky-500/10 px-3 py-1.5 font-mono text-xs font-medium text-sky-700 shadow-sm backdrop-blur-sm dark:text-sky-300">
             <Sparkles className="h-3.5 w-3.5 text-sky-500" />
             <span>OpenSharpCAD • Parametric C# CAD</span>
             <span className="rounded bg-sky-500/15 px-1.5 py-0.5 text-[10px] font-semibold text-sky-700 dark:text-sky-200">
@@ -345,20 +336,14 @@ export default function OpenSharpCADPage() {
           </h1>
 
           <p className="mx-auto mb-7 max-w-3xl text-lg leading-relaxed text-zinc-600 dark:text-zinc-300 sm:text-xl">
-            Design 3D printable parts, mechanical assemblies, and parametric models
-            with familiar C# and .NET. OpenSharpCAD pairs the code-first workflow of
-            OpenSCAD with Roslyn compilation and a hardware-accelerated 3D viewport.
+            Design 3D printable parts, mechanical assemblies, and parametric models with familiar C# and .NET.
+            OpenSharpCAD pairs the code-first workflow of OpenSCAD with Roslyn compilation and a hardware-accelerated 3D
+            viewport.
           </p>
 
           <div className="mb-8 flex flex-wrap justify-center gap-1.5">
             {readmeBadges.map((badge) => (
-              <a
-                key={badge.label}
-                href={badge.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                title={badge.label}
-              >
+              <a key={badge.label} href={badge.href} target="_blank" rel="noopener noreferrer" title={badge.label}>
                 <img src={badge.image} alt={badge.label} className="h-5" loading="lazy" />
               </a>
             ))}
@@ -399,7 +384,7 @@ export default function OpenSharpCADPage() {
       <section className="mt-12" id="screenshots">
         <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <div className="mb-2 inline-flex items-center gap-2 text-xs font-mono font-semibold uppercase tracking-wider text-sky-600 dark:text-sky-400">
+            <div className="mb-2 inline-flex items-center gap-2 font-mono text-xs font-semibold uppercase tracking-wider text-sky-600 dark:text-sky-400">
               <Eye className="h-3.5 w-3.5" />
               Application screenshots
             </div>
@@ -430,7 +415,8 @@ export default function OpenSharpCADPage() {
               <span className="mb-1 block font-mono text-xs font-semibold uppercase tracking-wider text-sky-400">
                 Main IDE & live viewport
               </span>
-              Live C# scripting and Roslyn compilation on the left; an interactive OpenGL 3D viewport, axis gizmo, and compiler status on the right.
+              Live C# scripting and Roslyn compilation on the left; an interactive OpenGL 3D viewport, axis gizmo, and
+              compiler status on the right.
             </figcaption>
           </figure>
 
@@ -453,7 +439,7 @@ export default function OpenSharpCADPage() {
 
       <section className="mt-16">
         <div className="mx-auto mb-8 max-w-3xl text-center">
-          <div className="mb-3 inline-flex items-center gap-2 text-xs font-mono font-semibold uppercase tracking-wider text-sky-600 dark:text-sky-400">
+          <div className="mb-3 inline-flex items-center gap-2 font-mono text-xs font-semibold uppercase tracking-wider text-sky-600 dark:text-sky-400">
             <Cpu className="h-3.5 w-3.5" />
             Key features
           </div>
@@ -490,7 +476,9 @@ export default function OpenSharpCADPage() {
             </div>
             <CopyButton content={csgExample} copyKey="csg" copiedKey={copiedKey} onCopy={copyToClipboard} />
           </div>
-          <pre className="overflow-x-auto p-5 text-[12px] leading-6 text-zinc-200 sm:text-sm"><code>{csgExample}</code></pre>
+          <pre className="overflow-x-auto p-5 text-[12px] leading-6 text-zinc-200 sm:text-sm">
+            <code>{csgExample}</code>
+          </pre>
         </article>
 
         <article className="rounded-2xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900">
@@ -499,14 +487,15 @@ export default function OpenSharpCADPage() {
             <h2 className="text-2xl font-bold text-zinc-900 dark:text-white">C# becomes the CAD language</h2>
           </div>
           <p className="mb-5 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">
-            OpenSharpCAD keeps the familiar code-first ideas of OpenSCAD while using C# language features, ordinary methods and classes, and the wider .NET ecosystem.
+            OpenSharpCAD keeps the familiar code-first ideas of OpenSCAD while using C# language features, ordinary
+            methods and classes, and the wider .NET ecosystem.
           </p>
           <ul className="space-y-3 text-sm text-zinc-600 dark:text-zinc-300">
             {[
-              "Use type-safe C# methods, classes, records, extension methods, and namespaces.",
-              "Compose boolean operations with the +, -, and * operators instead of nested blocks.",
-              "Use IntelliSense, parameter information, diagnostics, and a Problems panel while modeling.",
-              "Reuse libraries, test dimensional logic, and work with familiar .NET tools.",
+              'Use type-safe C# methods, classes, records, extension methods, and namespaces.',
+              'Compose boolean operations with the +, -, and * operators instead of nested blocks.',
+              'Use IntelliSense, parameter information, diagnostics, and a Problems panel while modeling.',
+              'Reuse libraries, test dimensional logic, and work with familiar .NET tools.',
             ].map((item) => (
               <li key={item} className="flex gap-2.5">
                 <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-500" />
@@ -520,7 +509,7 @@ export default function OpenSharpCADPage() {
       <section className="mt-16 overflow-hidden rounded-3xl border border-zinc-200 bg-zinc-950 shadow-xl dark:border-zinc-800">
         <div className="grid lg:grid-cols-[1.1fr_0.9fr]">
           <div className="p-7 sm:p-10">
-            <div className="mb-3 inline-flex items-center gap-2 text-xs font-mono font-semibold uppercase tracking-wider text-sky-400">
+            <div className="mb-3 inline-flex items-center gap-2 font-mono text-xs font-semibold uppercase tracking-wider text-sky-400">
               <Code className="h-3.5 w-3.5" />
               From the README
             </div>
@@ -528,7 +517,8 @@ export default function OpenSharpCADPage() {
               Model complex forms from simple solids
             </h2>
             <p className="mb-6 max-w-xl leading-relaxed text-zinc-300">
-              This OpenSCAD-logo example uses a sphere and three rotated cylinders. The C# implementation returns their difference as an ordinary function, ready to be reused elsewhere in a design.
+              This OpenSCAD-logo example uses a sphere and three rotated cylinders. The C# implementation returns their
+              difference as an ordinary function, ready to be reused elsewhere in a design.
             </p>
             <a
               href={`${repositoryUrl}/blob/master/README.md#-code-examples`}
@@ -545,14 +535,16 @@ export default function OpenSharpCADPage() {
               <span className="font-mono text-xs text-zinc-400">logo.cs</span>
               <CopyButton content={logoExample} copyKey="logo" copiedKey={copiedKey} onCopy={copyToClipboard} />
             </div>
-            <pre className="max-h-[400px] overflow-auto p-5 text-[11px] leading-5 text-zinc-200 sm:text-xs"><code>{logoExample}</code></pre>
+            <pre className="max-h-[400px] overflow-auto p-5 text-[11px] leading-5 text-zinc-200 sm:text-xs">
+              <code>{logoExample}</code>
+            </pre>
           </div>
         </div>
       </section>
 
       <section className="mt-16 scroll-mt-8" id="downloads">
         <div className="mx-auto mb-8 max-w-3xl text-center">
-          <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1.5 text-xs font-mono font-semibold text-emerald-700 dark:text-emerald-300">
+          <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1.5 font-mono text-xs font-semibold text-emerald-700 dark:text-emerald-300">
             <Download className="h-3.5 w-3.5" />
             Current GitHub release
           </div>
@@ -560,33 +552,36 @@ export default function OpenSharpCADPage() {
             Download OpenSharpCAD {release.version}
           </h2>
           <p className="text-zinc-600 dark:text-zinc-300">
-            Published {release.publishedAt}. Choose a packaged desktop build, or build from source for Linux and development workflows.
+            Published {release.publishedAt}. Choose a packaged desktop build, or build from source for Linux and
+            development workflows.
           </p>
         </div>
 
         <div className="grid gap-5 lg:grid-cols-3">
           {release.assets.map((asset) => {
             const Icon = asset.icon;
-            const isWindows = asset.id === "windows";
+            const isWindows = asset.id === 'windows';
             return (
               <article
                 key={asset.id}
                 className={`flex flex-col rounded-2xl border bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg dark:bg-zinc-900 ${
-                  isWindows
-                    ? "border-sky-500/40 dark:border-sky-500/40"
-                    : "border-zinc-200 dark:border-zinc-800"
+                  isWindows ? 'border-sky-500/40 dark:border-sky-500/40' : 'border-zinc-200 dark:border-zinc-800'
                 }`}
               >
                 <div className="mb-5 flex items-start justify-between gap-4">
-                  <span className={`inline-flex rounded-xl p-3 ${isWindows ? "bg-sky-500/10 text-sky-600 dark:text-sky-400" : "bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-300"}`}>
+                  <span
+                    className={`inline-flex rounded-xl p-3 ${isWindows ? 'bg-sky-500/10 text-sky-600 dark:text-sky-400' : 'bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-300'}`}
+                  >
                     <Icon className="h-6 w-6" />
                   </span>
-                  <span className="rounded-full border border-zinc-200 bg-zinc-50 px-2.5 py-1 text-[11px] font-mono font-medium text-zinc-600 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300">
+                  <span className="rounded-full border border-zinc-200 bg-zinc-50 px-2.5 py-1 font-mono text-[11px] font-medium text-zinc-600 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300">
                     {asset.architecture}
                   </span>
                 </div>
                 <h3 className="mb-1 text-xl font-bold text-zinc-900 dark:text-white">{asset.platform}</h3>
-                <p className="mb-4 text-xs font-mono text-zinc-500 dark:text-zinc-400">{asset.name} · {asset.size}</p>
+                <p className="mb-4 font-mono text-xs text-zinc-500 dark:text-zinc-400">
+                  {asset.name} · {asset.size}
+                </p>
                 <p className="mb-6 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">{asset.description}</p>
                 <a
                   href={asset.url}
@@ -594,8 +589,8 @@ export default function OpenSharpCADPage() {
                   rel="noopener noreferrer"
                   className={`mt-auto inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold transition ${
                     isWindows
-                      ? "bg-sky-600 text-white hover:bg-sky-500"
-                      : "border border-zinc-300 text-zinc-800 hover:border-sky-400 hover:text-sky-700 dark:border-zinc-700 dark:text-zinc-100 dark:hover:border-sky-500 dark:hover:text-sky-300"
+                      ? 'bg-sky-600 text-white hover:bg-sky-500'
+                      : 'border border-zinc-300 text-zinc-800 hover:border-sky-400 hover:text-sky-700 dark:border-zinc-700 dark:text-zinc-100 dark:hover:border-sky-500 dark:hover:text-sky-300'
                   }`}
                 >
                   <Download className="h-4 w-4" />
@@ -640,7 +635,7 @@ export default function OpenSharpCADPage() {
 
       <section className="mt-16 scroll-mt-8" id="build">
         <div className="mb-7 text-center">
-          <div className="mb-3 inline-flex items-center gap-2 text-xs font-mono font-semibold uppercase tracking-wider text-sky-600 dark:text-sky-400">
+          <div className="mb-3 inline-flex items-center gap-2 font-mono text-xs font-semibold uppercase tracking-wider text-sky-600 dark:text-sky-400">
             <Terminal className="h-3.5 w-3.5" />
             Build from source
           </div>
@@ -661,8 +656,8 @@ export default function OpenSharpCADPage() {
                   onClick={() => setActiveBuild(build.id)}
                   className={`flex min-w-[150px] flex-1 items-center justify-center gap-2 border-b-2 px-4 py-4 text-sm font-semibold transition ${
                     isActive
-                      ? "border-sky-500 bg-sky-500/5 text-sky-700 dark:text-sky-300"
-                      : "border-transparent text-zinc-500 hover:bg-zinc-50 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-white"
+                      ? 'border-sky-500 bg-sky-500/5 text-sky-700 dark:text-sky-300'
+                      : 'border-transparent text-zinc-500 hover:bg-zinc-50 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-white'
                   }`}
                 >
                   <Icon className="h-4 w-4" />
@@ -675,26 +670,39 @@ export default function OpenSharpCADPage() {
           {activeBuildDetails && (
             <div className="grid gap-7 p-6 lg:grid-cols-[0.85fr_1.15fr] lg:p-8">
               <div>
-                <span className="mb-3 inline-flex rounded-md border border-sky-500/20 bg-sky-500/10 px-2.5 py-1 text-[11px] font-mono font-medium text-sky-700 dark:text-sky-300">
+                <span className="mb-3 inline-flex rounded-md border border-sky-500/20 bg-sky-500/10 px-2.5 py-1 font-mono text-[11px] font-medium text-sky-700 dark:text-sky-300">
                   {activeBuildDetails.badge}
                 </span>
-                <h3 className="mb-3 text-xl font-bold text-zinc-900 dark:text-white">{activeBuildDetails.title} setup</h3>
-                <p className="mb-5 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">{activeBuildDetails.description}</p>
+                <h3 className="mb-3 text-xl font-bold text-zinc-900 dark:text-white">
+                  {activeBuildDetails.title} setup
+                </h3>
+                <p className="mb-5 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">
+                  {activeBuildDetails.description}
+                </p>
                 <div className="rounded-xl border border-zinc-200 bg-zinc-50 p-4 text-sm dark:border-zinc-800 dark:bg-zinc-950/50">
                   <div className="mb-2 flex items-center gap-2 font-semibold text-zinc-800 dark:text-zinc-100">
                     <Info className="h-4 w-4 text-sky-600 dark:text-sky-400" />
                     Prerequisite
                   </div>
-                  <p className="text-zinc-600 dark:text-zinc-400">Install the .NET 10 SDK before building OpenSharpCAD.</p>
+                  <p className="text-zinc-600 dark:text-zinc-400">
+                    Install the .NET 10 SDK before building OpenSharpCAD.
+                  </p>
                 </div>
               </div>
 
               <div className="overflow-hidden rounded-xl border border-zinc-800 bg-zinc-950">
                 <div className="flex items-center justify-between border-b border-zinc-800 px-4 py-2.5">
                   <span className="font-mono text-xs text-zinc-400">terminal</span>
-                  <CopyButton content={activeBuildDetails.command} copyKey={activeBuildDetails.id} copiedKey={copiedKey} onCopy={copyToClipboard} />
+                  <CopyButton
+                    content={activeBuildDetails.command}
+                    copyKey={activeBuildDetails.id}
+                    copiedKey={copiedKey}
+                    onCopy={copyToClipboard}
+                  />
                 </div>
-                <pre className="overflow-x-auto p-5 text-xs leading-6 text-zinc-100 sm:text-sm"><code>{`git clone --recursive ${repositoryUrl}.git\ncd OpenSharpCAD\n\n${activeBuildDetails.command}`}</code></pre>
+                <pre className="overflow-x-auto p-5 text-xs leading-6 text-zinc-100 sm:text-sm">
+                  <code>{`git clone --recursive ${repositoryUrl}.git\ncd OpenSharpCAD\n\n${activeBuildDetails.command}`}</code>
+                </pre>
               </div>
             </div>
           )}
@@ -703,22 +711,56 @@ export default function OpenSharpCADPage() {
 
       <section className="mt-16 grid gap-6 lg:grid-cols-3">
         <article className="rounded-2xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900">
-          <span className="mb-4 inline-flex rounded-xl bg-sky-500/10 p-2.5 text-sky-600 dark:text-sky-400"><Globe className="h-5 w-5" /></span>
+          <span className="mb-4 inline-flex rounded-xl bg-sky-500/10 p-2.5 text-sky-600 dark:text-sky-400">
+            <Globe className="h-5 w-5" />
+          </span>
           <h2 className="mb-2 text-lg font-bold text-zinc-900 dark:text-white">Interactive documentation</h2>
-          <p className="mb-5 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">Explore the Three.js documentation viewer, web API reference, and the in-app F1 cheat sheet.</p>
-          <a href={`${repositoryUrl}/tree/master/doc`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-sm font-semibold text-sky-600 hover:underline dark:text-sky-400">Open documentation <ArrowRight className="h-4 w-4" /></a>
+          <p className="mb-5 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+            Explore the Three.js documentation viewer, web API reference, and the in-app F1 cheat sheet.
+          </p>
+          <a
+            href={`${repositoryUrl}/tree/master/doc`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 text-sm font-semibold text-sky-600 hover:underline dark:text-sky-400"
+          >
+            Open documentation <ArrowRight className="h-4 w-4" />
+          </a>
         </article>
         <article className="rounded-2xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900">
-          <span className="mb-4 inline-flex rounded-xl bg-sky-500/10 p-2.5 text-sky-600 dark:text-sky-400"><Keyboard className="h-5 w-5" /></span>
+          <span className="mb-4 inline-flex rounded-xl bg-sky-500/10 p-2.5 text-sky-600 dark:text-sky-400">
+            <Keyboard className="h-5 w-5" />
+          </span>
           <h2 className="mb-2 text-lg font-bold text-zinc-900 dark:text-white">Examples and tests</h2>
-          <p className="mb-5 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">Browse standalone examples, command-line projects, API tests, and unit tests in the source tree.</p>
-          <a href={`${repositoryUrl}/tree/master/Examples`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-sm font-semibold text-sky-600 hover:underline dark:text-sky-400">Browse examples <ArrowRight className="h-4 w-4" /></a>
+          <p className="mb-5 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+            Browse standalone examples, command-line projects, API tests, and unit tests in the source tree.
+          </p>
+          <a
+            href={`${repositoryUrl}/tree/master/Examples`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 text-sm font-semibold text-sky-600 hover:underline dark:text-sky-400"
+          >
+            Browse examples <ArrowRight className="h-4 w-4" />
+          </a>
         </article>
         <article className="rounded-2xl border border-sky-500/20 bg-sky-500/5 p-6 dark:bg-sky-500/10">
-          <span className="mb-4 inline-flex rounded-xl bg-sky-500/10 p-2.5 text-sky-600 dark:text-sky-400"><ShieldCheck className="h-5 w-5" /></span>
+          <span className="mb-4 inline-flex rounded-xl bg-sky-500/10 p-2.5 text-sky-600 dark:text-sky-400">
+            <ShieldCheck className="h-5 w-5" />
+          </span>
           <h2 className="mb-2 text-lg font-bold text-zinc-900 dark:text-white">Scripts are executable C#</h2>
-          <p className="mb-5 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">Treat unknown CAD scripts with care. The README documents Roslyn guardrails and recommends isolating completely untrusted automation.</p>
-          <a href={`${repositoryUrl}/blob/master/README.md#-security-considerations`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-sm font-semibold text-sky-600 hover:underline dark:text-sky-400">Read security notes <ArrowRight className="h-4 w-4" /></a>
+          <p className="mb-5 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">
+            Treat unknown CAD scripts with care. The README documents Roslyn guardrails and recommends isolating
+            completely untrusted automation.
+          </p>
+          <a
+            href={`${repositoryUrl}/blob/master/README.md#-security-considerations`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 text-sm font-semibold text-sky-600 hover:underline dark:text-sky-400"
+          >
+            Read security notes <ArrowRight className="h-4 w-4" />
+          </a>
         </article>
       </section>
 

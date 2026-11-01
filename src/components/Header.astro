@@ -36,18 +36,16 @@ const { main }: { main: NavigationLink[] } = menu;
 
       <div class="flex items-center gap-2 md:gap-3 ml-auto">
         <ul class="hidden items-center gap-1 md:flex">
-          {
-            main?.map((item) => (
-              <li>
-                <a
-                  href={item?.url}
-                  class="inline-flex items-center rounded-lg px-3 py-1.5 text-sm font-medium text-zinc-600 hover:text-zinc-900 hover:bg-zinc-200/50 dark:text-zinc-400 dark:hover:text-zinc-100 dark:hover:bg-zinc-800/50 transition-all active:scale-95"
-                >
-                  {item?.name === 'Home' ? <HomeIcon /> : item?.name}
-                </a>
-              </li>
-            ))
-          }
+          {main?.map((item) => (
+            <li>
+              <a
+                href={item?.url}
+                class="inline-flex items-center rounded-lg px-3 py-1.5 text-sm font-medium text-zinc-600 hover:text-zinc-900 hover:bg-zinc-200/50 dark:text-zinc-400 dark:hover:text-zinc-100 dark:hover:bg-zinc-800/50 transition-all active:scale-95"
+              >
+                {item?.name === 'Home' ? <HomeIcon /> : item?.name}
+              </a>
+            </li>
+          ))}
         </ul>
 
         {config.features.dark_mode && <ThemeIcon />}
@@ -76,18 +74,16 @@ const { main }: { main: NavigationLink[] } = menu;
             class="absolute right-0 top-11 z-50 mt-1 hidden w-48 rounded-2xl border border-zinc-200/70 bg-white/90 p-2 shadow-xl backdrop-blur-xl backdrop-saturate-150 dark:border-zinc-800/80 dark:bg-zinc-900/90"
           >
             <ul class="space-y-1 py-1 text-sm text-zinc-700 dark:text-zinc-200">
-              {
-                main?.map((item) => (
-                  <li>
-                    <a
-                      href={item?.url}
-                      class="block rounded-xl px-3.5 py-2 text-sm font-medium text-zinc-600 hover:bg-zinc-100/80 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800/80 dark:hover:text-zinc-100 transition-colors active:scale-95"
-                    >
-                      {item?.name}
-                    </a>
-                  </li>
-                ))
-              }
+              {main?.map((item) => (
+                <li>
+                  <a
+                    href={item?.url}
+                    class="block rounded-xl px-3.5 py-2 text-sm font-medium text-zinc-600 hover:bg-zinc-100/80 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800/80 dark:hover:text-zinc-100 transition-colors active:scale-95"
+                  >
+                    {item?.name}
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
         </div>

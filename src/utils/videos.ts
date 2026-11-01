@@ -1,4 +1,4 @@
-import youtubeData from "@config/youtube.json";
+import youtubeData from '@config/youtube.json';
 
 export interface YouTubeVideo {
   videoId: string;
@@ -18,34 +18,32 @@ export interface YouTubeVideo {
   };
 }
 
-export const allVideos: YouTubeVideo[] = Array.isArray(youtubeData)
-  ? (youtubeData as YouTubeVideo[])
-  : [];
+export const allVideos: YouTubeVideo[] = Array.isArray(youtubeData) ? (youtubeData as YouTubeVideo[]) : [];
 
 const STOPWORDS = new Set([
-  "this",
-  "that",
-  "with",
-  "from",
-  "your",
-  "more",
-  "video",
-  "review",
-  "project",
-  "getting",
-  "better",
-  "easier",
-  "than",
-  "think",
-  "what",
-  "should",
-  "about",
-  "just",
-  "whole",
-  "ready",
-  "fast",
-  "another",
-  "firsthand",
+  'this',
+  'that',
+  'with',
+  'from',
+  'your',
+  'more',
+  'video',
+  'review',
+  'project',
+  'getting',
+  'better',
+  'easier',
+  'than',
+  'think',
+  'what',
+  'should',
+  'about',
+  'just',
+  'whole',
+  'ready',
+  'fast',
+  'another',
+  'firsthand',
 ]);
 
 /**
@@ -87,18 +85,12 @@ export function getSimilarVideos(
     .map((s) => s.video);
 
   // Candidates with 0 score (fallback pool)
-  const others = scored
-    .filter((s) => s.score === 0)
-    .map((s) => s.video);
+  const others = scored.filter((s) => s.score === 0).map((s) => s.video);
 
   // Deterministic shuffle for fallback pool using videoId characters
   others.sort((a, b) => {
-    const hashA = (a.videoId + currentVideo.videoId)
-      .split("")
-      .reduce((acc, c) => acc + c.charCodeAt(0), 0);
-    const hashB = (b.videoId + currentVideo.videoId)
-      .split("")
-      .reduce((acc, c) => acc + c.charCodeAt(0), 0);
+    const hashA = (a.videoId + currentVideo.videoId).split('').reduce((acc, c) => acc + c.charCodeAt(0), 0);
+    const hashB = (b.videoId + currentVideo.videoId).split('').reduce((acc, c) => acc + c.charCodeAt(0), 0);
     return (hashA % 19) - (hashB % 19);
   });
 
@@ -111,4 +103,3 @@ export function getSimilarVideos(
 
   return result.slice(0, limit);
 }
-

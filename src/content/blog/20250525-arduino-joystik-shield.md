@@ -8,13 +8,13 @@ tags: ['ARDUINO', 'Joystick', 'shield']
 author: '["robby.roboter"]'
 ---
 
-
 #### 🚀 Explore the Arduino Joystick Shield!
+
 This versatile shield features a 2-axis joystick with a built-in push button, multiple tactile buttons (A–F), and headers for I2C, serial, and analog connections. It even includes a dedicated interface for a Nokia 5110 (PCD8544) LCD display and support for the nRF24L01 wireless module, making it perfect for creating remote controls, game controllers, and interactive projects.
 
 #### 👉 Whether you’re building a robot, wireless gamepad, or display interface, this shield is packed with possibilities.
-🎮 Watch the video for a full walkthrough and demo!
 
+🎮 Watch the video for a full walkthrough and demo!
 
 ```c
 #include <Adafruit_GFX.h>

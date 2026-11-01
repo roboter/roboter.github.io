@@ -4,7 +4,18 @@
 
 @layer base {
   html {
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-family:
+      -apple-system,
+      BlinkMacSystemFont,
+      'SF Pro Text',
+      'SF Pro Display',
+      system-ui,
+      -apple-system,
+      'Segoe UI',
+      Roboto,
+      Helvetica,
+      Arial,
+      sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
@@ -42,10 +53,10 @@
     @apply text-zinc-700 dark:text-zinc-300;
   }
   kbd {
-    @apply bg-white text-zinc-700 shadow-sm border border-zinc-200 dark:bg-zinc-800 dark:text-zinc-300 dark:border-zinc-700 rounded px-1.5 py-0.5 text-xs;
+    @apply rounded border border-zinc-200 bg-white px-1.5 py-0.5 text-xs text-zinc-700 shadow-sm dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300;
   }
   mark {
-    @apply bg-yellow-300/80 dark:bg-yellow-500/30 dark:text-yellow-200 rounded px-1;
+    @apply rounded bg-yellow-300/80 px-1 dark:bg-yellow-500/30 dark:text-yellow-200;
   }
 }
 
@@ -109,11 +120,11 @@ a.button:active,
 
 /* Blog badge rows: paragraphs containing multiple badge links or SVG badges */
 .prose p:has(> a:nth-of-type(2) > img),
-.prose p:has(> a > img[src*="badge"]),
-.prose p:has(> a > img[src*="shields.io"]),
+.prose p:has(> a > img[src*='badge']),
+.prose p:has(> a > img[src*='shields.io']),
 .prose p:has(> img:nth-of-type(2)),
-.prose p:has(> img[src*="badge"]),
-.prose p:has(> img[src*="shields.io"]),
+.prose p:has(> img[src*='badge']),
+.prose p:has(> img[src*='shields.io']),
 .prose .badge-row {
   display: flex !important;
   flex-direction: row !important;
@@ -129,8 +140,8 @@ a.button:active,
 }
 
 .prose p:has(> a:nth-of-type(2) > img) > a,
-.prose p:has(> a > img[src*="badge"]) > a,
-.prose p:has(> a > img[src*="shields.io"]) > a,
+.prose p:has(> a > img[src*='badge']) > a,
+.prose p:has(> a > img[src*='shields.io']) > a,
 .prose .badge-row > a {
   display: inline-flex !important;
   align-items: center !important;
@@ -141,11 +152,11 @@ a.button:active,
 }
 
 .prose p:has(> a:nth-of-type(2) > img) img,
-.prose p:has(> a > img[src*="badge"]) img,
-.prose p:has(> a > img[src*="shields.io"]) img,
+.prose p:has(> a > img[src*='badge']) img,
+.prose p:has(> a > img[src*='shields.io']) img,
 .prose p:has(> img:nth-of-type(2)) img,
-.prose p:has(> img[src*="badge"]) img,
-.prose p:has(> img[src*="shields.io"]) img,
+.prose p:has(> img[src*='badge']) img,
+.prose p:has(> img[src*='shields.io']) img,
 .prose .badge-row img {
   display: inline-block !important;
   margin: 0 !important;
@@ -156,15 +167,15 @@ a.button:active,
 }
 
 .prose p:has(> a:nth-of-type(2) > img)::-webkit-scrollbar,
-.prose p:has(> a > img[src*="badge"])::-webkit-scrollbar,
-.prose p:has(> a > img[src*="shields.io"])::-webkit-scrollbar,
+.prose p:has(> a > img[src*='badge'])::-webkit-scrollbar,
+.prose p:has(> a > img[src*='shields.io'])::-webkit-scrollbar,
 .prose .badge-row::-webkit-scrollbar {
   height: 4px;
 }
 
 .prose p:has(> a:nth-of-type(2) > img)::-webkit-scrollbar-thumb,
-.prose p:has(> a > img[src*="badge"])::-webkit-scrollbar-thumb,
-.prose p:has(> a > img[src*="shields.io"])::-webkit-scrollbar-thumb,
+.prose p:has(> a > img[src*='badge'])::-webkit-scrollbar-thumb,
+.prose p:has(> a > img[src*='shields.io'])::-webkit-scrollbar-thumb,
 .prose .badge-row::-webkit-scrollbar-thumb {
   background-color: rgba(156, 163, 175, 0.5);
   border-radius: 9999px;
@@ -172,7 +183,9 @@ a.button:active,
 
 /* Reduced motion accessibility */
 @media (prefers-reduced-motion: reduce) {
-  *, ::before, ::after {
+  *,
+  ::before,
+  ::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;

@@ -1,13 +1,13 @@
 ---
-import Header from "@components/Header.astro";
-import Hero from "@components/Hero.astro";
-import FeaturedVideos from "@components/FeaturedVideos.astro";
-import Footer from "@components/Footer.astro";
-import config from "@config/config.json";
+import Header from '@components/Header.astro';
+import Hero from '@components/Hero.astro';
+import FeaturedVideos from '@components/FeaturedVideos.astro';
+import Footer from '@components/Footer.astro';
+import config from '@config/config.json';
 
-import "@styles/global.css";
+import '@styles/global.css';
 
-import { ClientRouter } from "astro:transitions";
+import { ClientRouter } from 'astro:transitions';
 
 export interface Props {
   title?: string;
@@ -37,32 +37,26 @@ const {
   filterTag,
 } = Astro.props;
 
-const siteUrl = config.site.base_url.replace(/\/+$/, "");
-const cleanPath = Astro.url.pathname.replace(/^\/+/, "");
-const canonicalUrl = canonical
-  ? canonical
-  : cleanPath
-  ? `${siteUrl}/${cleanPath}`
-  : `${siteUrl}/`;
+const siteUrl = config.site.base_url.replace(/\/+$/, '');
+const cleanPath = Astro.url.pathname.replace(/^\/+/, '');
+const canonicalUrl = canonical ? canonical : cleanPath ? `${siteUrl}/${cleanPath}` : `${siteUrl}/`;
 
-const siteTitle = config.site.title || "Robby roboter Blog";
+const siteTitle = config.site.title || 'Robby roboter Blog';
 const rawTitle = meta_title || title || siteTitle;
 const displayTitle =
-  rawTitle === siteTitle || rawTitle.includes("Robby roboter")
-    ? rawTitle
-    : `${rawTitle} · Robby roboter`;
+  rawTitle === siteTitle || rawTitle.includes('Robby roboter') ? rawTitle : `${rawTitle} · Robby roboter`;
 
 const metaDescription = description || config.metadata.meta_description;
 
 const resolvedOgImage = image
-  ? image.startsWith("http")
+  ? image.startsWith('http')
     ? image
-    : `${siteUrl}${image.startsWith("/") ? "" : "/"}${image}`
+    : `${siteUrl}${image.startsWith('/') ? '' : '/'}${image}`
   : `${siteUrl}/blog-placeholder.jpg`;
 ---
 
 <!doctype html>
-<html lang={config.site.lang || "en"}>
+<html lang={config.site.lang || 'en'}>
   <head>
     <meta name="google-adsense-account" content="ca-pub-6551517940732120" />
     <!-- favicon -->
@@ -70,33 +64,21 @@ const resolvedOgImage = image
     <!-- theme meta -->
     <meta name="theme-name" content="bookworm-light-astro" />
     <meta name="msapplication-TileColor" content="#000000" />
-    <meta
-      name="theme-color"
-      media="(prefers-color-scheme: light)"
-      content="#fff"
-    />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fff" />
     <meta name="generator" content={Astro.generator} />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <!-- responsive meta -->
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, maximum-scale=5"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
 
     <title>{displayTitle}</title>
     <meta name="title" content={displayTitle} />
     <link rel="canonical" href={canonicalUrl} item-prop="url" />
 
-    {
-      noindex ? (
-        <meta name="robots" content="noindex, nofollow" />
-      ) : (
-        <meta
-          name="robots"
-          content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
-        />
-      )
-    }
+    {noindex ? (
+      <meta name="robots" content="noindex, nofollow" />
+    ) : (
+      <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    )}
 
     <meta name="description" content={metaDescription} />
     <!-- author from config.json -->
@@ -105,7 +87,7 @@ const resolvedOgImage = image
     <!-- Open Graph / Facebook -->
     <meta property="og:title" content={displayTitle} />
     <meta property="og:description" content={metaDescription} />
-    <meta property="og:type" content={blogpost ? "article" : "website"} />
+    <meta property="og:type" content={blogpost ? 'article' : 'website'} />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:image" content={resolvedOgImage} />
     <meta property="og:site_name" content={siteTitle} />
@@ -122,12 +104,7 @@ const resolvedOgImage = image
     <meta name="telegram:contact" content="https://t.me/robby_roboter" />
 
     <!-- RSS auto-discovery -->
-    <link
-      rel="alternate"
-      type="application/rss+xml"
-      title={config.site.title}
-      href="/rss.xml"
-    />
+    <link rel="alternate" type="application/rss+xml" title={config.site.title} href="/rss.xml" />
 
     <link rel="manifest" href="/manifest.webmanifest" />
 
@@ -135,45 +112,44 @@ const resolvedOgImage = image
     <script
       type="application/ld+json"
       set:html={JSON.stringify({
-        "@context": "https://schema.org",
-        "@graph": [
+        '@context': 'https://schema.org',
+        '@graph': [
           {
-            "@type": "WebSite",
-            "@id": `${siteUrl}/#website`,
-            "url": `${siteUrl}/`,
-            "name": "Robby roboter",
-            "description": config.metadata.meta_description,
-            "publisher": {
-              "@id": `${siteUrl}/#person`
+            '@type': 'WebSite',
+            '@id': `${siteUrl}/#website`,
+            url: `${siteUrl}/`,
+            name: 'Robby roboter',
+            description: config.metadata.meta_description,
+            publisher: {
+              '@id': `${siteUrl}/#person`,
             },
-            "inLanguage": config.site.lang || "en"
+            inLanguage: config.site.lang || 'en',
           },
           {
-            "@type": "Person",
-            "@id": `${siteUrl}/#person`,
-            "name": "Robby roboter",
-            "url": `${siteUrl}/`,
-            "image": config.author.avatar,
-            "sameAs": [
-              "https://www.youtube.com/@robby.roboter",
-              "https://github.com/roboter/",
-              "https://x.com/robby_roboter",
-              "https://www.linkedin.com/in/roboter/",
-              "https://t.me/robby_roboter"
+            '@type': 'Person',
+            '@id': `${siteUrl}/#person`,
+            name: 'Robby roboter',
+            url: `${siteUrl}/`,
+            image: config.author.avatar,
+            sameAs: [
+              'https://www.youtube.com/@robby.roboter',
+              'https://github.com/roboter/',
+              'https://x.com/robby_roboter',
+              'https://www.linkedin.com/in/roboter/',
+              'https://t.me/robby_roboter',
             ],
-            "jobTitle": "Maker, Electronics Engineer & YouTuber",
-            "description": config.author.bio
-          }
-        ]
+            jobTitle: 'Maker, Electronics Engineer & YouTuber',
+            description: config.author.bio,
+          },
+        ],
       })}
-    />
-
+    ></script>
     <ClientRouter />
   </head>
   <body class="bg-white dark:bg-zinc-900/95">
     <Header />
     {!blogpost && !hideHero && <Hero />}
-    <main class={fullWidth ? "w-full" : "mx-auto max-w-screen-lg px-4 py-8 sm:px-6 sm:py-12 lg:px-8"}>
+    <main class={fullWidth ? 'w-full' : 'mx-auto max-w-screen-lg px-4 py-8 sm:px-6 sm:py-12 lg:px-8'}>
       <slot />
     </main>
     {!blogpost && !hideVideos && config.features.youtube && (
@@ -188,7 +164,9 @@ const resolvedOgImage = image
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-4C208KCFYB"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
+      function gtag() {
+        dataLayer.push(arguments);
+      }
       gtag('js', new Date());
 
       gtag('config', 'G-4C208KCFYB');

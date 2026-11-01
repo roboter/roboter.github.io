@@ -1,5 +1,5 @@
 ---
-import Base from "@layouts/Base.astro";
+import Base from '@layouts/Base.astro';
 import {
   Cpu,
   Monitor,
@@ -14,12 +14,12 @@ import {
   Sliders,
   ShieldCheck,
   Zap,
-} from "lucide-react";
-import { softwareProjects } from "../../data/software";
+} from 'lucide-react';
+import { softwareProjects } from '../../data/software';
 
-const pageTitle = "Software & Desktop Applications — Robby roboter";
+const pageTitle = 'Software & Desktop Applications — Robby roboter';
 const pageDescription =
-  "Explore desktop applications and CAD engineering tools developed and maintained by Robby roboter, including CircuitFlow.NET PCB layout editor and Pulse wallpaper manager.";
+  'Explore desktop applications and CAD engineering tools developed and maintained by Robby roboter, including CircuitFlow.NET PCB layout editor and Pulse wallpaper manager.';
 ---
 
 <Base
@@ -43,7 +43,8 @@ const pageDescription =
       </h1>
 
       <p class="text-base sm:text-lg text-zinc-600 dark:text-zinc-300 leading-relaxed">
-        High-performance native utilities, CAD layout tools, and desktop applications built for engineers, makers, and enthusiasts.
+        High-performance native utilities, CAD layout tools, and desktop applications built for engineers, makers, and
+        enthusiasts.
       </p>
     </div>
 
@@ -97,8 +98,8 @@ const pageDescription =
                     software.statusColor === 'emerald'
                       ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20'
                       : software.statusColor === 'amber'
-                      ? 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20'
-                      : 'bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20'
+                        ? 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20'
+                        : 'bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20'
                   }`}
                 >
                   {software.statusBadge}
@@ -110,14 +111,10 @@ const pageDescription =
                 <a href={software.fullPageUrl}>{software.title}</a>
               </h2>
 
-              <p class="text-xs font-mono text-zinc-500 dark:text-zinc-400 mb-3">
-                {software.tagline}
-              </p>
+              <p class="text-xs font-mono text-zinc-500 dark:text-zinc-400 mb-3">{software.tagline}</p>
 
               {/* SHORT DESCRIPTION */}
-              <p class="text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed mb-4">
-                {software.shortDescription}
-              </p>
+              <p class="text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed mb-4">{software.shortDescription}</p>
 
               {/* HIGHLIGHTED FEATURES */}
               <ul class="space-y-1.5 mb-5 text-xs text-zinc-600 dark:text-zinc-400">
@@ -155,8 +152,8 @@ const pageDescription =
               {software.downloadUrl && (
                 <a
                   href={software.downloadUrl}
-                  target={software.downloadUrl.startsWith("http") ? "_blank" : undefined}
-                  rel={software.downloadUrl.startsWith("http") ? "noopener noreferrer" : undefined}
+                  target={software.downloadUrl.startsWith('http') ? '_blank' : undefined}
+                  rel={software.downloadUrl.startsWith('http') ? 'noopener noreferrer' : undefined}
                   class="px-3 py-2 rounded-lg text-xs font-semibold text-emerald-700 dark:text-emerald-300 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 transition-all flex items-center gap-1.5"
                 >
                   <Download className="w-3.5 h-3.5" />
@@ -176,9 +173,7 @@ const pageDescription =
                 </a>
               )}
 
-              <span class="text-[11px] font-mono text-zinc-400 ml-auto">
-                {software.platforms.join(" • ")}
-              </span>
+              <span class="text-[11px] font-mono text-zinc-400 ml-auto">{software.platforms.join(' • ')}</span>
             </div>
           </div>
         </article>

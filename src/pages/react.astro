@@ -19,16 +19,15 @@ const counterInitialValue = 10;
     <section>
       <h1>Astro + React Example</h1>
       <p>This page demonstrates using React components within Astro.</p>
-      
+
       <div class="logo-container">
         <FaReact size={80} color="#61DAFB" />
       </div>
     </section>
 
     <!-- Interactive React Component -->
-   
-      <ReactCounter client:load initialValue={counterInitialValue} />
 
+    <ReactCounter client:load initialValue={counterInitialValue} />
 
     <!-- Data fetched at build time -->
     <section>
@@ -71,7 +70,6 @@ const counterInitialValue = 10;
   }
 
   .features {
- 
     padding: 1.5rem;
     border-radius: 8px;
   }

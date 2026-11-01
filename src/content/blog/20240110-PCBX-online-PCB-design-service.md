@@ -1,7 +1,7 @@
 ---
-title: "PCBX Online PCB Service"
+title: 'PCBX Online PCB Service'
 description: 'I tested out online PCB design tool'
-pubDate: "2024-01-10T22:28:31.510Z"
+pubDate: '2024-01-10T22:28:31.510Z'
 heroImage: '/images/20240110-PCBX/pcbx.png'
 categories: ['PCB']
 tags: ['PCB']

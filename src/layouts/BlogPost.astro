@@ -1,25 +1,24 @@
 ---
-import Base from "@layouts/Base.astro";
-import type { CollectionEntry } from "astro:content";
-import FormattedDate from "@components/FormattedDate.astro";
-import CalendarIcon from "@icons/CalendarIcon.astro";
-import CategoryIcon from "@icons/CategoryIcon.astro";
-import { Image } from "astro:assets";
-import config from "@config/config.json";
-import { slugify } from "@utils/slug";
-import Comments from "@components/Comments.astro";
+import Base from '@layouts/Base.astro';
+import type { CollectionEntry } from 'astro:content';
+import FormattedDate from '@components/FormattedDate.astro';
+import CalendarIcon from '@icons/CalendarIcon.astro';
+import CategoryIcon from '@icons/CategoryIcon.astro';
+import { Image } from 'astro:assets';
+import config from '@config/config.json';
+import { slugify } from '@utils/slug';
+import Comments from '@components/Comments.astro';
 
-type Props = CollectionEntry<"blog">["data"];
+type Props = CollectionEntry<'blog'>['data'];
 
-const { title, description, pubDate, heroImage, categories, tags, comments = true } =
-  Astro.props;
+const { title, description, pubDate, heroImage, categories, tags, comments = true } = Astro.props;
 
-const siteUrl = config.site.base_url.replace(/\/+$/, "");
+const siteUrl = config.site.base_url.replace(/\/+$/, '');
 const postUrl = new URL(Astro.url.pathname, siteUrl).href;
 const resolvedHeroImage = heroImage
-  ? heroImage.startsWith("http")
+  ? heroImage.startsWith('http')
     ? heroImage
-    : `${siteUrl}${heroImage.startsWith("/") ? "" : "/"}${heroImage}`
+    : `${siteUrl}${heroImage.startsWith('/') ? '' : '/'}${heroImage}`
   : `${siteUrl}/blog-placeholder.jpg`;
 
 const isoDate = pubDate ? new Date(pubDate).toISOString() : undefined;
@@ -30,77 +29,73 @@ const isoDate = pubDate ? new Date(pubDate).toISOString() : undefined;
   <script
     type="application/ld+json"
     set:html={JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "BlogPosting",
-      "mainEntityOfPage": {
-        "@type": "WebPage",
-        "@id": postUrl,
+      '@context': 'https://schema.org',
+      '@type': 'BlogPosting',
+      mainEntityOfPage: {
+        '@type': 'WebPage',
+        '@id': postUrl,
       },
-      "headline": title,
-      "description": description,
-      "image": resolvedHeroImage,
-      "datePublished": isoDate,
-      "dateModified": isoDate,
-      "author": {
-        "@type": "Person",
-        "name": config.author.name,
-        "url": `${siteUrl}/`,
+      headline: title,
+      description: description,
+      image: resolvedHeroImage,
+      datePublished: isoDate,
+      dateModified: isoDate,
+      author: {
+        '@type': 'Person',
+        name: config.author.name,
+        url: `${siteUrl}/`,
       },
-      "publisher": {
-        "@type": "Person",
-        "name": config.author.name,
-        "url": `${siteUrl}/`,
+      publisher: {
+        '@type': 'Person',
+        name: config.author.name,
+        url: `${siteUrl}/`,
       },
-      "keywords": (tags || []).join(", "),
-      "articleSection": categories?.[0] || "Electronics",
+      keywords: (tags || []).join(', '),
+      articleSection: categories?.[0] || 'Electronics',
     })}
-  />
-
+  ></script>
   <script
     type="application/ld+json"
     set:html={JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      "itemListElement": [
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
         {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "Home",
-          "item": `${siteUrl}/`,
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Home',
+          item: `${siteUrl}/`,
         },
         {
-          "@type": "ListItem",
-          "position": 2,
-          "name": "Blog",
-          "item": `${siteUrl}/blog/`,
+          '@type': 'ListItem',
+          position: 2,
+          name: 'Blog',
+          item: `${siteUrl}/blog/`,
         },
         {
-          "@type": "ListItem",
-          "position": 3,
-          "name": title,
-          "item": postUrl,
+          '@type': 'ListItem',
+          position: 3,
+          name: title,
+          item: postUrl,
         },
       ],
     })}
-  />
-
+  ></script>
   <article>
     <div class="rounded-2xl overflow-hidden mb-10 shadow-sm ring-1 ring-zinc-900/5 dark:ring-white/10">
-      {
-        heroImage && (
-          <figure class="w-full h-auto md:h-[480px] object-cover bg-zinc-100 dark:bg-zinc-800">
-            <Image
-              class="w-full h-full object-cover transition duration-500 ease-out hover:scale-105"
-              src={heroImage}
-              alt={title}
-              width={960}
-              height={480}
-              decoding="async"
-              loading="lazy"
-            />
-          </figure>
-        )
-      }
+      {heroImage && (
+        <figure class="w-full h-auto md:h-[480px] object-cover bg-zinc-100 dark:bg-zinc-800">
+          <Image
+            class="w-full h-full object-cover transition duration-500 ease-out hover:scale-105"
+            src={heroImage}
+            alt={title}
+            width={960}
+            height={480}
+            decoding="async"
+            loading="lazy"
+          />
+        </figure>
+      )}
     </div>
     <div class="md:col-10 text-center mb-12">
       <h1 class="text-2xl sm:text-3xl md:text-5xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50 leading-[1.15]">
@@ -126,17 +121,15 @@ const isoDate = pubDate ? new Date(pubDate).toISOString() : undefined;
           <FormattedDate date={pubDate} />
         </div>
         <div class="flex items-center gap-1.5">
-          {
-            categories?.map((category) => (
-              <a
-                href={`/categories#${slugify(category)}`}
-                class="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-700 dark:text-emerald-400 hover:bg-emerald-500/20 transition-colors"
-              >
-                <CategoryIcon />
-                <span>{category}</span>
-              </a>
-            ))
-          }
+          {categories?.map((category) => (
+            <a
+              href={`/categories#${slugify(category)}`}
+              class="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-700 dark:text-emerald-400 hover:bg-emerald-500/20 transition-colors"
+            >
+              <CategoryIcon />
+              <span>{category}</span>
+            </a>
+          ))}
         </div>
       </div>
     </div>
@@ -144,20 +137,16 @@ const isoDate = pubDate ? new Date(pubDate).toISOString() : undefined;
       <slot />
     </div>
     <div class="mt-10 pt-6 border-t border-zinc-100 dark:border-zinc-800/80 flex flex-wrap items-center gap-2">
-      {
-        tags?.map((tag) => (
-          <a
-            href={`/categories?tag=${slugify(tag)}`}
-            class="tag-pill capitalize inline-flex items-center rounded-full bg-zinc-100 hover:bg-zinc-200/80 dark:bg-zinc-800/80 dark:hover:bg-zinc-700/80 px-3.5 py-1 text-xs font-medium text-zinc-700 dark:text-zinc-300 transition-all active:scale-95 shadow-sm"
-          >
-            #{tag}
-          </a>
-        ))
-      }
+      {tags?.map((tag) => (
+        <a
+          href={`/categories?tag=${slugify(tag)}`}
+          class="tag-pill capitalize inline-flex items-center rounded-full bg-zinc-100 hover:bg-zinc-200/80 dark:bg-zinc-800/80 dark:hover:bg-zinc-700/80 px-3.5 py-1 text-xs font-medium text-zinc-700 dark:text-zinc-300 transition-all active:scale-95 shadow-sm"
+        >
+          #{tag}
+        </a>
+      ))}
     </div>
-    {comments && config.features?.comments && config.giscus?.enabled && (
-      <Comments />
-    )}
+    {comments && config.features?.comments && config.giscus?.enabled && <Comments />}
   </article>
 </Base>
 
@@ -165,10 +154,7 @@ const isoDate = pubDate ? new Date(pubDate).toISOString() : undefined;
   function applyBadgeRowStyles() {
     document.querySelectorAll('.prose p').forEach((p) => {
       const imgLinks = p.querySelectorAll('a > img, img');
-      if (
-        imgLinks.length >= 2 ||
-        p.querySelector('img[src*="shields.io"], img[src*="badge"]')
-      ) {
+      if (imgLinks.length >= 2 || p.querySelector('img[src*="shields.io"], img[src*="badge"]')) {
         if ((p.textContent || '').trim().length === 0 || imgLinks.length >= 2) {
           p.classList.add('badge-row');
         }

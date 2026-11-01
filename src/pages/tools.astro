@@ -1,5 +1,5 @@
 ---
-import Base from "@layouts/Base.astro";
+import Base from '@layouts/Base.astro';
 import {
   Wrench,
   Monitor,
@@ -12,12 +12,12 @@ import {
   Tv,
   QrCode,
   Zap,
-} from "lucide-react";
-import { tools } from "../data/tools";
+} from 'lucide-react';
+import { tools } from '../data/tools';
 
-const pageTitle = "Hardware & Embedded Web Tools — Robby roboter";
+const pageTitle = 'Hardware & Embedded Web Tools — Robby roboter';
 const pageDescription =
-  "Interactive browser utilities, display simulators, and workshop helpers for electronics engineers and makers, including LCD Character Generator, SSD1306 OLED Simulator, and Component Label Generator.";
+  'Interactive browser utilities, display simulators, and workshop helpers for electronics engineers and makers, including LCD Character Generator, SSD1306 OLED Simulator, and Component Label Generator.';
 ---
 
 <Base
@@ -41,7 +41,8 @@ const pageDescription =
       </h1>
 
       <p class="text-base sm:text-lg text-zinc-600 dark:text-zinc-300 leading-relaxed">
-        Interactive browser utilities, display simulators, and workshop helpers built for makers and electronics enthusiasts.
+        Interactive browser utilities, display simulators, and workshop helpers built for makers and electronics
+        enthusiasts.
       </p>
     </div>
 
@@ -83,8 +84,8 @@ const pageDescription =
                     tool.statusColor === 'emerald'
                       ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20'
                       : tool.statusColor === 'sky'
-                      ? 'bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-500/20'
-                      : 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20'
+                        ? 'bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-500/20'
+                        : 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20'
                   }`}
                 >
                   {tool.statusBadge}
@@ -96,14 +97,10 @@ const pageDescription =
                 <a href={tool.toolUrl}>{tool.title}</a>
               </h2>
 
-              <p class="text-xs font-mono text-zinc-500 dark:text-zinc-400 mb-3">
-                {tool.tagline}
-              </p>
+              <p class="text-xs font-mono text-zinc-500 dark:text-zinc-400 mb-3">{tool.tagline}</p>
 
               {/* SHORT DESCRIPTION */}
-              <p class="text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed mb-4">
-                {tool.shortDescription}
-              </p>
+              <p class="text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed mb-4">{tool.shortDescription}</p>
 
               {/* HIGHLIGHTED FEATURES */}
               <ul class="space-y-1.5 mb-5 text-xs text-zinc-600 dark:text-zinc-400">
@@ -138,9 +135,7 @@ const pageDescription =
                 <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-0.5 transition-transform" />
               </a>
 
-              <span class="text-[11px] font-mono text-zinc-400 ml-auto">
-                {tool.platforms.join(" • ")}
-              </span>
+              <span class="text-[11px] font-mono text-zinc-400 ml-auto">{tool.platforms.join(' • ')}</span>
             </div>
           </div>
         </article>

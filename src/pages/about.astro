@@ -1,31 +1,16 @@
 ---
-import Base from "@layouts/Base.astro";
-import { Image } from "astro:assets";
-import config from "@config/config.json";
-import social from "@config/social";
-import {
-  Cpu,
-  Wrench,
-  Play,
-  Code2,
-  Mail,
-  Send,
-  Sparkles,
-  BookOpen,
-} from "lucide-react";
+import Base from '@layouts/Base.astro';
+import { Image } from 'astro:assets';
+import config from '@config/config.json';
+import social from '@config/social';
+import { Cpu, Wrench, Play, Code2, Mail, Send, Sparkles, BookOpen } from 'lucide-react';
 
-const pageTitle = "About Robby roboter — Maker, Electronics Engineer & YouTuber";
+const pageTitle = 'About Robby roboter — Maker, Electronics Engineer & YouTuber';
 const pageDescription =
-  "Learn more about Robby roboter, an electronics engineer, maker, and YouTuber passionate about embedded systems, microcontroller programming, PCB design, 3D printing, and open-source tooling.";
+  'Learn more about Robby roboter, an electronics engineer, maker, and YouTuber passionate about embedded systems, microcontroller programming, PCB design, 3D printing, and open-source tooling.';
 ---
 
-<Base
-  title={pageTitle}
-  meta_title={pageTitle}
-  description={pageDescription}
-  hideHero={true}
-  hideVideos={true}
->
+<Base title={pageTitle} meta_title={pageTitle} description={pageDescription} hideHero={true} hideVideos={true}>
   <div class="py-6 max-w-4xl mx-auto">
     <!-- HERO PROFILE HEADER -->
     <div class="rounded-3xl border border-zinc-200/80 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/70 backdrop-blur-xl p-6 sm:p-10 mb-12 shadow-sm flex flex-col md:flex-row items-center gap-8">
@@ -50,9 +35,7 @@ const pageDescription =
           {config.author.name}
         </h1>
 
-        <p class="text-base text-zinc-600 dark:text-zinc-300 leading-relaxed mb-6">
-          {config.author.bio}
-        </p>
+        <p class="text-base text-zinc-600 dark:text-zinc-300 leading-relaxed mb-6">{config.author.bio}</p>
 
         <!-- Social Links Row -->
         <div class="flex flex-wrap items-center justify-center md:justify-start gap-3">
@@ -93,14 +76,15 @@ const pageDescription =
     <div class="space-y-10 text-zinc-700 dark:text-zinc-300 text-base leading-relaxed">
       <!-- WHAT I DO -->
       <section class="rounded-3xl border border-zinc-200/70 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 p-6 sm:p-8">
-        <h2 class="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white mb-4">
-          What I Do &amp; Explore
-        </h2>
+        <h2 class="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white mb-4">What I Do &amp; Explore</h2>
         <p class="mb-4">
-          Welcome to my digital workshop! I document practical electronics engineering, microcontroller experimentation, and maker tooling. My focus spans embedded systems design, firmware development, custom PCB layouts, and 3D modeling for functional prototyping.
+          Welcome to my digital workshop! I document practical electronics engineering, microcontroller experimentation,
+          and maker tooling. My focus spans embedded systems design, firmware development, custom PCB layouts, and 3D
+          modeling for functional prototyping.
         </p>
         <p>
-          Through in-depth tutorials, open-source software, and hands-on YouTube video walkthroughs, I share every detail from circuit schematic design to soldering, debugging, and production firmware.
+          Through in-depth tutorials, open-source software, and hands-on YouTube video walkthroughs, I share every
+          detail from circuit schematic design to soldering, debugging, and production firmware.
         </p>
       </section>
 
@@ -110,11 +94,10 @@ const pageDescription =
           <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 mb-4">
             <Cpu className="w-5 h-5" />
           </div>
-          <h3 class="text-lg font-bold text-zinc-900 dark:text-white mb-2">
-            Embedded &amp; Microcontrollers
-          </h3>
+          <h3 class="text-lg font-bold text-zinc-900 dark:text-white mb-2">Embedded &amp; Microcontrollers</h3>
           <p class="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
-            Deep-dives into STM32, Arduino, ESP32, WCH (CH32V003 RISC-V), GigaDevice GD32, and Geehy APM32 microcontrollers, including HAL programming, I2C, SPI, and RTOS fundamentals.
+            Deep-dives into STM32, Arduino, ESP32, WCH (CH32V003 RISC-V), GigaDevice GD32, and Geehy APM32
+            microcontrollers, including HAL programming, I2C, SPI, and RTOS fundamentals.
           </p>
         </div>
 
@@ -122,20 +105,17 @@ const pageDescription =
           <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 mb-4">
             <Wrench className="w-5 h-5" />
           </div>
-          <h3 class="text-lg font-bold text-zinc-900 dark:text-white mb-2">
-            Engineering Tools &amp; CAD
-          </h3>
+          <h3 class="text-lg font-bold text-zinc-900 dark:text-white mb-2">Engineering Tools &amp; CAD</h3>
           <p class="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
-            Creator of interactive engineering utilities like the LCD Character Generator and SSD1306 Simulator, alongside CircuitFlow.NET PCB design tools and OpenSCAD 3D modeling.
+            Creator of interactive engineering utilities like the LCD Character Generator and SSD1306 Simulator,
+            alongside CircuitFlow.NET PCB design tools and OpenSCAD 3D modeling.
           </p>
         </div>
       </section>
 
       <!-- QUICK EXPLORATION LINKS -->
       <section class="p-6 sm:p-8 rounded-3xl border border-zinc-200/70 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/40 text-center">
-        <h2 class="text-xl font-bold text-zinc-900 dark:text-white mb-2">
-          Explore the Site
-        </h2>
+        <h2 class="text-xl font-bold text-zinc-900 dark:text-white mb-2">Explore the Site</h2>
         <p class="text-sm text-zinc-500 dark:text-zinc-400 mb-6">
           Find guides, native applications, and browser tools created to assist your workflow.
         </p>

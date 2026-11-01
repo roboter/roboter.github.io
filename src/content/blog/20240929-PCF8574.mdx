@@ -8,35 +8,36 @@ tags: ['PCF8564']
 author: '["robby.roboter"]'
 ---
 
-
-To control a 7-segment display using a `PCF8574` I/O expander and an Arduino, you need to map each segment of the display to the corresponding pins of the `PCF8574`. 
+To control a 7-segment display using a `PCF8574` I/O expander and an Arduino, you need to map each segment of the display to the corresponding pins of the `PCF8574`.
 Then, you can write code that efficiently controls the segments to display numbers or characters.
 
 ## Components Required:
 
--	Arduino (any model)
--	PCF8574 I/O expander
--	7-segment display (common cathode or common anode)
--	Jumper wires
--	Breadboard (optional)
+- Arduino (any model)
+- PCF8574 I/O expander
+- 7-segment display (common cathode or common anode)
+- Jumper wires
+- Breadboard (optional)
 
-##  Step 1: Wiring
+## Step 1: Wiring
 
-	1.	Connect the PCF8574 to the Arduino:
-	-	SDA (PCF8574) to SDA (Arduino, usually A4 for Uno)
-	-	SCL (PCF8574) to SCL (Arduino, usually A5 for Uno)
-	-	VCC and GND to 5V and GND on the Arduino.
-	
-	2.	Connect the PCF8574 to the 7-segment display:
-	-	Connect each segment (A to G and DP) of the 7-segment display to the PCF8574. For example:
-	-	Segment A → P0 (PCF8574)
-	-	Segment B → P1 (PCF8574)
-	-	…
-	-	Segment G → P6 (PCF8574)
-	-	Decimal Point (DP) → P7 (PCF8574) (optional)
+    1.	Connect the PCF8574 to the Arduino:
+    -	SDA (PCF8574) to SDA (Arduino, usually A4 for Uno)
+    -	SCL (PCF8574) to SCL (Arduino, usually A5 for Uno)
+    -	VCC and GND to 5V and GND on the Arduino.
+
+    2.	Connect the PCF8574 to the 7-segment display:
+    -	Connect each segment (A to G and DP) of the 7-segment display to the PCF8574. For example:
+    -	Segment A → P0 (PCF8574)
+    -	Segment B → P1 (PCF8574)
+    -	…
+    -	Segment G → P6 (PCF8574)
+    -	Decimal Point (DP) → P7 (PCF8574) (optional)
+
 The pin configuration will depend on your specific display.
 
-## 
+##
+
 ```
 +----------------+               +-------------------+               +----------------------+
 |   Arduino      |               |      PCF8574      |               |  7-Segment Display   |
@@ -57,7 +58,7 @@ The pin configuration will depend on your specific display.
 +----------------+               +-------------------+               +----------------------+
 ```
 
-##  Step 2: Arduino Code
+## Step 2: Arduino Code
 
 Now, let’s write the Arduino code to control the 7-segment display using the PCF8574.
 
@@ -122,13 +123,13 @@ void displayDigit(int digit) {
 
 ## Explanation:
 
-	1.	`digitMap`: This array contains the binary patterns for each digit (0-9). Each bit in a byte represents a segment on the 7-segment display. A bit value of 1 means the segment is on, while 0 means it is off.
-	2.	`displayDigit`: This function takes a digit (0-9) as input and turns on/off the corresponding segments on the display by writing to the `PCF8574` pins.
-	3.	Common Anode/Cathode: The code assumes a common anode 7-segment display. If you are using a common cathode display, you need to reverse the logic in the `displayDigit()` function (i.e., change `LOW` to `HIGH` and vice versa).
+    1.	`digitMap`: This array contains the binary patterns for each digit (0-9). Each bit in a byte represents a segment on the 7-segment display. A bit value of 1 means the segment is on, while 0 means it is off.
+    2.	`displayDigit`: This function takes a digit (0-9) as input and turns on/off the corresponding segments on the display by writing to the `PCF8574` pins.
+    3.	Common Anode/Cathode: The code assumes a common anode 7-segment display. If you are using a common cathode display, you need to reverse the logic in the `displayDigit()` function (i.e., change `LOW` to `HIGH` and vice versa).
 
 ## Additional Features
 
-	-	Display Multiple Digits: You can extend the code to handle multiple 7-segment displays by using a multiplexing technique or by adding more PCF8574 expanders.
-	-	Display Letters: You can add more patterns to the digitMap array to display certain letters.
+    -	Display Multiple Digits: You can extend the code to handle multiple 7-segment displays by using a multiplexing technique or by adding more PCF8574 expanders.
+    -	Display Letters: You can add more patterns to the digitMap array to display certain letters.
 
 This setup and code provide an efficient way to control a 7-segment display using the `PCF8574` I/O expander with minimal I/O pin usage on the Arduino.

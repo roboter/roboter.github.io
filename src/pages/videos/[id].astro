@@ -1,23 +1,9 @@
 ---
-import Base from "@layouts/Base.astro";
-import config from "@config/config.json";
-import { tagToSlug } from "@utils/taxonomy";
-import {
-  allVideos,
-  getSimilarVideos,
-  type YouTubeVideo,
-} from "../../utils/videos";
-import {
-  Play,
-  ArrowLeft,
-  Clock,
-  Eye,
-  Calendar,
-  Sparkles,
-  ExternalLink,
-  Tag,
-  Youtube,
-} from "lucide-react";
+import Base from '@layouts/Base.astro';
+import config from '@config/config.json';
+import { tagToSlug } from '@utils/taxonomy';
+import { allVideos, getSimilarVideos, type YouTubeVideo } from '../../utils/videos';
+import { Play, ArrowLeft, Clock, Eye, Calendar, Sparkles, ExternalLink, Tag, Youtube } from 'lucide-react';
 
 export async function getStaticPaths() {
   return allVideos.map((video) => {
@@ -56,27 +42,26 @@ const currentUrl = `https://begemotik.ee/videos/${video.videoId}/`;
   <script
     type="application/ld+json"
     set:html={JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "VideoObject",
-      "name": video.title,
-      "description": pageDescription,
-      "thumbnailUrl": [ogImage],
-      "uploadDate": video.published || "2024-01-01",
-      "duration": video.duration ? `PT${video.duration.replace(":", "M")}S` : undefined,
-      "embedUrl": `https://www.youtube.com/embed/${video.videoId}`,
-      "contentUrl": currentUrl,
-      "author": {
-        "@type": "Person",
-        "name": config.author.name,
-        "url": "https://begemotik.ee/",
+      '@context': 'https://schema.org',
+      '@type': 'VideoObject',
+      name: video.title,
+      description: pageDescription,
+      thumbnailUrl: [ogImage],
+      uploadDate: video.published || '2024-01-01',
+      duration: video.duration ? `PT${video.duration.replace(':', 'M')}S` : undefined,
+      embedUrl: `https://www.youtube.com/embed/${video.videoId}`,
+      contentUrl: currentUrl,
+      author: {
+        '@type': 'Person',
+        name: config.author.name,
+        url: 'https://begemotik.ee/',
       },
-      "publisher": {
-        "@type": "Person",
-        "name": config.author.name,
+      publisher: {
+        '@type': 'Person',
+        name: config.author.name,
       },
     })}
-  />
-
+  ></script>
   <div class="py-4 max-w-5xl mx-auto">
     <!-- TOP BAR: BREADCRUMBS & BACK LINK -->
     <div class="flex items-center justify-between gap-4 mb-6">
@@ -122,7 +107,7 @@ const currentUrl = `https://begemotik.ee/videos/${video.videoId}/`;
           referrerpolicy="strict-origin-when-cross-origin"
           allowfullscreen
           loading="eager"
-        />
+        ></iframe>
       </div>
 
       <!-- Stats Bar (Under the Video: Views, Length / Duration, Published Date) -->

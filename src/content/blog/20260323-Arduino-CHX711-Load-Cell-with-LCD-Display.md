@@ -20,10 +20,10 @@ The **CHX711** is a high-resolution 24-bit ADC (Analog-to-Digital Converter) spe
 
 Compared to older modules like the HX711, the CHX711 offers:
 
-- **Faster readings** and improved stability  
-- **Higher accuracy** thanks to a 24-bit ADC  
-- **Support for multiple gain channels** for different load cell sensitivities  
-- **Simple two-wire interface** (DATA and CLOCK) to Arduino  
+- **Faster readings** and improved stability
+- **Higher accuracy** thanks to a 24-bit ADC
+- **Support for multiple gain channels** for different load cell sensitivities
+- **Simple two-wire interface** (DATA and CLOCK) to Arduino
 
 These features make it ideal for projects that require precise weight measurements without relying on expensive commercial scales.
 
@@ -31,11 +31,11 @@ These features make it ideal for projects that require precise weight measuremen
 
 ## Hardware Required
 
-- Arduino Uno, Nano, or Mega  
-- CHX711 Load Cell Amplifier  
-- Load Cell (e.g., 5kg, 10kg, or 50kg depending on your application)  
-- 16x2 LCD Display with I2C  
-- Jumper wires and breadboard  
+- Arduino Uno, Nano, or Mega
+- CHX711 Load Cell Amplifier
+- Load Cell (e.g., 5kg, 10kg, or 50kg depending on your application)
+- 16x2 LCD Display with I2C
+- Jumper wires and breadboard
 
 ---
 
@@ -43,21 +43,21 @@ These features make it ideal for projects that require precise weight measuremen
 
 ### CHX711 to Arduino
 
-| CHX711 Pin | Arduino Pin | Notes |
-|------------|------------|-------|
-| VCC        | 5V         | Power supply |
-| GND        | GND        | Ground |
-| DAT        | D2         | Data pin to read ADC values |
-| SCK        | D3         | Clock pin for timing |
+| CHX711 Pin | Arduino Pin | Notes                       |
+| ---------- | ----------- | --------------------------- |
+| VCC        | 5V          | Power supply                |
+| GND        | GND         | Ground                      |
+| DAT        | D2          | Data pin to read ADC values |
+| SCK        | D3          | Clock pin for timing        |
 
 ### LCD (I2C) to Arduino
 
-| LCD Pin | Arduino Pin | Notes |
-|---------|------------|-------|
-| VCC     | 5V         | Power |
-| GND     | GND        | Ground |
-| SDA     | A4         | I2C Data |
-| SCL     | A5         | I2C Clock |
+| LCD Pin | Arduino Pin | Notes     |
+| ------- | ----------- | --------- |
+| VCC     | 5V          | Power     |
+| GND     | GND         | Ground    |
+| SDA     | A4          | I2C Data  |
+| SCL     | A5          | I2C Clock |
 
 > Note: On different Arduino boards (Mega, Nano, etc.) SDA/SCL pins may vary. Check your board’s pinout.
 
@@ -95,10 +95,11 @@ void loop() {
 
   Serial.print("Weight: ");
   Serial.println(weight);
-  
+
   delay(500);
 }
 ```
+
 ## How the Code Works
 
 1. **Initialization** – The LCD is initialized and the backlight is turned on. The CHX711 is started, and the scale is tared (zeroed).

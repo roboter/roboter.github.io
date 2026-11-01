@@ -1,7 +1,7 @@
 ---
-title: "WCH ssd1306 oled display"
+title: 'WCH ssd1306 oled display'
 description: 'driver for oled display ssd1306'
-pubDate: "2023-12-03T12:10:47.520Z"
+pubDate: '2023-12-03T12:10:47.520Z'
 heroImage: '/images/20231203-wch/wch.jpg'
 categories: ['WCH']
 tags: ['WCH', 'c', 'ssd1306', 'I2C']
@@ -46,7 +46,9 @@ int main(void)
 }
 
 ```
+
 ## Source code
+
 https://github.com/roboter/Hardware/tree/main/WCH/ch32v003f4p6-evt-r0-1v1-i2c
 
 ## UPD! Embeetle integrated my project to their software so only 3 steps needed to run it
@@ -56,8 +58,9 @@ https://github.com/roboter/Hardware/tree/main/WCH/ch32v003f4p6-evt-r0-1v1-i2c
 ![Embeetle screenshot 03](/images/20231203-wch/screenshot_03.png)
 
 ## Reference
-* https://www.youtube.com/watch?v=StjnSeM30-Y&list=PLs00gIc4luIDke2g0jVK1qH7EwiB-SKYP&index=12 - ssd1306 explained
-* https://embeetle.com/#supported-hardware/wch/boards/ch32v003f4p6-evt-r0-1v1 - Embeetle
-* https://github.com/ndm736/ME433_2020/tree/master/ssd1306  - Font
-* https://pallavaggarwal.in/2023/10/26/ch32v003-maker-projects/ - took insperation from this project
-* https://www.wch-ic.com/products/CH32V003.html? - datasheet, reference manual
+
+- https://www.youtube.com/watch?v=StjnSeM30-Y&list=PLs00gIc4luIDke2g0jVK1qH7EwiB-SKYP&index=12 - ssd1306 explained
+- https://embeetle.com/#supported-hardware/wch/boards/ch32v003f4p6-evt-r0-1v1 - Embeetle
+- https://github.com/ndm736/ME433_2020/tree/master/ssd1306 - Font
+- https://pallavaggarwal.in/2023/10/26/ch32v003-maker-projects/ - took insperation from this project
+- https://www.wch-ic.com/products/CH32V003.html? - datasheet, reference manual

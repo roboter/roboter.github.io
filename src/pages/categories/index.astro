@@ -1,33 +1,20 @@
 ---
-import Base from "@layouts/Base.astro";
-import CategoryIcon from "@icons/CategoryIcon.astro";
-import CalendarIcon from "@icons/CalendarIcon.astro";
-import FormattedDate from "@components/FormattedDate.astro";
-import { Image } from "astro:assets";
-import { getCollection } from "astro:content";
-import { slugify } from "@utils/slug";
-import youtubeData from "@config/youtube.json";
-import { getAllUnifiedTags, tagToSlug, type UnifiedTag } from "@utils/taxonomy";
-import { softwareProjects } from "../../data/software";
-import { tools } from "../../data/tools";
-import {
-  Tag,
-  Search,
-  BookOpen,
-  Play,
-  Cpu,
-  Wrench,
-  Layers,
-  ExternalLink,
-  X,
-  Sparkles,
-} from "lucide-react";
+import Base from '@layouts/Base.astro';
+import CategoryIcon from '@icons/CategoryIcon.astro';
+import CalendarIcon from '@icons/CalendarIcon.astro';
+import FormattedDate from '@components/FormattedDate.astro';
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import { slugify } from '@utils/slug';
+import youtubeData from '@config/youtube.json';
+import { getAllUnifiedTags, tagToSlug, type UnifiedTag } from '@utils/taxonomy';
+import { softwareProjects } from '../../data/software';
+import { tools } from '../../data/tools';
+import { Tag, Search, BookOpen, Play, Cpu, Wrench, Layers, ExternalLink, X, Sparkles } from 'lucide-react';
 
 // 1. Fetch Blog Posts
-const allPosts = await getCollection("blog", ({ data }) => !data.draft);
-allPosts.sort(
-  (a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime()
-);
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+allPosts.sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime());
 
 // 2. Load YouTube Videos
 interface YouTubeVideo {
@@ -51,29 +38,29 @@ const withToolsCount = allTags.filter((t) => t.toolCount > 0).length;
 
 // 4. Category Aliases for Video Matching
 const categoryVideoAliases: Record<string, string[]> = {
-  arduino: ["arduino"],
-  stm32: ["stm32"],
-  wch: ["wch", "ch32", "ch32v003", "ch32v103", "ch32v203", "ch32v307", "ch32x035"],
-  pcb: ["pcb", "pcbx", "gerber", "kicad"],
-  esp32: ["esp32", "esp8266"],
-  gigadevice: ["gigadevice", "gd32", "gd32vf103"],
-  geehy: ["geehy", "apm32"],
-  embedded: ["embedded", "dev boards", "mcu", "microcontroller", "arm", "risc-v", "sbc"],
-  electronics: ["electronics", "diy electronics", "soldering", "sensor", "hardware", "diy"],
-  "rabbit-2000": ["rabbit", "rabbit-2000"],
+  arduino: ['arduino'],
+  stm32: ['stm32'],
+  wch: ['wch', 'ch32', 'ch32v003', 'ch32v103', 'ch32v203', 'ch32v307', 'ch32x035'],
+  pcb: ['pcb', 'pcbx', 'gerber', 'kicad'],
+  esp32: ['esp32', 'esp8266'],
+  gigadevice: ['gigadevice', 'gd32', 'gd32vf103'],
+  geehy: ['geehy', 'apm32'],
+  embedded: ['embedded', 'dev boards', 'mcu', 'microcontroller', 'arm', 'risc-v', 'sbc'],
+  electronics: ['electronics', 'diy electronics', 'soldering', 'sensor', 'hardware', 'diy'],
+  'rabbit-2000': ['rabbit', 'rabbit-2000'],
 };
 
 const displayNames: Record<string, string> = {
-  arduino: "Arduino",
-  stm32: "STM32",
-  wch: "WCH",
-  pcb: "PCB",
-  esp32: "ESP32",
-  gigadevice: "GigaDevice",
-  geehy: "Geehy",
-  embedded: "Embedded",
-  electronics: "Electronics",
-  "rabbit-2000": "Rabbit 2000",
+  arduino: 'Arduino',
+  stm32: 'STM32',
+  wch: 'WCH',
+  pcb: 'PCB',
+  esp32: 'ESP32',
+  gigadevice: 'GigaDevice',
+  geehy: 'Geehy',
+  embedded: 'Embedded',
+  electronics: 'Electronics',
+  'rabbit-2000': 'Rabbit 2000',
 };
 
 interface CategoryGroup {
@@ -111,10 +98,8 @@ for (const [slug, group] of categoryMap.entries()) {
   const aliases = categoryVideoAliases[slug] || [slug];
   group.videos = allVideos.filter((v) => {
     const vTags = (v.tags || []).map((t) => t.toLowerCase());
-    const vTitle = (v.title || "").toLowerCase();
-    return aliases.some(
-      (a) => vTags.some((t) => t.includes(a)) || vTitle.includes(a)
-    );
+    const vTitle = (v.title || '').toLowerCase();
+    return aliases.some((a) => vTags.some((t) => t.includes(a)) || vTitle.includes(a));
   });
 }
 
@@ -129,23 +114,18 @@ const categories = Array.from(categoryMap.values()).sort((a, b) => {
 });
 
 // Unique software and tools for tag filtering
-const softwareItems = allTags.flatMap((t) => t.items.filter((i) => i.type === "software"));
+const softwareItems = allTags.flatMap((t) => t.items.filter((i) => i.type === 'software'));
 const uniqueSoftware = Array.from(new Map(softwareItems.map((s) => [s.id, s])).values());
 
-const toolItems = allTags.flatMap((t) => t.items.filter((i) => i.type === "tool"));
+const toolItems = allTags.flatMap((t) => t.items.filter((i) => i.type === 'tool'));
 const uniqueTools = Array.from(new Map(toolItems.map((tool) => [tool.id, tool])).values());
 
-const pageTitle = "Categories & Topics — Robby roboter";
-const pageDescription = "Explore hardware deep-dives, video tutorials, and interactive projects categorized across engineering disciplines.";
+const pageTitle = 'Categories & Topics — Robby roboter';
+const pageDescription =
+  'Explore hardware deep-dives, video tutorials, and interactive projects categorized across engineering disciplines.';
 ---
 
-<Base
-  title={pageTitle}
-  meta_title={pageTitle}
-  description={pageDescription}
-  hideHero={true}
-  hideVideos={true}
->
+<Base title={pageTitle} meta_title={pageTitle} description={pageDescription} hideHero={true} hideVideos={true}>
   <div class="max-w-6xl mx-auto py-4 px-2 sm:px-4">
     <!-- PAGE HEADER -->
     <div class="mb-10 text-center sm:text-left">
@@ -157,7 +137,8 @@ const pageDescription = "Explore hardware deep-dives, video tutorials, and inter
         Categories &amp; Topics
       </h1>
       <p class="mt-2 text-base text-zinc-600 dark:text-zinc-400 max-w-3xl">
-        Explore {allPosts.length} articles, {allVideos.length} video tutorials, and interactive engineering tools grouped across {categories.length} categories and {totalTagsCount} topic tags.
+        Explore {allPosts.length} articles, {allVideos.length} video tutorials, and interactive engineering tools
+        grouped across {categories.length} categories and {totalTagsCount} topic tags.
       </p>
     </div>
 
@@ -175,20 +156,18 @@ const pageDescription = "Explore hardware deep-dives, video tutorials, and inter
           </span>
         </button>
 
-        {
-          categories.map((cat) => (
-            <button
-              type="button"
-              data-category={cat.slug}
-              class="category-pill inline-flex items-center gap-1.5 shrink-0 rounded-full px-3.5 py-1.5 text-xs sm:text-sm font-medium transition-all active:scale-95 bg-zinc-100 hover:bg-zinc-200/80 text-zinc-700 dark:bg-zinc-800 dark:hover:bg-zinc-700 dark:text-zinc-300 cursor-pointer"
-            >
-              <span>{cat.name}</span>
-              <span class="rounded-full bg-zinc-200 dark:bg-zinc-700 px-1.5 py-0.2 text-[11px] font-semibold text-zinc-700 dark:text-zinc-300">
-                {cat.posts.length + (cat.videos.length > 0 ? ` + ${cat.videos.length}v` : "")}
-              </span>
-            </button>
-          ))
-        }
+        {categories.map((cat) => (
+          <button
+            type="button"
+            data-category={cat.slug}
+            class="category-pill inline-flex items-center gap-1.5 shrink-0 rounded-full px-3.5 py-1.5 text-xs sm:text-sm font-medium transition-all active:scale-95 bg-zinc-100 hover:bg-zinc-200/80 text-zinc-700 dark:bg-zinc-800 dark:hover:bg-zinc-700 dark:text-zinc-300 cursor-pointer"
+          >
+            <span>{cat.name}</span>
+            <span class="rounded-full bg-zinc-200 dark:bg-zinc-700 px-1.5 py-0.2 text-[11px] font-semibold text-zinc-700 dark:text-zinc-300">
+              {cat.posts.length + (cat.videos.length > 0 ? ` + ${cat.videos.length}v` : '')}
+            </span>
+          </button>
+        ))}
       </div>
     </div>
 
@@ -200,9 +179,7 @@ const pageDescription = "Explore hardware deep-dives, video tutorials, and inter
             <Tag className="w-4 h-4" />
           </div>
           <div>
-            <h2 class="text-base sm:text-lg font-bold text-zinc-900 dark:text-zinc-100">
-              Filter by Topic Tags
-            </h2>
+            <h2 class="text-base sm:text-lg font-bold text-zinc-900 dark:text-zinc-100">Filter by Topic Tags</h2>
             <p class="text-xs text-zinc-500 dark:text-zinc-400">
               Click any tag to instantly filter articles and videos
             </p>
@@ -210,7 +187,11 @@ const pageDescription = "Explore hardware deep-dives, video tutorials, and inter
         </div>
 
         <div class="text-xs font-mono text-zinc-500 dark:text-zinc-400 self-end sm:self-center">
-          Showing <span id="tag-active-count" class="font-bold text-zinc-900 dark:text-white">{totalTagsCount}</span> of {totalTagsCount} tags
+          Showing{' '}
+          <span id="tag-active-count" class="font-bold text-zinc-900 dark:text-white">
+            {totalTagsCount}
+          </span>{' '}
+          of {totalTagsCount} tags
         </div>
       </div>
 
@@ -293,59 +274,49 @@ const pageDescription = "Explore hardware deep-dives, video tutorials, and inter
       </div>
 
       <!-- TAGS GRID -->
-      <div
-        id="tags-container"
-        class="flex flex-wrap gap-2"
-      >
-        {
-          allTags.map((tag) => (
-            <button
-              type="button"
-              class="tag-cloud-chip group relative flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-zinc-200/90 dark:border-zinc-800 bg-white dark:bg-zinc-800/80 hover:bg-zinc-100 dark:hover:bg-zinc-700 hover:border-cyan-500/50 dark:hover:border-cyan-500/40 shadow-xs transition-all duration-150 active:scale-95 cursor-pointer text-left"
-              data-tag-slug={tag.slug}
-              data-tag-name={tag.name.toLowerCase()}
-              data-has-article={tag.articleCount > 0 ? "true" : "false"}
-              data-has-video={tag.videoCount > 0 ? "true" : "false"}
-              data-has-software={tag.softwareCount > 0 ? "true" : "false"}
-              data-has-tool={tag.toolCount > 0 ? "true" : "false"}
-              title={`${tag.totalCount} items in #${tag.name}`}
-            >
-              <span class="text-xs font-mono text-cyan-600 dark:text-cyan-400 group-hover:text-cyan-500">
-                #
-              </span>
+      <div id="tags-container" class="flex flex-wrap gap-2">
+        {allTags.map((tag) => (
+          <button
+            type="button"
+            class="tag-cloud-chip group relative flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-zinc-200/90 dark:border-zinc-800 bg-white dark:bg-zinc-800/80 hover:bg-zinc-100 dark:hover:bg-zinc-700 hover:border-cyan-500/50 dark:hover:border-cyan-500/40 shadow-xs transition-all duration-150 active:scale-95 cursor-pointer text-left"
+            data-tag-slug={tag.slug}
+            data-tag-name={tag.name.toLowerCase()}
+            data-has-article={tag.articleCount > 0 ? 'true' : 'false'}
+            data-has-video={tag.videoCount > 0 ? 'true' : 'false'}
+            data-has-software={tag.softwareCount > 0 ? 'true' : 'false'}
+            data-has-tool={tag.toolCount > 0 ? 'true' : 'false'}
+            title={`${tag.totalCount} items in #${tag.name}`}
+          >
+            <span class="text-xs font-mono text-cyan-600 dark:text-cyan-400 group-hover:text-cyan-500">#</span>
 
-              <span class="text-xs font-medium text-zinc-800 dark:text-zinc-200 group-hover:text-cyan-600 dark:group-hover:text-cyan-300 transition-colors">
-                {tag.name}
-              </span>
+            <span class="text-xs font-medium text-zinc-800 dark:text-zinc-200 group-hover:text-cyan-600 dark:group-hover:text-cyan-300 transition-colors">
+              {tag.name}
+            </span>
 
-              <span class="px-1.5 py-0.2 rounded-full text-[10px] font-mono font-medium bg-zinc-100 dark:bg-zinc-700/80 text-zinc-600 dark:text-zinc-400 group-hover:bg-cyan-500/10 group-hover:text-cyan-600 dark:group-hover:text-cyan-300 transition-colors">
-                {tag.totalCount}
-              </span>
+            <span class="px-1.5 py-0.2 rounded-full text-[10px] font-mono font-medium bg-zinc-100 dark:bg-zinc-700/80 text-zinc-600 dark:text-zinc-400 group-hover:bg-cyan-500/10 group-hover:text-cyan-600 dark:group-hover:text-cyan-300 transition-colors">
+              {tag.totalCount}
+            </span>
 
-              <!-- Type dots -->
-              <span class="flex items-center gap-0.5 opacity-60 group-hover:opacity-100 transition-opacity">
-                {tag.articleCount > 0 && (
-                  <span class="w-1.5 h-1.5 rounded-full bg-blue-500" title={`${tag.articleCount} articles`} />
-                )}
-                {tag.videoCount > 0 && (
-                  <span class="w-1.5 h-1.5 rounded-full bg-red-500" title={`${tag.videoCount} videos`} />
-                )}
-                {tag.softwareCount > 0 && (
-                  <span class="w-1.5 h-1.5 rounded-full bg-indigo-500" title={`${tag.softwareCount} software`} />
-                )}
-                {tag.toolCount > 0 && (
-                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-500" title={`${tag.toolCount} tools`} />
-                )}
-              </span>
-            </button>
-          ))
-        }
+            <!-- Type dots -->
+            <span class="flex items-center gap-0.5 opacity-60 group-hover:opacity-100 transition-opacity">
+              {tag.articleCount > 0 && (
+                <span class="w-1.5 h-1.5 rounded-full bg-blue-500" title={`${tag.articleCount} articles`} />
+              )}
+              {tag.videoCount > 0 && (
+                <span class="w-1.5 h-1.5 rounded-full bg-red-500" title={`${tag.videoCount} videos`} />
+              )}
+              {tag.softwareCount > 0 && (
+                <span class="w-1.5 h-1.5 rounded-full bg-indigo-500" title={`${tag.softwareCount} software`} />
+              )}
+              {tag.toolCount > 0 && (
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500" title={`${tag.toolCount} tools`} />
+              )}
+            </span>
+          </button>
+        ))}
       </div>
 
-      <div
-        id="tag-empty-state"
-        class="hidden text-center py-6"
-      >
+      <div id="tag-empty-state" class="hidden text-center py-6">
         <p class="text-xs text-zinc-500 dark:text-zinc-400">
           No matching topics found. Try typing a different keyword.
         </p>
@@ -360,7 +331,8 @@ const pageDescription = "Explore hardware deep-dives, video tutorials, and inter
       <div class="flex items-center gap-2">
         <Sparkles className="w-4 h-4 text-cyan-600 dark:text-cyan-400 shrink-0" />
         <span>
-          Filtered by: <strong id="active-filter-label" class="font-bold underline decoration-cyan-500 underline-offset-2"></strong>
+          Filtered by:{' '}
+          <strong id="active-filter-label" class="font-bold underline decoration-cyan-500 underline-offset-2"></strong>
         </span>
         <span id="active-filter-counts" class="hidden sm:inline font-mono text-xs opacity-75"></span>
       </div>
@@ -377,176 +349,168 @@ const pageDescription = "Explore hardware deep-dives, video tutorials, and inter
 
     <!-- 1. CATEGORY SECTIONS CONTAINER (Default View) -->
     <div class="space-y-16" id="categories-container">
-      {
-        categories.map((cat) => (
-          <section
-            id={cat.slug}
-            data-category-section={cat.slug}
-            class="category-section transition-all duration-300"
-          >
-            <!-- Category Title Header -->
-            <div class="flex items-center justify-between pb-4 border-b border-zinc-200/70 dark:border-zinc-800 mb-6">
-              <div class="flex items-center gap-3">
-                <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
-                  <CategoryIcon />
-                </div>
-                <div>
-                  <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
-                    {cat.name}
-                  </h2>
-                </div>
+      {categories.map((cat) => (
+        <section id={cat.slug} data-category-section={cat.slug} class="category-section transition-all duration-300">
+          <!-- Category Title Header -->
+          <div class="flex items-center justify-between pb-4 border-b border-zinc-200/70 dark:border-zinc-800 mb-6">
+            <div class="flex items-center gap-3">
+              <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+                <CategoryIcon />
               </div>
-              <div class="flex items-center gap-2">
-                <span class="rounded-full bg-zinc-100 dark:bg-zinc-800 px-3 py-1 text-xs font-semibold text-zinc-600 dark:text-zinc-400 ring-1 ring-zinc-900/5 dark:ring-white/10">
-                  {cat.posts.length} {cat.posts.length === 1 ? "article" : "articles"}
-                </span>
-                {cat.videos.length > 0 && (
-                  <span class="rounded-full bg-red-500/10 px-3 py-1 text-xs font-semibold text-red-600 dark:text-red-400 ring-1 ring-red-500/20">
-                    {cat.videos.length} {cat.videos.length === 1 ? "video" : "videos"}
-                  </span>
-                )}
+              <div>
+                <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+                  {cat.name}
+                </h2>
               </div>
             </div>
+            <div class="flex items-center gap-2">
+              <span class="rounded-full bg-zinc-100 dark:bg-zinc-800 px-3 py-1 text-xs font-semibold text-zinc-600 dark:text-zinc-400 ring-1 ring-zinc-900/5 dark:ring-white/10">
+                {cat.posts.length} {cat.posts.length === 1 ? 'article' : 'articles'}
+              </span>
+              {cat.videos.length > 0 && (
+                <span class="rounded-full bg-red-500/10 px-3 py-1 text-xs font-semibold text-red-600 dark:text-red-400 ring-1 ring-red-500/20">
+                  {cat.videos.length} {cat.videos.length === 1 ? 'video' : 'videos'}
+                </span>
+              )}
+            </div>
+          </div>
 
-            <!-- Articles Grid -->
-            {cat.posts.length > 0 && (
-              <div class="mb-8">
-                <div class="flex items-center gap-1.5 mb-4 text-xs font-mono font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
-                  <BookOpen className="w-3.5 h-3.5 text-blue-500" />
-                  <span>Articles &amp; Project Guides</span>
-                </div>
+          <!-- Articles Grid -->
+          {cat.posts.length > 0 && (
+            <div class="mb-8">
+              <div class="flex items-center gap-1.5 mb-4 text-xs font-mono font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+                <BookOpen className="w-3.5 h-3.5 text-blue-500" />
+                <span>Articles &amp; Project Guides</span>
+              </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {cat.posts.map((post) => (
-                    <article class="group relative flex flex-col justify-between rounded-2xl border border-zinc-200/70 dark:border-zinc-800 bg-white dark:bg-zinc-800/40 p-5 shadow-sm hover:shadow-md hover:border-zinc-300 dark:hover:border-zinc-700 transition-all duration-200 active:scale-[0.99]">
-                      <div>
-                        {post.data.heroImage && (
-                          <a
-                            href={`/blog/${post.id || post.slug}/`}
-                            class="aspect-video w-full rounded-xl overflow-hidden mb-4 bg-zinc-100 dark:bg-zinc-800 block cursor-pointer relative z-10"
-                            aria-label={post.data.title}
-                          >
-                            <Image
-                              src={post.data.heroImage}
-                              alt={post.data.title}
-                              width={600}
-                              height={338}
-                              class="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
-                              decoding="async"
-                              loading="lazy"
-                            />
-                          </a>
-                        )}
-                        <div class="flex items-center gap-2 text-xs font-medium text-zinc-500 dark:text-zinc-400 mb-2">
-                          <CalendarIcon />
-                          <FormattedDate date={post.data.pubDate} />
-                        </div>
-                        <h3 class="text-base sm:text-lg font-semibold leading-snug tracking-tight text-zinc-900 dark:text-zinc-100 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
-                          <a href={`/blog/${post.id || post.slug}/`}>
-                            <span class="absolute inset-0 rounded-2xl" />
-                            {post.data.title}
-                          </a>
-                        </h3>
-                        <p class="mt-2 line-clamp-2 text-xs sm:text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
-                          {post.data.description}
-                        </p>
-                      </div>
-
-                      {post.data.tags && post.data.tags.length > 0 && (
-                        <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/60 flex flex-wrap gap-1.5 relative z-10">
-                          {post.data.tags.slice(0, 4).map((rawTag: string) => (
-                            <button
-                              type="button"
-                              data-tag-trigger={tagToSlug(rawTag)}
-                              class="tag-trigger-btn rounded-md bg-zinc-100 dark:bg-zinc-800 px-2 py-0.5 text-[11px] font-medium text-zinc-600 dark:text-zinc-400 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-cyan-50 dark:hover:bg-cyan-900/30 transition-colors cursor-pointer"
-                            >
-                              #{rawTag}
-                            </button>
-                          ))}
-                        </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {cat.posts.map((post) => (
+                  <article class="group relative flex flex-col justify-between rounded-2xl border border-zinc-200/70 dark:border-zinc-800 bg-white dark:bg-zinc-800/40 p-5 shadow-sm hover:shadow-md hover:border-zinc-300 dark:hover:border-zinc-700 transition-all duration-200 active:scale-[0.99]">
+                    <div>
+                      {post.data.heroImage && (
+                        <a
+                          href={`/blog/${post.id || post.slug}/`}
+                          class="aspect-video w-full rounded-xl overflow-hidden mb-4 bg-zinc-100 dark:bg-zinc-800 block cursor-pointer relative z-10"
+                          aria-label={post.data.title}
+                        >
+                          <Image
+                            src={post.data.heroImage}
+                            alt={post.data.title}
+                            width={600}
+                            height={338}
+                            class="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                            decoding="async"
+                            loading="lazy"
+                          />
+                        </a>
                       )}
-                    </article>
-                  ))}
-                </div>
-              </div>
-            )}
+                      <div class="flex items-center gap-2 text-xs font-medium text-zinc-500 dark:text-zinc-400 mb-2">
+                        <CalendarIcon />
+                        <FormattedDate date={post.data.pubDate} />
+                      </div>
+                      <h3 class="text-base sm:text-lg font-semibold leading-snug tracking-tight text-zinc-900 dark:text-zinc-100 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
+                        <a href={`/blog/${post.id || post.slug}/`}>
+                          <span class="absolute inset-0 rounded-2xl" />
+                          {post.data.title}
+                        </a>
+                      </h3>
+                      <p class="mt-2 line-clamp-2 text-xs sm:text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+                        {post.data.description}
+                      </p>
+                    </div>
 
-            <!-- Videos Grid (YouTube) -->
-            {cat.videos.length > 0 && (
-              <div>
-                <div class="flex items-center gap-1.5 mb-4 text-xs font-mono font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
-                  <Play className="w-3.5 h-3.5 text-red-500" />
-                  <span>YouTube Videos &amp; Tutorials</span>
-                </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {cat.videos.map((video) => (
-                    <article class="flex flex-col overflow-hidden rounded-2xl bg-white dark:bg-zinc-800/40 border border-zinc-200/70 dark:border-zinc-800 hover:border-red-500/50 dark:hover:border-red-500/40 shadow-sm hover:shadow-md transition-all duration-200 group">
-                      <a
-                        href={`/videos/${video.videoId}/`}
-                        class="relative aspect-video w-full overflow-hidden bg-zinc-950 block cursor-pointer"
-                        aria-label={`Play: ${video.title}`}
-                      >
-                        <img
-                          src={`https://i.ytimg.com/vi/${video.videoId}/hqdefault.jpg`}
-                          alt={video.title}
-                          class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                          loading="lazy"
-                        />
-                        <div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors flex items-center justify-center">
-                          <div class="w-10 h-10 rounded-full bg-red-600/90 text-white flex items-center justify-center shadow-lg opacity-85 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300">
-                            <Play className="w-4 h-4 fill-current ml-0.5" />
-                          </div>
-                        </div>
-                        {video.duration && (
-                          <span class="absolute bottom-2 right-2 px-2 py-0.5 text-[10px] font-mono font-medium text-white bg-black/85 backdrop-blur-md rounded">
-                            {video.duration}
-                          </span>
-                        )}
-                      </a>
-
-                      <div class="p-4 flex-1 flex flex-col justify-between">
-                        <div>
-                          <h3 class="text-sm sm:text-base font-semibold text-zinc-900 dark:text-zinc-100 group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors line-clamp-2 leading-snug">
-                            <a href={`/videos/${video.videoId}/`}>
-                              {video.title}
-                            </a>
-                          </h3>
-
-                          {video.tags && video.tags.length > 0 && (
-                            <div class="mt-2.5 flex flex-wrap gap-1">
-                              {video.tags.slice(0, 3).map((rawTag: string) => (
-                                <button
-                                  type="button"
-                                  data-tag-trigger={tagToSlug(rawTag)}
-                                  class="tag-trigger-btn rounded px-1.5 py-0.5 text-[10px] font-medium bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 hover:text-red-600 dark:hover:text-red-400 transition-colors cursor-pointer"
-                                >
-                                  #{rawTag}
-                                </button>
-                              ))}
-                            </div>
-                          )}
-                        </div>
-
-                        <div class="mt-3 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs text-zinc-500 dark:text-zinc-400">
-                          <span>{video.views}</span>
-                          <a
-                            href={`/videos/${video.videoId}/`}
-                            class="text-red-600 dark:text-red-400 font-semibold hover:underline flex items-center gap-1"
+                    {post.data.tags && post.data.tags.length > 0 && (
+                      <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/60 flex flex-wrap gap-1.5 relative z-10">
+                        {post.data.tags.slice(0, 4).map((rawTag: string) => (
+                          <button
+                            type="button"
+                            data-tag-trigger={tagToSlug(rawTag)}
+                            class="tag-trigger-btn rounded-md bg-zinc-100 dark:bg-zinc-800 px-2 py-0.5 text-[11px] font-medium text-zinc-600 dark:text-zinc-400 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-cyan-50 dark:hover:bg-cyan-900/30 transition-colors cursor-pointer"
                           >
-                            <span>Play</span>
-                            <Play className="w-2.5 h-2.5 fill-current" />
-                          </a>
+                            #{rawTag}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </article>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <!-- Videos Grid (YouTube) -->
+          {cat.videos.length > 0 && (
+            <div>
+              <div class="flex items-center gap-1.5 mb-4 text-xs font-mono font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+                <Play className="w-3.5 h-3.5 text-red-500" />
+                <span>YouTube Videos &amp; Tutorials</span>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {cat.videos.map((video) => (
+                  <article class="flex flex-col overflow-hidden rounded-2xl bg-white dark:bg-zinc-800/40 border border-zinc-200/70 dark:border-zinc-800 hover:border-red-500/50 dark:hover:border-red-500/40 shadow-sm hover:shadow-md transition-all duration-200 group">
+                    <a
+                      href={`/videos/${video.videoId}/`}
+                      class="relative aspect-video w-full overflow-hidden bg-zinc-950 block cursor-pointer"
+                      aria-label={`Play: ${video.title}`}
+                    >
+                      <img
+                        src={`https://i.ytimg.com/vi/${video.videoId}/hqdefault.jpg`}
+                        alt={video.title}
+                        class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        loading="lazy"
+                      />
+                      <div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors flex items-center justify-center">
+                        <div class="w-10 h-10 rounded-full bg-red-600/90 text-white flex items-center justify-center shadow-lg opacity-85 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300">
+                          <Play className="w-4 h-4 fill-current ml-0.5" />
                         </div>
                       </div>
-                    </article>
-                  ))}
-                </div>
+                      {video.duration && (
+                        <span class="absolute bottom-2 right-2 px-2 py-0.5 text-[10px] font-mono font-medium text-white bg-black/85 backdrop-blur-md rounded">
+                          {video.duration}
+                        </span>
+                      )}
+                    </a>
+
+                    <div class="p-4 flex-1 flex flex-col justify-between">
+                      <div>
+                        <h3 class="text-sm sm:text-base font-semibold text-zinc-900 dark:text-zinc-100 group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors line-clamp-2 leading-snug">
+                          <a href={`/videos/${video.videoId}/`}>{video.title}</a>
+                        </h3>
+
+                        {video.tags && video.tags.length > 0 && (
+                          <div class="mt-2.5 flex flex-wrap gap-1">
+                            {video.tags.slice(0, 3).map((rawTag: string) => (
+                              <button
+                                type="button"
+                                data-tag-trigger={tagToSlug(rawTag)}
+                                class="tag-trigger-btn rounded px-1.5 py-0.5 text-[10px] font-medium bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 hover:text-red-600 dark:hover:text-red-400 transition-colors cursor-pointer"
+                              >
+                                #{rawTag}
+                              </button>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+
+                      <div class="mt-3 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs text-zinc-500 dark:text-zinc-400">
+                        <span>{video.views}</span>
+                        <a
+                          href={`/videos/${video.videoId}/`}
+                          class="text-red-600 dark:text-red-400 font-semibold hover:underline flex items-center gap-1"
+                        >
+                          <span>Play</span>
+                          <Play className="w-2.5 h-2.5 fill-current" />
+                        </a>
+                      </div>
+                    </div>
+                  </article>
+                ))}
               </div>
-            )}
-          </section>
-        ))
-      }
+            </div>
+          )}
+        </section>
+      ))}
     </div>
 
     <!-- 2. TAG FILTER RESULTS VIEW (Active when a tag is selected) -->
@@ -558,24 +522,41 @@ const pageDescription = "Explore hardware deep-dives, video tutorials, and inter
             <Tag className="w-5 h-5" />
           </div>
           <div>
-            <span class="text-xs font-mono text-cyan-600 dark:text-cyan-400 uppercase tracking-wider font-semibold">Active Tag Filter</span>
-            <h2 id="tag-results-title" class="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+            <span class="text-xs font-mono text-cyan-600 dark:text-cyan-400 uppercase tracking-wider font-semibold">
+              Active Tag Filter
+            </span>
+            <h2
+              id="tag-results-title"
+              class="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100"
+            >
               #
             </h2>
           </div>
         </div>
 
         <div class="flex flex-wrap items-center gap-2">
-          <span id="tag-article-count-badge" class="rounded-full bg-blue-500/10 px-3 py-1 text-xs font-semibold text-blue-600 dark:text-blue-400 ring-1 ring-blue-500/20">
+          <span
+            id="tag-article-count-badge"
+            class="rounded-full bg-blue-500/10 px-3 py-1 text-xs font-semibold text-blue-600 dark:text-blue-400 ring-1 ring-blue-500/20"
+          >
             0 articles
           </span>
-          <span id="tag-video-count-badge" class="rounded-full bg-red-500/10 px-3 py-1 text-xs font-semibold text-red-600 dark:text-red-400 ring-1 ring-red-500/20">
+          <span
+            id="tag-video-count-badge"
+            class="rounded-full bg-red-500/10 px-3 py-1 text-xs font-semibold text-red-600 dark:text-red-400 ring-1 ring-red-500/20"
+          >
             0 videos
           </span>
-          <span id="tag-software-count-badge" class="rounded-full bg-indigo-500/10 px-3 py-1 text-xs font-semibold text-indigo-600 dark:text-indigo-400 ring-1 ring-indigo-500/20">
+          <span
+            id="tag-software-count-badge"
+            class="rounded-full bg-indigo-500/10 px-3 py-1 text-xs font-semibold text-indigo-600 dark:text-indigo-400 ring-1 ring-indigo-500/20"
+          >
             0 software
           </span>
-          <span id="tag-tool-count-badge" class="rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-600 dark:text-emerald-400 ring-1 ring-emerald-500/20">
+          <span
+            id="tag-tool-count-badge"
+            class="rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-600 dark:text-emerald-400 ring-1 ring-emerald-500/20"
+          >
             0 tools
           </span>
         </div>
@@ -594,7 +575,7 @@ const pageDescription = "Explore hardware deep-dives, video tutorials, and inter
             return (
               <article
                 class="tag-post-card group relative flex flex-col justify-between rounded-2xl border border-zinc-200/70 dark:border-zinc-800 bg-white dark:bg-zinc-800/40 p-5 shadow-sm hover:shadow-md hover:border-zinc-300 dark:hover:border-zinc-700 transition-all duration-200"
-                data-item-tags={tagSlugs.join(",")}
+                data-item-tags={tagSlugs.join(',')}
               >
                 <div>
                   {post.data.heroImage && (
@@ -661,7 +642,7 @@ const pageDescription = "Explore hardware deep-dives, video tutorials, and inter
             return (
               <article
                 class="tag-video-card flex flex-col overflow-hidden rounded-2xl bg-white dark:bg-zinc-800/40 border border-zinc-200/70 dark:border-zinc-800 hover:border-red-500/50 dark:hover:border-red-500/40 shadow-sm hover:shadow-md transition-all duration-200 group"
-                data-item-tags={tagSlugs.join(",")}
+                data-item-tags={tagSlugs.join(',')}
               >
                 <a
                   href={`/videos/${video.videoId}/`}
@@ -689,9 +670,7 @@ const pageDescription = "Explore hardware deep-dives, video tutorials, and inter
                 <div class="p-4 flex-1 flex flex-col justify-between">
                   <div>
                     <h3 class="text-sm sm:text-base font-semibold text-zinc-900 dark:text-zinc-100 group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors line-clamp-2 leading-snug">
-                      <a href={`/videos/${video.videoId}/`}>
-                        {video.title}
-                      </a>
+                      <a href={`/videos/${video.videoId}/`}>{video.title}</a>
                     </h3>
 
                     {video.tags && video.tags.length > 0 && (
@@ -739,7 +718,7 @@ const pageDescription = "Explore hardware deep-dives, video tutorials, and inter
             return (
               <article
                 class="tag-software-card group relative flex flex-col justify-between rounded-2xl border border-zinc-200/70 dark:border-zinc-800 bg-white dark:bg-zinc-800/40 p-5 shadow-sm hover:shadow-md hover:border-indigo-500/50 dark:hover:border-indigo-500/40 transition-all duration-200"
-                data-item-tags={tagSlugs.join(",")}
+                data-item-tags={tagSlugs.join(',')}
               >
                 <div>
                   {software.previewImage && (
@@ -765,9 +744,7 @@ const pageDescription = "Explore hardware deep-dives, video tutorials, and inter
                       {software.title}
                     </a>
                   </h3>
-                  <p class="mt-1 text-xs font-medium text-zinc-500 dark:text-zinc-400">
-                    {software.tagline}
-                  </p>
+                  <p class="mt-1 text-xs font-medium text-zinc-500 dark:text-zinc-400">{software.tagline}</p>
                   <p class="mt-2 line-clamp-2 text-xs sm:text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
                     {software.shortDescription}
                   </p>
@@ -805,7 +782,7 @@ const pageDescription = "Explore hardware deep-dives, video tutorials, and inter
             return (
               <article
                 class="tag-tool-card group relative flex flex-col justify-between rounded-2xl border border-zinc-200/70 dark:border-zinc-800 bg-white dark:bg-zinc-800/40 p-5 shadow-sm hover:shadow-md hover:border-emerald-500/50 dark:hover:border-emerald-500/40 transition-all duration-200"
-                data-item-tags={tagSlugs.join(",")}
+                data-item-tags={tagSlugs.join(',')}
               >
                 <div>
                   {tool.previewImage && (
@@ -831,9 +808,7 @@ const pageDescription = "Explore hardware deep-dives, video tutorials, and inter
                       {tool.title}
                     </a>
                   </h3>
-                  <p class="mt-1 text-xs font-medium text-zinc-500 dark:text-zinc-400">
-                    {tool.tagline}
-                  </p>
+                  <p class="mt-1 text-xs font-medium text-zinc-500 dark:text-zinc-400">{tool.tagline}</p>
                   <p class="mt-2 line-clamp-2 text-xs sm:text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
                     {tool.shortDescription}
                   </p>
@@ -861,7 +836,8 @@ const pageDescription = "Explore hardware deep-dives, video tutorials, and inter
       <!-- Tag Empty State -->
       <div id="tag-no-items-state" class="hidden text-center py-12">
         <p class="text-sm text-zinc-500 dark:text-zinc-400">
-          No articles, videos, software, or tools found for this topic tag. Try selecting another tag or clearing the filter.
+          No articles, videos, software, or tools found for this topic tag. Try selecting another tag or clearing the
+          filter.
         </p>
       </div>
     </div>

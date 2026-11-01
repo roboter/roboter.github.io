@@ -8,7 +8,6 @@ tags: ['LCD', 'arduino', 'tinkercad', 'HD44780']
 author: '["robby.roboter"]'
 ---
 
-
 <iframe width="725" height="453" src="https://www.tinkercad.com/embed/gl60gJqKHqG?editbtn=1" frameborder="0" marginwidth="0" marginheight="0" scrolling="no">
 </iframe>
 
@@ -58,7 +57,7 @@ void loop()
   while(1)
   {
     command(CLEAR_1);
-    command(CLEAR_2); 
+    command(CLEAR_2);
 
     ch(H_1);
     ch(H_2);
@@ -117,8 +116,8 @@ Here's a breakdown of the code:
         Sets the RS pin to 1 (indicating data).
         Sends the character to the LCD by setting the appropriate values on the data pins (port D) and toggling the Enable (EN) pin.
 
-
 ## Reference
-* Reading a datasheet https://www.youtube.com/watch?v=cXpeTxC3_A4
-* Peter Ouwehand has written an excellent article describing how to use the HD44780 https://www.ekenrooi.net/lcd/lcd.shtml
-* Creating custom characters https://www.quinapalus.com/hd44780udg.html
+
+- Reading a datasheet https://www.youtube.com/watch?v=cXpeTxC3_A4
+- Peter Ouwehand has written an excellent article describing how to use the HD44780 https://www.ekenrooi.net/lcd/lcd.shtml
+- Creating custom characters https://www.quinapalus.com/hd44780udg.html
