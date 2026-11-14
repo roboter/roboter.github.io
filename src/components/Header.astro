@@ -14,9 +14,15 @@ export interface NavigationLink {
 }
 
 const { main }: { main: NavigationLink[] } = menu;
+const currentPath = Astro.url.pathname;
+
+const isActive = (url: string) => {
+  if (url === '/') return currentPath === '/';
+  return currentPath === url || currentPath.startsWith(url.replace(/\/$/, '') + '/');
+};
 ---
 
-<header class="sticky top-0 z-40 bg-zinc-50/80 dark:bg-zinc-900/80 backdrop-blur-xl backdrop-saturate-150 border-b border-zinc-200/50 dark:border-zinc-800/50 transition-colors duration-200">
+<header class="sticky top-0 z-40 bg-white/75 dark:bg-zinc-950/75 backdrop-blur-xl backdrop-saturate-150 border-b border-zinc-200/60 dark:border-zinc-800/60 transition-colors duration-200">
   <div class="mx-auto max-w-screen-lg px-4 py-3 sm:px-6 sm:py-3.5 lg:px-8">
     <div class="flex items-center justify-between gap-3 sm:gap-4">
       <a
@@ -36,16 +42,24 @@ const { main }: { main: NavigationLink[] } = menu;
 
       <div class="flex items-center gap-2 md:gap-3 ml-auto">
         <ul class="hidden items-center gap-1 md:flex">
-          {main?.map((item) => (
-            <li>
-              <a
-                href={item?.url}
-                class="inline-flex items-center rounded-lg px-3 py-1.5 text-sm font-medium text-zinc-600 hover:text-zinc-900 hover:bg-zinc-200/50 dark:text-zinc-400 dark:hover:text-zinc-100 dark:hover:bg-zinc-800/50 transition-all active:scale-95"
-              >
-                {item?.name === 'Home' ? <HomeIcon /> : item?.name}
-              </a>
-            </li>
-          ))}
+          {main?.map((item) => {
+            const active = isActive(item?.url || '/');
+            return (
+              <li>
+                <a
+                  href={item?.url}
+                  aria-current={active ? 'page' : undefined}
+                  class={`inline-flex items-center rounded-xl px-3 py-1.5 text-sm font-medium transition-all active:scale-95 ${
+                    active
+                      ? 'bg-zinc-900/10 text-zinc-900 font-semibold dark:bg-white/10 dark:text-white'
+                      : 'text-zinc-600 hover:text-zinc-900 hover:bg-zinc-200/50 dark:text-zinc-400 dark:hover:text-zinc-100 dark:hover:bg-zinc-800/50'
+                  }`}
+                >
+                  {item?.name === 'Home' ? <HomeIcon /> : item?.name}
+                </a>
+              </li>
+            );
+          })}
         </ul>
 
         {config.features.dark_mode && <ThemeIcon />}
@@ -56,7 +70,7 @@ const { main }: { main: NavigationLink[] } = menu;
           <label
             id="show-button"
             for="nav-toggle"
-            class="flex cursor-pointer items-center justify-center h-9 w-9 rounded-full text-zinc-600 dark:text-zinc-300 hover:bg-zinc-200/50 dark:hover:bg-zinc-800/50 active:scale-95 transition-all md:hidden"
+            class="flex cursor-pointer items-center justify-center h-10 w-10 rounded-full text-zinc-600 dark:text-zinc-300 hover:bg-zinc-200/50 dark:hover:bg-zinc-800/50 active:scale-95 transition-all md:hidden"
             aria-label="Open menu"
           >
             <HamburgerIcon />
@@ -64,26 +78,34 @@ const { main }: { main: NavigationLink[] } = menu;
           <label
             id="hide-button"
             for="nav-toggle"
-            class="hidden cursor-pointer items-center justify-center h-9 w-9 rounded-full text-zinc-600 dark:text-zinc-300 hover:bg-zinc-200/50 dark:hover:bg-zinc-800/50 active:scale-95 transition-all"
+            class="hidden cursor-pointer items-center justify-center h-10 w-10 rounded-full text-zinc-600 dark:text-zinc-300 hover:bg-zinc-200/50 dark:hover:bg-zinc-800/50 active:scale-95 transition-all"
             aria-label="Close menu"
           >
             <CloseIcon />
           </label>
           <div
             id="nav-menu"
-            class="absolute right-0 top-11 z-50 mt-1 hidden w-48 rounded-2xl border border-zinc-200/70 bg-white/90 p-2 shadow-xl backdrop-blur-xl backdrop-saturate-150 dark:border-zinc-800/80 dark:bg-zinc-900/90"
+            class="absolute right-0 top-12 z-50 mt-1 hidden w-52 rounded-2xl border border-zinc-200/70 bg-white/95 p-2 shadow-xl backdrop-blur-xl backdrop-saturate-150 dark:border-zinc-800/80 dark:bg-zinc-900/95"
           >
             <ul class="space-y-1 py-1 text-sm text-zinc-700 dark:text-zinc-200">
-              {main?.map((item) => (
-                <li>
-                  <a
-                    href={item?.url}
-                    class="block rounded-xl px-3.5 py-2 text-sm font-medium text-zinc-600 hover:bg-zinc-100/80 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800/80 dark:hover:text-zinc-100 transition-colors active:scale-95"
-                  >
-                    {item?.name}
-                  </a>
-                </li>
-              ))}
+              {main?.map((item) => {
+                const active = isActive(item?.url || '/');
+                return (
+                  <li>
+                    <a
+                      href={item?.url}
+                      aria-current={active ? 'page' : undefined}
+                      class={`block rounded-xl px-3.5 py-2.5 text-sm font-medium transition-colors active:scale-95 ${
+                        active
+                          ? 'bg-zinc-900/10 text-zinc-900 font-semibold dark:bg-white/10 dark:text-white'
+                          : 'text-zinc-600 hover:bg-zinc-100/80 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800/80 dark:hover:text-zinc-100'
+                      }`}
+                    >
+                      {item?.name}
+                    </a>
+                  </li>
+                );
+              })}
             </ul>
           </div>
         </div>
