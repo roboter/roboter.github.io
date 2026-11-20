@@ -4,47 +4,56 @@ description: 'Step-by-step bare-metal guide to building a 10 kHz–225 MHz 3-cha
 pubDate: '2026-11-20T22:45:00'
 heroImage: '/images/20261120-CH32V003-Si5351A-Signal-Generator/hero.jpg'
 categories: ['WCH', 'electronics']
-tags: ['WCH', 'CH32V003', 'CH32V003F4P6', 'WCH-LinkE', 'embeetle', 'Si5351A', 'Si5351', 'CJMCU-5351', 'SSD1306', 'OLED', 'RISC-V', 'I2C', 'Signal Generator', 'VFO', 'RF', 'Clock Generator', 'OpenOCD', 'Bare-Metal', 'C', 'Embedded', 'DIY Electronics']
+tags: ['Embeetle', 'WCH', 'CH32V003', 'Si5351A', 'KiCad', 'PCB', 'CH32V003F4P6', 'WCH-LinkE', 'Si5351', 'CJMCU-5351', 'SSD1306', 'OLED', 'RISC-V', 'I2C', 'Signal Generator', 'VFO', 'RF', 'Clock Generator', 'OpenOCD', 'Bare-Metal', 'C', 'Embedded', 'DIY Electronics']
 authors: ['robby.roboter']
 ---
 
 [![Platform](https://img.shields.io/badge/MCU-WCH%20CH32V003F4P6-0ea5e9?style=for-the-badge)](https://www.wch-ic.com/products/CH32V003.html)
 [![IDE](https://img.shields.io/badge/IDE-Embeetle-f59e0b?style=for-the-badge)](https://embeetle.com/)
 [![GitHub](https://img.shields.io/badge/GitHub-ch32v003f4p6--SignalGenerator-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/roboter/Hardware/tree/main/WCH/ch32v003f4p6-SignalGenerator)
+[![KiCad PCB](https://img.shields.io/badge/KiCad-PCB%20v1-314cb0?style=for-the-badge&logo=kicad&logoColor=white)](https://github.com/roboter/Hardware/tree/6942b019/WCH/KiCAD/SignalGenerator)
 [![Language](https://img.shields.io/badge/Language-Bare--Metal%20C-00599C?style=for-the-badge&logo=c&logoColor=white)](https://en.wikipedia.org/wiki/C_(programming_language))
 [![Hardware](https://img.shields.io/badge/Hardware-Si5351A%20%7C%20SSD1306%20%7C%20WCH--LinkE-8b5cf6?style=for-the-badge)](#)
 
-> **Source Code:** All project source files, Embeetle configs, drivers, and wiring docs can be found on GitHub at [roboter/Hardware/WCH/ch32v003f4p6-SignalGenerator](https://github.com/roboter/Hardware/tree/main/WCH/ch32v003f4p6-SignalGenerator).
+> **Source Code & KiCad PCB:**
+> - **Firmware & Embeetle Project:** [roboter/Hardware/WCH/ch32v003f4p6-SignalGenerator](https://github.com/roboter/Hardware/tree/main/WCH/ch32v003f4p6-SignalGenerator)
+> - **KiCad Schematic & PCB (v1):** [roboter/Hardware/WCH/KiCAD/SignalGenerator (v1)](https://github.com/roboter/Hardware/tree/6942b019/WCH/KiCAD/SignalGenerator)
 >
 > **Interactive Companion Tool:** Use the [Si5351A Interactive Configurator & Register Workbench](/tools/si5351a) to visualize PLL/MultiSynth routing, verify register bitfields, and export ready-to-compile **CH32V003 Bare-Metal** C headers straight into your Embeetle project.
 
-In this tutorial, you will learn how to build a complete, bare-metal **3-channel RF Signal Generator & Retro Vernier VFO** (`10 kHz – 225 MHz`) using an ultra-low-cost **WCH CH32V003F4P6** RISC-V microcontroller (only **16 KB Flash** and **2 KB SRAM**), a **Silicon Labs Si5351A** clock generator, a **128×64 dual-color SSD1306 OLED** display, and **Embeetle IDE** with a **WCH-LinkE** programmer.
+In this tutorial, you will learn how to build a complete, bare-metal **3-channel RF Signal Generator & Retro Vernier VFO** (`10 kHz – 200 MHz` per datasheet, overclockable up to `225 MHz`) using an ultra-low-cost **WCH CH32V003F4P6** RISC-V microcontroller (only **16 KB Flash** and **2 KB SRAM**), a **Silicon Labs Si5351A** clock generator, a **128×64 dual-color SSD1306 OLED** display, and **Embeetle IDE** with a **WCH-LinkE** programmer.
 
 ---
 
 ## Table of Contents
 
-1. [Project Overview & Architecture](#1-project-overview--architecture)
-2. [Bill of Materials (BOM)](#2-bill-of-materials-bom)
-3. [Hardware Wiring & Pinout](#3-hardware-wiring--pinout)
-   - [WCH-LinkE Programming (SWIO)](#31-wch-linke-programming-swio)
-   - [Shared I²C Bus: SSD1306 + Si5351A](#32-shared-i2c-bus-ssd1306--si5351a)
-   - [5-Way Navigation Buttons](#33-5-way-navigation-buttons)
-   - [Si5351A RF Output Conditioning](#34-si5351a-rf-output-conditioning)
-4. [Setting Up Embeetle IDE for WCH CH32V003](#4-setting-up-embeetle-ide-for-wch-ch32v003)
-   - [Project Layout & Embeetle Config Files](#41-project-layout--embeetle-config-files)
-   - [Using `filetree.mk` and `dashboard.mk` (Configured by Default)](#42-using-filetreemk-and-dashboardmk-configured-by-default)
-   - [WCH-LinkE OpenOCD Configuration & Important Mode Switch Step](#43-wch-linke-openocd-configuration--important-mode-switch-step)
-5. [Building & Flashing (Embeetle GUI + Optional PowerShell CLI)](#5-building--flashing-embeetle-gui--optional-powershell-cli)
-6. [Firmware Deep Dive](#6-firmware-deep-dive)
-   - [Shared 400 kHz Hardware I²C1 Initialization](#61-shared-400-khz-hardware-i2c1-initialization)
-   - [Driving the Si5351A Clock Generator](#62-driving-the-si5351a-clock-generator)
-   - [Exporting Custom Presets from the Si5351A Workbench](#63-exporting-custom-presets-from-the-si5351a-workbench)
-   - [How SSD1306 Display Drawing Works (Pages, Framebuffer & I²C Flush)](#64-how-ssd1306-display-drawing-works-pages-framebuffer--i2c-flush)
-   - [How the Limit Gauge & Parabolic Drum Dial Are Drawn](#65-how-the-limit-gauge--parabolic-drum-dial-are-drawn)
-   - [Button State Machine (Focus Modes, Long-Press, Auto-Repeat)](#66-button-state-machine-focus-modes-long-press-auto-repeat)
-7. [Operating the Signal Generator](#7-operating-the-signal-generator)
-8. [Troubleshooting & CH32V003 Tips](#8-troubleshooting--ch32v003-tips)
+- [1. Project Overview & Architecture](#1-project-overview--architecture)
+- [2. Bill of Materials (BOM)](#2-bill-of-materials-bom)
+- [3. Hardware Wiring & Pinout](#3-hardware-wiring--pinout)
+  - [3.1 WCH-LinkE Programming (SWIO)](#31-wch-linke-programming-swio)
+  - [3.2 Shared I²C Bus: SSD1306 + Si5351A](#32-shared-ic-bus-ssd1306--si5351a)
+  - [3.3 5-Way Navigation Buttons](#33-5-way-navigation-buttons)
+  - [3.4 Si5351A RF Output Conditioning](#34-si5351a-rf-output-conditioning)
+- [4. PCB & KiCad Project](#4-pcb--kicad-project)
+  - [4.1 Board Specifications (Compact v1 Layout)](#41-board-specifications-compact-v1-layout)
+  - [4.2 Top & Bottom PCB Renders](#42-top--bottom-pcb-renders)
+  - [4.3 KiCad Project Structure](#43-kicad-project-structure)
+  - [4.4 PCB Component & Connector Reference](#44-pcb-component--connector-reference)
+  - [4.5 Opening in KiCad & Generating Gerbers](#45-opening-in-kicad--generating-gerbers)
+- [5. Setting Up Embeetle IDE for WCH CH32V003](#5-setting-up-embeetle-ide-for-wch-ch32v003)
+  - [5.1 Project Layout & Embeetle Config Files](#51-project-layout--embeetle-config-files)
+  - [5.2 Using `filetree.mk` and `dashboard.mk` (Configured by Default)](#52-using-filetreemk-and-dashboardmk-configured-by-default)
+  - [5.3 WCH-LinkE OpenOCD Configuration & Important Mode Switch Step](#53-wch-linke-openocd-configuration--important-mode-switch-step)
+- [6. Building & Flashing (Embeetle GUI + Optional PowerShell CLI)](#6-building--flashing-embeetle-gui--optional-powershell-cli)
+- [7. Firmware Deep Dive](#7-firmware-deep-dive)
+  - [7.1 Shared 400 kHz Hardware I²C1 Initialization](#71-shared-400-khz-hardware-ic1-initialization)
+  - [7.2 Driving the Si5351A Clock Generator](#72-driving-the-si5351a-clock-generator)
+  - [7.3 Exporting Custom Presets from the Si5351A Workbench](#73-exporting-custom-presets-from-the-si5351a-workbench)
+  - [7.4 How SSD1306 Display Drawing Works (Pages, Framebuffer & I²C Flush)](#74-how-ssd1306-display-drawing-works-pages-framebuffer--ic-flush)
+  - [7.5 How the Limit Gauge & Parabolic Drum Dial Are Drawn](#75-how-the-limit-gauge--parabolic-drum-dial-are-drawn)
+  - [7.6 Button State Machine (Focus Modes, Long-Press, Auto-Repeat)](#76-button-state-machine-focus-modes-long-press-auto-repeat)
+- [8. Operating the Signal Generator](#8-operating-the-signal-generator)
+- [9. Troubleshooting & CH32V003 Tips](#9-troubleshooting--ch32v003-tips)
 
 ---
 
@@ -56,13 +65,15 @@ The entire system runs on a single **$0.15 WCH CH32V003F4P6** (48 MHz RV32EC cor
 | :--- | :--- | :--- | :--- |
 | **MCU** | WCH CH32V003F4P6 | 48 MHz, 16 KB Flash, 2 KB RAM | UI rendering, button polling, I²C master |
 | **Debugger** | WCH-LinkE (`R0-1v3`) | `PD1` (`SWIO`), `3V3`, `GND` | Flashing & debugging via OpenOCD (`wlinke`) |
-| **RF Synth** | Si5351A (CJMCU-5351, 25 MHz XTAL) | I²C1 `0x60` (`PC1`/`PC2`) | 3 outputs (`CLK0`–`CLK2`), `10 kHz – 225 MHz` |
+| **RF Synth** | Si5351A (CJMCU-5351, 25 MHz XTAL) | I²C1 `0x60` (`PC1`/`PC2`) | 3 outputs (`CLK0`–`CLK2`), `10 kHz – 200 MHz` *(up to `225 MHz` OC)* |
 | **Display** | 0.96" SSD1306 128×64 OLED | I²C1 `0x3C` (`PC1`/`PC2`) | 16 px yellow tab bar + 48 px blue drum dial |
 | **Controls** | 5 Tactile Switches | `PC3`–`PC7` (`GPIOC`, active-high) | `ENTER`, `DOWN`, `LEFT`, `RIGHT`, `UP` |
 
+> **Frequency Range Note (Datasheet `200 MHz` vs. `225 MHz` Overclock):** According to the official Silicon Labs **Si5351A datasheet**, the manufacturer-guaranteed output range is **`2.5 kHz / 8 kHz – 200 MHz`** (with the internal PLL VCO inside `600 – 900 MHz`). The firmware allows tuning up to **`225 MHz`** by overclocking the PLL slightly above `900 MHz`—an undocumented mode that works reliably on most `CJMCU-5351` boards in practice, though it is not guaranteed across all chips or temperatures.
+
 ### Key Firmware Features
 - **3 Independent Channels (`CLK0`, `CLK1`, `CLK2`)** with individual frequencies, tuning steps (`1 Hz` to `100 MHz`), and `ON`/`OFF` states.
-- **Zero-RAM Retro Vernier Drum Dial**: Computed column-by-column using integer parabolic droop (`dx² >> 9`) with zero floating-point math and zero extra RAM buffers.
+- **Zero-Extra-RAM Retro Vernier Drum Dial**: Computed column-by-column using integer parabolic droop (`dx² >> 9`) and written straight into the existing `1,024-byte` SSD1306 framebuffer—requiring **zero extra RAM buffers** and zero floating-point math.
 - **IF Offset Support**: Switch between `VFO` (`0 Hz`), `+455 kHz` (AM/SW IF), and `+10.7 MHz` (FM/VHF IF) local oscillator modes.
 - **Tight Memory Footprint (`-Og`)**: **16,380 / 16,384 bytes Flash** and **1,496 / 2,048 bytes SRAM** (including the 1,024-byte OLED framebuffer and 256-byte stack).
 
@@ -78,7 +89,7 @@ The entire system runs on a single **$0.15 WCH CH32V003F4P6** (48 MHz RV32EC cor
 | **0.96" SSD1306 I²C OLED (128×64)** | 1 | Dual-color (16 px yellow top + 48 px blue bottom) works best |
 | **Tactile Push Buttons** | 5 | `UP`, `DOWN`, `LEFT`, `RIGHT`, `ENTER` |
 | **4.7 kΩ Resistors** | 2 | I²C `SDA` & `SCL` pull-ups to `3.3V` (if not on breakouts) |
-| **10 kΩ Resistors** | 5 | Pull-down resistors from `PC3`–`PC7` to `GND` |
+| **10 kΩ (or 1 kΩ) Resistors** | 5 *(optional)* | Pull-down resistors from `PC3`–`PC7` to `GND` for `GPIO_Mode_IN_FLOATING` (can be omitted if you enable internal pull-downs with `GPIO_Mode_IPD`) |
 | **100 nF Ceramic Capacitors** | 3–8 | DC-blocking on `CLK0`–`CLK2` (+ optional hardware debounce on buttons) |
 
 ---
@@ -112,21 +123,25 @@ Both the SSD1306 OLED (`0x3C`) and Si5351A (`0x60`) share the CH32V003 hardware 
 
 Ensure `4.7 kΩ` pull-up resistors exist between `PC1`/`PC2` and `3.3V` (most CJMCU-5351 and SSD1306 modules include onboard `4.7 kΩ–10 kΩ` pull-ups; if both modules have pull-ups in parallel, ~2.2–5 kΩ combined is ideal for 400 kHz Fast Mode).
 
+![Si5351A CJMCU-5351 Breakout Module](/images/20261120-CH32V003-Si5351A-Signal-Generator/si5351-module.png)
+
 ![Si5351A CJMCU-5351 Module Pinout](/images/20261120-CH32V003-Si5351A-Signal-Generator/si5351-pinout.svg)
 
 ![SSD1306 0.96" Dual-Color OLED Pinout](/images/20261120-CH32V003-Si5351A-Signal-Generator/ssd1306-pinout.svg)
 
 ### 3.3 5-Way Navigation Buttons
 
-In `source/User/main.h`, the 5 navigation buttons are configured as `GPIO_Mode_IN_FLOATING` (**active-high** when pressed):
+In the stock firmware (`source/User/main.h` / `GPIO_Buttons_INIT()`), the 5 navigation buttons are configured as `GPIO_Mode_IN_FLOATING` (**active-high** when pressed) to match the external pull-down resistors (`R1`–`R5`) on the custom PCB:
 
 | CH32V003 Pin | Macro | Action | Wiring |
 | :--- | :--- | :--- | :--- |
-| **`PC3`** | `ENTER` | Cycle Focus / Long-press Mute | Switch between `3.3V` and `PC3` + `10 kΩ` pull-down to `GND` |
-| **`PC4`** | `DOWN` | Decrease Freq / Toggle | Switch between `3.3V` and `PC4` + `10 kΩ` pull-down to `GND` |
-| **`PC5`** | `LEFT` | Cursor Left / Prev Tab | Switch between `3.3V` and `PC5` + `10 kΩ` pull-down to `GND` |
-| **`PC6`** | `RIGHT` | Cursor Right / Next Tab | Switch between `3.3V` and `PC6` + `10 kΩ` pull-down to `GND` |
-| **`PC7`** | `UP` | Increase Freq / Toggle | Switch between `3.3V` and `PC7` + `10 kΩ` pull-down to `GND` |
+| **`PC3`** | `ENTER` | Cycle Focus / Long-press Mute | Switch between `3.3V` and `PC3` + pull-down to `GND` |
+| **`PC4`** | `DOWN` | Decrease Freq / Toggle | Switch between `3.3V` and `PC4` + pull-down to `GND` |
+| **`PC5`** | `LEFT` | Cursor Left / Prev Tab | Switch between `3.3V` and `PC5` + pull-down to `GND` |
+| **`PC6`** | `RIGHT` | Cursor Right / Next Tab | Switch between `3.3V` and `PC6` + pull-down to `GND` |
+| **`PC7`** | `UP` | Increase Freq / Toggle | Switch between `3.3V` and `PC7` + pull-down to `GND` |
+
+> **Simpler Breadboard Tip (No External Pull-Down Resistors Needed):** If you are building on a breadboard without the PCB, change `GPIO_Mode_IN_FLOATING` to **`GPIO_Mode_IPD`** (internal pull-down, ~30–50 kΩ) inside `GPIO_Buttons_INIT()` in `source/User/main.c`. That lets you drop all 5 external pull-down resistors from the BOM completely—just connect each switch directly between `3.3V` and `PC3`–`PC7`.
 
 ### 3.4 Si5351A RF Output Conditioning
 
@@ -136,7 +151,73 @@ In `source/User/main.h`, the 5 navigation buttons are configured as `GPIO_Mode_I
 
 ---
 
-## 4. Setting Up Embeetle IDE for WCH CH32V003
+## 4. PCB & KiCad Project
+
+Instead of keeping the signal generator on a fragile breadboard, the compact **v1** hardware design is packaged as an open-source **KiCad 7** project dedicated solely to the CH32V003 + SSD1306 + Si5351A signal generator:
+
+> **KiCad Project Repository (v1):** [roboter/Hardware/WCH/KiCAD/SignalGenerator (commit `6942b019`)](https://github.com/roboter/Hardware/tree/6942b019/WCH/KiCAD/SignalGenerator)
+
+### 4.1 Board Specifications (Compact v1 Layout)
+
+| Parameter | Specification |
+| :--- | :--- |
+| **EDA Tool** | **KiCad 7** (`version 20221018`) |
+| **Board Dimensions** | **`78.7 × 35.6 mm`** (`3100 × 1400 mil`) — slim pocket-sized handheld layout |
+| **Stackup** | **2-Layer FR-4**, `1.6 mm` standard thickness (`F.Cu` + `B.Cu`) |
+| **Copper Routing** | **19 footprints**, `191` straight 45° copper segments (`121` Top / `70` Bottom), `7` vias, `32` nets |
+| **Power Supply** | `+5V` input via `J4` (Wago 3.50 mm terminal) → onboard `AMS1117-3.3` (`U2`) regulating to `+3.3V` |
+| **Debug & I/O** | Dedicated `2×5` **WCH-LinkE** header (`J3`), `SSD1306` 4-pin OLED mount (`Brd1`), `1×7` **Si5351A** header (`J5`), and 5 through-hole tactile switches (`SW1`–`SW5`) |
+
+### 4.2 Top & Bottom PCB Renders
+
+The **Top Layer (`F.Cu` + `F.SilkS`)** places the **0.96" SSD1306 OLED** (`Brd1`) directly above the **CH32V003F4P6** MCU (`U1`) and its dual `1.27 mm` pinout headers (`J1`/`J2`), with the **Si5351A** module socket (`J5`) along the top edge, the **`+5V` Wago terminal** (`J4`) and **10-pin WCH-LinkE** header (`J3`) on the left, and the **5-way through-hole tactile D-pad** (`SW1`–`SW5`) arranged comfortably for thumb operation on the right:
+
+![Signal Generator PCB v1 Top Layer Render (F.Cu + F.SilkS)](/images/20261120-CH32V003-Si5351A-Signal-Generator/pcb-v1-2023-front.png)
+
+The **Bottom Layer (`B.Cu` + `B.SilkS`)** keeps the front panel clean by tucking the **`AMS1117-3.3`** LDO regulator (`U2`), the five **`1 kΩ` axial pull-down resistors** (`R1`–`R5`), and an optional **`24 MHz` crystal footprint** (`Y1`) underneath:
+
+![Signal Generator PCB v1 Bottom Layer Render (B.Cu + B.SilkS)](/images/20261120-CH32V003-Si5351A-Signal-Generator/pcb-v1-2023-back.png)
+
+### 4.3 KiCad Project Structure
+
+```text
+WCH/KiCAD/SignalGenerator/ (commit 6942b019)
+├── SignalGenerator/
+│   ├── signalgenerator.kicad_pro     # KiCad 7 project file
+│   ├── signalgenerator.kicad_sch     # Full schematic (CH32V003F4P6, SSD1306, Si5351A, AMS1117, switches)
+│   ├── signalgenerator.kicad_pcb     # Compact 78.7 × 35.6 mm 2-layer PCB layout (rendered above)
+│   └── radme.md                      # Board dimensions (3104 × 1404 mil) & Si5351A design notes
+└── WCH-LinkSCH.PDF                   # Reference WCH-Link programmer schematic
+```
+
+### 4.4 PCB Component & Connector Reference
+
+| Ref | Part / Value | Footprint | Layer | Function |
+| :--- | :--- | :--- | :---: | :--- |
+| **`U1`** | `CH32V003F4P6` | `TSSOP-20` (`P0.65mm`) | Top | Main 48 MHz RISC-V microcontroller (sits beneath the OLED) |
+| **`J1`, `J2`** | `2× 1×10 Pin Header` | `1.27 mm` vertical | Top | Full 20-pin breakout of `U1` (`RX`, `TX`, `RST`, `SWDIO`, `I2C`, buttons) |
+| **`Brd1`** | `SSD1306 128×64 OLED` | 4-pin OLED footprint | Top | `GND`, `+3.3V`, `SCL`, `SDA` display mount |
+| **`J5`** | `1×7 Pin Header` | `2.54 mm` vertical | Top | Plug-in socket for **CJMCU-5351 (Si5351A)** (`+3.3V`, `GND`, `SDA`, `SCL`, `CLK0–2`) |
+| **`J3`** | `2×5 Pin Header` | `2.54 mm` vertical | Top | Standard **10-pin WCH-LinkE** probe header (`SWDIO`, `SWCLK`, `TX`, `RX`, `RST`, `3V3`, `5V`, `GND`) |
+| **`J4`** | `Wago 734-132 (1×2)` | `3.50 mm` terminal | Top | External `+5V` / `GND` power input |
+| **`SW1`–`SW5`** | `UP, DOWN, LEFT, RIGHT, ENTER` | `6×6 mm` THT push-buttons | Top | 5-way navigation pad on the right side (wired active-high to `+3.3V`) |
+| **`U2`** | `AMS1117-3.3` | `SOT-223-3` | Bottom | `+5V → +3.3V` LDO voltage regulator |
+| **`R1`–`R5`** | `1 kΩ` (or `10 kΩ`) | Axial THT (`P7.62mm`) | Bottom | Pull-down resistors from `SW1`–`SW5` (`PC3`–`PC7`) to `GND` |
+| **`Y1`** | `24 MHz Crystal` *(optional)* | `SMD 6.0×3.5 mm` 4-pin | Bottom | Optional external HSE crystal pad (left unpopulated when using internal 48 MHz HSI+PLL) |
+
+### 4.5 Opening in KiCad & Generating Gerbers
+
+- **To inspect or edit in KiCad 7 / 8:**
+  1. Download or check out commit [`6942b019`](https://github.com/roboter/Hardware/tree/6942b019/WCH/KiCAD/SignalGenerator) of `roboter/Hardware`.
+  2. Open `SignalGenerator/signalgenerator.kicad_pro` in **KiCad**.
+  3. Open `signalgenerator.kicad_sch` for the schematic or `signalgenerator.kicad_pcb` to inspect the 2-layer routing and 3D viewer (`Alt+3`).
+- **To order the PCB from any fab house (JLCPCB, PCBWay, PCBX, etc.):**
+  1. In KiCad PCB Editor, go to **File → Fabrication Outputs → Gerbers (`.gbr`)** (include `F.Cu`, `B.Cu`, `F.Mask`, `B.Mask`, `F.SilkS`, `B.SilkS`, `Edge.Cuts`) and click **Generate Drill Files** (`PTH`/`NPTH` Excellon `.drl`).
+  2. Zip the exported `.gbr` and `.drl` files and upload using standard **2-layer, `1.6 mm` FR-4, 1 oz copper** settings.
+
+---
+
+## 5. Setting Up Embeetle IDE for WCH CH32V003
 
 [**Embeetle IDE**](https://embeetle.com/) is a lightweight, makefile-based embedded IDE that ships with preconfigured **WCH CH32V003** starter projects, the **xPack GNU RISC-V GCC toolchain**, and **WCH OpenOCD**—no complex Eclipse workspaces or proprietary SDK installers required.
 
@@ -154,7 +235,7 @@ In `source/User/main.h`, the 5 navigation buttons are configured as `GPIO_Mode_I
    - `gnu_riscv_xpack_toolchain` (`riscv-none-embed-gcc`)
    - `openocd_wch` (`openocd.exe` with WCH-LinkE support)
 
-### 4.1 Project Layout & Embeetle Config Files
+### 5.1 Project Layout & Embeetle Config Files
 
 Organize your project using Embeetle's clean separation between `config/` (build & probe configuration) and `source/` (application + drivers):
 
@@ -180,7 +261,7 @@ ch32v003f4p6-SignalGenerator/
 └── flash.ps1                 # Optional PowerShell CLI flash script
 ```
 
-### 4.2 Using `filetree.mk` and `dashboard.mk` (Configured by Default)
+### 5.2 Using `filetree.mk` and `dashboard.mk` (Configured by Default)
 
 > **Works Right Out of the Box:** When you create a `ch32v003f4p6` project in Embeetle IDE (or open this repository), `dashboard.mk`, `filetree.mk`, `openocd_probe.cfg`, and `openocd_chip.cfg` are **already configured by default** and should build and flash immediately without manual edits. The snippets below are for reference so you know what Embeetle manages behind the scenes.
 
@@ -217,7 +298,7 @@ TARGET_LDFLAGS = --specs=nano.specs
 
 > **Flash-saving tip:** `-msave-restore` and `--specs=nano.specs` are enabled by default and essential on the CH32V003—they replace bulky function prologues/epilogues and standard C libraries with compact stubs.
 
-### 4.3 WCH-LinkE OpenOCD Configuration & Important Mode Switch Step
+### 5.3 WCH-LinkE OpenOCD Configuration & Important Mode Switch Step
 
 Embeetle automatically generates `config/openocd_probe.cfg` and `config/openocd_chip.cfg` for `wch-linke-r0-1v3-riscv` + `ch32v003f4p6`, so you don't need to configure OpenOCD manually—it works right away once your probe is in the right mode.
 
@@ -255,7 +336,7 @@ flash bank $_FLASHNAME wch_riscv 0x00000000 0 0 0 $_TARGETNAME.0
 
 ---
 
-## 5. Building & Flashing (Embeetle GUI + Optional PowerShell CLI)
+## 6. Building & Flashing (Embeetle GUI + Optional PowerShell CLI)
 
 ### Option A: Inside Embeetle IDE (Recommended — Works Right Away)
 1. Confirm your **WCH-LinkE** is in **RISC-V mode** (blue LED off when idle — see [Embeetle WCH-LinkE docs](https://embeetle.com/#supported-hardware/wch/probes/wch-linke-r0-1v3)) and connect `3V3`, `GND`, and `SWDIO (PD1)` to the CH32V003 board.
@@ -294,9 +375,9 @@ if ($Clean) {
 
 ---
 
-## 6. Firmware Deep Dive
+## 7. Firmware Deep Dive
 
-### 6.1 Shared 400 kHz Hardware I²C1 Initialization
+### 7.1 Shared 400 kHz Hardware I²C1 Initialization
 
 In `source/User/main.c`, `I2C_HAL_Init()` enables `I2C1` on `PC1` (SDA) and `PC2` (SCL) as open-drain alternate functions (`GPIO_Mode_AF_OD`) and sets the clock divider for **400 kHz Fast Mode** (`I2C_CKCFGR_FS`):
 
@@ -333,7 +414,7 @@ i2c_err_t I2C_HAL_Init(i2c_device_t *dev) {
 
 Both `OLED_init()` (talking to `0x3C`) and `SI5351_begin()` (talking to `0x60`) reuse this single initialized `I2C1` peripheral.
 
-### 6.2 Driving the Si5351A Clock Generator
+### 7.2 Driving the Si5351A Clock Generator
 
 Notice a classic WCH StdPeriph pitfall: `I2C_Send7bitAddress()` expects the **7-bit address shifted left by 1** (`SI5351_ADDR << 1`, i.e., `0x60 << 1 = 0xC0`), and every wait loop includes a timeout so a disconnected breakout never hangs the MCU:
 
@@ -387,7 +468,7 @@ static void apply_channel_hw(uint8_t ch) {
 }
 ```
 
-### 6.3 Exporting Custom Presets from the Si5351A Workbench
+### 7.3 Exporting Custom Presets from the Si5351A Workbench
 
 Want an exact **Quadrature 90° I/Q pair**, **Differential 180° clock**, **Spread-Spectrum EMI mode**, or **AN619 fractional MultiSynth preset** without writing floating-point math on the CH32V003?
 
@@ -409,7 +490,7 @@ void si5351_i2c_write_reg(uint8_t reg, uint8_t val) {
 si5351_apply_preset();
 ```
 
-### 6.4 How SSD1306 Display Drawing Works (Pages, Framebuffer & I²C Flush)
+### 7.4 How SSD1306 Display Drawing Works (Pages, Framebuffer & I²C Flush)
 
 Unlike a typical RGB screen where pixels are stored row by row, a monochrome **128×64 SSD1306 OLED** organizes its GDDRAM into **8 horizontal pages** (`Page 0` to `Page 7`). Each page is **8 pixels tall** and **128 columns wide**, so every single byte represents a **vertical strip of 8 pixels** (`bit 0` = top pixel, `bit 7` = bottom pixel):
 
@@ -460,7 +541,7 @@ void OLED_update(void) {
 
 At `400 kHz` I²C Fast Mode, transferring all 1,024 bytes takes roughly **23 ms** (~43 FPS max), which is plenty fast for smooth 14–20 Hz dial scrolling while keeping the display 100% tear- and flicker-free.
 
-### 6.5 How the Limit Gauge & Parabolic Drum Dial Are Drawn
+### 7.5 How the Limit Gauge & Parabolic Drum Dial Are Drawn
 
 Instead of calling `OLED_drawPixel()` hundreds of times per frame or storing heavy bitmaps, `draw_retro_dial()` in `source/User/main.c` fetches the raw framebuffer pointer via `OLED_getBuffer()` and writes bitmasks **directly into the SSD1306 pages** for both gauges:
 
@@ -472,6 +553,7 @@ uint8_t *fb = OLED_getBuffer();
 
 /* Full-range min..max limit gauge bar (Y=28..30 in Page 3) */
 uint8_t pos_x = (uint8_t)(f / 1800000UL); /* Maps 0..225 MHz -> X = 0..125 */
+if (pos_x > 125) pos_x = 125;             /* Prevent Page 3 overrun into Page 4 */
 uint8_t *p3 = fb + 3 * 128;               /* Pointer to Page 3 (Y = 24..31) */
 p3[0]         |= 0x70; /* 0b01110000: Left end-stop cap at Y = 28, 29, 30 */
 p3[127]       |= 0x70; /* 0b01110000: Right end-stop cap at Y = 28, 29, 30 */
@@ -479,10 +561,10 @@ p3[pos_x]     |= 0x20; /* 0b00100000: 2-pixel-wide position cursor at Y = 29 */
 p3[pos_x + 1] |= 0x20;
 ```
 
-Because `Page 3` maps `bit 0..7` to `Y = 24..31`, OR-ing `0x70` (`bits 4, 5, 6`) draws crisp 3-pixel vertical end-stops at `X = 0` and `X = 127`, while `0x20` (`bit 5`, `Y = 29`) draws the moving frequency marker—all in 6 CPU instructions with zero floating-point math.
+Because `Page 3` maps `bit 0..7` to `Y = 24..31`, OR-ing `0x70` (`bits 4, 5, 6`) draws crisp 3-pixel vertical end-stops at `X = 0` and `X = 127`, while `0x20` (`bit 5`, `Y = 29`) draws the moving frequency marker—all in a handful of integer instructions with zero floating-point math. Clamping `pos_x` to `125` guarantees `p3[pos_x + 1]` always stays strictly inside the 128-byte `Page 3` row (never overwriting the right end-stop at `p3[127]` or spilling into `Page 4` if `f` ever exceeds `226.8 MHz`).
 
-#### 2. Zero-RAM Parabolic Retro Vernier Drum Dial (`Pages 5–6`, `Y = 40..55`)
-Below the sliding major scale numbers (`Y = 31..39`, spaced every `40 px = 10` tuning steps), the vernier drum gauge spans **16 vertical pixels** across `Page 5` and `Page 6`. For each of the 128 horizontal columns, `render_dial_column()` computes a 16-bit vertical tick pattern on the fly:
+#### 2. Zero-Extra-RAM Parabolic Retro Vernier Drum Dial (`Pages 5–6`, `Y = 40..55`)
+Below the sliding major scale numbers (`Y = 31..39`, spaced every `40 px = 10` tuning steps), the vernier drum gauge spans **16 vertical pixels** across `Page 5` and `Page 6` and writes directly into the existing 1 KB OLED framebuffer (requiring **zero extra RAM buffers**). For each of the 128 horizontal columns, `render_dial_column()` computes a 16-bit vertical tick pattern on the fly:
 
 - **Tick Spacing (`4 px` per step, `40 px` per major division):**
   - `tick_pos == min_pos || max_pos` → `0x03FF` (10 px tall hard limit wall)
@@ -495,7 +577,7 @@ Below the sliding major scale numbers (`Y = 31..39`, spaced every `40 px = 10` t
   - Shifting `col_bits << droop` pushes ticks downward by `0 px` at the center and up to `64² / 512 = 8 px` at the edges, creating a smooth parabolic drum curve without any lookup table or `sin()`/`cos()`.
 
 ```c
-/* Zero-RAM column renderer for Retro Drum Dial (Pages 5..6, Y=40..55) */
+/* Zero-extra-RAM column renderer for Retro Drum Dial (Pages 5..6, Y=40..55) */
 static uint16_t render_dial_column(uint8_t x, int32_t center_pos,
                                    int32_t min_pos, int32_t max_pos) {
   if (x == 64)
@@ -546,7 +628,7 @@ if (ch_enabled[ch]) {
 
 > **Tip:** `source/SSD1306WCH/ssd1306.h` also includes ready-to-use `OLED_drawProgressBar(x, y, w, h, percent)` and `OLED_drawBargraph(x, y, w, h, bars, filled)` helpers if you want to add battery, RF power, or S-meter gauges to your own screens. Similarly, `format_freq_str()` converts frequencies to `XXX.XXX.XXX` using integer math instead of `sprintf()`, saving **>3 KB of Flash**.
 
-### 6.6 Button State Machine (Focus Modes, Long-Press, Auto-Repeat)
+### 7.6 Button State Machine (Focus Modes, Long-Press, Auto-Repeat)
 
 The main loop polls `GPIOC` every `10 ms` (`Delay_Ms(10)`) and handles:
 - **Short press on `ENTER`** (detected on release): Cycles UI focus between **`FOCUS_TABS` → `FOCUS_DIAL` → `FOCUS_CONFIG`**.
@@ -555,7 +637,7 @@ The main loop polls `GPIOC` every `10 ms` (`Delay_Ms(10)`) and handles:
 
 ---
 
-## 7. Operating the Signal Generator
+## 8. Operating the Signal Generator
 
 The dual-color SSD1306 splits cleanly into the **16 px yellow header** (tabs + `ON`/`OFF` badge) and **48 px blue dial area**:
 
@@ -581,7 +663,7 @@ The dual-color SSD1306 splits cleanly into the **16 px yellow header** (tabs + `
 
 ---
 
-## 8. Troubleshooting & CH32V003 Tips
+## 9. Troubleshooting & CH32V003 Tips
 
 1. **OpenOCD fails to connect to WCH-LinkE (`Error: wlinke`):**
    - Make sure the WCH-LinkE is in **RISC-V mode** (the blue LED stays **off** when idle; when the blue LED is **on**, it is in ARM mode). Hold the **`ModeS`** button while plugging in USB or follow [Embeetle's official WCH-LinkE-R0-1v3 documentation](https://embeetle.com/#supported-hardware/wch/probes/wch-linke-r0-1v3).
@@ -594,13 +676,16 @@ The dual-color SSD1306 splits cleanly into the **16 px yellow header** (tabs + `
    - Avoid `printf`/`sprintf` with `%f` floats—stick to integer helpers like `format_freq_str()`.
    - In Embeetle's `config/dashboard.mk`, switch optimization from `-Og` to `-Os` if you add extra fonts or menu pages.
 4. **Buttons trigger randomly when untouched:**
-   - Because `GPIO_Buttons_INIT()` uses `GPIO_Mode_IN_FLOATING`, external `10 kΩ` pull-down resistors to `GND` are mandatory on `PC3`–`PC7` (or change the pin mode to `GPIO_Mode_IPD` for internal pull-downs).
+   - Because the stock `GPIO_Buttons_INIT()` uses `GPIO_Mode_IN_FLOATING` (matching `R1`–`R5` on the custom PCB), external pull-down resistors to `GND` are required on `PC3`–`PC7`. On a breadboard, switching the pin mode to **`GPIO_Mode_IPD`** enables the CH32V003's internal pull-downs so you can omit all 5 external pull-down resistors.
+5. **Output stops or loses lock above `200 MHz`:**
+   - Silicon Labs guarantees Si5351A operation up to **`200 MHz`**; frequencies from `200 MHz` to `225 MHz` rely on overclocking the internal PLL above `900 MHz`. If your specific chip drops out above `200–215 MHz`, keep `SI5351_MAX_USER_FREQ` clamped to `200000000UL`.
 
 ---
 
 ## Related Tools & References
 
 - **Complete Project Source Code (GitHub):** [roboter/Hardware/tree/main/WCH/ch32v003f4p6-SignalGenerator](https://github.com/roboter/Hardware/tree/main/WCH/ch32v003f4p6-SignalGenerator) — Full Embeetle project, firmware, SSD1306/Si5351 drivers, and wiring guides.
+- **KiCad Schematic & Compact PCB v1 (GitHub):** [roboter/Hardware/tree/6942b019/WCH/KiCAD/SignalGenerator](https://github.com/roboter/Hardware/tree/6942b019/WCH/KiCAD/SignalGenerator) — Compact `78.7 × 35.6 mm` 2-layer PCB (`signalgenerator.kicad_pcb`) and schematic (`signalgenerator.kicad_sch`).
 - [Si5351A Interactive Configurator & Register Workbench](/tools/si5351a) — Configure PLLs, MultiSynth dividers, phase offsets, and export CH32V003 C register headers.
 - [WCH SSD1306 OLED Display Driver Post](/blog/20231203-wch-ssd1306-oled-display) — Earlier Embeetle + CH32V003 SSD1306 driver integration notes.
 - [Embeetle IDE — WCH-LinkE-R0-1v3 Official Probe Documentation & Mode Switch Guide](https://embeetle.com/#supported-hardware/wch/probes/wch-linke-r0-1v3)
