@@ -10,12 +10,12 @@ const PUBLIC_IMAGES_DIR = path.join(process.cwd(), 'public', 'images');
  */
 export function getThumbSrc(src?: string): string {
   if (!src || !src.startsWith('/images/')) return src || '';
-  if (src.endsWith('.svg') || src.startsWith('/images/_thumbs/')) return src;
+  if (src.endsWith('.svg') || src.startsWith('/images/thumbs/')) return src;
 
   const rel = src.slice('/images/'.length).replace(/\.[^.]+$/, '.webp');
-  const thumbDiskPath = path.join(PUBLIC_IMAGES_DIR, '_thumbs', rel);
+  const thumbDiskPath = path.join(PUBLIC_IMAGES_DIR, 'thumbs', rel);
   if (fs.existsSync(thumbDiskPath)) {
-    return `/images/_thumbs/${rel.replace(/\\/g, '/')}`;
+    return `/images/thumbs/${rel.replace(/\\/g, '/')}`;
   }
   return src;
 }

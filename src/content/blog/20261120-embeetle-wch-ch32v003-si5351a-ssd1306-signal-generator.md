@@ -4,7 +4,7 @@ description: 'Step-by-step bare-metal guide to building a 10 kHz–225 MHz 3-cha
 pubDate: '2026-11-20T22:45:00'
 heroImage: '/images/20261120-CH32V003-Si5351A-Signal-Generator/hero.jpg'
 categories: ['WCH', 'electronics']
-tags: ['WCH', 'CH32V003', 'Embeetle', 'Si5351A', 'SSD1306', 'OLED', 'RISC-V', 'I2C', 'Signal Generator']
+tags: ['WCH', 'CH32V003', 'CH32V003F4P6', 'WCH-LinkE', 'embeetle', 'Si5351A', 'Si5351', 'CJMCU-5351', 'SSD1306', 'OLED', 'RISC-V', 'I2C', 'Signal Generator', 'VFO', 'RF', 'Clock Generator', 'OpenOCD', 'Bare-Metal', 'C', 'Embedded', 'DIY Electronics']
 authors: ['robby.roboter']
 ---
 
@@ -139,6 +139,8 @@ In `source/User/main.h`, the 5 navigation buttons are configured as `GPIO_Mode_I
 ## 4. Setting Up Embeetle IDE for WCH CH32V003
 
 [**Embeetle IDE**](https://embeetle.com/) is a lightweight, makefile-based embedded IDE that ships with preconfigured **WCH CH32V003** starter projects, the **xPack GNU RISC-V GCC toolchain**, and **WCH OpenOCD**—no complex Eclipse workspaces or proprietary SDK installers required.
+
+![Embeetle IDE with ch32v003f4p6-SignalGenerator project, Filetree checkmarks, Dashboard, and Build/Flash toolbar](/images/20261120-CH32V003-Si5351A-Signal-Generator/embeetle.png)
 
 ### Step 1: Create or Import a CH32V003 Project in Embeetle
 

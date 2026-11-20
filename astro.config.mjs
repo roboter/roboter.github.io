@@ -40,7 +40,7 @@ export default defineConfig({
         manifest,
         workbox: {
           globDirectory: 'dist',
-          globPatterns: ['**/*.{js,css,woff,woff2,ico}', 'images/_thumbs/**/*.webp'],
+          globPatterns: ['**/*.{js,css,woff,woff2,ico}', 'images/thumbs/**/*.webp'],
           navigateFallback: null,
           maximumFileSizeToCacheInBytes: 1024 * 1024 * 3,
           runtimeCaching: [

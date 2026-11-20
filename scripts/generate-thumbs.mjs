@@ -4,7 +4,7 @@ import sharp from 'sharp';
 
 const ROOT = process.cwd();
 const PUBLIC_DIR = path.join(ROOT, 'public');
-const THUMBS_ROOT = path.join(PUBLIC_DIR, 'images', '_thumbs');
+const THUMBS_ROOT = path.join(PUBLIC_DIR, 'images', 'thumbs');
 const BLOG_DIR = path.join(ROOT, 'src', 'content', 'blog');
 const TOOLS_DATA = path.join(ROOT, 'src', 'data', 'tools.ts');
 
