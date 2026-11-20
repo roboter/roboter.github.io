@@ -288,7 +288,7 @@ import Base from '@layouts/Base.astro';
               <option value="100e-6">100 &mu;s/div</option>
               <option value="log">Log (Demo)</option>
             </select>
-            <button id="scope-trig-btn" onclick="toggleScopeTrigger()" title="Oscilloscope Trigger Mode: Toggle between Free-Run scrolling and Rising-Edge Trigger (locked at Division 1 so exact pulse widths and phase offsets stay stationary)." class="px-1.5 py-0.2 text-[10px] font-mono bg-lab-card hover:bg-slate-800 border border-lab-border rounded text-slate-300">Free</button>
+            <button id="scope-trig-btn" onclick="toggleScopeTrigger()" title="Oscilloscope Trigger Mode: Free-Run scrolling (default) vs Rising-Edge Trigger locked at Division 1. Tip: switch to Trig while tuning to measure period, pulse width and phase precisely — in Free mode the waveform keeps scrolling." class="px-1.5 py-0.2 text-[10px] font-mono bg-lab-card hover:bg-slate-800 border border-lab-border rounded text-slate-300">Free</button>
             <button id="scope-pause-btn" onclick="toggleScopePause()" title="Pause / Resume Scope: Freeze the live oscilloscope waveform to inspect edges, phase relationships, and cycle counts." class="px-2 py-0.2 text-[10px] font-mono bg-lab-card hover:bg-slate-800 border border-lab-border rounded text-slate-300">Pause</button>
           </div>
         </div>
@@ -547,7 +547,7 @@ import Base from '@layouts/Base.astro';
               <code class="font-mono">6mA (10)</code> = capacitive/coax loads;
               <code class="font-mono">8mA (11)</code> = max swing (~10 dBm into 50 &Omega;) &amp; fastest edges. Visible directly as vertical wave height on the scope!
             </li>
-            <li><strong class="text-white">R-Div (<code class="font-mono text-amber-300">Reg 44/52/60[6:4]</code>, <code class="font-mono">Rx_DIV[2:0]</code>):</strong> Post-MultiSynth power-of-2 divider (<code class="font-mono">Auto</code>, <code class="font-mono">/1</code> to <code class="font-mono">/128</code>). Required below <code class="font-mono">500 kHz</code> because MultiSynth max divider is <code class="font-mono">1800</code> (fractional) / <code class="font-mono">2048</code> (integer). Leave on <code class="font-mono">Auto</code> unless testing hardware limits—forcing too high an R-Div at MHz hits the 900 MHz VCO cap, while forcing <code class="font-mono">/1</code> at 8 kHz clamps at <code class="font-mono">MS=÷1800</code>.</li>
+            <li><strong class="text-white">R-Div (<code class="font-mono text-amber-300">Reg 44/52/60[6:4]</code>, <code class="font-mono">Rx_DIV[2:0]</code>):</strong> Post-MultiSynth power-of-2 divider (<code class="font-mono">Auto</code>, <code class="font-mono">/1</code> to <code class="font-mono">/128</code>). Required below <code class="font-mono">500 kHz</code> because MultiSynth max divider is <code class="font-mono">1800</code> (fractional) / <code class="font-mono">2048</code> (integer)—so in <code class="font-mono">Integer</code> mode <code class="font-mono">Auto</code> keeps <code class="font-mono">/1</code> down to <code class="font-mono">≈293 kHz</code> (<code class="font-mono">600 MHz ÷ 2048</code>). Leave on <code class="font-mono">Auto</code> unless testing hardware limits—forcing too high an R-Div at MHz hits the 900 MHz VCO cap, while forcing <code class="font-mono">/1</code> at 8 kHz clamps at <code class="font-mono">MS=÷1800</code>.</li>
           </ul>
         </article>
 
@@ -631,161 +631,6 @@ import Base from '@layouts/Base.astro';
                 <tbody id="help-register-map-body" class="divide-y divide-lab-border/40"></tbody>
               </table>
             </div>
-          </div>
-        </article>
-
-      </div>
-    </section>
-
-    <!-- COMPLETE CONTROLS & SETTINGS HELP TUTORIAL -->
-    <section id="workbench-help-tutorial" class="bg-lab-panel border border-lab-border rounded-lg p-3 space-y-3">
-      <div class="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-lab-border/80">
-        <div class="flex items-center gap-2">
-          <span class="w-5 h-5 rounded bg-cyan-500/20 border border-cyan-500/40 text-cyan-300 font-mono font-bold text-xs flex items-center justify-center">?</span>
-          <div>
-            <h2 class="text-xs font-bold uppercase tracking-wider text-white">Si5351A Workbench — Complete Controls &amp; Settings Help Tutorial</h2>
-            <p class="text-[11px] text-slate-400">Plain-English guide to every switch, slider, option, register bitfield, and real-world use case.</p>
-          </div>
-        </div>
-        <div class="flex flex-wrap items-center gap-1" id="help-cat-pills">
-          <button onclick="filterHelpTutorial('all')" data-help-cat="all" class="help-pill px-2 py-0.5 text-[10px] font-mono rounded bg-cyan-600 text-white border border-cyan-500 transition">All Controls</button>
-          <button onclick="filterHelpTutorial('dis_inv')" data-help-cat="dis_inv" class="help-pill px-2 py-0.5 text-[10px] font-mono rounded bg-lab-card text-slate-300 hover:text-white border border-lab-border transition">Dis R24 &amp; Invert</button>
-          <button onclick="filterHelpTutorial('modes')" data-help-cat="modes" class="help-pill px-2 py-0.5 text-[10px] font-mono rounded bg-lab-card text-slate-300 hover:text-white border border-lab-border transition">Modes &amp; Tuning</button>
-          <button onclick="filterHelpTutorial('sliders')" data-help-cat="sliders" class="help-pill px-2 py-0.5 text-[10px] font-mono rounded bg-lab-card text-slate-300 hover:text-white border border-lab-border transition">Phase / Drive / R-Div</button>
-          <button onclick="filterHelpTutorial('global')" data-help-cat="global" class="help-pill px-2 py-0.5 text-[10px] font-mono rounded bg-lab-card text-slate-300 hover:text-white border border-lab-border transition">XTAL, Calib &amp; PLLs</button>
-          <button onclick="filterHelpTutorial('scope')" data-help-cat="scope" class="help-pill px-2 py-0.5 text-[10px] font-mono rounded bg-lab-card text-slate-300 hover:text-white border border-lab-border transition">Scope &amp; Tabs</button>
-        </div>
-      </div>
-
-      <div id="help-tutorial-grid" class="grid grid-cols-1 lg:grid-cols-2 gap-2.5 text-[11.5px] leading-relaxed">
-
-        <!-- CARD 1: Disable State (Dis R24) & Polarity Invert (R16/17/18[4]) -->
-        <article data-help-group="dis_inv" class="lg:col-span-2 bg-lab-card border border-cyan-500/35 rounded-lg p-3 space-y-2.5">
-          <div class="flex flex-wrap items-center justify-between gap-2">
-            <h3 class="text-xs font-bold text-cyan-300">1. Disable State (<code class="font-mono text-amber-300">Dis R24[1:0] / [3:2] / [5:4]</code>) &amp; Polarity Invert (<code class="font-mono text-amber-300">R16/17/18[4]</code>)</h3>
-            <span class="text-[10px] font-mono text-slate-400">Reg 24 (0x18) · Reg 3 (OEB) · Reg 16–18</span>
-          </div>
-          <p class="text-slate-300">
-            <strong>Disable State (<code class="font-mono text-cyan-300">Dis</code>)</strong> controls what electrical state each clock pin (<code class="font-mono">CLK0=R24[1:0]</code>, <code class="font-mono">CLK1=R24[3:2]</code>, <code class="font-mono">CLK2=R24[5:4]</code>) holds whenever the output is disabled via <code class="font-mono">Reg 3</code> (Output Enable Mask <code class="font-mono">OEB</code>) or the hardware <code class="font-mono">OEB</code> pin. Try switching CH2 (or CH0) to <strong>Off / Disabled</strong> and changing <code class="font-mono">Dis</code> to watch its dashed line move on the oscilloscope:
-          </p>
-          <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-2">
-            <div class="bg-lab-bg border border-lab-border rounded p-2 space-y-1">
-              <div class="flex items-center justify-between font-mono text-[11px]">
-                <span class="font-bold text-white">Low (0V)</span>
-                <span class="text-cyan-400">00b</span>
-              </div>
-              <p class="text-[11px] text-slate-300">Actively pulls the pin to <strong>GND (0V)</strong> when disabled. Best general-purpose default for digital clock inputs and RF mixers so the trace never floats or picks up stray noise.</p>
-            </div>
-            <div class="bg-lab-bg border border-lab-border rounded p-2 space-y-1">
-              <div class="flex items-center justify-between font-mono text-[11px]">
-                <span class="font-bold text-white">High (3.3V)</span>
-                <span class="text-cyan-400">01b</span>
-              </div>
-              <p class="text-[11px] text-slate-300">Actively drives the pin to <strong>VDD (3.3V)</strong> when disabled. Use for active-low logic, pull-up-style resting states, or downstream gates that expect a logic-1 idle level.</p>
-            </div>
-            <div class="bg-lab-bg border border-lab-border rounded p-2 space-y-1">
-              <div class="flex items-center justify-between font-mono text-[11px]">
-                <span class="font-bold text-white">High-Z</span>
-                <span class="text-cyan-400">10b</span>
-              </div>
-              <p class="text-[11px] text-slate-300"><strong>Tri-states (disconnects)</strong> the output buffer so the pin floats at high impedance. Use when sharing a clock bus with another oscillator, reducing load capacitance, or avoiding DC current into 50 &Omega; loads.</p>
-            </div>
-            <div class="bg-lab-bg border border-amber-500/35 rounded p-2 space-y-1">
-              <div class="flex items-center justify-between font-mono text-[11px]">
-                <span class="font-bold text-amber-300">Never (PDN=1)</span>
-                <span class="text-amber-400">11b</span>
-              </div>
-              <p class="text-[11px] text-slate-300">Tells hardware to <strong>ignore <code class="font-mono">Reg 3</code> (OEB)</strong> so the output stays permanently enabled during OEB blanking (e.g., an MCU main clock). <em>Note: Setting Mode = Off in this tool still sets <code class="font-mono">CLKx_PDN=1</code> (<code class="font-mono">Reg 16+i[7]</code>), which powers down the driver completely.</em></p>
-            </div>
-          </div>
-          <div class="bg-lab-bg/80 border border-lab-border rounded p-2 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-            <div>
-              <span class="font-bold text-rose-300 font-mono">Normal 0° / INV 180° (Reg 16/17/18 [bit 4], CLKx_INV):</span>
-              <span class="text-slate-300"> Hardware-inverts the output waveform by an exact <strong>180°</strong> inside the output buffer with zero PLL phase error. Essential for push-pull drivers, balanced RF mixers, and 180° differential clock pairs. Switch the scope to <strong>Trig</strong> to watch the rising edge flip immediately to a falling edge.</span>
-            </div>
-          </div>
-        </article>
-
-        <!-- CARD 2: Operating Modes -->
-        <article data-help-group="modes" class="bg-lab-card border border-lab-border rounded-lg p-3 space-y-2">
-          <div class="flex items-center justify-between">
-            <h3 class="text-xs font-bold text-cyan-300">2. Channel Operating Modes (All 8 Modes)</h3>
-            <span class="text-[10px] font-mono text-slate-400">Reg 3 · Reg 16–18 · Reg 165–167</span>
-          </div>
-          <ul class="space-y-1 text-[11px] text-slate-300">
-            <li><strong class="text-white">Off / Disabled:</strong> Sets <code class="font-mono text-amber-300">Reg 3</code> (<code class="font-mono">OEB=1</code>) and <code class="font-mono text-amber-300">Reg 16+i[7]=1</code> (<code class="font-mono">PDN</code>). Pin rests at the state chosen in <code class="font-mono">Dis R24</code>.</li>
-            <li><strong class="text-white">Fractional MultiSynth:</strong> Default mode. Uses fractional divider <code class="font-mono">a + b/c</code> (<code class="font-mono">8..1800</code>) to generate virtually any frequency to sub-Hz precision.</li>
-            <li><strong class="text-white">Integer Low-Jitter Mode:</strong> Locks an even-integer MultiSynth (<code class="font-mono text-amber-300">MSx_INT=1</code>, <code class="font-mono">Reg 16+i[6]</code>) for minimal spurs and lowest phase noise (best for VFOs/MCU clocks).</li>
-            <li><strong class="text-white">Quadrature I/Q 90° (CLK0+1):</strong> Couples CH0 &amp; CH1 on PLLA at equal frequency and writes <code class="font-mono text-amber-300">Reg 166</code> (<code class="font-mono">CLK1_PHOFF</code>) for an exact 90° SDR quadrature local oscillator.</li>
-            <li><strong class="text-white">Custom Phase Offset (0°–360°):</strong> Unlocks the <code class="font-mono">Phase</code> slider to delay the channel in <code class="font-mono">T_VCO / 4</code> steps via <code class="font-mono text-amber-300">Reg 165–167</code> (applied on <code class="font-mono">Reg 177</code> PLL soft-reset).</li>
-            <li><strong class="text-white">Differential Pair (180° Inv):</strong> Couples CH0 &amp; CH1 at equal frequency on PLLA and forces <code class="font-mono text-amber-300">Reg 17[4]</code> (<code class="font-mono">CLK1_INV=1</code>) for complementary differential clocks.</li>
-            <li><strong class="text-white">Spread Spectrum (PLLA EMI):</strong> Enables <code class="font-mono text-amber-300">Reg 149–161</code> (<code class="font-mono">SSC_EN=1</code>) on PLLA to dither frequency by <code class="font-mono">0.1%–2.5%</code> (Down-spread or Center-spread via <code class="font-mono">Reg 151[7]</code>) and cut EMI peaks.</li>
-            <li><strong class="text-white">Direct XTAL Bypass:</strong> Routes the crystal straight to the output buffer (<code class="font-mono text-amber-300">CLKx_SRC=00</code>), bypassing PLL &amp; MultiSynth. Requires <code class="font-mono">XO Fanout</code> (<code class="font-mono">Reg 187[6]=1</code>).</li>
-          </ul>
-        </article>
-
-        <!-- CARD 3: Frequency Tuning & PLL Select -->
-        <article data-help-group="modes" class="bg-lab-card border border-lab-border rounded-lg p-3 space-y-2">
-          <div class="flex items-center justify-between">
-            <h3 class="text-xs font-bold text-cyan-300">3. Frequency Tuning Controls &amp; PLL Select</h3>
-            <span class="text-[10px] font-mono text-slate-400">Reg 42–65 (MS0–2) · Reg 16–18[5]</span>
-          </div>
-          <ul class="space-y-1.5 text-[11px] text-slate-300">
-            <li><strong class="text-white">PLL Select (<code class="font-mono text-amber-300">PLLA / PLLB</code>, <code class="font-mono">Reg 16+i[5]</code>):</strong> Chooses which 600–900 MHz VCO drives MultiSynth <code class="font-mono">MSx</code>. Use separate PLLs for independent frequencies, or share one PLL when phase-locking two outputs.</li>
-            <li><strong class="text-white">Quick Presets (<code class="font-mono">8k</code> .. <code class="font-mono">145M</code>) &amp; Direct Hz Input:</strong> Jump straight to common RF/IF bands or type any exact frequency from <code class="font-mono">1,000 Hz</code> to <code class="font-mono">225,000,000 Hz</code>. Above <code class="font-mono">150 MHz</code>, the Si5351A automatically enters <code class="font-mono">DIVBY4</code> mode (<code class="font-mono">MS=÷4</code>).</li>
-            <li><strong class="text-white">Band Sweep (Log Slider) &amp; Step (<code class="font-mono">10</code> .. <code class="font-mono">1M</code>):</strong> Smoothly sweeps <code class="font-mono">8 kHz – 160 MHz</code> logarithmically; Step buttons set the increment used by the <code class="font-mono">-</code> / <code class="font-mono">+</code> nudge buttons.</li>
-            <li><strong class="text-white">Fine Trim (<code class="font-mono">&plusmn;50 kHz</code>, 10 Hz step):</strong> Works like a radio VFO clarifier/RIT, adding an offset to <code class="font-mono">baseHz</code>. At <code class="font-mono">14.2 MHz</code>, <code class="font-mono">&plusmn;50 kHz</code> is a fine <code class="font-mono">&plusmn;0.35%</code> shift; at <code class="font-mono">100 kHz</code>, it sweeps a full <code class="font-mono">3&times;</code> (<code class="font-mono">50–150 kHz</code>) across the scope.</li>
-            <li><strong class="text-white">Output Readout Box:</strong> Shows the <em>actual</em> hardware frequency after rational approximation, exact error in <code class="font-mono">Hz / ppb</code>, divider parameters (<code class="font-mono">MSx</code> &amp; <code class="font-mono">R</code>), live register hex bytes, and hardware limit warnings.</li>
-          </ul>
-        </article>
-
-        <!-- CARD 4: Phase, Drive & R-Div -->
-        <article data-help-group="sliders" class="bg-lab-card border border-lab-border rounded-lg p-3 space-y-2">
-          <div class="flex items-center justify-between">
-            <h3 class="text-xs font-bold text-amber-300">4. Phase, Drive Strength &amp; R-Div Sliders</h3>
-            <span class="text-[10px] font-mono text-slate-400">Reg 165–167 · Reg 16–18[1:0] · Reg 44/52/60[6:4]</span>
-          </div>
-          <ul class="space-y-1.5 text-[11px] text-slate-300">
-            <li><strong class="text-white">Phase (<code class="font-mono text-amber-300">Reg 165/166/167</code>, <code class="font-mono">CLKx_PHOFF[6:0]</code>):</strong> Sets initial phase delay in <code class="font-mono">T_VCO / 4</code> increments (<code class="font-mono">0..127</code>). Because the register is 7-bit (max 127), very low frequencies with huge dividers clamp at 127 steps. Always requires a PLL Soft Reset (<code class="font-mono">Reg 177</code>) to latch.</li>
-            <li><strong class="text-white">Drive (<code class="font-mono text-amber-300">Reg 16/17/18[1:0]</code>, <code class="font-mono">CLKx_IDRV</code>):</strong> Output buffer current:
-              <code class="font-mono">2mA (00)</code> = lowest power &amp; softest harmonics;
-              <code class="font-mono">4mA (01)</code> = standard PCB logic;
-              <code class="font-mono">6mA (10)</code> = capacitive/coax loads;
-              <code class="font-mono">8mA (11)</code> = max swing (~10 dBm into 50 &Omega;) &amp; fastest edges. Visible directly as vertical wave height on the scope!
-            </li>
-            <li><strong class="text-white">R-Div (<code class="font-mono text-amber-300">Reg 44/52/60[6:4]</code>, <code class="font-mono">Rx_DIV[2:0]</code>):</strong> Post-MultiSynth power-of-2 divider (<code class="font-mono">Auto</code>, <code class="font-mono">/1</code> to <code class="font-mono">/128</code>). Required below <code class="font-mono">500 kHz</code> because MultiSynth max divider is <code class="font-mono">1800</code> (fractional) / <code class="font-mono">2048</code> (integer). Leave on <code class="font-mono">Auto</code> unless testing hardware limits—forcing too high an R-Div at MHz hits the 900 MHz VCO cap, while forcing <code class="font-mono">/1</code> at 8 kHz clamps at <code class="font-mono">MS=÷1800</code>.</li>
-          </ul>
-        </article>
-
-        <!-- CARD 5: Global XTAL, Calib Trim, Fanout & PLL Cards -->
-        <article data-help-group="global" class="bg-lab-card border border-lab-border rounded-lg p-3 space-y-2">
-          <div class="flex items-center justify-between">
-            <h3 class="text-xs font-bold text-emerald-300">5. Global XTAL, Calib Trim, Fanout &amp; PLL Telemetry</h3>
-            <span class="text-[10px] font-mono text-slate-400">Reg 183 · Reg 187 · Reg 26–41</span>
-          </div>
-          <ul class="space-y-1.5 text-[11px] text-slate-300">
-            <li><strong class="text-white">XTAL &amp; Load Cap (<code class="font-mono text-amber-300">Reg 183 / 0xB7</code>):</strong> Sets your board's crystal (<code class="font-mono">25 MHz</code> on CJMCU-5351, <code class="font-mono">27 MHz</code>, or custom <code class="font-mono">10–40 MHz</code>) and connects internal <code class="font-mono">6pF / 8pF / 10pF</code> load capacitors (<code class="font-mono">XTAL_CL[7:6]</code>) across XA/XB with no external caps needed.</li>
-            <li><strong class="text-white">Calib Trim (<code class="font-mono">&plusmn;500 ppm</code>):</strong> Software crystal calibration (<code class="font-mono">f_eff = f_xtal &times; (1 + ppm/10⁶)</code>). Measure a known output (e.g. 10 MHz) on a counter and dial in the ppm offset so all 3 channels synthesize true frequency.</li>
-            <li><strong class="text-white">Fanout (<code class="font-mono text-amber-300">Reg 187 / 0xBB</code>):</strong> <code class="font-mono">XO [b6]</code> routes XTAL directly to outputs (needed for Bypass); <code class="font-mono">MS0/4 [b4]</code> allows sharing MultiSynth 0/4 across clocks; <code class="font-mono">CLKIN [b7]</code> is Si5351C-only (keep OFF on Si5351A).</li>
-            <li><strong class="text-white">PLLA &amp; PLLB Telemetry Cards (<code class="font-mono">Reg 26–41</code>):</strong> Live VCO frequency (datasheet spec <code class="font-mono">600–900 MHz</code>, shown as <code class="font-mono text-emerald-400">IN SPEC</code>), multiplier ratio (<code class="font-mono">Int</code> vs fractional), active channel users, and <code class="font-mono text-rose-300">SS</code> Spread Spectrum indicator.</li>
-          </ul>
-        </article>
-
-        <!-- CARD 6: Oscilloscope, Presets & Workspace Tabs -->
-        <article data-help-group="scope" class="lg:col-span-2 bg-lab-card border border-lab-border rounded-lg p-3 space-y-2">
-          <div class="flex items-center justify-between">
-            <h3 class="text-xs font-bold text-purple-300">6. Live Oscilloscope, System Presets &amp; Workspace Tabs</h3>
-            <span class="text-[10px] font-mono text-slate-400">True Timebase · Signal Routing · C Export</span>
-          </div>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-2.5 text-[11px] text-slate-300">
-            <ul class="space-y-1">
-              <li><strong class="text-white">Time/Div (<code class="font-mono">Auto (Real)</code>, <code class="font-mono">1 ns/div</code>–<code class="font-mono">100 µs/div</code>, <code class="font-mono">Log</code>):</strong> Real shared 10-division horizontal timebase showing exact frequency ratios. Fast channels (e.g. <code class="font-mono">160 MHz</code> beside <code class="font-mono">38 kHz</code>) render as a peak-detect <strong>HF BAND</strong> until you zoom Time/Div down to <code class="font-mono">2 ns/div</code>.</li>
-              <li><strong class="text-white">Free / Trig &amp; Pause:</strong> <code class="font-mono">Free</code> runs continuously like a live scope; <code class="font-mono">Trig</code> locks a rising edge at Division 1 (<code class="font-mono text-emerald-400">T</code>) so you can inspect exact pulse widths, <code class="font-mono">90°</code> I/Q shifts, and <code class="font-mono">INV 180°</code> flips. <code class="font-mono">Pause</code> freezes the display.</li>
-            </ul>
-            <ul class="space-y-1">
-              <li><strong class="text-white">Top Presets (<code class="font-mono">HF VFO+BFO</code>, <code class="font-mono">I/Q 90°</code>, <code class="font-mono">2m VHF+IF</code>, <code class="font-mono">Diff 180°</code>, <code class="font-mono">SpreadSpec</code>):</strong> One-click real-world RF &amp; digital clock configurations to explore how PLLs, MultiSynth dividers, phase offsets, and inversion work together.</li>
-              <li><strong class="text-white">5 Bottom Tabs:</strong> <strong>Signal Routing</strong> (live block diagram), <strong>Register Map</strong> (hex/binary <code class="font-mono">Reg 0–187</code>), <strong>C Code Export</strong> (ready-to-compile <code class="font-mono">CH32V003 / Arduino / STM32 / Raw</code> headers), <strong>Datasheet &amp; Regs</strong> (AN619 formulas + live values), and <strong>Embeetle + WCH</strong> (wiring &amp; flashing guide).</li>
-            </ul>
           </div>
         </article>
 
@@ -1460,8 +1305,9 @@ import Base from '@layouts/Base.astro';
         return { active: false, vcoHz: xtalHz * mult, a: mult, b: 0, c: 1, isInt: true, inSpec: true };
       }
 
-      // If single channel or coupled channels share an exact frequency, pick integer PLL multiplier when possible
-      const primary = channelsForPll[0];
+      // DIVBY4 channels (> 150 MHz) have a fixed MS=÷4, so the VCO MUST be chosen for them;
+      // other channels on the same PLL can then adapt with a fractional MultiSynth.
+      const primary = channelsForPll.find(c => c.msOutHz > 150000000) || channelsForPll[0];
       const fMs = primary.msOutHz;
 
       // High-speed > 150 MHz uses DIVBY4 (MS divider = 4) -> VCO = 4 * fMs (clamped to 900 MHz hardware VCO max)
@@ -1561,8 +1407,12 @@ import Base from '@layouts/Base.astro';
         if (ch.rDivOverride > 0) {
           rDivCode = ch.rDivOverride - 1;
         } else {
-          // Si5351A MultiSynth minimum output frequency is ~500 kHz; scale down via R-divider below 500 kHz
-          while ((targetHz * (1 << rDivCode)) < 500000 && rDivCode < 7) {
+          // Lowest MS output reachable with R=/1:
+          //  - Fractional: 900 MHz / 1800 = 500 kHz
+          //  - Integer:    600 MHz / 2048 ≈ 293 kHz (even integer MS up to 2048)
+          // Only scale down via R-divider when the target is below that floor.
+          const msFloorHz = ch.mode === 'integer' ? Math.ceil(600000000 / 2048) : 500000;
+          while ((targetHz * (1 << rDivCode)) < msFloorHz && rDivCode < 7) {
             rDivCode++;
           }
         }
@@ -1755,6 +1605,20 @@ import Base from '@layouts/Base.astro';
         }
         if (!pllObj.inSpec) {
           warnings.push(`PLL${ch.pll} VCO ${(pllObj.vcoHz / 1e6).toFixed(1)} MHz outside 600–900 MHz spec`);
+        }
+        if (divBy4) {
+          // DIVBY4 hard-locks MS=÷4 → f_out = VCO / 4. Another channel on the same PLL with a
+          // different MS frequency can't share that VCO unless it can adapt (≤150 MHz, fractional).
+          const conflict = state.channels.some((other, j) => {
+            if (j === idx || other.pll !== ch.pll) return false;
+            const op = preChannels[j];
+            return op && op.active && !op.bypass && op.msOutHz > 150000000 && Math.abs(op.msOutHz - pre.msOutHz) > 1;
+          });
+          if (conflict) {
+            warnings.push(`DIVBY4 conflict: two different >150 MHz outputs on PLL${ch.pll} — move one to PLL${ch.pll === 'A' ? 'B' : 'A'}`);
+          } else if (Math.abs(actualHz - pre.targetHz) > 1 && (ch.pll === 'A' ? pllAChannels : pllBChannels).length > 1) {
+            warnings.push(`DIVBY4 (÷4) locked to shared PLL${ch.pll} VCO — use a dedicated PLL for exact ${formatShortFreq(pre.targetHz)}`);
+          }
         }
 
         state.computed.ch[idx] = {
@@ -2689,38 +2553,67 @@ import Base from '@layouts/Base.astro';
  * CLK0: ${state.computed.ch[0]?.active ? formatFreqHz(state.computed.ch[0].actualHz) : 'OFF'} | CLK1: ${state.computed.ch[1]?.active ? formatFreqHz(state.computed.ch[1].actualHz) : 'OFF'} | CLK2: ${state.computed.ch[2]?.active ? formatFreqHz(state.computed.ch[2].actualHz) : 'OFF'} */`;
 
       let fullCode = '';
+      // AN619 §3: after Reg 177 (PLL soft reset) give the PLLs ~1–2 ms to lock before
+      // Reg 3 (OEB) enables the outputs, so no unlocked/glitchy clock reaches the pins.
       if (target === 'raw_array') {
-        fullCode = `${summaryHeader}\n#include <stdint.h>\n#define SI5351_I2C_ADDR 0x60\n\nstatic const uint8_t si5351_reg_config[][2] = {\n${arrayEntries}\n};\n`;
+        fullCode = `${summaryHeader}\n#include <stdint.h>\n#define SI5351_I2C_ADDR 0x60\n\n/* NOTE: wait ~2 ms after writing Reg 177 (PLL soft reset) before writing Reg 3 (enable outputs). */\nstatic const uint8_t si5351_reg_config[][2] = {\n${arrayEntries}\n};\n`;
       } else if (target === 'ch32v003') {
-        fullCode = `${summaryHeader}\n#ifndef SI5351_CONFIG_H\n#define SI5351_CONFIG_H\n#include <stdint.h>\n#define SI5351_I2C_ADDR 0x60\n\nstatic const uint8_t si5351_init_regs[][2] = {\n${arrayEntries}\n};\n\nextern void si5351_i2c_write_reg(uint8_t reg, uint8_t val);\nstatic inline void si5351_apply_preset(void) {\n    for (uint16_t i = 0; i < sizeof(si5351_init_regs)/2; i++)\n        si5351_i2c_write_reg(si5351_init_regs[i][0], si5351_init_regs[i][1]);\n}\n#endif\n`;
+        fullCode = `${summaryHeader}\n#ifndef SI5351_CONFIG_H\n#define SI5351_CONFIG_H\n#include <stdint.h>\n#define SI5351_I2C_ADDR 0x60\n\n/* PLL lock wait after Reg 177 soft reset (~2 ms @ 48 MHz).\n * Override before including, e.g.: #define SI5351_PLL_LOCK_DELAY() Delay_Ms(2) */\n#ifndef SI5351_PLL_LOCK_DELAY\n#define SI5351_PLL_LOCK_DELAY() do { for (volatile uint32_t _d = 0; _d < 24000UL; _d++) { } } while (0)\n#endif\n\nstatic const uint8_t si5351_init_regs[][2] = {\n${arrayEntries}\n};\n\nextern void si5351_i2c_write_reg(uint8_t reg, uint8_t val);\nstatic inline void si5351_apply_preset(void) {\n    for (uint16_t i = 0; i < sizeof(si5351_init_regs)/2; i++) {\n        si5351_i2c_write_reg(si5351_init_regs[i][0], si5351_init_regs[i][1]);\n        if (si5351_init_regs[i][0] == 177) SI5351_PLL_LOCK_DELAY(); /* let PLLs lock before OEB */\n    }\n}\n#endif\n`;
       } else if (target === 'arduino') {
-        fullCode = `${summaryHeader}\n#include <Wire.h>\n#define SI5351_I2C_ADDR 0x60\n\nstatic const uint8_t si5351_init_regs[][2] = {\n${arrayEntries}\n};\n\nvoid si5351_apply_preset() {\n    for (uint16_t i = 0; i < sizeof(si5351_init_regs)/2; i++) {\n        Wire.beginTransmission(SI5351_I2C_ADDR);\n        Wire.write(si5351_init_regs[i][0]);\n        Wire.write(si5351_init_regs[i][1]);\n        Wire.endTransmission();\n    }\n}\n`;
+        fullCode = `${summaryHeader}\n#include <Wire.h>\n#define SI5351_I2C_ADDR 0x60\n\nstatic const uint8_t si5351_init_regs[][2] = {\n${arrayEntries}\n};\n\nvoid si5351_apply_preset() {\n    for (uint16_t i = 0; i < sizeof(si5351_init_regs)/2; i++) {\n        Wire.beginTransmission(SI5351_I2C_ADDR);\n        Wire.write(si5351_init_regs[i][0]);\n        Wire.write(si5351_init_regs[i][1]);\n        Wire.endTransmission();\n        if (si5351_init_regs[i][0] == 177) delay(2); // let PLLs lock before OEB (Reg 3)\n    }\n}\n`;
       } else if (target === 'stm32') {
-        fullCode = `${summaryHeader}\n#include "main.h"\n#define SI5351_I2C_ADDR_8BIT (0x60 << 1)\n\nstatic const uint8_t si5351_init_regs[][2] = {\n${arrayEntries}\n};\n\nHAL_StatusTypeDef si5351_apply_preset(I2C_HandleTypeDef *hi2c) {\n    for (uint16_t i = 0; i < sizeof(si5351_init_regs)/2; i++) {\n        uint8_t val = si5351_init_regs[i][1];\n        if (HAL_I2C_Mem_Write(hi2c, SI5351_I2C_ADDR_8BIT, si5351_init_regs[i][0], 1, &val, 1, 10) != HAL_OK) return HAL_ERROR;\n    }\n    return HAL_OK;\n}\n`;
+        fullCode = `${summaryHeader}\n#include "main.h"\n#define SI5351_I2C_ADDR_8BIT (0x60 << 1)\n\nstatic const uint8_t si5351_init_regs[][2] = {\n${arrayEntries}\n};\n\nHAL_StatusTypeDef si5351_apply_preset(I2C_HandleTypeDef *hi2c) {\n    for (uint16_t i = 0; i < sizeof(si5351_init_regs)/2; i++) {\n        uint8_t val = si5351_init_regs[i][1];\n        if (HAL_I2C_Mem_Write(hi2c, SI5351_I2C_ADDR_8BIT, si5351_init_regs[i][0], 1, &val, 1, 10) != HAL_OK) return HAL_ERROR;\n        if (si5351_init_regs[i][0] == 177) HAL_Delay(2); /* let PLLs lock before OEB (Reg 3) */\n    }\n    return HAL_OK;\n}\n`;
       }
 
       outEl.textContent = fullCode;
     }
 
-    function copyCCode() {
-      const codeText = document.getElementById('c-code-output').textContent;
+    function fallbackCopyText(text) {
       const textarea = document.createElement('textarea');
-      textarea.value = codeText;
+      textarea.value = text;
+      textarea.readOnly = true;
       textarea.style.position = 'fixed';
       textarea.style.opacity = '0';
       document.body.appendChild(textarea);
       textarea.select();
+      let ok = false;
       try {
-        document.execCommand('copy');
-        showToast('Copied C header to clipboard!', 'success');
+        ok = document.execCommand('copy');
       } catch (err) {
-        showToast('Copy failed — select manually.', 'warn');
+        ok = false;
       }
       document.body.removeChild(textarea);
+      return ok;
+    }
+
+    async function copyCCode() {
+      const codeText = document.getElementById('c-code-output')?.textContent || '';
+      if (!codeText) {
+        showToast('Nothing to copy yet.', 'warn');
+        return;
+      }
+      try {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(codeText);
+          showToast('Copied C header to clipboard!', 'success');
+          return;
+        }
+      } catch (err) {
+        /* fall through to legacy execCommand */
+      }
+      if (fallbackCopyText(codeText)) {
+        showToast('Copied C header to clipboard!', 'success');
+      } else {
+        showToast('Copy failed — select manually.', 'warn');
+      }
     }
 
     function downloadCCode() {
-      const codeText = document.getElementById('c-code-output').textContent;
+      const codeText = document.getElementById('c-code-output')?.textContent || '';
+      if (!codeText) {
+        showToast('Nothing to download yet.', 'warn');
+        return;
+      }
       const blob = new Blob([codeText], { type: 'text/plain;charset=utf-8' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -2788,34 +2681,6 @@ import Base from '@layouts/Base.astro';
           `;
         }
         mapBody.innerHTML = html;
-      }
-    }
-
-    function filterHelpTutorial(cat) {
-      const grid = document.getElementById('help-tutorial-grid');
-      if (grid && grid.children) {
-        Array.from(grid.children).forEach(card => {
-          const group = card.getAttribute && card.getAttribute('data-help-group');
-          const show = cat === 'all' || group === cat;
-          if (card.classList) card.classList.toggle('hidden', !show);
-        });
-      }
-      const pillsWrap = document.getElementById('help-cat-pills');
-      if (pillsWrap && pillsWrap.children) {
-        Array.from(pillsWrap.children).forEach(btn => {
-          const isActive = (btn.getAttribute && btn.getAttribute('data-help-cat')) === cat;
-          btn.className = isActive
-            ? 'help-pill px-2 py-0.5 text-[10px] font-mono rounded bg-cyan-600 text-white border border-cyan-500 transition'
-            : 'help-pill px-2 py-0.5 text-[10px] font-mono rounded bg-lab-card text-slate-300 hover:text-white border border-lab-border transition';
-        });
-      }
-    }
-
-    function openHelpTutorial(cat = 'all') {
-      filterHelpTutorial(cat);
-      const sec = document.getElementById('workbench-help-tutorial');
-      if (sec && typeof sec.scrollIntoView === 'function') {
-        sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     }
 
