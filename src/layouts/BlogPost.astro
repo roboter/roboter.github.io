@@ -92,7 +92,8 @@ const isoDate = pubDate ? new Date(pubDate).toISOString() : undefined;
             width={960}
             height={480}
             decoding="async"
-            loading="lazy"
+            loading="eager"
+            fetchpriority="high"
           />
         </figure>
       )}

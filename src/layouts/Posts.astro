@@ -1,8 +1,8 @@
 ---
-import { Image } from 'astro:assets';
 import FormattedDate from '@components/FormattedDate.astro';
 import config from '@config/config.json';
 import { slugify } from '@utils/slug';
+import { getThumbSrc } from '@utils/thumb';
 
 const { posts } = Astro.props;
 
@@ -24,7 +24,7 @@ type PostType = {
 ---
 
 <div class="mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 lg:mx-0 lg:max-w-none lg:grid-cols-3">
-  {posts?.slice(0, config.site.pageSize).map((post: PostType) => (
+  {posts?.slice(0, config.site.pageSize).map((post: PostType, index: number) => (
     <article class="group flex w-full flex-col overflow-hidden rounded-2xl border border-zinc-200/80 dark:border-zinc-800/80 bg-white dark:bg-zinc-900/80 shadow-sm hover:shadow-xl hover:border-emerald-500/40 dark:hover:border-emerald-500/40 transition-all duration-300 hover:-translate-y-0.5">
       {post.data.heroImage && (
         <a
@@ -32,14 +32,15 @@ type PostType = {
           class="relative aspect-video w-full block overflow-hidden bg-zinc-100 dark:bg-zinc-800 cursor-pointer"
           aria-label={post.data.title}
         >
-          <Image
+          <img
             class="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
-            src={post.data.heroImage}
+            src={getThumbSrc(post.data.heroImage)}
             alt={post.data.title}
-            width={960}
-            height={540}
+            width={480}
+            height={270}
             decoding="async"
-            loading="lazy"
+            loading={index < 3 ? 'eager' : 'lazy'}
+            fetchpriority={index === 0 ? 'high' : 'auto'}
           />
         </a>
       )}

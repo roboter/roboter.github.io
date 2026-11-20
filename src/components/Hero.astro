@@ -1,5 +1,4 @@
 ---
-import { Image } from 'astro:assets';
 import config from '@config/config.json';
 import social from '@config/social';
 
@@ -61,14 +60,15 @@ const socialItems = social.networks;
 
         <div class="shrink-0 self-start sm:self-center">
           <figure>
-            <Image
+            <img
               class="rounded-2xl w-20 h-20 sm:w-28 sm:h-28 lg:w-32 lg:h-32 object-cover shadow-md ring-1 ring-zinc-900/10 dark:ring-white/15"
-              width={512}
-              height={512}
-              src={config.author.avatar}
+              width={128}
+              height={128}
+              src={`${config.author.avatar}${config.author.avatar.includes('?') ? '&' : '?'}s=256`}
               alt={config.author.name}
               decoding="async"
               loading="eager"
+              fetchpriority="high"
             />
           </figure>
         </div>

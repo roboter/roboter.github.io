@@ -40,9 +40,22 @@ export default defineConfig({
         manifest,
         workbox: {
           globDirectory: 'dist',
-          globPatterns: ['**/*.{js,css,svg,png,jpg,jpeg,gif,webp,woff,woff2,ttf,eot,ico}'],
+          globPatterns: ['**/*.{js,css,woff,woff2,ico}', 'images/_thumbs/**/*.webp'],
           navigateFallback: null,
-          maximumFileSizeToCacheInBytes: 1024 * 1024 * 5,
+          maximumFileSizeToCacheInBytes: 1024 * 1024 * 3,
+          runtimeCaching: [
+            {
+              urlPattern: /\/images\/.*\.(?:png|jpg|jpeg|webp|svg|gif)$/i,
+              handler: 'CacheFirst',
+              options: {
+                cacheName: 'site-images-cache',
+                expiration: {
+                  maxEntries: 80,
+                  maxAgeSeconds: 60 * 60 * 24 * 30,
+                },
+              },
+            },
+          ],
         },
       }),
     ],
