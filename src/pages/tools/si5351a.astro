@@ -1,0 +1,3012 @@
+---
+import Base from '@layouts/Base.astro';
+---
+
+<Base
+  title="Si5351A Interactive Configurator & Register Calculator"
+  meta_title="Si5351A Interactive Configurator & Register Calculator"
+  description="Interactive workbench for the Silicon Labs Si5351A (CJMCU-5351) 3-channel I2C clock generator. Configure XTAL load capacitance, PPM calibration, fractional PLL A/B and MultiSynth dividers, phase offsets, and export ready-to-compile C register headers."
+  image="/images/tools/si5351a.svg"
+  hideHero={true}
+  hideVideos={true}
+  fullWidth={true}
+>
+  <style is:global>
+    #si5351a-workbench h1,
+    #si5351a-workbench h2,
+    #si5351a-workbench h3 {
+      color: #f8fafc !important;
+    }
+    #si5351a-workbench ::-webkit-scrollbar { width: 5px; height: 5px; }
+    #si5351a-workbench ::-webkit-scrollbar-track { background: #090d16; }
+    #si5351a-workbench ::-webkit-scrollbar-thumb { background: #23304a; border-radius: 3px; }
+    #si5351a-workbench ::-webkit-scrollbar-thumb:hover { background: #38bdf8; }
+    #si5351a-workbench input[type="number"]::-webkit-inner-spin-button,
+    #si5351a-workbench input[type="number"]::-webkit-outer-spin-button { opacity: 0.5; }
+    #si5351a-workbench input[type="range"].rf-slider {
+      -webkit-appearance: none;
+      appearance: none;
+      height: 4px;
+      border-radius: 999px;
+      background: #1e293b;
+      outline: none;
+      border: 1px solid #334155;
+      cursor: pointer;
+    }
+    #si5351a-workbench input[type="range"].rf-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--slider-accent, #06b6d4);
+      border: 1.5px solid #090d16;
+      box-shadow: 0 0 6px var(--slider-glow, rgba(6, 182, 212, 0.6));
+      cursor: pointer;
+      transition: transform 0.08s ease;
+    }
+    #si5351a-workbench input[type="range"].rf-slider::-webkit-slider-thumb:hover { transform: scale(1.18); }
+    #si5351a-workbench input[type="range"].rf-slider::-moz-range-thumb {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--slider-accent, #06b6d4);
+      border: 1.5px solid #090d16;
+      box-shadow: 0 0 6px var(--slider-glow, rgba(6, 182, 212, 0.6));
+      cursor: pointer;
+    }
+    #si5351a-workbench input[type="range"].rf-slider:disabled { opacity: 0.3; cursor: not-allowed; }
+    #si-tooltip {
+      position: fixed;
+      z-index: 9999;
+      pointer-events: none;
+      max-width: 360px;
+      min-width: 190px;
+      padding: 10px 13px;
+      border-radius: 10px;
+      background: rgba(9, 15, 28, 0.97);
+      border: 1px solid rgba(34, 211, 238, 0.45);
+      box-shadow: 0 14px 36px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(15, 23, 42, 0.8), 0 0 18px rgba(6, 182, 212, 0.16);
+      backdrop-filter: blur(10px);
+      color: #e2e8f0;
+      font-size: 12.5px;
+      line-height: 1.48;
+      opacity: 0;
+      transform: translateY(4px);
+      transition: opacity 0.12s ease, transform 0.12s ease;
+    }
+    #si-tooltip.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    #si-tooltip .si-tip-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #38bdf8;
+      margin-bottom: 4px;
+      letter-spacing: 0.01em;
+    }
+    #si-tooltip .si-tip-body {
+      color: #cbd5e1;
+      font-size: 12.5px;
+    }
+    #si-tooltip code.si-tip-code {
+      font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+      font-size: 11.5px;
+      color: #fcd34d;
+      background: rgba(251, 191, 36, 0.12);
+      border: 1px solid rgba(251, 191, 36, 0.25);
+      border-radius: 4px;
+      padding: 0 4px;
+      white-space: nowrap;
+    }
+  </style>
+
+  <div id="si5351a-workbench" class="bg-lab-bg text-slate-200 font-sans antialiased text-xs min-h-[calc(100vh-4rem)] selection:bg-cyan-500/30 selection:text-cyan-200">
+
+  <!-- Rich Floating Tooltip -->
+  <div id="si-tooltip" role="tooltip" aria-hidden="true"></div>
+
+  <!-- Toast Container -->
+  <div id="toast-container" class="fixed bottom-3 right-3 z-50 flex flex-col gap-1.5 pointer-events-none"></div>
+
+  <!-- Compact Top Header Bar -->
+  <header class="sticky top-0 z-30 bg-lab-panel/95 backdrop-blur border-b border-lab-border px-3 py-1.5">
+    <div class="max-w-[1680px] mx-auto flex flex-wrap items-center justify-between gap-2">
+      <div class="flex items-center gap-2">
+        <a href="/tools" class="px-2 py-0.5 text-[11px] font-mono rounded bg-lab-card hover:bg-slate-800 border border-lab-border text-slate-300 hover:text-cyan-300 transition shrink-0" title="Back to Tools">&larr; Tools</a>
+        <a href="/blog/20261120-embeetle-wch-ch32v003-si5351a-ssd1306-signal-generator" class="px-2 py-0.5 text-[11px] font-mono rounded bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/40 text-amber-300 transition shrink-0" title="Hardware Tutorial: Step-by-step Embeetle + WCH CH32V003 + Si5351A + SSD1306 OLED Signal Generator guide.">CH32V003 + Embeetle Tutorial &rarr;</a>
+        <button onclick="openHelpTutorial('all')" class="px-2 py-0.5 text-[11px] font-mono rounded bg-cyan-500/15 hover:bg-cyan-500/25 border border-cyan-500/40 text-cyan-300 transition shrink-0" title="Controls & Settings Help Tutorial: Jump to the complete plain-English guide explaining Dis R24 (Low/High/High-Z/Never), Invert, Drive, R-Div, Modes, PLLs, and Scope controls.">? Help Guide</button>
+        <div class="w-6 h-6 rounded bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center border border-cyan-400/40 shrink-0">
+          <svg class="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+          </svg>
+        </div>
+        <div class="flex items-center gap-1.5 flex-wrap">
+          <h1 class="text-sm font-bold tracking-tight text-white">Si5351A Workbench</h1>
+          <span class="px-1.5 py-0.2 text-[10px] font-mono font-semibold bg-cyan-500/15 text-cyan-400 border border-cyan-500/30 rounded" title="CJMCU-5351 Breakout: Common 3-output Si5351A module with 25 MHz crystal, onboard 3.3V LDO, and I2C level shifters.">CJMCU-5351</span>
+          <span class="hidden sm:inline-block px-1.5 py-0.2 text-[10px] font-mono bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 rounded" title="I2C Address 0x60: Standard 7-bit I2C slave address for Si5351A (0xC0 write / 0xC1 read in 8-bit form). Supports up to 400 kHz Fast Mode.">I²C 0x60</span>
+          <span class="hidden md:inline-block text-[10px] text-slate-400 font-mono" title="Frequency Range: Guaranteed 8 kHz to 160 MHz per Si5351A datasheet; up to 225 MHz overclocked using DIVBY4 (900 MHz VCO / 4).">8kHz–160MHz (225MHz OC)</span>
+        </div>
+      </div>
+
+      <!-- Compact System Presets -->
+      <div class="flex flex-wrap items-center gap-1">
+        <span class="text-[10px] font-mono text-slate-500 mr-0.5">PRESETS:</span>
+        <button onclick="applySystemPreset('vfo_bfo')" title="HF VFO + BFO Preset: Sets CH0 = 14.200 MHz (PLLA) as 20m VFO and CH1 = 10.700 MHz (PLLB) as BFO/IF carrier for superheterodyne receivers." class="px-2 py-0.5 text-[11px] font-medium rounded bg-lab-card hover:bg-slate-800 border border-lab-border text-cyan-300 transition">HF VFO+BFO</button>
+        <button onclick="applySystemPreset('iq_sdr')" title="Quadrature I/Q 90° Preset: Couples CH0 and CH1 on PLLA at 7.074 MHz and programs Reg 166 (CLK1_PHOFF) for an exact 90° quadrature SDR local oscillator." class="px-2 py-0.5 text-[11px] font-medium rounded bg-lab-card hover:bg-slate-800 border border-lab-border text-purple-300 transition">I/Q 90°</button>
+        <button onclick="applySystemPreset('vhf_beacon')" title="2m VHF + IF + Ref Preset: Sets CH0 = 145.000 MHz (PLLA), CH1 = 10.700 MHz IF (PLLB), and CH2 = 25.000 MHz Integer low-jitter reference (PLLB)." class="px-2 py-0.5 text-[11px] font-medium rounded bg-lab-card hover:bg-slate-800 border border-lab-border text-amber-300 transition">2m VHF+IF</button>
+        <button onclick="applySystemPreset('diff_clock')" title="Differential 180° Clock Preset: Couples CH0 and CH1 on PLLA at 27.000 MHz and sets Reg 17[4] (CLK1_INV=1) for a zero-jitter 180° inverted differential pair." class="px-2 py-0.5 text-[11px] font-medium rounded bg-lab-card hover:bg-slate-800 border border-lab-border text-emerald-300 transition">Diff 180°</button>
+        <button onclick="applySystemPreset('spread_emi')" title="Spread Spectrum EMI Preset: Enables PLLA Spread Spectrum in Reg 149–161 (SSC_EN=1, Center-spread ±1.5%) at 48.000 MHz to reduce peak clock harmonics." class="px-2 py-0.5 text-[11px] font-medium rounded bg-lab-card hover:bg-slate-800 border border-lab-border text-rose-300 transition">SpreadSpec</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-[1680px] mx-auto p-2.5 space-y-2.5">
+
+    <!-- COMPACT TOP RIBBON: Global Reference + PLL A/B Status -->
+    <div class="grid grid-cols-1 xl:grid-cols-12 gap-2.5">
+      
+      <!-- Global Crystal & Fanout Ribbon -->
+      <section class="xl:col-span-7 bg-lab-panel border border-lab-border rounded-lg p-2.5">
+        <div class="grid grid-cols-1 sm:grid-cols-12 gap-2 items-center">
+          
+          <!-- XTAL Frequency + Load Cap -->
+          <div class="sm:col-span-5 bg-lab-card border border-lab-border rounded p-2" title="Si5351A Datasheet §4.1 / AN619 Reg 183: Crystal oscillator reference (25 or 27 MHz nominal; 10–40 MHz range) and internal on-chip load capacitance (XTAL_CL[7:6]).">
+            <div class="flex items-center justify-between gap-1 mb-1">
+              <span class="text-[10px] font-semibold uppercase tracking-wider text-slate-400">XTAL &amp; Load Cap <span class="font-mono text-[9px] text-cyan-500/80">Reg 183</span></span>
+              <span id="effective-xtal-readout" class="text-[10px] font-mono text-emerald-400">25,000,000 Hz</span>
+            </div>
+            <div class="flex items-center gap-1">
+              <select id="xtal-select" onchange="onXtalSelectChange()" title="Nominal external crystal frequency (f_XTAL). Feeds PLLA/PLLB (Reg 15) and Direct Bypass (CLKx_SRC=00)." class="flex-1 bg-lab-bg border border-lab-border rounded px-1.5 py-1 text-[11px] font-mono text-white focus:outline-none focus:border-cyan-500">
+                <option value="25000000" selected>25.000 MHz</option>
+                <option value="27000000">27.000 MHz</option>
+                <option value="custom">Custom Hz...</option>
+              </select>
+              <select id="xtal-cl" onchange="onXtalClChange(this.value)" title="Reg 183 (0xB7) bits [7:6] XTAL_CL: Internal crystal load capacitance (01=6pF, 10=8pF, 11=10pF). Bits [5:0] fixed to 0x12 per AN619." class="w-16 bg-lab-bg border border-lab-border rounded px-1 py-1 text-[11px] font-mono text-cyan-300 focus:outline-none focus:border-cyan-500">
+                <option value="1">6pF</option>
+                <option value="2">8pF</option>
+                <option value="3" selected>10pF</option>
+              </select>
+            </div>
+            <div id="xtal-custom-wrap" class="mt-1 hidden flex items-center gap-1">
+              <input type="number" id="xtal-custom-hz" value="25000000" step="100" min="10000000" max="40000000" oninput="onXtalCustomInput(this.value)" class="w-full bg-lab-bg border border-lab-border rounded px-1.5 py-0.5 text-[11px] font-mono text-cyan-300">
+              <span class="text-[10px] font-mono text-slate-400">Hz</span>
+            </div>
+          </div>
+
+          <!-- PPM Calibration Slider -->
+          <div class="sm:col-span-4 bg-lab-card border border-lab-border rounded p-2" title="Software crystal frequency trim: f_XTAL_eff = f_XTAL * (1 + ppm / 1e6). Compensates crystal tolerance &amp; stray capacitance by adjusting PLLA/PLLB (Reg 26–41) and MS0–2 (Reg 42–65) dividers.">
+            <div class="flex items-center justify-between mb-1">
+              <span class="text-[10px] font-semibold uppercase tracking-wider text-slate-400">Calib Trim <span class="font-mono text-[9px] text-cyan-500/80">SW f_XTAL</span></span>
+              <span id="calib-hz-badge" class="text-[10px] font-mono text-cyan-400">0.0 Hz</span>
+            </div>
+            <div class="flex items-center gap-1 mb-1">
+              <button onclick="adjustPpm(-1)" class="px-1.5 py-0.2 text-[11px] font-mono bg-lab-bg hover:bg-slate-800 border border-lab-border rounded text-cyan-300">-</button>
+              <input type="number" id="xtal-ppm" value="0" step="1" min="-500" max="500" oninput="syncPpmFromInput(this.value)" class="w-full bg-lab-bg border border-lab-border rounded px-1 py-0.2 text-[11px] font-mono text-center text-white focus:outline-none focus:border-cyan-500">
+              <span class="text-[10px] font-mono text-slate-400">ppm</span>
+              <button onclick="adjustPpm(1)" class="px-1.5 py-0.2 text-[11px] font-mono bg-lab-bg hover:bg-slate-800 border border-lab-border rounded text-cyan-300">+</button>
+              <button onclick="setPpm(0)" title="Reset to 0 ppm" class="px-1 py-0.2 text-[10px] font-mono bg-lab-bg hover:bg-slate-800 border border-lab-border rounded text-slate-400">0</button>
+            </div>
+            <input type="range" id="xtal-ppm-slider" min="-500" max="500" step="1" value="0" oninput="syncPpmFromSlider(this.value)" class="w-full rf-slider" style="--slider-accent: #06b6d4; --slider-glow: rgba(6,182,212,0.5);">
+          </div>
+
+          <!-- Reg 187 Fanout Toggles -->
+          <div class="sm:col-span-3 bg-lab-card border border-lab-border rounded p-2" title="AN619 Reg 187 (0xBB) Fanout Enable: Controls internal clock distribution buffers to save power when unused.">
+            <div class="flex items-center justify-between text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-1">
+              <span>Fanout (Reg 187)</span>
+              <span id="fanout-reg-hex" class="font-mono text-[9px] text-cyan-400">0x50</span>
+            </div>
+            <div class="flex sm:flex-col justify-between gap-0.5 text-[11px]">
+              <label class="flex items-center justify-between cursor-pointer" title="Reg 187 [bit 6] XO_FANOUT_EN (0x40): Routes XTAL oscillator to MultiSynth &amp; CLKx_SRC=00 bypass mux. Required for Direct XTAL Bypass mode.">
+                <span class="text-slate-300">XO <span class="text-[9px] font-mono text-slate-500">[b6]</span></span>
+                <input type="checkbox" id="fanout-xo" checked onchange="onFanoutChange()" class="w-3 h-3 rounded border-slate-600 bg-lab-bg text-cyan-500 focus:ring-0">
+              </label>
+              <label class="flex items-center justify-between cursor-pointer" title="Reg 187 [bit 4] MS_FANOUT_EN (0x10): Enables MultiSynth 0 &amp; 4 to fan out to other output stages (CLKx_SRC=10).">
+                <span class="text-slate-300">MS0/4 <span class="text-[9px] font-mono text-slate-500">[b4]</span></span>
+                <input type="checkbox" id="fanout-ms" checked onchange="onFanoutChange()" class="w-3 h-3 rounded border-slate-600 bg-lab-bg text-cyan-500 focus:ring-0">
+              </label>
+              <label class="flex items-center justify-between cursor-pointer" title="Reg 187 [bit 7] CLKIN_FANOUT_EN (0x80): Enables external CLKIN pin fanout (Si5351C only; unused on 10-MSOP Si5351A).">
+                <span class="text-slate-300">CLKIN <span class="text-[9px] font-mono text-slate-500">[b7]</span></span>
+                <input type="checkbox" id="fanout-clkin" onchange="onFanoutChange()" class="w-3 h-3 rounded border-slate-600 bg-lab-bg text-cyan-500 focus:ring-0">
+              </label>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Compact PLLA & PLLB VCO Telemetry Cards -->
+      <section class="xl:col-span-5 bg-lab-panel border border-lab-border rounded-lg p-2.5 grid grid-cols-1 sm:grid-cols-2 gap-2">
+        <!-- PLLA -->
+        <div class="bg-lab-card border border-lab-border rounded p-2 flex flex-col justify-between" title="PLLA (MSNA): Reg 26–33 (0x1A–0x21). Multiplies f_XTAL by (a + b/c) to 600–900 MHz VCO. Reset via Reg 177 [bit 5] PLLA_RST.">
+          <div class="flex items-center justify-between">
+            <span class="text-[11px] font-bold text-cyan-400 flex items-center gap-1">
+              PLLA (MSNA) <span class="text-[9px] font-mono font-normal text-slate-500">R26–33</span>
+              <span id="plla-ss-badge" class="hidden px-1 py-0 text-[9px] bg-rose-500/20 text-rose-300 border border-rose-500/40 rounded">SS</span>
+            </span>
+            <span id="plla-status-badge" class="px-1.5 py-0.2 text-[9px] font-mono rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">IN SPEC</span>
+          </div>
+          <div id="plla-vco-freq" class="text-sm font-mono font-bold text-white my-0.5">800.000000 MHz</div>
+          <div class="flex items-center justify-between text-[10px] font-mono text-slate-400">
+            <span id="plla-mult-str" class="truncate">32 (Int)</span>
+            <span id="plla-users-str" class="text-cyan-300 font-semibold">CLK0</span>
+          </div>
+        </div>
+
+        <!-- PLLB -->
+        <div class="bg-lab-card border border-lab-border rounded p-2 flex flex-col justify-between" title="PLLB (MSNB): Reg 34–41 (0x22–0x29). Multiplies f_XTAL by (a + b/c) to 600–900 MHz VCO. Reset via Reg 177 [bit 7] PLLB_RST.">
+          <div class="flex items-center justify-between">
+            <span class="text-[11px] font-bold text-amber-400 flex items-center gap-1">
+              PLLB (MSNB) <span class="text-[9px] font-mono font-normal text-slate-500">R34–41</span>
+            </span>
+            <span id="pllb-status-badge" class="px-1.5 py-0.2 text-[9px] font-mono rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">IN SPEC</span>
+          </div>
+          <div id="pllb-vco-freq" class="text-sm font-mono font-bold text-white my-0.5">800.000000 MHz</div>
+          <div class="flex items-center justify-between text-[10px] font-mono text-slate-400">
+            <span id="pllb-mult-str" class="truncate">32 (Int)</span>
+            <span id="pllb-users-str" class="text-amber-300 font-semibold">CLK1</span>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- COMPACT 3-CHANNEL GRID: CLK0, CLK1, CLK2 -->
+    <section id="channels-grid" class="grid grid-cols-1 lg:grid-cols-3 gap-2.5">
+      <!-- Rendered dynamically by JS -->
+    </section>
+
+    <!-- COMPACT BOTTOM WORKSPACE: Scope + Tabbed Diagram / Register Map / C-Code Export -->
+    <div class="grid grid-cols-1 xl:grid-cols-12 gap-2.5">
+      
+      <!-- Left: Compact Live Oscilloscope Preview (5 cols) -->
+      <section class="xl:col-span-5 bg-lab-panel border border-lab-border rounded-lg p-2.5 flex flex-col">
+        <div class="flex flex-wrap items-center justify-between gap-1.5 mb-1.5">
+          <div class="flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-purple-400"></span>
+            <h2 class="text-[11px] font-semibold uppercase tracking-wider text-slate-200">Output Phase &amp; Waveform Scope</h2>
+          </div>
+          <div class="flex items-center gap-1">
+            <span id="scope-tb-badge" class="px-1.5 py-0.2 text-[10px] font-mono bg-purple-500/15 text-purple-300 border border-purple-500/30 rounded" title="Active horizontal timebase across 10 grid divisions">Auto</span>
+            <select id="scope-timebase-select" onchange="onScopeTimebaseChange(this.value)" oninput="onScopeTimebaseChange(this.value)" title="Horizontal Timebase (Time/Div): Real timebase shows exact frequency ratios across channels; zoom in/out like a real oscilloscope." class="bg-lab-card border border-lab-border rounded px-1 py-0.2 text-[10px] font-mono text-slate-200 focus:outline-none focus:border-cyan-500">
+              <option value="auto" selected>Auto (Real)</option>
+              <option value="1e-9">1 ns/div</option>
+              <option value="2e-9">2 ns/div</option>
+              <option value="5e-9">5 ns/div</option>
+              <option value="10e-9">10 ns/div</option>
+              <option value="20e-9">20 ns/div</option>
+              <option value="50e-9">50 ns/div</option>
+              <option value="100e-9">100 ns/div</option>
+              <option value="200e-9">200 ns/div</option>
+              <option value="500e-9">500 ns/div</option>
+              <option value="1e-6">1 &mu;s/div</option>
+              <option value="2e-6">2 &mu;s/div</option>
+              <option value="5e-6">5 &mu;s/div</option>
+              <option value="10e-6">10 &mu;s/div</option>
+              <option value="20e-6">20 &mu;s/div</option>
+              <option value="50e-6">50 &mu;s/div</option>
+              <option value="100e-6">100 &mu;s/div</option>
+              <option value="log">Log (Demo)</option>
+            </select>
+            <button id="scope-trig-btn" onclick="toggleScopeTrigger()" title="Oscilloscope Trigger Mode: Toggle between Free-Run scrolling and Rising-Edge Trigger (locked at Division 1 so exact pulse widths and phase offsets stay stationary)." class="px-1.5 py-0.2 text-[10px] font-mono bg-lab-card hover:bg-slate-800 border border-lab-border rounded text-slate-300">Free</button>
+            <button id="scope-pause-btn" onclick="toggleScopePause()" title="Pause / Resume Scope: Freeze the live oscilloscope waveform to inspect edges, phase relationships, and cycle counts." class="px-2 py-0.2 text-[10px] font-mono bg-lab-card hover:bg-slate-800 border border-lab-border rounded text-slate-300">Pause</button>
+          </div>
+        </div>
+        <div class="relative flex-1 min-h-[210px] bg-lab-bg border border-lab-border/80 rounded overflow-hidden">
+          <canvas id="scope-canvas" class="w-full h-full block"></canvas>
+          <div class="absolute bottom-1.5 left-1.5 right-1.5 flex flex-wrap items-center justify-between gap-1.5 text-[10px] font-mono bg-lab-panel/90 backdrop-blur px-2 py-0.5 rounded border border-lab-border/70">
+            <span class="text-cyan-400">&#9632; CH0 (CLK0): <span id="scope-lbl-0">14.20M</span></span>
+            <span class="text-amber-400">&#9632; CH1 (CLK1): <span id="scope-lbl-1">10.70M</span></span>
+            <span class="text-purple-400">&#9632; CH2 (CLK2): <span id="scope-lbl-2">OFF</span></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right: Tabbed Utility Panel (Block Diagram | Register Map | C Code Export) (7 cols) -->
+      <section class="xl:col-span-7 bg-lab-panel border border-lab-border rounded-lg p-2.5 flex flex-col">
+        <div class="flex flex-wrap items-center justify-between gap-2 pb-2 mb-2 border-b border-lab-border/80">
+          <!-- Workspace Tabs -->
+          <div class="flex flex-wrap items-center gap-1 bg-lab-bg p-0.5 rounded border border-lab-border">
+            <button id="tab-btn-diagram" onclick="switchWorkspaceTab('diagram')" title="Signal Routing Diagram: Live interactive block diagram from XTAL OSC through PLLA/PLLB, MultiSynth MS0–2, and R-Dividers to CLK0–2." class="px-2.5 py-1 text-[11px] font-medium rounded bg-cyan-600 text-white transition">Signal Routing</button>
+            <button id="tab-btn-regs" onclick="switchWorkspaceTab('regs')" title="Si5351A Register Map: Live hex and binary table of hardware registers Reg 0 to Reg 187 computed per Silicon Labs AN619." class="px-2.5 py-1 text-[11px] font-medium rounded text-slate-400 hover:text-slate-200 transition">Register Map (<span id="modified-reg-count" class="font-mono">0</span>)</button>
+            <button id="tab-btn-code" onclick="switchWorkspaceTab('code')" title="C Code Export: Generates a ready-to-compile register initialization header for CH32V003, Arduino Wire, STM32 HAL, or Raw C arrays." class="px-2.5 py-1 text-[11px] font-medium rounded text-slate-400 hover:text-slate-200 transition">C Code Export</button>
+            <button id="tab-btn-docs" onclick="switchWorkspaceTab('docs')" title="Datasheet & Register Reference: Plain-English explanation of every setting, AN619 formulas, register bitfields, and live computed values." class="px-2.5 py-1 text-[11px] font-medium rounded text-slate-400 hover:text-slate-200 transition">Datasheet &amp; Regs</button>
+            <button id="tab-btn-wch" onclick="switchWorkspaceTab('wch')" title="Embeetle + WCH CH32V003 Guide: Quick wiring, WCH-LinkE RISC-V mode switch steps, and how to drop exported headers into Embeetle IDE." class="px-2.5 py-1 text-[11px] font-medium rounded text-slate-400 hover:text-slate-200 transition">Embeetle + WCH</button>
+          </div>
+
+          <!-- Context Toolbar for Active Tab -->
+          <div id="tab-tools-diagram" class="text-[10px] font-mono text-slate-400">
+            XTAL &rarr; PLLA/B &rarr; MS0..2 &rarr; R-Div
+          </div>
+
+          <div id="tab-tools-regs" class="hidden flex items-center gap-2">
+            <label class="flex items-center gap-1 text-[11px] text-slate-300 cursor-pointer" title="Filter Register Table: Show only registers that differ from Si5351A power-on reset defaults, or uncheck to inspect all 188 registers.">
+              <input type="checkbox" id="reg-filter-modified" checked onchange="renderRegisterTable()" class="w-3 h-3 rounded border-slate-600 bg-lab-bg text-cyan-500 focus:ring-0">
+              <span>Modified Only</span>
+            </label>
+          </div>
+
+          <div id="tab-tools-code" class="hidden flex items-center gap-1.5">
+            <select id="code-target-select" onchange="generateCCode()" title="Target MCU / Framework: Choose the C code wrapper format (CH32V003 Bare-Metal, Arduino Wire.h, STM32 HAL, or raw uint8_t array)." class="bg-lab-card border border-lab-border rounded px-1.5 py-0.5 text-[11px] font-mono text-slate-200 focus:outline-none focus:border-cyan-500">
+              <option value="ch32v003">CH32V003 (Bare-Metal)</option>
+              <option value="arduino">Arduino (Wire.h)</option>
+              <option value="stm32">STM32 HAL</option>
+              <option value="raw_array">Raw Array (uint8_t[])</option>
+            </select>
+            <button onclick="copyCCode()" title="Copy C Header: Copies the generated AN619 register initialization sequence to your clipboard." class="px-2 py-0.5 text-[11px] font-medium rounded bg-cyan-600 hover:bg-cyan-500 text-white transition">Copy</button>
+            <button onclick="downloadCCode()" title="Download si5351_config.h: Saves the generated register configuration directly as a C header file." class="px-2 py-0.5 text-[11px] font-medium rounded bg-lab-card hover:bg-slate-800 border border-lab-border text-slate-200 transition">.h</button>
+          </div>
+
+          <div id="tab-tools-docs" class="hidden flex items-center gap-1.5">
+            <select id="docs-filter-select" onchange="renderDatasheetDocs()" title="Filter Datasheet Reference: Narrow explanations by subsystem (XTAL/PLLs, Channel Output, MultiSynth/Phase, or Spread Spectrum/Init)." class="bg-lab-card border border-lab-border rounded px-1.5 py-0.5 text-[11px] font-mono text-slate-200 focus:outline-none focus:border-cyan-500">
+              <option value="all">All Settings &amp; Regs</option>
+              <option value="xtal_pll">XTAL, Calib &amp; PLLs</option>
+              <option value="channel">Channel Modes &amp; Output</option>
+              <option value="ms_phase">MultiSynth, R-Div &amp; Phase</option>
+              <option value="ss_init">Spread Spec &amp; Init Flow</option>
+            </select>
+          </div>
+
+          <div id="tab-tools-wch" class="hidden flex items-center gap-1.5">
+            <a href="/blog/20261120-embeetle-wch-ch32v003-si5351a-ssd1306-signal-generator" class="px-2 py-0.5 text-[11px] font-mono rounded bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-300 transition">Open Full Tutorial &rarr;</a>
+          </div>
+        </div>
+
+        <!-- Tab 1: SVG Block Diagram -->
+        <div id="tab-pane-diagram" class="flex-1 flex items-center justify-center bg-lab-bg/80 border border-lab-border/70 rounded p-1.5 min-h-[210px] overflow-x-auto">
+          <svg id="block-diagram-svg" viewBox="0 0 760 255" class="w-full h-auto min-w-[560px] max-h-[225px] select-none"></svg>
+        </div>
+
+        <!-- Tab 2: Register Map Table -->
+        <div id="tab-pane-regs" class="hidden flex-1 overflow-y-auto min-h-[210px] max-h-[225px] border border-lab-border rounded bg-lab-bg">
+          <table class="w-full text-left border-collapse font-mono text-[11px]">
+            <thead class="sticky top-0 bg-lab-card border-b border-lab-border text-slate-400 text-[10px]">
+              <tr>
+                <th class="py-1 px-2">Dec</th>
+                <th class="py-1 px-2">Hex</th>
+                <th class="py-1 px-2">Val</th>
+                <th class="py-1 px-2">Binary [7:0]</th>
+                <th class="py-1 px-2 font-sans">Description</th>
+              </tr>
+            </thead>
+            <tbody id="register-table-body" class="divide-y divide-lab-border/40"></tbody>
+          </table>
+        </div>
+
+        <!-- Tab 3: C Code Export -->
+        <div id="tab-pane-code" class="hidden flex-1 min-h-[210px] max-h-[225px] bg-lab-bg border border-lab-border rounded overflow-hidden flex flex-col">
+          <pre id="c-code-output" class="p-2 text-[11px] font-mono text-emerald-300 overflow-auto flex-1 leading-snug select-all"></pre>
+        </div>
+
+        <!-- Tab 4: Datasheet & Register Reference -->
+        <div id="tab-pane-docs" class="hidden flex-1 overflow-y-auto min-h-[210px] max-h-[225px] border border-lab-border rounded bg-lab-bg p-2 space-y-2">
+          <div id="datasheet-docs-body" class="space-y-2"></div>
+        </div>
+
+        <!-- Tab 5: Embeetle + WCH CH32V003 + SSD1306 Quick Tutorial -->
+        <div id="tab-pane-wch" class="hidden flex-1 overflow-y-auto min-h-[210px] max-h-[225px] border border-lab-border rounded bg-lab-bg p-2.5 space-y-2 text-[11px] leading-snug">
+          <div class="flex flex-wrap items-center justify-between gap-2 pb-1.5 border-b border-lab-border/70">
+            <div>
+              <div class="font-bold text-white">Embeetle IDE + WCH CH32V003F4P6 + Si5351A + SSD1306 OLED</div>
+              <div class="text-[10px] text-slate-400">Bare-metal 10 kHz–225 MHz 3-channel RF Signal Generator (16 KB Flash / 2 KB RAM)</div>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <a href="https://github.com/roboter/Hardware/tree/main/WCH/ch32v003f4p6-SignalGenerator" target="_blank" rel="noopener noreferrer" class="px-2 py-1 text-[10px] font-mono font-semibold rounded bg-lab-card hover:bg-slate-800 border border-lab-border text-slate-200 transition">GitHub Source &nearr;</a>
+              <a href="/blog/20261120-embeetle-wch-ch32v003-si5351a-ssd1306-signal-generator" class="px-2 py-1 text-[10px] font-mono font-semibold rounded bg-cyan-600 hover:bg-cyan-500 text-white transition">Full Step-by-Step Guide &rarr;</a>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+            <div class="bg-lab-panel border border-lab-border rounded p-2 space-y-1">
+              <div class="text-[10px] font-semibold uppercase tracking-wider text-cyan-400">1. Shared I²C1 &amp; WCH-LinkE Wiring</div>
+              <div class="font-mono text-[10px] text-slate-300 space-y-0.5">
+                <div><span class="text-cyan-300">PC1</span> (SDA) &rarr; SSD1306 (<span class="text-amber-300">0x3C</span>) + Si5351A (<span class="text-amber-300">0x60</span>) + 4.7k&Omega;</div>
+                <div><span class="text-cyan-300">PC2</span> (SCL) &rarr; SSD1306 + Si5351A + 4.7k&Omega; (400 kHz)</div>
+                <div><span class="text-cyan-300">PD1</span> (SWIO) &rarr; WCH-LinkE <span class="text-emerald-300">SWDIO</span> + 3V3 + GND</div>
+                <div><span class="text-cyan-300">PC3..PC7</span> &rarr; ENTER, DOWN, LEFT, RIGHT, UP (10k&Omega; pull-down)</div>
+              </div>
+            </div>
+
+            <div class="bg-lab-panel border border-lab-border rounded p-2 space-y-1">
+              <div class="text-[10px] font-semibold uppercase tracking-wider text-amber-400">2. Embeetle Project Setup (Works Out of the Box)</div>
+              <ol class="list-decimal list-inside text-[10px] text-slate-300 space-y-0.5">
+                <li>Create WCH <code class="text-cyan-300">ch32v003f4p6</code> project, probe <code class="text-cyan-300">wch-linke-r0-1v3-riscv</code> (config files are auto-generated &amp; ready by default).</li>
+                <li><strong class="text-rose-300">Important:</strong> Switch WCH-LinkE to <strong>RISC-V mode</strong> (hold <code class="text-cyan-300">ModeS</code> while plugging USB; blue LED OFF when idle) — see <a href="https://embeetle.com/#supported-hardware/wch/probes/wch-linke-r0-1v3" target="_blank" rel="noopener noreferrer" class="text-cyan-400 underline hover:text-cyan-300">Embeetle WCH-LinkE docs</a>.</li>
+                <li>Add <code class="text-cyan-300">source/si5351/</code> &amp; <code class="text-cyan-300">source/SSD1306WCH/</code> (green checkmarks in <code class="text-cyan-300">filetree.mk</code>).</li>
+                <li>Click <strong>Build</strong> &amp; <strong>Flash</strong> in Embeetle GUI (optional CLI: <code class="text-emerald-300">.\build.ps1</code> / <code class="text-emerald-300">.\flash.ps1</code>).</li>
+              </ol>
+            </div>
+          </div>
+
+          <div class="bg-lab-panel border border-lab-border rounded p-2 space-y-1">
+            <div class="text-[10px] font-semibold uppercase tracking-wider text-emerald-400">3. Drop Exported Workbench Presets Into Embeetle</div>
+            <div class="text-[10px] text-slate-300">
+              In the <strong>C Code Export</strong> tab, choose <code class="text-cyan-300">CH32V003 (Bare-Metal)</code>, download <code class="text-cyan-300">si5351_config.h</code> into <code class="text-cyan-300">source/User/</code>, wrap <code class="text-emerald-300">si5351_i2c_write_reg(reg, val)</code> around <code class="text-emerald-300">SI5351_write(reg, val)</code>, and call <code class="text-emerald-300">si5351_apply_preset()</code> after <code class="text-cyan-300">I2C_HAL_Init()</code> and <code class="text-cyan-300">OLED_init()</code>.
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- COMPLETE CONTROLS & SETTINGS HELP TUTORIAL -->
+    <section id="workbench-help-tutorial" class="bg-lab-panel border border-lab-border rounded-lg p-3 space-y-3">
+      <div class="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-lab-border/80">
+        <div class="flex items-center gap-2">
+          <span class="w-5 h-5 rounded bg-cyan-500/20 border border-cyan-500/40 text-cyan-300 font-mono font-bold text-xs flex items-center justify-center">?</span>
+          <div>
+            <h2 class="text-xs font-bold uppercase tracking-wider text-white">Si5351A Workbench — Complete Controls &amp; Settings Help Tutorial</h2>
+            <p class="text-[11px] text-slate-400">Plain-English guide to every switch, slider, option, register bitfield, and real-world use case.</p>
+          </div>
+        </div>
+        <div class="flex flex-wrap items-center gap-1" id="help-cat-pills">
+          <button onclick="filterHelpTutorial('all')" data-help-cat="all" class="help-pill px-2 py-0.5 text-[10px] font-mono rounded bg-cyan-600 text-white border border-cyan-500 transition">All Controls</button>
+          <button onclick="filterHelpTutorial('dis_inv')" data-help-cat="dis_inv" class="help-pill px-2 py-0.5 text-[10px] font-mono rounded bg-lab-card text-slate-300 hover:text-white border border-lab-border transition">Dis R24 &amp; Invert</button>
+          <button onclick="filterHelpTutorial('modes')" data-help-cat="modes" class="help-pill px-2 py-0.5 text-[10px] font-mono rounded bg-lab-card text-slate-300 hover:text-white border border-lab-border transition">Modes &amp; Tuning</button>
+          <button onclick="filterHelpTutorial('sliders')" data-help-cat="sliders" class="help-pill px-2 py-0.5 text-[10px] font-mono rounded bg-lab-card text-slate-300 hover:text-white border border-lab-border transition">Phase / Drive / R-Div</button>
+          <button onclick="filterHelpTutorial('global')" data-help-cat="global" class="help-pill px-2 py-0.5 text-[10px] font-mono rounded bg-lab-card text-slate-300 hover:text-white border border-lab-border transition">XTAL, Calib &amp; PLLs</button>
+          <button onclick="filterHelpTutorial('scope')" data-help-cat="scope" class="help-pill px-2 py-0.5 text-[10px] font-mono rounded bg-lab-card text-slate-300 hover:text-white border border-lab-border transition">Scope &amp; Tabs</button>
+          <button onclick="filterHelpTutorial('regs')" data-help-cat="regs" class="help-pill px-2 py-0.5 text-[10px] font-mono rounded bg-lab-card text-amber-300 hover:text-amber-200 border border-amber-500/40 transition">Registers &amp; Map</button>
+        </div>
+      </div>
+
+      <div id="help-tutorial-grid" class="grid grid-cols-1 lg:grid-cols-2 gap-2.5 text-[11.5px] leading-relaxed">
+
+        <!-- CARD 1: Disable State (Dis R24) & Polarity Invert (R16/17/18[4]) -->
+        <article data-help-group="dis_inv" class="lg:col-span-2 bg-lab-card border border-cyan-500/35 rounded-lg p-3 space-y-2.5">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <h3 class="text-xs font-bold text-cyan-300">1. Disable State (<code class="font-mono text-amber-300">Dis R24[1:0] / [3:2] / [5:4]</code>) &amp; Polarity Invert (<code class="font-mono text-amber-300">R16/17/18[4]</code>)</h3>
+            <span class="text-[10px] font-mono text-slate-400">Reg 24 (0x18) · Reg 3 (OEB) · Reg 16–18</span>
+          </div>
+          <p class="text-slate-300">
+            <strong>Disable State (<code class="font-mono text-cyan-300">Dis</code>)</strong> controls what electrical state each clock pin (<code class="font-mono">CLK0=R24[1:0]</code>, <code class="font-mono">CLK1=R24[3:2]</code>, <code class="font-mono">CLK2=R24[5:4]</code>) holds whenever the output is disabled via <code class="font-mono">Reg 3</code> (Output Enable Mask <code class="font-mono">OEB</code>) or the hardware <code class="font-mono">OEB</code> pin. Try switching CH2 (or CH0) to <strong>Off / Disabled</strong> and changing <code class="font-mono">Dis</code> to watch its dashed line move on the oscilloscope:
+          </p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-2">
+            <div class="bg-lab-bg border border-lab-border rounded p-2 space-y-1">
+              <div class="flex items-center justify-between font-mono text-[11px]">
+                <span class="font-bold text-white">Low (0V)</span>
+                <span class="text-cyan-400">00b</span>
+              </div>
+              <p class="text-[11px] text-slate-300">Actively pulls the pin to <strong>GND (0V)</strong> when disabled. Best general-purpose default for digital clock inputs and RF mixers so the trace never floats or picks up stray noise.</p>
+            </div>
+            <div class="bg-lab-bg border border-lab-border rounded p-2 space-y-1">
+              <div class="flex items-center justify-between font-mono text-[11px]">
+                <span class="font-bold text-white">High (3.3V)</span>
+                <span class="text-cyan-400">01b</span>
+              </div>
+              <p class="text-[11px] text-slate-300">Actively drives the pin to <strong>VDD (3.3V)</strong> when disabled. Use for active-low logic, pull-up-style resting states, or downstream gates that expect a logic-1 idle level.</p>
+            </div>
+            <div class="bg-lab-bg border border-lab-border rounded p-2 space-y-1">
+              <div class="flex items-center justify-between font-mono text-[11px]">
+                <span class="font-bold text-white">High-Z</span>
+                <span class="text-cyan-400">10b</span>
+              </div>
+              <p class="text-[11px] text-slate-300"><strong>Tri-states (disconnects)</strong> the output buffer so the pin floats at high impedance. Use when sharing a clock bus with another oscillator, reducing load capacitance, or avoiding DC current into 50 &Omega; loads.</p>
+            </div>
+            <div class="bg-lab-bg border border-amber-500/35 rounded p-2 space-y-1">
+              <div class="flex items-center justify-between font-mono text-[11px]">
+                <span class="font-bold text-amber-300">Never (PDN=1)</span>
+                <span class="text-amber-400">11b</span>
+              </div>
+              <p class="text-[11px] text-slate-300">Tells hardware to <strong>ignore <code class="font-mono">Reg 3</code> (OEB)</strong> so the output stays permanently enabled during OEB blanking (e.g., an MCU main clock). <em>Note: Setting Mode = Off in this tool still sets <code class="font-mono">CLKx_PDN=1</code> (<code class="font-mono">Reg 16+i[7]</code>), which powers down the driver completely.</em></p>
+            </div>
+          </div>
+          <div class="bg-lab-bg/80 border border-lab-border rounded p-2 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div>
+              <span class="font-bold text-rose-300 font-mono">Normal 0° / INV 180° (Reg 16/17/18 [bit 4], CLKx_INV):</span>
+              <span class="text-slate-300"> Hardware-inverts the output waveform by an exact <strong>180°</strong> inside the output buffer with zero PLL phase error. Essential for push-pull drivers, balanced RF mixers, and 180° differential clock pairs. Switch the scope to <strong>Trig</strong> to watch the rising edge flip immediately to a falling edge.</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- CARD 2: Operating Modes -->
+        <article data-help-group="modes" class="bg-lab-card border border-lab-border rounded-lg p-3 space-y-2">
+          <div class="flex items-center justify-between">
+            <h3 class="text-xs font-bold text-cyan-300">2. Channel Operating Modes (All 8 Modes)</h3>
+            <span class="text-[10px] font-mono text-slate-400">Reg 3 · Reg 16–18 · Reg 165–167</span>
+          </div>
+          <ul class="space-y-1 text-[11px] text-slate-300">
+            <li><strong class="text-white">Off / Disabled:</strong> Sets <code class="font-mono text-amber-300">Reg 3</code> (<code class="font-mono">OEB=1</code>) and <code class="font-mono text-amber-300">Reg 16+i[7]=1</code> (<code class="font-mono">PDN</code>). Pin rests at the state chosen in <code class="font-mono">Dis R24</code>.</li>
+            <li><strong class="text-white">Fractional MultiSynth:</strong> Default mode. Uses fractional divider <code class="font-mono">a + b/c</code> (<code class="font-mono">8..1800</code>) to generate virtually any frequency to sub-Hz precision.</li>
+            <li><strong class="text-white">Integer Low-Jitter Mode:</strong> Locks an even-integer MultiSynth (<code class="font-mono text-amber-300">MSx_INT=1</code>, <code class="font-mono">Reg 16+i[6]</code>) for minimal spurs and lowest phase noise (best for VFOs/MCU clocks).</li>
+            <li><strong class="text-white">Quadrature I/Q 90° (CLK0+1):</strong> Couples CH0 &amp; CH1 on PLLA at equal frequency and writes <code class="font-mono text-amber-300">Reg 166</code> (<code class="font-mono">CLK1_PHOFF</code>) for an exact 90° SDR quadrature local oscillator.</li>
+            <li><strong class="text-white">Custom Phase Offset (0°–360°):</strong> Unlocks the <code class="font-mono">Phase</code> slider to delay the channel in <code class="font-mono">T_VCO / 4</code> steps via <code class="font-mono text-amber-300">Reg 165–167</code> (applied on <code class="font-mono">Reg 177</code> PLL soft-reset).</li>
+            <li><strong class="text-white">Differential Pair (180° Inv):</strong> Couples CH0 &amp; CH1 at equal frequency on PLLA and forces <code class="font-mono text-amber-300">Reg 17[4]</code> (<code class="font-mono">CLK1_INV=1</code>) for complementary differential clocks.</li>
+            <li><strong class="text-white">Spread Spectrum (PLLA EMI):</strong> Enables <code class="font-mono text-amber-300">Reg 149–161</code> (<code class="font-mono">SSC_EN=1</code>) on PLLA to dither frequency by <code class="font-mono">0.1%–2.5%</code> (Down-spread or Center-spread via <code class="font-mono">Reg 151[7]</code>) and cut EMI peaks.</li>
+            <li><strong class="text-white">Direct XTAL Bypass:</strong> Routes the crystal straight to the output buffer (<code class="font-mono text-amber-300">CLKx_SRC=00</code>), bypassing PLL &amp; MultiSynth. Requires <code class="font-mono">XO Fanout</code> (<code class="font-mono">Reg 187[6]=1</code>).</li>
+          </ul>
+        </article>
+
+        <!-- CARD 3: Frequency Tuning & PLL Select -->
+        <article data-help-group="modes" class="bg-lab-card border border-lab-border rounded-lg p-3 space-y-2">
+          <div class="flex items-center justify-between">
+            <h3 class="text-xs font-bold text-cyan-300">3. Frequency Tuning Controls &amp; PLL Select</h3>
+            <span class="text-[10px] font-mono text-slate-400">Reg 42–65 (MS0–2) · Reg 16–18[5]</span>
+          </div>
+          <ul class="space-y-1.5 text-[11px] text-slate-300">
+            <li><strong class="text-white">PLL Select (<code class="font-mono text-amber-300">PLLA / PLLB</code>, <code class="font-mono">Reg 16+i[5]</code>):</strong> Chooses which 600–900 MHz VCO drives MultiSynth <code class="font-mono">MSx</code>. Use separate PLLs for independent frequencies, or share one PLL when phase-locking two outputs.</li>
+            <li><strong class="text-white">Quick Presets (<code class="font-mono">8k</code> .. <code class="font-mono">145M</code>) &amp; Direct Hz Input:</strong> Jump straight to common RF/IF bands or type any exact frequency from <code class="font-mono">1,000 Hz</code> to <code class="font-mono">225,000,000 Hz</code>. Above <code class="font-mono">150 MHz</code>, the Si5351A automatically enters <code class="font-mono">DIVBY4</code> mode (<code class="font-mono">MS=÷4</code>).</li>
+            <li><strong class="text-white">Band Sweep (Log Slider) &amp; Step (<code class="font-mono">10</code> .. <code class="font-mono">1M</code>):</strong> Smoothly sweeps <code class="font-mono">8 kHz – 160 MHz</code> logarithmically; Step buttons set the increment used by the <code class="font-mono">-</code> / <code class="font-mono">+</code> nudge buttons.</li>
+            <li><strong class="text-white">Fine Trim (<code class="font-mono">&plusmn;50 kHz</code>, 10 Hz step):</strong> Works like a radio VFO clarifier/RIT, adding an offset to <code class="font-mono">baseHz</code>. At <code class="font-mono">14.2 MHz</code>, <code class="font-mono">&plusmn;50 kHz</code> is a fine <code class="font-mono">&plusmn;0.35%</code> shift; at <code class="font-mono">100 kHz</code>, it sweeps a full <code class="font-mono">3&times;</code> (<code class="font-mono">50–150 kHz</code>) across the scope.</li>
+            <li><strong class="text-white">Output Readout Box:</strong> Shows the <em>actual</em> hardware frequency after rational approximation, exact error in <code class="font-mono">Hz / ppb</code>, divider parameters (<code class="font-mono">MSx</code> &amp; <code class="font-mono">R</code>), live register hex bytes, and hardware limit warnings.</li>
+          </ul>
+        </article>
+
+        <!-- CARD 4: Phase, Drive & R-Div -->
+        <article data-help-group="sliders" class="bg-lab-card border border-lab-border rounded-lg p-3 space-y-2">
+          <div class="flex items-center justify-between">
+            <h3 class="text-xs font-bold text-amber-300">4. Phase, Drive Strength &amp; R-Div Sliders</h3>
+            <span class="text-[10px] font-mono text-slate-400">Reg 165–167 · Reg 16–18[1:0] · Reg 44/52/60[6:4]</span>
+          </div>
+          <ul class="space-y-1.5 text-[11px] text-slate-300">
+            <li><strong class="text-white">Phase (<code class="font-mono text-amber-300">Reg 165/166/167</code>, <code class="font-mono">CLKx_PHOFF[6:0]</code>):</strong> Sets initial phase delay in <code class="font-mono">T_VCO / 4</code> increments (<code class="font-mono">0..127</code>). Because the register is 7-bit (max 127), very low frequencies with huge dividers clamp at 127 steps. Always requires a PLL Soft Reset (<code class="font-mono">Reg 177</code>) to latch.</li>
+            <li><strong class="text-white">Drive (<code class="font-mono text-amber-300">Reg 16/17/18[1:0]</code>, <code class="font-mono">CLKx_IDRV</code>):</strong> Output buffer current:
+              <code class="font-mono">2mA (00)</code> = lowest power &amp; softest harmonics;
+              <code class="font-mono">4mA (01)</code> = standard PCB logic;
+              <code class="font-mono">6mA (10)</code> = capacitive/coax loads;
+              <code class="font-mono">8mA (11)</code> = max swing (~10 dBm into 50 &Omega;) &amp; fastest edges. Visible directly as vertical wave height on the scope!
+            </li>
+            <li><strong class="text-white">R-Div (<code class="font-mono text-amber-300">Reg 44/52/60[6:4]</code>, <code class="font-mono">Rx_DIV[2:0]</code>):</strong> Post-MultiSynth power-of-2 divider (<code class="font-mono">Auto</code>, <code class="font-mono">/1</code> to <code class="font-mono">/128</code>). Required below <code class="font-mono">500 kHz</code> because MultiSynth max divider is <code class="font-mono">1800</code> (fractional) / <code class="font-mono">2048</code> (integer). Leave on <code class="font-mono">Auto</code> unless testing hardware limits—forcing too high an R-Div at MHz hits the 900 MHz VCO cap, while forcing <code class="font-mono">/1</code> at 8 kHz clamps at <code class="font-mono">MS=÷1800</code>.</li>
+          </ul>
+        </article>
+
+        <!-- CARD 5: Global XTAL, Calib Trim, Fanout & PLL Cards -->
+        <article data-help-group="global" class="bg-lab-card border border-lab-border rounded-lg p-3 space-y-2">
+          <div class="flex items-center justify-between">
+            <h3 class="text-xs font-bold text-emerald-300">5. Global XTAL, Calib Trim, Fanout &amp; PLL Telemetry</h3>
+            <span class="text-[10px] font-mono text-slate-400">Reg 183 · Reg 187 · Reg 26–41</span>
+          </div>
+          <ul class="space-y-1.5 text-[11px] text-slate-300">
+            <li><strong class="text-white">XTAL &amp; Load Cap (<code class="font-mono text-amber-300">Reg 183 / 0xB7</code>):</strong> Sets your board's crystal (<code class="font-mono">25 MHz</code> on CJMCU-5351, <code class="font-mono">27 MHz</code>, or custom <code class="font-mono">10–40 MHz</code>) and connects internal <code class="font-mono">6pF / 8pF / 10pF</code> load capacitors (<code class="font-mono">XTAL_CL[7:6]</code>) across XA/XB with no external caps needed.</li>
+            <li><strong class="text-white">Calib Trim (<code class="font-mono">&plusmn;500 ppm</code>):</strong> Software crystal calibration (<code class="font-mono">f_eff = f_xtal &times; (1 + ppm/10⁶)</code>). Measure a known output (e.g. 10 MHz) on a counter and dial in the ppm offset so all 3 channels synthesize true frequency.</li>
+            <li><strong class="text-white">Fanout (<code class="font-mono text-amber-300">Reg 187 / 0xBB</code>):</strong> <code class="font-mono">XO [b6]</code> routes XTAL directly to outputs (needed for Bypass); <code class="font-mono">MS0/4 [b4]</code> allows sharing MultiSynth 0/4 across clocks; <code class="font-mono">CLKIN [b7]</code> is Si5351C-only (keep OFF on Si5351A).</li>
+            <li><strong class="text-white">PLLA &amp; PLLB Telemetry Cards (<code class="font-mono">Reg 26–41</code>):</strong> Live VCO frequency (datasheet spec <code class="font-mono">600–900 MHz</code>, shown as <code class="font-mono text-emerald-400">IN SPEC</code>), multiplier ratio (<code class="font-mono">Int</code> vs fractional), active channel users, and <code class="font-mono text-rose-300">SS</code> Spread Spectrum indicator.</li>
+          </ul>
+        </article>
+
+        <!-- CARD 6: Oscilloscope, Presets & Workspace Tabs -->
+        <article data-help-group="scope" class="lg:col-span-2 bg-lab-card border border-lab-border rounded-lg p-3 space-y-2">
+          <div class="flex items-center justify-between">
+            <h3 class="text-xs font-bold text-purple-300">6. Live Oscilloscope, System Presets &amp; Workspace Tabs</h3>
+            <span class="text-[10px] font-mono text-slate-400">True Timebase · Signal Routing · C Export</span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-2.5 text-[11px] text-slate-300">
+            <ul class="space-y-1">
+              <li><strong class="text-white">Time/Div (<code class="font-mono">Auto (Real)</code>, <code class="font-mono">1 ns/div</code>–<code class="font-mono">100 µs/div</code>, <code class="font-mono">Log</code>):</strong> Real shared 10-division horizontal timebase showing exact frequency ratios. Fast channels (e.g. <code class="font-mono">160 MHz</code> beside <code class="font-mono">38 kHz</code>) render as a peak-detect <strong>HF BAND</strong> until you zoom Time/Div down to <code class="font-mono">2 ns/div</code>.</li>
+              <li><strong class="text-white">Free / Trig &amp; Pause:</strong> <code class="font-mono">Free</code> runs continuously like a live scope; <code class="font-mono">Trig</code> locks a rising edge at Division 1 (<code class="font-mono text-emerald-400">T</code>) so you can inspect exact pulse widths, <code class="font-mono">90°</code> I/Q shifts, and <code class="font-mono">INV 180°</code> flips. <code class="font-mono">Pause</code> freezes the display.</li>
+            </ul>
+            <ul class="space-y-1">
+              <li><strong class="text-white">Top Presets (<code class="font-mono">HF VFO+BFO</code>, <code class="font-mono">I/Q 90°</code>, <code class="font-mono">2m VHF+IF</code>, <code class="font-mono">Diff 180°</code>, <code class="font-mono">SpreadSpec</code>):</strong> One-click real-world RF &amp; digital clock configurations to explore how PLLs, MultiSynth dividers, phase offsets, and inversion work together.</li>
+              <li><strong class="text-white">5 Bottom Tabs:</strong> <strong>Signal Routing</strong> (live block diagram), <strong>Register Map</strong> (hex/binary <code class="font-mono">Reg 0–187</code>), <strong>C Code Export</strong> (ready-to-compile <code class="font-mono">CH32V003 / Arduino / STM32 / Raw</code> headers), <strong>Datasheet &amp; Regs</strong> (AN619 formulas + live values), and <strong>Embeetle + WCH</strong> (wiring &amp; flashing guide).</li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- CARD 7: Complete Si5351A Register Bitfields & Live Register Map -->
+        <article data-help-group="regs" class="lg:col-span-2 bg-lab-card border border-amber-500/35 rounded-lg p-3 space-y-3">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <h3 class="text-xs font-bold text-amber-300">7. Si5351A Register Bitfields &amp; Live Register Map (AN619)</h3>
+              <p class="text-[11px] text-slate-400">Exact hardware register addresses, bit layout <code class="font-mono text-cyan-300">[7:0]</code>, and live values synced with your current workbench settings.</p>
+            </div>
+            <label class="flex items-center gap-1.5 text-[11px] font-mono text-slate-300 cursor-pointer bg-lab-bg border border-lab-border rounded px-2 py-1" title="Toggle Help Register Map: Show only registers modified from Si5351A reset defaults, or uncheck to inspect all 188 registers (0x00–0xBB).">
+              <input type="checkbox" id="help-reg-filter-modified" checked onchange="renderHelpRegisterMap()" class="w-3 h-3 rounded border-slate-600 bg-lab-bg text-cyan-500 focus:ring-0">
+              <span>Modified Only (<span id="help-reg-mod-count" class="text-cyan-400">0</span>)</span>
+            </label>
+          </div>
+
+          <!-- Key Control Registers Bitfield Breakdown (Live Synced) -->
+          <div class="overflow-x-auto border border-lab-border rounded bg-lab-bg">
+            <table class="w-full text-left border-collapse text-[11px]">
+              <thead class="bg-lab-panel border-b border-lab-border text-slate-400 text-[10px] font-mono">
+                <tr>
+                  <th class="py-1.5 px-2">Reg (Dec / Hex)</th>
+                  <th class="py-1.5 px-2">Name</th>
+                  <th class="py-1.5 px-2">Bitfield Layout [7:0]</th>
+                  <th class="py-1.5 px-2">Live Value</th>
+                </tr>
+              </thead>
+              <tbody id="help-bitfield-table-body" class="divide-y divide-lab-border/40 font-mono text-[10.5px]"></tbody>
+            </table>
+          </div>
+
+          <!-- Full Live Register Map Dump -->
+          <div>
+            <div class="flex items-center justify-between mb-1">
+              <span class="text-[10px] font-semibold uppercase tracking-wider text-slate-400">Live I²C Register Map Dump (Reg 0 – Reg 187)</span>
+              <span class="text-[10px] font-mono text-slate-500">I²C 7-bit Addr: 0x60 (Write 0xC0 / Read 0xC1)</span>
+            </div>
+            <div class="overflow-y-auto max-h-[280px] border border-lab-border rounded bg-lab-bg">
+              <table class="w-full text-left border-collapse font-mono text-[11px]">
+                <thead class="sticky top-0 bg-lab-panel border-b border-lab-border text-slate-400 text-[10px]">
+                  <tr>
+                    <th class="py-1 px-2">Dec</th>
+                    <th class="py-1 px-2">Hex</th>
+                    <th class="py-1 px-2">Value</th>
+                    <th class="py-1 px-2">Binary [7:0]</th>
+                    <th class="py-1 px-2 font-sans">Register Function &amp; Bitfields</th>
+                  </tr>
+                </thead>
+                <tbody id="help-register-map-body" class="divide-y divide-lab-border/40"></tbody>
+              </table>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- COMPLETE CONTROLS & SETTINGS HELP TUTORIAL -->
+    <section id="workbench-help-tutorial" class="bg-lab-panel border border-lab-border rounded-lg p-3 space-y-3">
+      <div class="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-lab-border/80">
+        <div class="flex items-center gap-2">
+          <span class="w-5 h-5 rounded bg-cyan-500/20 border border-cyan-500/40 text-cyan-300 font-mono font-bold text-xs flex items-center justify-center">?</span>
+          <div>
+            <h2 class="text-xs font-bold uppercase tracking-wider text-white">Si5351A Workbench — Complete Controls &amp; Settings Help Tutorial</h2>
+            <p class="text-[11px] text-slate-400">Plain-English guide to every switch, slider, option, register bitfield, and real-world use case.</p>
+          </div>
+        </div>
+        <div class="flex flex-wrap items-center gap-1" id="help-cat-pills">
+          <button onclick="filterHelpTutorial('all')" data-help-cat="all" class="help-pill px-2 py-0.5 text-[10px] font-mono rounded bg-cyan-600 text-white border border-cyan-500 transition">All Controls</button>
+          <button onclick="filterHelpTutorial('dis_inv')" data-help-cat="dis_inv" class="help-pill px-2 py-0.5 text-[10px] font-mono rounded bg-lab-card text-slate-300 hover:text-white border border-lab-border transition">Dis R24 &amp; Invert</button>
+          <button onclick="filterHelpTutorial('modes')" data-help-cat="modes" class="help-pill px-2 py-0.5 text-[10px] font-mono rounded bg-lab-card text-slate-300 hover:text-white border border-lab-border transition">Modes &amp; Tuning</button>
+          <button onclick="filterHelpTutorial('sliders')" data-help-cat="sliders" class="help-pill px-2 py-0.5 text-[10px] font-mono rounded bg-lab-card text-slate-300 hover:text-white border border-lab-border transition">Phase / Drive / R-Div</button>
+          <button onclick="filterHelpTutorial('global')" data-help-cat="global" class="help-pill px-2 py-0.5 text-[10px] font-mono rounded bg-lab-card text-slate-300 hover:text-white border border-lab-border transition">XTAL, Calib &amp; PLLs</button>
+          <button onclick="filterHelpTutorial('scope')" data-help-cat="scope" class="help-pill px-2 py-0.5 text-[10px] font-mono rounded bg-lab-card text-slate-300 hover:text-white border border-lab-border transition">Scope &amp; Tabs</button>
+        </div>
+      </div>
+
+      <div id="help-tutorial-grid" class="grid grid-cols-1 lg:grid-cols-2 gap-2.5 text-[11.5px] leading-relaxed">
+
+        <!-- CARD 1: Disable State (Dis R24) & Polarity Invert (R16/17/18[4]) -->
+        <article data-help-group="dis_inv" class="lg:col-span-2 bg-lab-card border border-cyan-500/35 rounded-lg p-3 space-y-2.5">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <h3 class="text-xs font-bold text-cyan-300">1. Disable State (<code class="font-mono text-amber-300">Dis R24[1:0] / [3:2] / [5:4]</code>) &amp; Polarity Invert (<code class="font-mono text-amber-300">R16/17/18[4]</code>)</h3>
+            <span class="text-[10px] font-mono text-slate-400">Reg 24 (0x18) · Reg 3 (OEB) · Reg 16–18</span>
+          </div>
+          <p class="text-slate-300">
+            <strong>Disable State (<code class="font-mono text-cyan-300">Dis</code>)</strong> controls what electrical state each clock pin (<code class="font-mono">CLK0=R24[1:0]</code>, <code class="font-mono">CLK1=R24[3:2]</code>, <code class="font-mono">CLK2=R24[5:4]</code>) holds whenever the output is disabled via <code class="font-mono">Reg 3</code> (Output Enable Mask <code class="font-mono">OEB</code>) or the hardware <code class="font-mono">OEB</code> pin. Try switching CH2 (or CH0) to <strong>Off / Disabled</strong> and changing <code class="font-mono">Dis</code> to watch its dashed line move on the oscilloscope:
+          </p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-2">
+            <div class="bg-lab-bg border border-lab-border rounded p-2 space-y-1">
+              <div class="flex items-center justify-between font-mono text-[11px]">
+                <span class="font-bold text-white">Low (0V)</span>
+                <span class="text-cyan-400">00b</span>
+              </div>
+              <p class="text-[11px] text-slate-300">Actively pulls the pin to <strong>GND (0V)</strong> when disabled. Best general-purpose default for digital clock inputs and RF mixers so the trace never floats or picks up stray noise.</p>
+            </div>
+            <div class="bg-lab-bg border border-lab-border rounded p-2 space-y-1">
+              <div class="flex items-center justify-between font-mono text-[11px]">
+                <span class="font-bold text-white">High (3.3V)</span>
+                <span class="text-cyan-400">01b</span>
+              </div>
+              <p class="text-[11px] text-slate-300">Actively drives the pin to <strong>VDD (3.3V)</strong> when disabled. Use for active-low logic, pull-up-style resting states, or downstream gates that expect a logic-1 idle level.</p>
+            </div>
+            <div class="bg-lab-bg border border-lab-border rounded p-2 space-y-1">
+              <div class="flex items-center justify-between font-mono text-[11px]">
+                <span class="font-bold text-white">High-Z</span>
+                <span class="text-cyan-400">10b</span>
+              </div>
+              <p class="text-[11px] text-slate-300"><strong>Tri-states (disconnects)</strong> the output buffer so the pin floats at high impedance. Use when sharing a clock bus with another oscillator, reducing load capacitance, or avoiding DC current into 50 &Omega; loads.</p>
+            </div>
+            <div class="bg-lab-bg border border-amber-500/35 rounded p-2 space-y-1">
+              <div class="flex items-center justify-between font-mono text-[11px]">
+                <span class="font-bold text-amber-300">Never (PDN=1)</span>
+                <span class="text-amber-400">11b</span>
+              </div>
+              <p class="text-[11px] text-slate-300">Tells hardware to <strong>ignore <code class="font-mono">Reg 3</code> (OEB)</strong> so the output stays permanently enabled during OEB blanking (e.g., an MCU main clock). <em>Note: Setting Mode = Off in this tool still sets <code class="font-mono">CLKx_PDN=1</code> (<code class="font-mono">Reg 16+i[7]</code>), which powers down the driver completely.</em></p>
+            </div>
+          </div>
+          <div class="bg-lab-bg/80 border border-lab-border rounded p-2 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div>
+              <span class="font-bold text-rose-300 font-mono">Normal 0° / INV 180° (Reg 16/17/18 [bit 4], CLKx_INV):</span>
+              <span class="text-slate-300"> Hardware-inverts the output waveform by an exact <strong>180°</strong> inside the output buffer with zero PLL phase error. Essential for push-pull drivers, balanced RF mixers, and 180° differential clock pairs. Switch the scope to <strong>Trig</strong> to watch the rising edge flip immediately to a falling edge.</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- CARD 2: Operating Modes -->
+        <article data-help-group="modes" class="bg-lab-card border border-lab-border rounded-lg p-3 space-y-2">
+          <div class="flex items-center justify-between">
+            <h3 class="text-xs font-bold text-cyan-300">2. Channel Operating Modes (All 8 Modes)</h3>
+            <span class="text-[10px] font-mono text-slate-400">Reg 3 · Reg 16–18 · Reg 165–167</span>
+          </div>
+          <ul class="space-y-1 text-[11px] text-slate-300">
+            <li><strong class="text-white">Off / Disabled:</strong> Sets <code class="font-mono text-amber-300">Reg 3</code> (<code class="font-mono">OEB=1</code>) and <code class="font-mono text-amber-300">Reg 16+i[7]=1</code> (<code class="font-mono">PDN</code>). Pin rests at the state chosen in <code class="font-mono">Dis R24</code>.</li>
+            <li><strong class="text-white">Fractional MultiSynth:</strong> Default mode. Uses fractional divider <code class="font-mono">a + b/c</code> (<code class="font-mono">8..1800</code>) to generate virtually any frequency to sub-Hz precision.</li>
+            <li><strong class="text-white">Integer Low-Jitter Mode:</strong> Locks an even-integer MultiSynth (<code class="font-mono text-amber-300">MSx_INT=1</code>, <code class="font-mono">Reg 16+i[6]</code>) for minimal spurs and lowest phase noise (best for VFOs/MCU clocks).</li>
+            <li><strong class="text-white">Quadrature I/Q 90° (CLK0+1):</strong> Couples CH0 &amp; CH1 on PLLA at equal frequency and writes <code class="font-mono text-amber-300">Reg 166</code> (<code class="font-mono">CLK1_PHOFF</code>) for an exact 90° SDR quadrature local oscillator.</li>
+            <li><strong class="text-white">Custom Phase Offset (0°–360°):</strong> Unlocks the <code class="font-mono">Phase</code> slider to delay the channel in <code class="font-mono">T_VCO / 4</code> steps via <code class="font-mono text-amber-300">Reg 165–167</code> (applied on <code class="font-mono">Reg 177</code> PLL soft-reset).</li>
+            <li><strong class="text-white">Differential Pair (180° Inv):</strong> Couples CH0 &amp; CH1 at equal frequency on PLLA and forces <code class="font-mono text-amber-300">Reg 17[4]</code> (<code class="font-mono">CLK1_INV=1</code>) for complementary differential clocks.</li>
+            <li><strong class="text-white">Spread Spectrum (PLLA EMI):</strong> Enables <code class="font-mono text-amber-300">Reg 149–161</code> (<code class="font-mono">SSC_EN=1</code>) on PLLA to dither frequency by <code class="font-mono">0.1%–2.5%</code> (Down-spread or Center-spread via <code class="font-mono">Reg 151[7]</code>) and cut EMI peaks.</li>
+            <li><strong class="text-white">Direct XTAL Bypass:</strong> Routes the crystal straight to the output buffer (<code class="font-mono text-amber-300">CLKx_SRC=00</code>), bypassing PLL &amp; MultiSynth. Requires <code class="font-mono">XO Fanout</code> (<code class="font-mono">Reg 187[6]=1</code>).</li>
+          </ul>
+        </article>
+
+        <!-- CARD 3: Frequency Tuning & PLL Select -->
+        <article data-help-group="modes" class="bg-lab-card border border-lab-border rounded-lg p-3 space-y-2">
+          <div class="flex items-center justify-between">
+            <h3 class="text-xs font-bold text-cyan-300">3. Frequency Tuning Controls &amp; PLL Select</h3>
+            <span class="text-[10px] font-mono text-slate-400">Reg 42–65 (MS0–2) · Reg 16–18[5]</span>
+          </div>
+          <ul class="space-y-1.5 text-[11px] text-slate-300">
+            <li><strong class="text-white">PLL Select (<code class="font-mono text-amber-300">PLLA / PLLB</code>, <code class="font-mono">Reg 16+i[5]</code>):</strong> Chooses which 600–900 MHz VCO drives MultiSynth <code class="font-mono">MSx</code>. Use separate PLLs for independent frequencies, or share one PLL when phase-locking two outputs.</li>
+            <li><strong class="text-white">Quick Presets (<code class="font-mono">8k</code> .. <code class="font-mono">145M</code>) &amp; Direct Hz Input:</strong> Jump straight to common RF/IF bands or type any exact frequency from <code class="font-mono">1,000 Hz</code> to <code class="font-mono">225,000,000 Hz</code>. Above <code class="font-mono">150 MHz</code>, the Si5351A automatically enters <code class="font-mono">DIVBY4</code> mode (<code class="font-mono">MS=÷4</code>).</li>
+            <li><strong class="text-white">Band Sweep (Log Slider) &amp; Step (<code class="font-mono">10</code> .. <code class="font-mono">1M</code>):</strong> Smoothly sweeps <code class="font-mono">8 kHz – 160 MHz</code> logarithmically; Step buttons set the increment used by the <code class="font-mono">-</code> / <code class="font-mono">+</code> nudge buttons.</li>
+            <li><strong class="text-white">Fine Trim (<code class="font-mono">&plusmn;50 kHz</code>, 10 Hz step):</strong> Works like a radio VFO clarifier/RIT, adding an offset to <code class="font-mono">baseHz</code>. At <code class="font-mono">14.2 MHz</code>, <code class="font-mono">&plusmn;50 kHz</code> is a fine <code class="font-mono">&plusmn;0.35%</code> shift; at <code class="font-mono">100 kHz</code>, it sweeps a full <code class="font-mono">3&times;</code> (<code class="font-mono">50–150 kHz</code>) across the scope.</li>
+            <li><strong class="text-white">Output Readout Box:</strong> Shows the <em>actual</em> hardware frequency after rational approximation, exact error in <code class="font-mono">Hz / ppb</code>, divider parameters (<code class="font-mono">MSx</code> &amp; <code class="font-mono">R</code>), live register hex bytes, and hardware limit warnings.</li>
+          </ul>
+        </article>
+
+        <!-- CARD 4: Phase, Drive & R-Div -->
+        <article data-help-group="sliders" class="bg-lab-card border border-lab-border rounded-lg p-3 space-y-2">
+          <div class="flex items-center justify-between">
+            <h3 class="text-xs font-bold text-amber-300">4. Phase, Drive Strength &amp; R-Div Sliders</h3>
+            <span class="text-[10px] font-mono text-slate-400">Reg 165–167 · Reg 16–18[1:0] · Reg 44/52/60[6:4]</span>
+          </div>
+          <ul class="space-y-1.5 text-[11px] text-slate-300">
+            <li><strong class="text-white">Phase (<code class="font-mono text-amber-300">Reg 165/166/167</code>, <code class="font-mono">CLKx_PHOFF[6:0]</code>):</strong> Sets initial phase delay in <code class="font-mono">T_VCO / 4</code> increments (<code class="font-mono">0..127</code>). Because the register is 7-bit (max 127), very low frequencies with huge dividers clamp at 127 steps. Always requires a PLL Soft Reset (<code class="font-mono">Reg 177</code>) to latch.</li>
+            <li><strong class="text-white">Drive (<code class="font-mono text-amber-300">Reg 16/17/18[1:0]</code>, <code class="font-mono">CLKx_IDRV</code>):</strong> Output buffer current:
+              <code class="font-mono">2mA (00)</code> = lowest power &amp; softest harmonics;
+              <code class="font-mono">4mA (01)</code> = standard PCB logic;
+              <code class="font-mono">6mA (10)</code> = capacitive/coax loads;
+              <code class="font-mono">8mA (11)</code> = max swing (~10 dBm into 50 &Omega;) &amp; fastest edges. Visible directly as vertical wave height on the scope!
+            </li>
+            <li><strong class="text-white">R-Div (<code class="font-mono text-amber-300">Reg 44/52/60[6:4]</code>, <code class="font-mono">Rx_DIV[2:0]</code>):</strong> Post-MultiSynth power-of-2 divider (<code class="font-mono">Auto</code>, <code class="font-mono">/1</code> to <code class="font-mono">/128</code>). Required below <code class="font-mono">500 kHz</code> because MultiSynth max divider is <code class="font-mono">1800</code> (fractional) / <code class="font-mono">2048</code> (integer). Leave on <code class="font-mono">Auto</code> unless testing hardware limits—forcing too high an R-Div at MHz hits the 900 MHz VCO cap, while forcing <code class="font-mono">/1</code> at 8 kHz clamps at <code class="font-mono">MS=÷1800</code>.</li>
+          </ul>
+        </article>
+
+        <!-- CARD 5: Global XTAL, Calib Trim, Fanout & PLL Cards -->
+        <article data-help-group="global" class="bg-lab-card border border-lab-border rounded-lg p-3 space-y-2">
+          <div class="flex items-center justify-between">
+            <h3 class="text-xs font-bold text-emerald-300">5. Global XTAL, Calib Trim, Fanout &amp; PLL Telemetry</h3>
+            <span class="text-[10px] font-mono text-slate-400">Reg 183 · Reg 187 · Reg 26–41</span>
+          </div>
+          <ul class="space-y-1.5 text-[11px] text-slate-300">
+            <li><strong class="text-white">XTAL &amp; Load Cap (<code class="font-mono text-amber-300">Reg 183 / 0xB7</code>):</strong> Sets your board's crystal (<code class="font-mono">25 MHz</code> on CJMCU-5351, <code class="font-mono">27 MHz</code>, or custom <code class="font-mono">10–40 MHz</code>) and connects internal <code class="font-mono">6pF / 8pF / 10pF</code> load capacitors (<code class="font-mono">XTAL_CL[7:6]</code>) across XA/XB with no external caps needed.</li>
+            <li><strong class="text-white">Calib Trim (<code class="font-mono">&plusmn;500 ppm</code>):</strong> Software crystal calibration (<code class="font-mono">f_eff = f_xtal &times; (1 + ppm/10⁶)</code>). Measure a known output (e.g. 10 MHz) on a counter and dial in the ppm offset so all 3 channels synthesize true frequency.</li>
+            <li><strong class="text-white">Fanout (<code class="font-mono text-amber-300">Reg 187 / 0xBB</code>):</strong> <code class="font-mono">XO [b6]</code> routes XTAL directly to outputs (needed for Bypass); <code class="font-mono">MS0/4 [b4]</code> allows sharing MultiSynth 0/4 across clocks; <code class="font-mono">CLKIN [b7]</code> is Si5351C-only (keep OFF on Si5351A).</li>
+            <li><strong class="text-white">PLLA &amp; PLLB Telemetry Cards (<code class="font-mono">Reg 26–41</code>):</strong> Live VCO frequency (datasheet spec <code class="font-mono">600–900 MHz</code>, shown as <code class="font-mono text-emerald-400">IN SPEC</code>), multiplier ratio (<code class="font-mono">Int</code> vs fractional), active channel users, and <code class="font-mono text-rose-300">SS</code> Spread Spectrum indicator.</li>
+          </ul>
+        </article>
+
+        <!-- CARD 6: Oscilloscope, Presets & Workspace Tabs -->
+        <article data-help-group="scope" class="lg:col-span-2 bg-lab-card border border-lab-border rounded-lg p-3 space-y-2">
+          <div class="flex items-center justify-between">
+            <h3 class="text-xs font-bold text-purple-300">6. Live Oscilloscope, System Presets &amp; Workspace Tabs</h3>
+            <span class="text-[10px] font-mono text-slate-400">True Timebase · Signal Routing · C Export</span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-2.5 text-[11px] text-slate-300">
+            <ul class="space-y-1">
+              <li><strong class="text-white">Time/Div (<code class="font-mono">Auto (Real)</code>, <code class="font-mono">1 ns/div</code>–<code class="font-mono">100 µs/div</code>, <code class="font-mono">Log</code>):</strong> Real shared 10-division horizontal timebase showing exact frequency ratios. Fast channels (e.g. <code class="font-mono">160 MHz</code> beside <code class="font-mono">38 kHz</code>) render as a peak-detect <strong>HF BAND</strong> until you zoom Time/Div down to <code class="font-mono">2 ns/div</code>.</li>
+              <li><strong class="text-white">Free / Trig &amp; Pause:</strong> <code class="font-mono">Free</code> runs continuously like a live scope; <code class="font-mono">Trig</code> locks a rising edge at Division 1 (<code class="font-mono text-emerald-400">T</code>) so you can inspect exact pulse widths, <code class="font-mono">90°</code> I/Q shifts, and <code class="font-mono">INV 180°</code> flips. <code class="font-mono">Pause</code> freezes the display.</li>
+            </ul>
+            <ul class="space-y-1">
+              <li><strong class="text-white">Top Presets (<code class="font-mono">HF VFO+BFO</code>, <code class="font-mono">I/Q 90°</code>, <code class="font-mono">2m VHF+IF</code>, <code class="font-mono">Diff 180°</code>, <code class="font-mono">SpreadSpec</code>):</strong> One-click real-world RF &amp; digital clock configurations to explore how PLLs, MultiSynth dividers, phase offsets, and inversion work together.</li>
+              <li><strong class="text-white">5 Bottom Tabs:</strong> <strong>Signal Routing</strong> (live block diagram), <strong>Register Map</strong> (hex/binary <code class="font-mono">Reg 0–187</code>), <strong>C Code Export</strong> (ready-to-compile <code class="font-mono">CH32V003 / Arduino / STM32 / Raw</code> headers), <strong>Datasheet &amp; Regs</strong> (AN619 formulas + live values), and <strong>Embeetle + WCH</strong> (wiring &amp; flashing guide).</li>
+            </ul>
+          </div>
+        </article>
+
+      </div>
+    </section>
+  </main>
+
+  <script is:inline>
+    (function () {
+      if (!document.getElementById('channels-grid')) return;
+      /***************************************************************************
+       * Si5351A Compact Synthesizer & Register Calculation Engine
+       ***************************************************************************/
+
+    const FREQ_PRESETS = [
+      { label: '8k', hz: 8000 },
+      { label: '455k', hz: 455000 },
+      { label: '10.7M', hz: 10700000 },
+      { label: '14.2M', hz: 14200000 },
+      { label: '27.185M', hz: 27185000 },
+      { label: '145M', hz: 145000000 }
+    ];
+
+    const OPERATING_MODES = [
+      { id: 'off', label: 'Off / Disabled' },
+      { id: 'fractional', label: 'Fractional MultiSynth (Any Freq)' },
+      { id: 'integer', label: 'Integer Low-Jitter Mode' },
+      { id: 'quadrature', label: 'Quadrature I/Q 90° (CLK0+1)' },
+      { id: 'phase', label: 'Custom Phase Offset (0°–360°)' },
+      { id: 'differential', label: 'Differential Pair (180° Inv)' },
+      { id: 'spread', label: 'Spread Spectrum (PLLA EMI)' },
+      { id: 'bypass', label: 'Direct XTAL Bypass (25 MHz)' }
+    ];
+
+    const STEP_SIZES = [
+      { label: '10', hz: 10 },
+      { label: '100', hz: 100 },
+      { label: '1k', hz: 1000 },
+      { label: '10k', hz: 10000 },
+      { label: '100k', hz: 100000 },
+      { label: '1M', hz: 1000000 }
+    ];
+
+    const R_DIV_OPTIONS = ['Auto', '/1', '/2', '/4', '/8', '/16', '/32', '/64', '/128'];
+    const R_DIV_VALUES = [1, 1, 2, 4, 8, 16, 32, 64, 128];
+
+    const LOG_MIN_HZ = 8000;
+    const LOG_MAX_HZ = 160000000;
+
+    function hzToLogSlider(hz) {
+      const clamped = Math.max(LOG_MIN_HZ, Math.min(LOG_MAX_HZ, hz));
+      const norm = Math.log(clamped / LOG_MIN_HZ) / Math.log(LOG_MAX_HZ / LOG_MIN_HZ);
+      return Math.round(norm * 1000);
+    }
+
+    function logSliderToHz(pos) {
+      const norm = Math.max(0, Math.min(1000, pos)) / 1000;
+      const raw = LOG_MIN_HZ * Math.pow(LOG_MAX_HZ / LOG_MIN_HZ, norm);
+      if (raw < 100000) return Math.round(raw / 10) * 10;
+      if (raw < 1000000) return Math.round(raw / 100) * 100;
+      if (raw < 20000000) return Math.round(raw / 1000) * 1000;
+      return Math.round(raw / 10000) * 10000;
+    }
+
+    function formatFreqHz(hz) {
+      if (!Number.isFinite(hz) || hz <= 0) return '0.000000 Hz';
+      if (hz >= 1e6) return (hz / 1e6).toFixed(6) + ' MHz';
+      if (hz >= 1e3) return (hz / 1e3).toFixed(4) + ' kHz';
+      return hz.toFixed(2) + ' Hz';
+    }
+
+    function formatShortFreq(hz) {
+      if (!Number.isFinite(hz) || hz <= 0) return '0Hz';
+      if (hz >= 1e6) return (hz / 1e6).toFixed(3) + 'M';
+      if (hz >= 1e3) return (hz / 1e3).toFixed(2) + 'k';
+      return Math.round(hz) + 'Hz';
+    }
+
+    const state = {
+      activeTab: 'diagram',
+      xtalBaseHz: 25000000,
+      xtalPpm: 0,
+      xtalCl: 3,
+      fanoutXo: true,
+      fanoutMs: true,
+      fanoutClkin: false,
+      scopePaused: false,
+      scopePhase: 0,
+      scopeTimebase: 'auto',
+      scopeTriggered: false,
+      channels: [
+        {
+          id: 0, name: 'CLK0', label: 'CH0 / CLK0', accent: 'cyan', mode: 'fractional',
+          baseHz: 14200000, fineTrimHz: 0, stepHz: 1000, pll: 'A',
+          drive: 3, rDivOverride: 0, invert: false, disableState: 0,
+          phaseDegTarget: 0, phaseReg: 0, ssPercent: 1.0, ssCenter: false
+        },
+        {
+          id: 1, name: 'CLK1', label: 'CH1 / CLK1', accent: 'amber', mode: 'fractional',
+          baseHz: 10700000, fineTrimHz: 0, stepHz: 1000, pll: 'B',
+          drive: 2, rDivOverride: 0, invert: false, disableState: 0,
+          phaseDegTarget: 0, phaseReg: 0, ssPercent: 1.0, ssCenter: false
+        },
+        {
+          id: 2, name: 'CLK2', label: 'CH2 / CLK2', accent: 'purple', mode: 'off',
+          baseHz: 8000, fineTrimHz: 0, stepHz: 100, pll: 'B',
+          drive: 1, rDivOverride: 0, invert: false, disableState: 2,
+          phaseDegTarget: 0, phaseReg: 0, ssPercent: 1.0, ssCenter: false
+        }
+      ],
+      computed: {
+        effectiveXtalHz: 25000000,
+        pllA: { active: true, vcoHz: 800000000, a: 32, b: 0, c: 1, isInt: true, inSpec: true, ssEnabled: false, users: ['CLK0'] },
+        pllB: { active: true, vcoHz: 800000000, a: 32, b: 0, c: 1, isInt: true, inSpec: true, ssEnabled: false, users: ['CLK1'] },
+        ch: [null, null, null],
+        registers: new Uint8Array(256),
+        modifiedRegs: new Set()
+      }
+    };
+
+    const ACCENT_STYLES = {
+      cyan: {
+        border: 'border-cyan-500/40',
+        dot: 'bg-cyan-400',
+        text: 'text-cyan-400',
+        btnActive: 'bg-cyan-500/20 text-cyan-300 border-cyan-500/50',
+        sliderAccent: '#06b6d4',
+        sliderGlow: 'rgba(6, 182, 212, 0.55)'
+      },
+      amber: {
+        border: 'border-amber-500/40',
+        dot: 'bg-amber-400',
+        text: 'text-amber-400',
+        btnActive: 'bg-amber-500/20 text-amber-300 border-amber-500/50',
+        sliderAccent: '#f59e0b',
+        sliderGlow: 'rgba(245, 158, 11, 0.55)'
+      },
+      purple: {
+        border: 'border-purple-500/40',
+        dot: 'bg-purple-400',
+        text: 'text-purple-400',
+        btnActive: 'bg-purple-500/20 text-purple-300 border-purple-500/50',
+        sliderAccent: '#a855f7',
+        sliderGlow: 'rgba(168, 85, 247, 0.55)'
+      }
+    };
+
+    /***************************************************************************
+     * Toast & Workspace Navigation Helpers
+     ***************************************************************************/
+    function showToast(msg, type = 'info') {
+      const container = document.getElementById('toast-container');
+      if (!container) return;
+      const el = document.createElement('div');
+      const palette = type === 'success'
+        ? 'bg-emerald-950/95 border-emerald-500/50 text-emerald-200'
+        : type === 'warn'
+          ? 'bg-amber-950/95 border-amber-500/50 text-amber-200'
+          : 'bg-slate-900/95 border-cyan-500/50 text-cyan-200';
+      el.className = `px-3 py-1.5 rounded border text-[11px] font-mono shadow-lg backdrop-blur transition-opacity duration-300 ${palette}`;
+      el.textContent = msg;
+      container.appendChild(el);
+      setTimeout(() => {
+        el.style.opacity = '0';
+        setTimeout(() => el.remove(), 300);
+      }, 2200);
+    }
+
+    function switchWorkspaceTab(tab) {
+      state.activeTab = tab;
+      ['diagram', 'regs', 'code', 'docs', 'wch'].forEach(t => {
+        const btn = document.getElementById(`tab-btn-${t}`);
+        const pane = document.getElementById(`tab-pane-${t}`);
+        const tools = document.getElementById(`tab-tools-${t}`);
+        const isActive = t === tab;
+        if (btn) {
+          btn.className = isActive
+            ? 'px-2.5 py-1 text-[11px] font-medium rounded bg-cyan-600 text-white transition'
+            : 'px-2.5 py-1 text-[11px] font-medium rounded text-slate-400 hover:text-slate-200 transition';
+        }
+        if (pane) pane.classList.toggle('hidden', !isActive);
+        if (tools) tools.classList.toggle('hidden', !isActive);
+      });
+    }
+
+    /***************************************************************************
+     * Global XTAL, Calibration PPM & Fanout Controls
+     ***************************************************************************/
+    function onXtalSelectChange() {
+      const sel = document.getElementById('xtal-select');
+      const customWrap = document.getElementById('xtal-custom-wrap');
+      if (sel.value === 'custom') {
+        customWrap.classList.remove('hidden');
+        const customVal = parseFloat(document.getElementById('xtal-custom-hz').value);
+        if (Number.isFinite(customVal) && customVal >= 10000000 && customVal <= 40000000) {
+          state.xtalBaseHz = customVal;
+        }
+      } else {
+        customWrap.classList.add('hidden');
+        state.xtalBaseHz = parseFloat(sel.value) || 25000000;
+      }
+      recalculateAll();
+    }
+
+    function onXtalCustomInput(val) {
+      const hz = parseFloat(val);
+      if (Number.isFinite(hz) && hz >= 10000000 && hz <= 40000000) {
+        state.xtalBaseHz = hz;
+        recalculateAll();
+      }
+    }
+
+    function onXtalClChange(val) {
+      state.xtalCl = parseInt(val, 10) || 3;
+      recalculateAll();
+    }
+
+    function syncPpmFromSlider(val) {
+      const ppm = Math.max(-500, Math.min(500, parseInt(val, 10) || 0));
+      state.xtalPpm = ppm;
+      const inp = document.getElementById('xtal-ppm');
+      if (inp) inp.value = ppm;
+      recalculateAll();
+    }
+
+    function syncPpmFromInput(val) {
+      const parsed = parseFloat(val);
+      if (!Number.isFinite(parsed)) return;
+      const ppm = Math.max(-500, Math.min(500, Math.round(parsed)));
+      state.xtalPpm = ppm;
+      const sld = document.getElementById('xtal-ppm-slider');
+      if (sld) sld.value = ppm;
+      recalculateAll();
+    }
+
+    function adjustPpm(delta) {
+      setPpm(state.xtalPpm + delta);
+    }
+
+    function setPpm(val) {
+      const ppm = Math.max(-500, Math.min(500, Math.round(val)));
+      state.xtalPpm = ppm;
+      const inp = document.getElementById('xtal-ppm');
+      const sld = document.getElementById('xtal-ppm-slider');
+      if (inp) inp.value = ppm;
+      if (sld) sld.value = ppm;
+      recalculateAll();
+    }
+
+    function onFanoutChange() {
+      state.fanoutXo = document.getElementById('fanout-xo').checked;
+      state.fanoutMs = document.getElementById('fanout-ms').checked;
+      state.fanoutClkin = document.getElementById('fanout-clkin').checked;
+      recalculateAll();
+    }
+
+    /***************************************************************************
+     * Channel Control Handlers & Coupling Synchronization
+     ***************************************************************************/
+    function getChannelTotalHz(ch) {
+      return Math.max(1000, Math.min(225000000, Math.round(ch.baseHz + ch.fineTrimHz)));
+    }
+
+    function syncChannelFrequencyUI(idx) {
+      const ch = state.channels[idx];
+      const totalHz = getChannelTotalHz(ch);
+      const directEl = document.getElementById(`ch-${idx}-direct-hz`);
+      const logEl = document.getElementById(`ch-${idx}-log-slider`);
+      const trimEl = document.getElementById(`ch-${idx}-trim-slider`);
+      const trimValEl = document.getElementById(`ch-${idx}-trim-val`);
+      if (directEl && document.activeElement !== directEl) directEl.value = totalHz;
+      if (logEl) logEl.value = hzToLogSlider(ch.baseHz);
+      if (trimEl) trimEl.value = ch.fineTrimHz;
+      if (trimValEl) {
+        trimValEl.textContent = `${ch.fineTrimHz >= 0 ? '+' : ''}${ch.fineTrimHz.toLocaleString()} Hz`;
+      }
+    }
+
+    function enforceCouplingRules(changedIdx) {
+      const ch0 = state.channels[0];
+      const ch1 = state.channels[1];
+
+      // Quadrature I/Q 90° Mode: couple CLK0 & CLK1 on PLLA with equal freq and 90° phase offset
+      if (ch0.mode === 'quadrature' || ch1.mode === 'quadrature') {
+        const master = changedIdx === 1 ? ch1 : ch0;
+        ch0.mode = 'quadrature';
+        ch1.mode = 'quadrature';
+        ch0.pll = 'A';
+        ch1.pll = 'A';
+        ch0.baseHz = master.baseHz;
+        ch0.fineTrimHz = master.fineTrimHz;
+        ch1.baseHz = master.baseHz;
+        ch1.fineTrimHz = master.fineTrimHz;
+        ch0.phaseDegTarget = 0;
+        ch1.phaseDegTarget = 90;
+      } else if (ch0.mode === 'differential' || ch1.mode === 'differential') {
+        // Differential 180° Mode: couple CLK0 & CLK1 on PLLA with equal freq and CLK1 inverted
+        const master = changedIdx === 1 ? ch1 : ch0;
+        ch0.mode = 'differential';
+        ch1.mode = 'differential';
+        ch0.pll = 'A';
+        ch1.pll = 'A';
+        ch0.baseHz = master.baseHz;
+        ch0.fineTrimHz = master.fineTrimHz;
+        ch1.baseHz = master.baseHz;
+        ch1.fineTrimHz = master.fineTrimHz;
+        ch0.phaseDegTarget = 0;
+        ch1.phaseDegTarget = 0;
+        ch0.invert = false;
+        ch1.invert = true;
+      }
+
+      // Spread spectrum is only supported by hardware on PLLA
+      state.channels.forEach(ch => {
+        if (ch.mode === 'spread') {
+          ch.pll = 'A';
+        }
+      });
+    }
+
+    function updateChannelField(idx, field, value) {
+      const ch = state.channels[idx];
+      if (!ch) return;
+
+      const prevMode = ch.mode;
+      ch[field] = value;
+
+      // If switching INTO quadrature, start with non-inverted I/Q outputs
+      if (field === 'mode' && value === 'quadrature' && prevMode !== 'quadrature') {
+        state.channels[0].invert = false;
+        state.channels[1].invert = false;
+      }
+
+      // If switching OUT of a coupled mode on CH0 or CH1, uncouple the partner cleanly
+      if (field === 'mode' && (idx === 0 || idx === 1)) {
+        const partnerIdx = idx === 0 ? 1 : 0;
+        const partner = state.channels[partnerIdx];
+        if ((prevMode === 'quadrature' || prevMode === 'differential') &&
+            value !== 'quadrature' && value !== 'differential') {
+          if (partner.mode === prevMode) {
+            partner.mode = 'fractional';
+            partner.invert = false;
+            partner.phaseDegTarget = 0;
+          }
+          ch.invert = false;
+          ch.phaseDegTarget = 0;
+        }
+      }
+
+      enforceCouplingRules(idx);
+
+      if (field === 'mode' || field === 'pll' || field === 'stepHz') {
+        renderChannelCards();
+      }
+      recalculateAll();
+    }
+
+    function applyChannelPreset(idx, hz) {
+      const ch = state.channels[idx];
+      if (!ch || ch.mode === 'off' || ch.mode === 'bypass') return;
+      ch.baseHz = hz;
+      ch.fineTrimHz = 0;
+      enforceCouplingRules(idx);
+      syncChannelFrequencyUI(idx);
+      if (ch.mode === 'quadrature' || ch.mode === 'differential') {
+        syncChannelFrequencyUI(0);
+        syncChannelFrequencyUI(1);
+      }
+      recalculateAll();
+    }
+
+    function setChannelStep(idx, stepHz) {
+      const ch = state.channels[idx];
+      if (!ch) return;
+      ch.stepHz = stepHz;
+      renderChannelCards();
+      recalculateAll();
+    }
+
+    function nudgeChannelFreq(idx, dir) {
+      const ch = state.channels[idx];
+      if (!ch || ch.mode === 'off' || ch.mode === 'bypass') return;
+      const current = getChannelTotalHz(ch);
+      const next = Math.max(1000, Math.min(225000000, current + dir * ch.stepHz));
+      ch.baseHz = next;
+      ch.fineTrimHz = 0;
+      enforceCouplingRules(idx);
+      syncChannelFrequencyUI(idx);
+      if (ch.mode === 'quadrature' || ch.mode === 'differential') {
+        syncChannelFrequencyUI(0);
+        syncChannelFrequencyUI(1);
+      }
+      recalculateAll();
+    }
+
+    function onChannelDirectHzInput(idx, rawVal) {
+      const ch = state.channels[idx];
+      if (!ch) return;
+      const hz = parseFloat(rawVal);
+      if (!Number.isFinite(hz) || hz < 1000 || hz > 225000000) return;
+      ch.baseHz = Math.round(hz);
+      ch.fineTrimHz = 0;
+      enforceCouplingRules(idx);
+      const logEl = document.getElementById(`ch-${idx}-log-slider`);
+      const trimEl = document.getElementById(`ch-${idx}-trim-slider`);
+      const trimValEl = document.getElementById(`ch-${idx}-trim-val`);
+      if (logEl) logEl.value = hzToLogSlider(ch.baseHz);
+      if (trimEl) trimEl.value = 0;
+      if (trimValEl) trimValEl.textContent = '+0 Hz';
+      if (ch.mode === 'quadrature' || ch.mode === 'differential') {
+        syncChannelFrequencyUI(0);
+        syncChannelFrequencyUI(1);
+      }
+      recalculateAll();
+    }
+
+    function onChannelLogSlider(idx, sliderPos) {
+      const ch = state.channels[idx];
+      if (!ch) return;
+      ch.baseHz = logSliderToHz(parseInt(sliderPos, 10));
+      enforceCouplingRules(idx);
+      syncChannelFrequencyUI(idx);
+      if (ch.mode === 'quadrature' || ch.mode === 'differential') {
+        syncChannelFrequencyUI(0);
+        syncChannelFrequencyUI(1);
+      }
+      recalculateAll();
+    }
+
+    function onChannelFineTrimSlider(idx, trimVal) {
+      const ch = state.channels[idx];
+      if (!ch) return;
+      ch.fineTrimHz = parseInt(trimVal, 10) || 0;
+      enforceCouplingRules(idx);
+      syncChannelFrequencyUI(idx);
+      if (ch.mode === 'quadrature' || ch.mode === 'differential') {
+        syncChannelFrequencyUI(0);
+        syncChannelFrequencyUI(1);
+      }
+      recalculateAll();
+    }
+
+    function onChannelPhaseDegSlider(idx, degVal) {
+      const ch = state.channels[idx];
+      if (!ch) return;
+      ch.phaseDegTarget = Math.max(0, Math.min(360, parseInt(degVal, 10) || 0));
+      recalculateAll();
+    }
+
+    function applySystemPreset(presetId) {
+      if (presetId === 'vfo_bfo') {
+        state.channels[0] = {
+          ...state.channels[0],
+          mode: 'fractional', baseHz: 14200000, fineTrimHz: 0, pll: 'A',
+          drive: 3, rDivOverride: 0, invert: false, phaseDegTarget: 0
+        };
+        state.channels[1] = {
+          ...state.channels[1],
+          mode: 'fractional', baseHz: 10700000, fineTrimHz: 0, pll: 'B',
+          drive: 2, rDivOverride: 0, invert: false, phaseDegTarget: 0
+        };
+        state.channels[2] = {
+          ...state.channels[2],
+          mode: 'off', baseHz: 8000, fineTrimHz: 0, pll: 'B',
+          drive: 1, rDivOverride: 0, invert: false, phaseDegTarget: 0
+        };
+        showToast('Loaded HF VFO (14.2MHz) + BFO (10.7MHz)', 'info');
+      } else if (presetId === 'iq_sdr') {
+        state.channels[0] = {
+          ...state.channels[0],
+          mode: 'quadrature', baseHz: 7074000, fineTrimHz: 0, pll: 'A',
+          drive: 3, rDivOverride: 0, invert: false, phaseDegTarget: 0
+        };
+        state.channels[1] = {
+          ...state.channels[1],
+          mode: 'quadrature', baseHz: 7074000, fineTrimHz: 0, pll: 'A',
+          drive: 3, rDivOverride: 0, invert: false, phaseDegTarget: 90
+        };
+        state.channels[2] = {
+          ...state.channels[2],
+          mode: 'off', invert: false, phaseDegTarget: 0
+        };
+        showToast('Loaded Quadrature I/Q 90° SDR LO (7.074 MHz)', 'info');
+      } else if (presetId === 'vhf_beacon') {
+        state.channels[0] = {
+          ...state.channels[0],
+          mode: 'fractional', baseHz: 145000000, fineTrimHz: 0, pll: 'A',
+          drive: 3, rDivOverride: 0, invert: false, phaseDegTarget: 0
+        };
+        state.channels[1] = {
+          ...state.channels[1],
+          mode: 'fractional', baseHz: 10700000, fineTrimHz: 0, pll: 'B',
+          drive: 2, rDivOverride: 0, invert: false, phaseDegTarget: 0
+        };
+        state.channels[2] = {
+          ...state.channels[2],
+          mode: 'integer', baseHz: 25000000, fineTrimHz: 0, pll: 'B',
+          drive: 2, rDivOverride: 0, invert: false, phaseDegTarget: 0
+        };
+        showToast('Loaded 2m VHF (145MHz) + 10.7MHz IF + 25MHz Ref', 'info');
+      } else if (presetId === 'diff_clock') {
+        state.channels[0] = {
+          ...state.channels[0],
+          mode: 'differential', baseHz: 27000000, fineTrimHz: 0, pll: 'A',
+          drive: 3, rDivOverride: 0, invert: false, phaseDegTarget: 0
+        };
+        state.channels[1] = {
+          ...state.channels[1],
+          mode: 'differential', baseHz: 27000000, fineTrimHz: 0, pll: 'A',
+          drive: 3, rDivOverride: 0, invert: true, phaseDegTarget: 0
+        };
+        state.channels[2] = {
+          ...state.channels[2],
+          mode: 'off', invert: false, phaseDegTarget: 0
+        };
+        showToast('Loaded Differential 180° Clock Pair (27 MHz)', 'info');
+      } else if (presetId === 'spread_emi') {
+        state.channels[0] = {
+          ...state.channels[0],
+          mode: 'spread', baseHz: 48000000, fineTrimHz: 0, pll: 'A',
+          drive: 2, rDivOverride: 0, invert: false, phaseDegTarget: 0, ssPercent: 1.5, ssCenter: true
+        };
+        state.channels[1] = {
+          ...state.channels[1],
+          mode: 'off', invert: false, phaseDegTarget: 0
+        };
+        state.channels[2] = {
+          ...state.channels[2],
+          mode: 'off', invert: false, phaseDegTarget: 0
+        };
+        showToast('Loaded Spread Spectrum EMI Reduction (48 MHz ±1.5%)', 'info');
+      }
+
+      enforceCouplingRules(0);
+      renderChannelCards();
+      recalculateAll();
+    }
+
+    /***************************************************************************
+     * Hardware-Accurate Si5351A Synthesizer & Register Calculator (AN619)
+     ***************************************************************************/
+    function gcd(a, b) {
+      a = Math.abs(Math.round(a));
+      b = Math.abs(Math.round(b));
+      while (b !== 0) {
+        const t = b;
+        b = a % b;
+        a = t;
+      }
+      return a || 1;
+    }
+
+    /**
+     * Exact rational approximation using continued fractions for denominator <= maxDenom (1048575)
+     */
+    function rationalApprox(frac, maxDenom = 1048575) {
+      if (frac <= 1e-12) return { b: 0, c: 1 };
+      if (frac >= 1 - 1e-12) return { b: 1, c: 1 };
+
+      let h0 = 0, h1 = 1;
+      let k0 = 1, k1 = 0;
+      let x = frac;
+
+      for (let iter = 0; iter < 32; iter++) {
+        const a = Math.floor(x);
+        const h2 = a * h1 + h0;
+        const k2 = a * k1 + k0;
+        if (k2 > maxDenom) {
+          const kMax = Math.floor((maxDenom - k0) / k1);
+          const hAlt = kMax * h1 + h0;
+          const kAlt = kMax * k1 + k0;
+          const err1 = Math.abs(frac - h1 / k1);
+          const errAlt = kAlt > 0 ? Math.abs(frac - hAlt / kAlt) : Infinity;
+          if (errAlt < err1 && kAlt > 0) {
+            const g = gcd(hAlt, kAlt);
+            return { b: Math.round(hAlt / g), c: Math.round(kAlt / g) };
+          }
+          const g = gcd(h1, k1);
+          return { b: Math.round(h1 / g), c: Math.round(k1 / g) };
+        }
+        h0 = h1; h1 = h2;
+        k0 = k1; k1 = k2;
+        const rem = x - a;
+        if (rem < 1e-13) break;
+        x = 1 / rem;
+      }
+
+      const g = gcd(h1, k1);
+      return { b: Math.round(h1 / g), c: Math.round(k1 / g) };
+    }
+
+    /**
+     * Pack Si5351A AN619 8-byte parameter block:
+     * P1 = 128 * a + floor(128 * b / c) - 512
+     * P2 = 128 * b - c * floor(128 * b / c)
+     * P3 = c
+     */
+    function packSynthParams(a, b, c, rDivCode = 0, divBy4 = false) {
+      const aBig = BigInt(Math.max(0, Math.round(a)));
+      const bBig = BigInt(Math.max(0, Math.round(b)));
+      const cBig = BigInt(Math.max(1, Math.min(1048575, Math.round(c))));
+
+      const floorTerm = (128n * bBig) / cBig;
+      let p1 = Number(128n * aBig + floorTerm - 512n);
+      let p2 = Number(128n * bBig - cBig * floorTerm);
+      const p3 = Number(cBig);
+
+      if (divBy4) {
+        p1 = 0;
+        p2 = 0;
+      }
+      p1 = Math.max(0, Math.min(0x3FFFF, p1));
+      p2 = Math.max(0, Math.min(0xFFFFF, p2));
+
+      const div4Bits = divBy4 ? 0x0C : 0x00; // bits [3:2] = 11b
+      const rBits = (rDivCode & 0x07) << 4;  // bits [6:4]
+
+      return [
+        (p3 >> 8) & 0xFF,                                   // Byte 0: MSx_P3[15:8]
+        p3 & 0xFF,                                          // Byte 1: MSx_P3[7:0]
+        rBits | div4Bits | ((p1 >> 16) & 0x03),             // Byte 2: R_DIV[6:4] | DIVBY4[3:2] | MSx_P1[17:16]
+        (p1 >> 8) & 0xFF,                                   // Byte 3: MSx_P1[15:8]
+        p1 & 0xFF,                                          // Byte 4: MSx_P1[7:0]
+        (((p3 >> 16) & 0x0F) << 4) | ((p2 >> 16) & 0x0F),   // Byte 5: MSx_P3[19:16] | MSx_P2[19:16]
+        (p2 >> 8) & 0xFF,                                   // Byte 6: MSx_P2[15:8]
+        p2 & 0xFF                                           // Byte 7: MSx_P2[7:0]
+      ];
+    }
+
+    function solveSynthDivider(vcoHz, targetMsInHz, forceInteger = false) {
+      const rawRatio = vcoHz / Math.max(1, targetMsInHz);
+      const maxDiv = forceInteger ? 2048 : 1800;
+      let clamped = null;
+      let ratio = rawRatio;
+
+      if (ratio > maxDiv) {
+        ratio = maxDiv;
+        clamped = 'max';
+      } else if (ratio < 6) {
+        ratio = 6;
+        clamped = 'min';
+      }
+
+      if (forceInteger) {
+        let a = Math.max(6, Math.min(2048, Math.round(ratio)));
+        if (a % 2 !== 0) a = Math.min(2048, a + 1);
+        return { a, b: 0, c: 1, actualDiv: a, isInt: true, clamped };
+      }
+
+      // AN619 §4.1.1: Between 6 and 8 only integer 6 is valid; fractional starts at 8.0
+      if (ratio < 8) {
+        const useSix = Math.abs(ratio - 6) < Math.abs(ratio - 8);
+        const a = useSix ? 6 : 8;
+        return { a, b: 0, c: 1, actualDiv: a, isInt: true, clamped: clamped || 'gap6_8' };
+      }
+
+      const a = Math.floor(ratio);
+      const frac = ratio - a;
+      if (frac < 1e-11) {
+        return { a, b: 0, c: 1, actualDiv: a, isInt: a % 2 === 0, clamped };
+      }
+      const { b, c } = rationalApprox(frac, 1048575);
+      if (b === c) {
+        return { a: a + 1, b: 0, c: 1, actualDiv: a + 1, isInt: (a + 1) % 2 === 0, clamped };
+      }
+      return { a, b, c, actualDiv: a + b / c, isInt: b === 0 && (a % 2 === 0), clamped };
+    }
+
+    function selectOptimalVco(xtalHz, channelsForPll) {
+      if (channelsForPll.length === 0) {
+        const mult = Math.max(15, Math.min(90, Math.round(800000000 / xtalHz)));
+        return { active: false, vcoHz: xtalHz * mult, a: mult, b: 0, c: 1, isInt: true, inSpec: true };
+      }
+
+      // If single channel or coupled channels share an exact frequency, pick integer PLL multiplier when possible
+      const primary = channelsForPll[0];
+      const fMs = primary.msOutHz;
+
+      // High-speed > 150 MHz uses DIVBY4 (MS divider = 4) -> VCO = 4 * fMs (clamped to 900 MHz hardware VCO max)
+      if (fMs > 150000000) {
+        const maxVco = Math.min(900000000, xtalHz * 90);
+        const minVco = Math.max(600000000, xtalHz * 15);
+        const vcoTarget = Math.max(minVco, Math.min(maxVco, fMs * 4));
+        const multRatio = Math.max(15, Math.min(90, vcoTarget / xtalHz));
+        const a = Math.floor(multRatio);
+        const { b, c } = rationalApprox(multRatio - a, 1048575);
+        const vcoActual = xtalHz * (a + b / c);
+        return {
+          active: true,
+          vcoHz: vcoActual,
+          a, b, c,
+          isInt: b === 0,
+          inSpec: vcoActual >= 600000000 && vcoActual <= 900000000
+        };
+      }
+
+      // Try finding an even integer MultiSynth divider k in [6..2048] that puts VCO in [600..900] MHz
+      let bestCandidate = null;
+      const kMin = Math.max(6, Math.ceil(600000000 / fMs));
+      const kMax = Math.min(2048, Math.floor(900000000 / fMs));
+
+      for (let k = kMin; k <= kMax; k++) {
+        if (k % 2 !== 0 && primary.forceInt) continue;
+        const vcoCandidate = fMs * k;
+        const multRatio = vcoCandidate / xtalHz;
+        const a = Math.floor(multRatio);
+        const frac = multRatio - a;
+        // Prefer integer PLL multiplier if exact, otherwise clean even MS divider around 750-800 MHz
+        if (frac < 1e-10) {
+          bestCandidate = {
+            active: true,
+            vcoHz: xtalHz * a,
+            a, b: 0, c: 1,
+            isInt: true,
+            inSpec: true
+          };
+          break;
+        }
+        if (!bestCandidate && (k % 2 === 0)) {
+          const { b, c } = rationalApprox(frac, 1048575);
+          bestCandidate = {
+            active: true,
+            vcoHz: xtalHz * (a + b / c),
+            a, b, c,
+            isInt: b === 0,
+            inSpec: true
+          };
+        }
+      }
+
+      if (bestCandidate) return bestCandidate;
+
+      // Fallback fixed VCO (~800 MHz integer multiple of XTAL)
+      const mult = Math.max(15, Math.min(90, Math.round(800000000 / xtalHz)));
+      const vcoHz = xtalHz * mult;
+      return {
+        active: true,
+        vcoHz,
+        a: mult,
+        b: 0,
+        c: 1,
+        isInt: true,
+        inSpec: vcoHz >= 600000000 && vcoHz <= 900000000
+      };
+    }
+
+    function recalculateAll() {
+      const effectiveXtalHz = state.xtalBaseHz * (1 + state.xtalPpm / 1e6);
+      state.computed.effectiveXtalHz = effectiveXtalHz;
+
+      // Update Global XTAL & Calib Readouts
+      const xtalReadoutEl = document.getElementById('effective-xtal-readout');
+      const calibBadgeEl = document.getElementById('calib-hz-badge');
+      if (xtalReadoutEl) {
+        xtalReadoutEl.textContent = `${Math.round(effectiveXtalHz).toLocaleString()} Hz`;
+      }
+      if (calibBadgeEl) {
+        const driftHz = effectiveXtalHz - state.xtalBaseHz;
+        calibBadgeEl.textContent = `${driftHz >= 0 ? '+' : ''}${driftHz.toFixed(1)} Hz`;
+      }
+
+      // First pass: determine R-divider and MS output frequency for each active channel
+      const preChannels = state.channels.map((ch) => {
+        if (ch.mode === 'off') {
+          return { active: false };
+        }
+        const targetHz = getChannelTotalHz(ch);
+        if (ch.mode === 'bypass') {
+          return { active: true, bypass: true, targetHz, rDivCode: 0, rDiv: 1, msOutHz: effectiveXtalHz };
+        }
+
+        let rDivCode = 0;
+        if (ch.rDivOverride > 0) {
+          rDivCode = ch.rDivOverride - 1;
+        } else {
+          // Si5351A MultiSynth minimum output frequency is ~500 kHz; scale down via R-divider below 500 kHz
+          while ((targetHz * (1 << rDivCode)) < 500000 && rDivCode < 7) {
+            rDivCode++;
+          }
+        }
+        const rDiv = 1 << rDivCode;
+        const msOutHz = targetHz * rDiv;
+        return {
+          active: true,
+          bypass: false,
+          targetHz,
+          rDivCode,
+          rDiv,
+          msOutHz,
+          forceInt: ch.mode === 'integer'
+        };
+      });
+
+      // Group active non-bypass channels by PLL
+      const pllAChannels = [];
+      const pllBChannels = [];
+      state.channels.forEach((ch, idx) => {
+        const pre = preChannels[idx];
+        if (!pre.active || pre.bypass) return;
+        if (ch.pll === 'A') pllAChannels.push(pre);
+        else pllBChannels.push(pre);
+      });
+
+      const pllA = selectOptimalVco(effectiveXtalHz, pllAChannels);
+      const pllB = selectOptimalVco(effectiveXtalHz, pllBChannels);
+      pllA.users = state.channels.filter((c, i) => preChannels[i].active && !preChannels[i].bypass && c.pll === 'A').map(c => c.name);
+      pllB.users = state.channels.filter((c, i) => preChannels[i].active && !preChannels[i].bypass && c.pll === 'B').map(c => c.name);
+      pllA.ssEnabled = state.channels.some((c, i) => preChannels[i].active && c.mode === 'spread');
+      pllB.ssEnabled = false;
+
+      state.computed.pllA = pllA;
+      state.computed.pllB = pllB;
+
+      // Update PLL Telemetry Cards
+      updatePllTelemetryUI('plla', pllA);
+      updatePllTelemetryUI('pllb', pllB);
+
+      // Initialize default register array (AN619 reset defaults)
+      const regs = new Uint8Array(256);
+      regs[3] = 0xFF; // All outputs disabled by default
+      for (let r = 16; r <= 23; r++) regs[r] = 0x80; // All CLKx powered down
+      regs[183] = ((state.xtalCl & 0x03) << 6) | 0x12; // XTAL load capacitance + fixed reserved bits [4,1]
+      regs[187] = (state.fanoutClkin ? 0x80 : 0x00) |
+                  (state.fanoutXo ? 0x40 : 0x00) |
+                  (state.fanoutMs ? 0x10 : 0x00);
+
+      // Pack MSNA (Regs 26..33) & MSNB (Regs 34..41)
+      const msnaBytes = packSynthParams(pllA.a, pllA.b, pllA.c, 0, false);
+      for (let i = 0; i < 8; i++) regs[26 + i] = msnaBytes[i];
+      const msnbBytes = packSynthParams(pllB.a, pllB.b, pllB.c, 0, false);
+      for (let i = 0; i < 8; i++) regs[34 + i] = msnbBytes[i];
+
+      // Spread Spectrum Registers (Regs 149..161 on PLLA)
+      if (pllA.ssEnabled) {
+        const ssCh = state.channels.find(c => c.mode === 'spread') || state.channels[0];
+        const depth = Math.max(0.001, Math.min(0.025, ssCh.ssPercent / 100));
+        const ssudp = Math.max(1, Math.min(4095, Math.round(effectiveXtalHz / (4 * 31500))));
+        const ssdnVal = Math.max(1, Math.min(32767, Math.round((pllA.a * depth * 128) / ssudp)));
+        const ssupVal = ssCh.ssCenter ? ssdnVal : 0;
+
+        regs[149] = 0x80 | ((ssdnVal >> 8) & 0x7F); // SSC_EN=1 | SSDN_P2[14:8]
+        regs[150] = ssdnVal & 0xFF;               // SSDN_P2[7:0]
+        regs[151] = (ssCh.ssCenter ? 0x80 : 0x00) | ((ssupVal >> 8) & 0x7F); // SSC_MODE | SSUP_P2[14:8]
+        regs[152] = ssupVal & 0xFF;               // SSUP_P2[7:0]
+        regs[153] = 0x01;                         // SSDN_P3[7:0]
+        regs[154] = ((ssudp >> 8) & 0x0F) << 4;   // SSUDP[11:8]
+        regs[155] = ssudp & 0xFF;                 // SSUDP[7:0]
+      }
+
+      // Reg 24: CLK3_0 Disable States
+      let reg24 = 0;
+      state.channels.forEach((ch, idx) => {
+        reg24 |= ((ch.disableState & 0x03) << (idx * 2));
+      });
+      regs[24] = reg24;
+
+      // Reg 177: Soft Reset PLLA & PLLB
+      regs[177] = (pllA.active ? 0x20 : 0x00) | (pllB.active ? 0x80 : 0x00);
+
+      // Compute each channel's MultiSynth, Phase Offset, and Control Register
+      let reg3EnableMask = 0xFF; // 0 = enabled, 1 = disabled
+
+      state.channels.forEach((ch, idx) => {
+        const pre = preChannels[idx];
+        const warnings = [];
+
+        if (!pre.active) {
+          regs[16 + idx] = 0x80; // CLKx_PDN = 1
+          ch._effectiveInvert = Boolean(ch.invert);
+          state.computed.ch[idx] = {
+            active: false,
+            actualHz: 0,
+            errorHz: 0,
+            errorPpm: 0,
+            phaseDeg: 0,
+            invert: false,
+            warnings: []
+          };
+          return;
+        }
+
+        reg3EnableMask &= ~(1 << idx); // Clear disable bit to enable output
+
+        const effInvert = (ch.mode === 'differential' && idx === 1) ? true : Boolean(ch.invert);
+        ch._effectiveInvert = effInvert;
+
+        if (pre.bypass) {
+          // Direct XTAL bypass: CLKx_SRC = 00 (XTAL)
+          regs[16 + idx] = (effInvert ? 0x10 : 0x00) | (0x00 << 2) | (ch.drive & 0x03);
+          regs[165 + idx] = 0;
+          ch.phaseReg = 0;
+          const actualHz = effectiveXtalHz;
+          const errorHz = actualHz - pre.targetHz;
+          state.computed.ch[idx] = {
+            active: true,
+            bypass: true,
+            divBy4: false,
+            actualHz,
+            errorHz,
+            errorPpm: (errorHz / pre.targetHz) * 1e6,
+            msA: 1, msB: 0, msC: 1,
+            rDiv: 1,
+            phaseDeg: 0,
+            invert: effInvert,
+            warnings: []
+          };
+          return;
+        }
+
+        const pllObj = ch.pll === 'A' ? pllA : pllB;
+        const divBy4 = pre.msOutHz > 150000000;
+        let msParams;
+
+        if (divBy4) {
+          msParams = { a: 4, b: 0, c: 1, actualDiv: 4, isInt: true };
+        } else {
+          msParams = solveSynthDivider(pllObj.vcoHz, pre.msOutHz, ch.mode === 'integer');
+        }
+
+        const actualHz = pllObj.vcoHz / (msParams.actualDiv * pre.rDiv);
+        const errorHz = actualHz - pre.targetHz;
+        const errorPpm = pre.targetHz > 0 ? (errorHz / pre.targetHz) * 1e6 : 0;
+
+        // Calculate 7-bit CLKx_PHOFF (Regs 165..167):
+        // Step resolution = T_VCO / 4 = 1 / (4 * f_VCO)
+        // PHOFF = round((phaseDeg / 360) * 4 * (f_VCO / f_out))
+        let targetDeg = ch.phaseDegTarget;
+        if (ch.mode === 'quadrature') {
+          targetDeg = idx === 1 ? 90 : 0;
+        }
+        const maxStepsPerCycle = 4 * (pllObj.vcoHz / actualHz);
+        let phoff = Math.round((targetDeg / 360) * maxStepsPerCycle);
+        if (phoff > 127) {
+          warnings.push(`Phase ${targetDeg}° exceeds 7-bit PHOFF max (127); clamped`);
+          phoff = 127;
+        }
+        phoff = Math.max(0, phoff);
+        ch.phaseReg = phoff;
+        regs[165 + idx] = phoff & 0x7F;
+
+        const achievedPhaseDeg = maxStepsPerCycle > 0 ? (phoff / maxStepsPerCycle) * 360 : 0;
+
+        // Pack MSx parameters into Regs 42..49 (MS0), 50..57 (MS1), 58..65 (MS2)
+        const msBytes = packSynthParams(msParams.a, msParams.b, msParams.c, pre.rDivCode, divBy4);
+        const baseReg = 42 + idx * 8;
+        for (let i = 0; i < 8; i++) {
+          regs[baseReg + i] = msBytes[i];
+        }
+
+        // Reg 16/17/18: CLKx Control
+        // [7]=0 (Power Up), [6]=MSx_INT, [5]=MSx_SRC (0=PLLA, 1=PLLB), [4]=CLKx_INV, [3:2]=11 (MultiSynth), [1:0]=CLKx_IDRV
+        const msIntBit = msParams.isInt ? 0x40 : 0x00;
+        const msSrcBit = ch.pll === 'B' ? 0x20 : 0x00;
+        const invBit = effInvert ? 0x10 : 0x00;
+        regs[16 + idx] = msIntBit | msSrcBit | invBit | 0x0C | (ch.drive & 0x03);
+
+        if (pre.msOutHz > 225000000) {
+          warnings.push(`R-Div /${pre.rDiv} caps output at ${formatShortFreq(actualHz)} (MS max 225 MHz) — lower R-Div`);
+        }
+        if (msParams.clamped === 'max') {
+          warnings.push(`MS${idx} hit max ÷${msParams.a} — increase R-Div to reach ${formatShortFreq(pre.targetHz)}`);
+        } else if (msParams.clamped === 'gap6_8') {
+          warnings.push(`AN619: MS${idx} fractional 6..8 invalid — snapped to ÷${msParams.a}`);
+        }
+        if (actualHz > 160000000 && actualHz <= 225000000) {
+          warnings.push('Overclocked >160 MHz (valid on most Si5351A silicon up to 225 MHz)');
+        }
+        if (!pllObj.inSpec) {
+          warnings.push(`PLL${ch.pll} VCO ${(pllObj.vcoHz / 1e6).toFixed(1)} MHz outside 600–900 MHz spec`);
+        }
+
+        state.computed.ch[idx] = {
+          active: true,
+          bypass: false,
+          divBy4,
+          actualHz,
+          errorHz,
+          errorPpm,
+          msA: msParams.a,
+          msB: msParams.b,
+          msC: msParams.c,
+          rDiv: pre.rDiv,
+          phaseDeg: achievedPhaseDeg,
+          invert: effInvert,
+          warnings
+        };
+      });
+
+      regs[3] = reg3EnableMask;
+
+      // Track modified registers compared to datasheet reset defaults
+      const modified = new Set();
+      for (let addr = 0; addr <= 187; addr++) {
+        const defVal = getRegDefaultValue(addr);
+        if (regs[addr] !== defVal) modified.add(addr);
+      }
+
+      state.computed.registers = regs;
+      state.computed.modifiedRegs = modified;
+
+      const fanoutHexEl = document.getElementById('fanout-reg-hex');
+      if (fanoutHexEl) fanoutHexEl.textContent = '0x' + regs[187].toString(16).toUpperCase().padStart(2, '0');
+
+      updateChannelReadoutsUI();
+      renderBlockDiagram();
+      renderRegisterTable();
+      generateCCode();
+      renderDatasheetDocs();
+      renderHelpRegisterMap();
+    }
+
+    function updatePllTelemetryUI(prefix, pll) {
+      const vcoEl = document.getElementById(`${prefix}-vco-freq`);
+      const multEl = document.getElementById(`${prefix}-mult-str`);
+      const usersEl = document.getElementById(`${prefix}-users-str`);
+      const badgeEl = document.getElementById(`${prefix}-status-badge`);
+      const ssBadgeEl = document.getElementById('plla-ss-badge');
+
+      if (vcoEl) vcoEl.textContent = pll.active ? `${(pll.vcoHz / 1e6).toFixed(6)} MHz` : 'STANDBY';
+      if (multEl) multEl.textContent = pll.isInt ? `${pll.a} (Int)` : `${pll.a} + ${pll.b}/${pll.c}`;
+      if (usersEl) usersEl.textContent = pll.users.length ? pll.users.join(', ') : 'None';
+      if (badgeEl) {
+        if (!pll.active) {
+          badgeEl.textContent = 'IDLE';
+          badgeEl.className = 'px-1.5 py-0.2 text-[9px] font-mono rounded bg-slate-700/40 text-slate-400 border border-slate-600/40';
+        } else if (pll.inSpec) {
+          badgeEl.textContent = 'IN SPEC';
+          badgeEl.className = 'px-1.5 py-0.2 text-[9px] font-mono rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30';
+        } else {
+          badgeEl.textContent = 'OUT OF SPEC';
+          badgeEl.className = 'px-1.5 py-0.2 text-[9px] font-mono rounded bg-rose-500/20 text-rose-300 border border-rose-500/30';
+        }
+      }
+      if (prefix === 'plla' && ssBadgeEl) {
+        ssBadgeEl.classList.toggle('hidden', !pll.ssEnabled);
+      }
+    }
+
+    function getRegDefaultValue(addr) {
+      if (addr === 3) return 0xFF;
+      if (addr >= 16 && addr <= 23) return 0x80;
+      if (addr === 183) return 0xD2;
+      if (addr === 187) return 0x00;
+      return 0x00;
+    }
+
+    function getRegDescription(addr) {
+      if (addr === 3) return 'Output Enable Control (0=Enabled, 1=Disabled)';
+      if (addr === 15) return 'PLL Input Source (0=XTAL)';
+      if (addr >= 16 && addr <= 23) return `CLK${addr - 16} Control (PDN, MS_INT, SRC, INV, IDRV)`;
+      if (addr === 24) return 'CLK3–CLK0 Disable State';
+      if (addr >= 26 && addr <= 33) return `MSNA (PLLA) Feedback Divider Byte ${addr - 26}`;
+      if (addr >= 34 && addr <= 41) return `MSNB (PLLB) Feedback Divider Byte ${addr - 34}`;
+      if (addr >= 42 && addr <= 49) return `MultiSynth0 (CLK0) Divider / R-Div Byte ${addr - 42}`;
+      if (addr >= 50 && addr <= 57) return `MultiSynth1 (CLK1) Divider / R-Div Byte ${addr - 50}`;
+      if (addr >= 58 && addr <= 65) return `MultiSynth2 (CLK2) Divider / R-Div Byte ${addr - 58}`;
+      if (addr >= 149 && addr <= 161) return `Spread Spectrum Parameter (Reg ${addr})`;
+      if (addr >= 165 && addr <= 167) return `CLK${addr - 165} Initial Phase Offset (7-bit PHOFF)`;
+      if (addr === 177) return 'PLL Soft Reset (PLLB_RST[7], PLLA_RST[5])';
+      if (addr === 183) return 'Crystal Internal Load Capacitance (XTAL_CL[7:6])';
+      if (addr === 187) return 'Fanout Enable (CLKIN, XO, MS0/MS4)';
+      return `Reserved / General Register ${addr}`;
+    }
+
+    /***************************************************************************
+     * Dynamic Channel Cards Rendering
+     ***************************************************************************/
+    function renderChannelCards() {
+      const grid = document.getElementById('channels-grid');
+      if (!grid) return;
+      grid.innerHTML = '';
+
+      const driveLabels = ['2mA', '4mA', '6mA', '8mA'];
+      const modeHints = {
+        off: 'Reg 3[b_i]=1, Reg 16+i[7]=1 (PDN): Output disabled & powered down.',
+        fractional: 'MSi_INT=0 (Reg 16+i[6]): Fractional a+b/c divider (4..1800) for any Hz.',
+        integer: 'MSi_INT=1 (Reg 16+i[6]): Even integer MultiSynth + int PLL for lowest jitter.',
+        quadrature: 'Couples CLK0+1 on PLLA; writes Reg 166 PHOFF = round(f_VCO / 4f) + Reg 177 RST.',
+        phase: 'Writes Reg 165+i CLKi_PHOFF[6:0] in T_VCO/4 steps + Reg 177 PLL reset.',
+        differential: 'Couples CLK0+1 at equal freq; sets Reg 17[4] CLK1_INV=1 for 180° complement.',
+        spread: 'PLLA SSC_EN=1 (Reg 149–161): Dithers VCO to reduce peak EMI (PLLA only).',
+        bypass: 'CLKi_SRC=00 (Reg 16+i[3:2]): Routes XTAL directly to output; needs Reg 187[6].'
+      };
+
+      state.channels.forEach((ch, idx) => {
+        const st = ACCENT_STYLES[ch.accent];
+        const isOff = ch.mode === 'off';
+        const isBypass = ch.mode === 'bypass';
+        const freqLocked = isOff || isBypass || (idx === 1 && (ch.mode === 'quadrature' || ch.mode === 'differential'));
+        const phaseEnabled = !isOff && !isBypass && ch.mode !== 'quadrature' && ch.mode !== 'differential';
+        const totalHz = getChannelTotalHz(ch);
+        const logPos = hzToLogSlider(ch.baseHz);
+        const ctrlReg = 16 + idx;
+        const msBaseReg = 42 + idx * 8;
+        const rdivReg = 44 + idx * 8;
+        const phoffReg = 165 + idx;
+        const disBits = `${idx * 2 + 1}:${idx * 2}`;
+
+        const modeOptionsHtml = OPERATING_MODES.map(m =>
+          `<option value="${m.id}" ${ch.mode === m.id ? 'selected' : ''}>${m.label}</option>`
+        ).join('');
+
+        const presetBtnsHtml = FREQ_PRESETS.map(p =>
+          `<button onclick="applyChannelPreset(${idx}, ${p.hz})" ${freqLocked ? 'disabled' : ''} title="Quick Frequency Preset: Jump CH${idx} directly to ${p.hz.toLocaleString()} Hz and reset Fine Trim to 0." class="px-1.5 py-0.2 text-[9px] font-mono rounded bg-lab-bg hover:bg-slate-800 border border-lab-border text-slate-300 disabled:opacity-40 transition">${p.label}</button>`
+        ).join('');
+
+        const stepBtnsHtml = STEP_SIZES.map(s => {
+          const active = ch.stepHz === s.hz;
+          return `<button onclick="setChannelStep(${idx}, ${s.hz})" title="Nudge Step Size (${s.hz.toLocaleString()} Hz): Sets the frequency increment for the - / + buttons and keyboard arrow keys in the Hz input." class="px-1 py-0 text-[9px] font-mono rounded border ${active ? st.btnActive : 'bg-lab-bg border-lab-border text-slate-400 hover:text-slate-200'}">${s.label}</button>`;
+        }).join('');
+
+        const card = document.createElement('div');
+        card.className = `bg-lab-panel border ${isOff ? 'border-lab-border/70' : st.border} rounded-lg p-2.5 flex flex-col justify-between transition`;
+        card.style.setProperty('--slider-accent', st.sliderAccent);
+        card.style.setProperty('--slider-glow', st.sliderGlow);
+
+        card.innerHTML = `
+          <div class="space-y-2">
+            <!-- Header Row: CLK Name + Mode Select + PLL Select -->
+            <div class="flex items-center gap-1.5 pb-1.5 border-b border-lab-border/70">
+              <span class="w-2 h-2 rounded-full ${isOff ? 'bg-slate-600' : st.dot} shrink-0"></span>
+              <span class="text-xs font-bold font-mono text-white shrink-0">CH${idx} <span class="text-[10px] font-normal ${st.text}">(${ch.name})</span></span>
+              <select id="ch-${idx}-mode" onchange="updateChannelField(${idx}, 'mode', this.value)" title="Selects synthesis mode: sets CLKx_PDN (Reg ${ctrlReg}[7]), MSx_INT (Reg ${ctrlReg}[6]), CLKx_SRC (Reg ${ctrlReg}[3:2]), PHOFF (Reg ${phoffReg}), or SSC (Reg 149–161)." class="flex-1 min-w-0 bg-lab-card border border-lab-border rounded px-1.5 py-0.5 text-[11px] font-medium text-white focus:outline-none focus:border-cyan-500">
+                ${modeOptionsHtml}
+              </select>
+              <select id="ch-${idx}-pll" onchange="updateChannelField(${idx}, 'pll', this.value)" ${isOff || isBypass || ch.mode === 'spread' || ch.mode === 'quadrature' || ch.mode === 'differential' ? 'disabled' : ''} title="Reg ${ctrlReg} [bit 5] MS${idx}_SRC: 0 = PLLA (MSNA), 1 = PLLB (MSNB). Selects which VCO feeds MultiSynth ${idx}." class="w-16 bg-lab-bg border border-lab-border rounded px-1 py-0.5 text-[11px] font-mono text-white disabled:opacity-40">
+                <option value="A" ${ch.pll === 'A' ? 'selected' : ''}>PLLA</option>
+                <option value="B" ${ch.pll === 'B' ? 'selected' : ''}>PLLB</option>
+              </select>
+            </div>
+            <div id="ch-${idx}-mode-desc" class="text-[9.5px] font-mono text-slate-400 bg-lab-bg/60 border border-lab-border/50 rounded px-1.5 py-0.5 truncate" title="${modeHints[ch.mode] || ''}">
+              ${modeHints[ch.mode] || ''}
+            </div>
+
+            <!-- Frequency Tuning Strip -->
+            <div class="bg-lab-card/80 border border-lab-border rounded p-2 ${isOff ? 'opacity-40 pointer-events-none' : ''}" title="Target output frequency f_out = f_VCO / ((a + b/c) * R). Writes MS${idx}_P1/P2/P3 into Reg ${msBaseReg}–${msBaseReg + 7} (AN619 §4.1).">
+              <div class="flex items-center justify-between gap-1 mb-1">
+                <div class="flex flex-wrap gap-0.5">${presetBtnsHtml}</div>
+                <div class="flex items-center gap-0.5 shrink-0">
+                  <button onclick="nudgeChannelFreq(${idx}, -1)" ${freqLocked ? 'disabled' : ''} title="Step Down: Decrease CH${idx} frequency by ${ch.stepHz.toLocaleString()} Hz." class="px-1.5 py-0.2 text-[11px] font-mono font-bold bg-lab-bg hover:bg-slate-800 border border-lab-border rounded ${st.text} disabled:opacity-40">-</button>
+                  <input type="number" id="ch-${idx}-direct-hz" value="${totalHz}" step="${ch.stepHz}" min="1000" max="225000000" ${freqLocked ? 'disabled' : ''} oninput="onChannelDirectHzInput(${idx}, this.value)" title="Direct Frequency Input (Hz): Type any frequency from 1,000 Hz to 225,000,000 Hz. Automatically computes MS${idx} (Reg ${msBaseReg}–${msBaseReg + 7}) and R-Div." class="w-24 bg-lab-bg border border-lab-border rounded px-1.5 py-0.2 text-[11px] font-mono font-semibold text-right text-white focus:outline-none focus:border-cyan-500 disabled:opacity-60">
+                  <button onclick="nudgeChannelFreq(${idx}, 1)" ${freqLocked ? 'disabled' : ''} title="Step Up: Increase CH${idx} frequency by ${ch.stepHz.toLocaleString()} Hz." class="px-1.5 py-0.2 text-[11px] font-mono font-bold bg-lab-bg hover:bg-slate-800 border border-lab-border rounded ${st.text} disabled:opacity-40">+</button>
+                </div>
+              </div>
+
+              <!-- Coarse Log Slider -->
+              <div class="mt-1.5" title="Logarithmic Band Sweep (8 kHz – 160 MHz): Smoothly sweeps across the entire Si5351A datasheet frequency range on a logarithmic scale.">
+                <div class="flex justify-between text-[9px] font-mono text-slate-400">
+                  <span>Band Sweep (8k–160M)</span>
+                  <span class="flex items-center gap-0.5">Step: ${stepBtnsHtml}</span>
+                </div>
+                <input type="range" id="ch-${idx}-log-slider" min="0" max="1000" step="1" value="${logPos}" ${freqLocked ? 'disabled' : ''} oninput="onChannelLogSlider(${idx}, this.value)" class="w-full rf-slider mt-1">
+              </div>
+
+              <!-- Fine Trim Slider -->
+              <div class="mt-1.5" title="Fine Frequency Trim (±50 kHz in 10 Hz steps): Adds a fine offset to the base frequency for VFO clarifier / RIT tuning and live divider updates in Reg ${msBaseReg}–${msBaseReg + 7}.">
+                <div class="flex justify-between text-[9px] font-mono">
+                  <span class="text-slate-400">Fine Trim (&plusmn;50 kHz)</span>
+                  <span id="ch-${idx}-trim-val" class="${st.text}">${ch.fineTrimHz >= 0 ? '+' : ''}${ch.fineTrimHz.toLocaleString()} Hz</span>
+                </div>
+                <input type="range" id="ch-${idx}-trim-slider" min="-50000" max="50000" step="10" value="${ch.fineTrimHz}" ${freqLocked ? 'disabled' : ''} oninput="onChannelFineTrimSlider(${idx}, this.value)" class="w-full rf-slider mt-0.5">
+              </div>
+            </div>
+
+            <!-- Conditional Spread Spectrum Mini-Bar -->
+            <div id="ch-${idx}-ss-panel" class="${ch.mode === 'spread' ? '' : 'hidden'} bg-rose-950/25 border border-rose-500/30 rounded px-2 py-1.5" title="Spread Spectrum (Reg 149–161): Sets SSC_EN=1 (Reg 149[7]) on PLLA to dither the VCO by 0.1%–2.5% and spread EMI energy. Check Center to set SSC_MODE=1 (Reg 151[7]).">
+              <div class="flex items-center justify-between gap-2 text-[10px]">
+                <span class="font-semibold text-rose-300 shrink-0">SS Depth <span class="font-mono text-[9px] text-rose-400/80">(R149–161)</span>: <span id="ch-${idx}-ss-val" class="font-mono text-rose-200">${ch.ssPercent.toFixed(1)}%</span></span>
+                <input type="range" min="0.1" max="2.5" step="0.1" value="${ch.ssPercent}" oninput="updateChannelField(${idx}, 'ssPercent', parseFloat(this.value))" class="flex-1 rf-slider" style="--slider-accent: #f43f5e; --slider-glow: rgba(244,63,94,0.5);">
+                <label class="flex items-center gap-1 text-slate-300 cursor-pointer shrink-0" title="SSC_MODE (Reg 151[7]): Unchecked = Down-spread only (-depth%). Checked = Center-spread (±depth% around center frequency).">
+                  <input type="checkbox" ${ch.ssCenter ? 'checked' : ''} onchange="updateChannelField(${idx}, 'ssCenter', this.checked)" class="w-3 h-3 rounded"> Center
+                </label>
+              </div>
+            </div>
+
+            <!-- Compact 3-Column Slider Matrix: Phase | Drive | R-Div -->
+            <div class="grid grid-cols-3 gap-1.5">
+              <div class="bg-lab-card border border-lab-border rounded p-1.5 ${phaseEnabled ? '' : 'opacity-45'}" title="Reg ${phoffReg} (0x${phoffReg.toString(16).toUpperCase()}) CLK${idx}_PHOFF[6:0]: Initial phase offset in T_VCO/4 steps (0..127). Requires PLL soft reset (Reg 177) to apply.">
+                <div class="flex justify-between text-[9px] font-mono mb-0.5">
+                  <span class="text-slate-400">Phase <span class="text-slate-500">R${phoffReg}</span></span>
+                  <span id="ch-${idx}-phase-readout" class="${st.text}">${ch.phaseDegTarget}°</span>
+                </div>
+                <input type="range" id="ch-${idx}-phase-slider" min="0" max="360" step="1" value="${ch.phaseDegTarget}" ${phaseEnabled ? '' : 'disabled'} oninput="onChannelPhaseDegSlider(${idx}, this.value)" class="w-full rf-slider">
+              </div>
+
+              <div class="bg-lab-card border border-lab-border rounded p-1.5" title="Reg ${ctrlReg} [1:0] CLK${idx}_IDRV: Output buffer drive strength (00=2mA, 01=4mA, 10=6mA, 11=8mA into 50Ω/CMOS load).">
+                <div class="flex justify-between text-[9px] font-mono mb-0.5">
+                  <span class="text-slate-400">Drive <span class="text-slate-500">R${ctrlReg}[1:0]</span></span>
+                  <span id="ch-${idx}-drive-val" class="${st.text}">${driveLabels[ch.drive]}</span>
+                </div>
+                <input type="range" min="0" max="3" step="1" value="${ch.drive}" oninput="updateChannelField(${idx}, 'drive', parseInt(this.value, 10))" class="w-full rf-slider">
+              </div>
+
+              <div class="bg-lab-card border border-lab-border rounded p-1.5" title="Reg ${rdivReg} [6:4] R${idx}_DIV[2:0]: Post-MultiSynth power-of-2 divider (/1 to /128). Required for f_out &lt; 500 kHz down to 8 kHz.">
+                <div class="flex justify-between text-[9px] font-mono mb-0.5">
+                  <span class="text-slate-400">R-Div <span class="text-slate-500">R${rdivReg}[6:4]</span></span>
+                  <span id="ch-${idx}-rdiv-val" class="${st.text}">${R_DIV_OPTIONS[ch.rDivOverride]}</span>
+                </div>
+                <input type="range" min="0" max="8" step="1" value="${ch.rDivOverride}" ${isOff || isBypass ? 'disabled' : ''} oninput="updateChannelField(${idx}, 'rDivOverride', parseInt(this.value, 10))" class="w-full rf-slider">
+              </div>
+            </div>
+
+            <!-- Compact Footer Controls: Disable State + Polarity Invert -->
+            <div class="flex items-center justify-between gap-2 bg-lab-card/60 border border-lab-border rounded px-2 py-1 text-[10px]">
+              <div class="flex items-center gap-1" title="Reg 24 [${disBits}] CLK${idx}_DIS_STATE: Pin state when disabled via Reg 3 (OEB): 00=Low, 01=High, 10=High-Z, 11=Never.">
+                <span class="text-slate-400">Dis <span class="font-mono text-[9px] text-slate-500">R24[${disBits}]</span>:</span>
+                <select onchange="updateChannelField(${idx}, 'disableState', parseInt(this.value, 10))" class="bg-lab-bg border border-lab-border rounded px-1 py-0.2 font-mono text-slate-200">
+                  <option value="0" ${ch.disableState === 0 ? 'selected' : ''}>Low (0V)</option>
+                  <option value="1" ${ch.disableState === 1 ? 'selected' : ''}>High (3.3V)</option>
+                  <option value="2" ${ch.disableState === 2 ? 'selected' : ''}>High-Z</option>
+                  <option value="3" ${ch.disableState === 3 ? 'selected' : ''}>Never</option>
+                </select>
+              </div>
+              <label class="flex items-center gap-1.5 ${isOff || ch.mode === 'differential' ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}" title="Reg ${ctrlReg} [bit 4] CLK${idx}_INV: Hardware 180° waveform inversion at the output buffer.">
+                <span id="ch-${idx}-inv-lbl" class="font-mono text-slate-300">${ch.invert ? 'INV 180°' : 'Normal 0°'}</span>
+                <span class="font-mono text-[9px] text-slate-500">R${ctrlReg}[4]</span>
+                <input type="checkbox" id="ch-${idx}-inv-chk" ${ch.invert ? 'checked' : ''} ${isOff || ch.mode === 'differential' ? 'disabled' : ''} onchange="updateChannelField(${idx}, 'invert', this.checked)" class="w-3 h-3 rounded border-slate-600 bg-lab-bg text-cyan-500 focus:ring-0">
+              </label>
+            </div>
+          </div>
+
+          <!-- Compact Real-time Output Readout Bar -->
+          <div class="mt-2 bg-lab-bg border border-lab-border rounded px-2 py-1.5 font-mono" title="Live Hardware Readout: Shows actual synthesized output frequency, quantization error in Hz/ppb, active MultiSynth divider (MS${idx}) + R-Div, and live I2C register values (Reg 3, Reg ${ctrlReg}, Reg ${msBaseReg}–${msBaseReg + 7}, Reg ${phoffReg}).">
+            <div class="flex items-baseline justify-between gap-1">
+              <span id="ch-${idx}-actual-freq" class="text-sm font-bold ${isOff ? 'text-slate-500' : st.text}">14.200000 MHz</span>
+              <span id="ch-${idx}-error-readout" class="text-[10px] text-emerald-400">Exact</span>
+            </div>
+            <div id="ch-${idx}-ms-params" class="text-[10px] text-slate-400 truncate">MS0: 56 (Int) | R=/1</div>
+            <div id="ch-${idx}-reg-summary" class="text-[9px] text-cyan-400/80 truncate mt-0.5">R3[b0]=0 | R16=0x4F | R42..49 | R165=0x00</div>
+            <div id="ch-${idx}-warnings" class="mt-0.5 space-y-0.5"></div>
+          </div>
+        `;
+
+        grid.appendChild(card);
+      });
+    }
+
+    function updateChannelReadoutsUI() {
+      const driveLabels = ['2mA', '4mA', '6mA', '8mA'];
+      state.channels.forEach((ch, idx) => {
+        const comp = state.computed.ch[idx];
+        if (!comp) return;
+
+        const actualEl = document.getElementById(`ch-${idx}-actual-freq`);
+        const errorEl = document.getElementById(`ch-${idx}-error-readout`);
+        const msEl = document.getElementById(`ch-${idx}-ms-params`);
+        const rdivValEl = document.getElementById(`ch-${idx}-rdiv-val`);
+        const driveValEl = document.getElementById(`ch-${idx}-drive-val`);
+        const phaseReadoutEl = document.getElementById(`ch-${idx}-phase-readout`);
+        const phaseSliderEl = document.getElementById(`ch-${idx}-phase-slider`);
+        const invLblEl = document.getElementById(`ch-${idx}-inv-lbl`);
+        const warnEl = document.getElementById(`ch-${idx}-warnings`);
+        const ssValEl = document.getElementById(`ch-${idx}-ss-val`);
+        const regSummaryEl = document.getElementById(`ch-${idx}-reg-summary`);
+        const regs = state.computed.registers;
+        const ctrlReg = 16 + idx;
+        const phoffReg = 165 + idx;
+        const msBase = 42 + idx * 8;
+        const hex = (v) => '0x' + (v || 0).toString(16).toUpperCase().padStart(2, '0');
+        const oebBit = (regs[3] >> idx) & 1;
+
+        if (ssValEl) ssValEl.textContent = `${ch.ssPercent.toFixed(1)}%`;
+        if (driveValEl) driveValEl.textContent = driveLabels[ch.drive];
+        if (rdivValEl) {
+          rdivValEl.textContent = ch.rDivOverride === 0 ? `Auto(/${comp.rDiv || 1})` : R_DIV_OPTIONS[ch.rDivOverride];
+        }
+        if (invLblEl) {
+          const effInv = ch._effectiveInvert !== undefined ? ch._effectiveInvert : ch.invert;
+          invLblEl.textContent = effInv ? 'INV 180°' : 'Normal 0°';
+        }
+        if (phaseSliderEl) phaseSliderEl.value = ch.phaseDegTarget;
+        if (phaseReadoutEl) {
+          phaseReadoutEl.textContent = `${comp.phaseDeg.toFixed(0)}° (P${ch.phaseReg})`;
+        }
+
+        if (!comp.active) {
+          const disNames = ['Low (0V)', 'High (3.3V)', 'High-Z', 'Never (PDN=1)'];
+          actualEl.textContent = 'DISABLED';
+          errorEl.textContent = disNames[ch.disableState] || 'Low (0V)';
+          errorEl.className = 'text-[10px] text-slate-500';
+          msEl.textContent = 'Powered Down (PDN=1)';
+          if (regSummaryEl) {
+            regSummaryEl.textContent = `R3[b${idx}]=${oebBit} (OEB) | R${ctrlReg}=${hex(regs[ctrlReg])} (PDN=1) | R24=${hex(regs[24])}`;
+          }
+          warnEl.innerHTML = '';
+          return;
+        }
+
+        if (regSummaryEl) {
+          const srcLabel = comp.bypass ? 'SRC=XTAL' : `PLL${ch.pll}`;
+          const msRange = comp.bypass ? 'MS bypassed' : `R${msBase}..${msBase + 7}`;
+          regSummaryEl.textContent = `R3[b${idx}]=${oebBit} | R${ctrlReg}=${hex(regs[ctrlReg])} (${srcLabel}) | ${msRange} | R${phoffReg}=${hex(regs[phoffReg])}`;
+        }
+
+        actualEl.textContent = formatFreqHz(comp.actualHz);
+        const ppb = Math.round(comp.errorPpm * 1000);
+        const absErr = Math.abs(comp.errorHz);
+        errorEl.textContent = absErr < 0.001 ? 'Exact (0 Hz)' : `${comp.errorHz >= 0 ? '+' : ''}${comp.errorHz.toFixed(2)}Hz (${ppb}ppb)`;
+        errorEl.className = absErr < 1.0 ? 'text-[10px] text-emerald-400' : 'text-[10px] text-amber-400';
+
+        if (comp.bypass) {
+          msEl.textContent = 'Direct XTAL Bypass (CLKx_SRC=00)';
+        } else if (comp.divBy4) {
+          msEl.textContent = `MS${idx}: ÷4 High-Speed (>150 MHz)`;
+        } else {
+          const fracStr = comp.msB === 0 ? `${comp.msA} (Int)` : `${comp.msA}+${comp.msB}/${comp.msC}`;
+          msEl.textContent = `MS${idx}: ${fracStr} | R=/${comp.rDiv}`;
+        }
+
+        warnEl.innerHTML = comp.warnings.map(w =>
+          `<div class="text-[9px] text-amber-300 bg-amber-500/10 border border-amber-500/30 rounded px-1 py-0.2">&#9888; ${w}</div>`
+        ).join('');
+      });
+
+      for (let i = 0; i < 3; i++) {
+        const lbl = document.getElementById(`scope-lbl-${i}`);
+        const comp = state.computed.ch[i];
+        if (lbl) lbl.textContent = comp && comp.active ? `${formatShortFreq(comp.actualHz)}@${comp.phaseDeg.toFixed(0)}°${comp.invert ? ' INV' : ''}` : 'OFF';
+      }
+    }
+
+    function renderBlockDiagram() {
+      const svg = document.getElementById('block-diagram-svg');
+      if (!svg) return;
+      const effXtalMHz = (state.computed.effectiveXtalHz / 1e6).toFixed(3);
+      const pllA = state.computed.pllA;
+      const pllB = state.computed.pllB;
+      const chColors = ['#22d3ee', '#fbbf24', '#c084fc'];
+      let pathsSvg = '', blocksSvg = '';
+
+      blocksSvg += `
+        <rect x="12" y="92" width="104" height="70" rx="6" fill="#151e30" stroke="#38bdf8" stroke-width="1.5"/>
+        <text x="64" y="114" fill="#94a3b8" font-size="10" font-family="JetBrains Mono" text-anchor="middle">XTAL OSC</text>
+        <text x="64" y="132" fill="#ffffff" font-size="12" font-weight="bold" font-family="JetBrains Mono" text-anchor="middle">${effXtalMHz} MHz</text>
+        <text x="64" y="149" fill="#38bdf8" font-size="10" font-family="JetBrains Mono" text-anchor="middle">CL=${state.xtalCl === 1 ? '6' : state.xtalCl === 2 ? '8' : '10'}pF</text>
+      `;
+
+      pathsSvg += `
+        <path d="M 116 114 C 149 114, 149 64, 182 64" fill="none" stroke="${pllA.active ? '#22d3ee' : '#334155'}" stroke-width="${pllA.active ? 2.2 : 1.2}"/>
+        <path d="M 116 140 C 149 140, 149 190, 182 190" fill="none" stroke="${pllB.active ? '#fbbf24' : '#334155'}" stroke-width="${pllB.active ? 2.2 : 1.2}"/>
+      `;
+
+      blocksSvg += `
+        <rect x="182" y="28" width="136" height="72" rx="6" fill="#151e30" stroke="${pllA.active ? (pllA.inSpec ? '#22d3ee' : '#f43f5e') : '#334155'}" stroke-width="1.5"/>
+        <text x="250" y="48" fill="#22d3ee" font-size="11" font-weight="bold" font-family="JetBrains Mono" text-anchor="middle">PLLA (MSNA)</text>
+        <text x="250" y="67" fill="#ffffff" font-size="12" font-weight="bold" font-family="JetBrains Mono" text-anchor="middle">${pllA.active ? (pllA.vcoHz / 1e6).toFixed(2) + ' MHz' : 'STANDBY'}</text>
+        <text x="250" y="85" fill="#94a3b8" font-size="10" font-family="JetBrains Mono" text-anchor="middle">${pllA.ssEnabled ? 'SPREAD SPEC' : (pllA.isInt ? 'INT x' + pllA.a : 'FRAC MULT')}</text>
+
+        <rect x="182" y="154" width="136" height="72" rx="6" fill="#151e30" stroke="${pllB.active ? (pllB.inSpec ? '#fbbf24' : '#f43f5e') : '#334155'}" stroke-width="1.5"/>
+        <text x="250" y="174" fill="#fbbf24" font-size="11" font-weight="bold" font-family="JetBrains Mono" text-anchor="middle">PLLB (MSNB)</text>
+        <text x="250" y="193" fill="#ffffff" font-size="12" font-weight="bold" font-family="JetBrains Mono" text-anchor="middle">${pllB.active ? (pllB.vcoHz / 1e6).toFixed(2) + ' MHz' : 'STANDBY'}</text>
+        <text x="250" y="211" fill="#94a3b8" font-size="10" font-family="JetBrains Mono" text-anchor="middle">${pllB.isInt ? 'INT x' + pllB.a : 'FRAC MULT'}</text>
+      `;
+
+      const chY = [40, 127, 214];
+      for (let i = 0; i < 3; i++) {
+        const ch = state.channels[i];
+        const comp = state.computed.ch[i];
+        const y = chY[i];
+        const active = comp && comp.active;
+        const color = active ? chColors[i] : '#475569';
+
+        if (active) {
+          if (comp.bypass) {
+            pathsSvg += `<path d="M 116 127 C 240 127, 290 ${y}, 382 ${y}" fill="none" stroke="${color}" stroke-width="2" stroke-dasharray="5,3"/>`;
+          } else {
+            const startY = ch.pll === 'A' ? 64 : 190;
+            const pllStroke = ch.pll === 'A' ? '#22d3ee' : '#fbbf24';
+            pathsSvg += `<path d="M 318 ${startY} C 348 ${startY}, 352 ${y}, 382 ${y}" fill="none" stroke="${pllStroke}" stroke-width="2"/>`;
+          }
+          pathsSvg += `
+            <line x1="502" y1="${y}" x2="530" y2="${y}" stroke="${color}" stroke-width="2"/>
+            <line x1="586" y1="${y}" x2="616" y2="${y}" stroke="${color}" stroke-width="2.2"/>
+          `;
+        }
+
+        blocksSvg += `
+          <rect x="382" y="${y - 22}" width="120" height="44" rx="5" fill="#151e30" stroke="${color}" stroke-width="1.4"/>
+          <text x="442" y="${y - 4}" fill="${color}" font-size="10" font-weight="bold" font-family="JetBrains Mono" text-anchor="middle">MS${i} ${comp && comp.bypass ? '(BYPASS)' : (comp && comp.divBy4 ? '(÷4)' : '')}</text>
+          <text x="442" y="${y + 12}" fill="#cbd5e1" font-size="10" font-family="JetBrains Mono" text-anchor="middle">${!active ? 'OFF' : (comp.bypass ? 'XTAL' : '÷' + (comp.msA + comp.msB / comp.msC).toFixed(2))}</text>
+
+          <rect x="530" y="${y - 16}" width="56" height="32" rx="4" fill="#0f1624" stroke="${color}" stroke-width="1.2"/>
+          <text x="558" y="${y + 4}" fill="#e2e8f0" font-size="10" font-family="JetBrains Mono" text-anchor="middle">R/${active ? comp.rDiv : 1}</text>
+
+          <rect x="616" y="${y - 20}" width="132" height="40" rx="6" fill="#090d16" stroke="${color}" stroke-width="1.5"/>
+          <text x="682" y="${y - 3}" fill="${color}" font-size="10" font-weight="bold" font-family="JetBrains Mono" text-anchor="middle">CH${i} / CLK${i} (${comp ? comp.phaseDeg.toFixed(0) : 0}°)</text>
+          <text x="682" y="${y + 12}" fill="#ffffff" font-size="10" font-weight="bold" font-family="JetBrains Mono" text-anchor="middle">${active ? formatFreqHz(comp.actualHz) : 'OFF'}</text>
+        `;
+      }
+
+      svg.innerHTML = pathsSvg + blocksSvg;
+    }
+
+    function formatPeriodSec(sec) {
+      if (!Number.isFinite(sec) || sec <= 0) return '--';
+      if (sec >= 1e-3) return (sec * 1e3).toFixed(2) + 'ms';
+      if (sec >= 1e-6) return (sec * 1e6).toFixed(sec * 1e6 >= 100 ? 1 : 2) + 'µs';
+      return (sec * 1e9).toFixed(sec * 1e9 >= 100 ? 1 : 2) + 'ns';
+    }
+
+    function formatTimeDiv(sec) {
+      if (sec >= 1e-3) return Math.round(sec * 1e3) + 'ms/div';
+      if (sec >= 1e-6) return Math.round(sec * 1e6) + 'µs/div';
+      return Math.round(sec * 1e9) + 'ns/div';
+    }
+
+    function formatCyclesCount(n) {
+      if (n >= 1e6) return (n / 1e6).toFixed(1) + 'M';
+      if (n >= 1e3) return (n / 1e3).toFixed(1) + 'k';
+      if (n >= 10) return n.toFixed(0);
+      if (n >= 0.1) return n.toFixed(2);
+      return '<0.1';
+    }
+
+    const SCOPE_TB_STEPS = [
+      1e-9, 2e-9, 5e-9, 10e-9, 20e-9, 50e-9, 100e-9, 200e-9, 500e-9,
+      1e-6, 2e-6, 5e-6, 10e-6, 20e-6, 50e-6, 100e-6
+    ];
+
+    function pickAutoSecPerDiv(activeFreqs) {
+      if (!activeFreqs.length) return 50e-9;
+      // Anchor timebase to the lowest active frequency (~4 cycles across 10 divs)
+      // so slow channels remain legible while high-frequency channels visibly pack into dense RF bands
+      const refFreq = Math.min(...activeFreqs);
+      const targetSecPerDiv = 4 / (10 * Math.max(1000, refFreq));
+      let best = SCOPE_TB_STEPS[SCOPE_TB_STEPS.length - 1];
+      for (let i = 0; i < SCOPE_TB_STEPS.length; i++) {
+        if (SCOPE_TB_STEPS[i] >= targetSecPerDiv) {
+          best = SCOPE_TB_STEPS[i];
+          break;
+        }
+      }
+      return best;
+    }
+
+    function initScopeLoop() {
+      const canvas = document.getElementById('scope-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+
+      function draw() {
+        if (!canvas.isConnected) return;
+        const rect = canvas.parentElement.getBoundingClientRect();
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        const cssW = Math.max(200, Math.floor(rect.width));
+        const cssH = Math.max(180, Math.floor(rect.height));
+
+        if (canvas.width !== Math.floor(cssW * dpr) || canvas.height !== Math.floor(cssH * dpr)) {
+          canvas.width = Math.floor(cssW * dpr);
+          canvas.height = Math.floor(cssH * dpr);
+        }
+
+        ctx.save();
+        ctx.scale(dpr, dpr);
+        const w = cssW;
+        const h = cssH;
+        ctx.clearRect(0, 0, w, h);
+
+        const startX = 68;
+        const drawW = Math.max(60, w - 76);
+
+        ctx.strokeStyle = '#1e293b';
+        ctx.lineWidth = 1;
+        for (let c = 0; c <= 10; c++) {
+          const x = startX + (drawW / 10) * c;
+          ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
+        }
+        for (let r = 1; r < 6; r++) {
+          const y = (h / 6) * r;
+          ctx.beginPath(); ctx.moveTo(startX, y); ctx.lineTo(startX + drawW, y); ctx.stroke();
+        }
+
+        const laneHeight = (h - 30) / 3;
+        const colors = ['#22d3ee', '#fbbf24', '#c084fc'];
+        const fillColors = ['rgba(34, 211, 238, 0.24)', 'rgba(251, 191, 36, 0.24)', 'rgba(192, 132, 252, 0.24)'];
+
+        const activeFreqs = [];
+        for (let i = 0; i < 3; i++) {
+          const c = state.computed.ch[i];
+          if (c && c.active && c.actualHz > 0) activeFreqs.push(c.actualHz);
+        }
+
+        const tbSelectEl = document.getElementById('scope-timebase-select');
+        const activeTimebase = tbSelectEl ? tbSelectEl.value : state.scopeTimebase;
+        state.scopeTimebase = activeTimebase;
+
+        const isLogMode = activeTimebase === 'log';
+        let secPerDiv = 50e-9;
+        if (!isLogMode) {
+          secPerDiv = activeTimebase === 'auto'
+            ? pickAutoSecPerDiv(activeFreqs)
+            : (parseFloat(activeTimebase) || 50e-9);
+        }
+        const windowSec = secPerDiv * 10;
+
+        // Draw subtle rising-edge trigger marker at Division 1 (t = 0)
+        const trigNormX = 0.1;
+        if (!isLogMode && state.scopeTriggered) {
+          const trigX = startX + drawW * trigNormX;
+          ctx.save();
+          ctx.strokeStyle = 'rgba(16, 185, 129, 0.45)';
+          ctx.setLineDash([3, 3]);
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(trigX, 0);
+          ctx.lineTo(trigX, h - 22);
+          ctx.stroke();
+          ctx.setLineDash([]);
+          ctx.fillStyle = '#34d399';
+          ctx.font = '600 8px "JetBrains Mono", monospace';
+          ctx.fillText('T', trigX + 2, 9);
+          ctx.restore();
+        }
+
+        const tbBadge = document.getElementById('scope-tb-badge');
+        if (tbBadge) {
+          tbBadge.textContent = isLogMode ? 'LOG SCALE' : formatTimeDiv(secPerDiv);
+        }
+
+        const ch0 = state.channels[0];
+        const ch1 = state.channels[1];
+        const comp0 = state.computed.ch[0];
+        const comp1 = state.computed.ch[1];
+        const isPairCoupled = (
+          comp0 && comp0.active && comp1 && comp1.active &&
+          (ch0.mode === 'quadrature' || ch0.mode === 'differential' ||
+           Math.abs(comp0.actualHz - comp1.actualHz) < 1)
+        );
+
+        const driveScales = [0.52, 0.68, 0.84, 1.0];
+        const driveLabels = ['2mA', '4mA', '6mA', '8mA'];
+
+        for (let i = 0; i < 3; i++) {
+          const comp = state.computed.ch[i];
+          const ch = state.channels[i];
+          const centerY = 10 + laneHeight * (i + 0.5);
+          const maxAmp = laneHeight * 0.34;
+          const amp = maxAmp * (driveScales[ch.drive] ?? 1.0);
+
+          ctx.fillStyle = colors[i];
+          ctx.font = '600 10px "JetBrains Mono", monospace';
+          ctx.fillText(`CH${i}/CLK${i}`, 6, centerY - maxAmp + 7);
+
+          if (!comp || !comp.active) {
+            const disLabels = ['OFF (0V)', 'OFF (3.3V)', 'OFF (Hi-Z)', 'OFF (Never)'];
+            ctx.fillStyle = '#64748b';
+            ctx.font = '400 8.5px "JetBrains Mono", monospace';
+            ctx.fillText(disLabels[ch.disableState] || 'OFF (0V)', 6, centerY + 6);
+            const flatY = ch.disableState === 1
+              ? centerY - maxAmp
+              : (ch.disableState === 2 || ch.disableState === 3 ? centerY : centerY + maxAmp);
+            ctx.strokeStyle = ch.disableState === 1 ? '#64748b' : '#334155';
+            ctx.setLineDash([4, 4]);
+            ctx.beginPath();
+            ctx.moveTo(startX, flatY);
+            ctx.lineTo(startX + drawW, flatY);
+            ctx.stroke();
+            ctx.setLineDash([]);
+            continue;
+          }
+
+          // Display real signal period T = 1/f and Drive/R-Div/Invert under channel label
+          ctx.fillStyle = '#94a3b8';
+          ctx.font = '400 8.5px "JetBrains Mono", monospace';
+          ctx.fillText(`T=${formatPeriodSec(1 / comp.actualHz)}`, 6, centerY + 3);
+          ctx.fillStyle = comp.invert ? '#fb7185' : colors[i];
+          ctx.fillText(`${driveLabels[ch.drive] || '8mA'}/R${comp.rDiv || 1}${comp.invert ? ' INV' : ''}`, 6, centerY + 13);
+
+          const totalPhaseDeg = comp.phaseDeg + (comp.invert ? 180 : 0);
+          const phaseRad = (totalPhaseDeg * Math.PI) / 180;
+
+          let cyclesAcrossScreen;
+          let scrollPhaseOffset;
+          if (isLogMode) {
+            if (isPairCoupled && (i === 0 || i === 1)) {
+              cyclesAcrossScreen = 3.0;
+              scrollPhaseOffset = state.scopePhase;
+            } else {
+              const logNorm = Math.max(0, Math.min(1, Math.log10(Math.max(1000, comp.actualHz) / 8000) / Math.log10(160000000 / 8000)));
+              cyclesAcrossScreen = 1.5 + logNorm * 10.5;
+              scrollPhaseOffset = state.scopePhase * (0.5 + logNorm * 2.5);
+            }
+          } else {
+            cyclesAcrossScreen = comp.actualHz * windowSec;
+            if (state.scopeTriggered) {
+              // Rising-edge trigger locked at Division 1 (t = 0) so every frequency change
+              // immediately shows exact pulse width and edge positions even at 1–2 ns/div
+              scrollPhaseOffset = 0;
+            } else {
+              // Shared physical time shift in Free-Run mode (exact relative channel speeds)
+              const tShiftSec = (state.scopePhase / (2 * Math.PI)) * (windowSec / 4);
+              scrollPhaseOffset = 2 * Math.PI * comp.actualHz * tShiftSec;
+            }
+          }
+
+          // Peak-detect RF Band rendering when cycles exceed pixel Nyquist resolution
+          if (!isLogMode && cyclesAcrossScreen > drawW * 0.42) {
+            const topY = centerY - amp;
+            const botY = centerY + amp;
+            ctx.fillStyle = fillColors[i];
+            ctx.fillRect(startX, topY, drawW, amp * 2);
+
+            // Subtle high-frequency vertical carrier shimmer
+            ctx.strokeStyle = colors[i];
+            ctx.globalAlpha = 0.35;
+            ctx.lineWidth = 1;
+            const shimmerOffset = (state.scopePhase * 12) % 3;
+            ctx.beginPath();
+            for (let px = shimmerOffset; px <= drawW; px += 3) {
+              ctx.moveTo(startX + px, topY);
+              ctx.lineTo(startX + px, botY);
+            }
+            ctx.stroke();
+            ctx.globalAlpha = 1.0;
+
+            // Crisp top & bottom peak-detect envelope rails
+            ctx.lineWidth = 1.6;
+            ctx.beginPath();
+            ctx.moveTo(startX, topY); ctx.lineTo(startX + drawW, topY);
+            ctx.moveTo(startX, botY); ctx.lineTo(startX + drawW, botY);
+            ctx.stroke();
+
+            // Readable RF density badge
+            const badgeText = `HF BAND: ${formatCyclesCount(cyclesAcrossScreen)} cyc (zoom Time/Div)`;
+            ctx.font = '600 9px "JetBrains Mono", monospace';
+            const tw = ctx.measureText(badgeText).width + 10;
+            const bx = startX + (drawW - tw) / 2;
+            const by = centerY - 7;
+            ctx.fillStyle = 'rgba(9, 13, 22, 0.85)';
+            ctx.fillRect(bx, by, tw, 14);
+            ctx.strokeStyle = colors[i];
+            ctx.lineWidth = 0.8;
+            ctx.strokeRect(bx, by, tw, 14);
+            ctx.fillStyle = colors[i];
+            ctx.fillText(badgeText, bx + 5, centerY + 3);
+            continue;
+          }
+
+          ctx.strokeStyle = colors[i];
+          ctx.lineWidth = 1.8;
+          ctx.beginPath();
+
+          let prevHigh = null;
+          const stepPx = cyclesAcrossScreen > 25 ? 0.5 : 1;
+          for (let px = 0; px <= drawW; px += stepPx) {
+            const normX = px / drawW;
+            const xRel = (!isLogMode && state.scopeTriggered) ? (normX - trigNormX) : normX;
+            const ssJitter = (ch.mode === 'spread') ? Math.sin(normX * Math.PI * 2 + state.scopePhase * 0.35) * 0.35 * Math.abs(xRel) * 3 : 0;
+            const angle = (xRel * cyclesAcrossScreen * 2 * Math.PI) - scrollPhaseOffset - phaseRad + ssJitter;
+            const isHigh = Math.sin(angle) >= 0;
+            const y = isHigh ? (centerY - amp) : (centerY + amp);
+
+            if (px === 0) ctx.moveTo(startX + px, y);
+            else {
+              if (isHigh !== prevHigh) ctx.lineTo(startX + px, prevHigh ? (centerY - amp) : (centerY + amp));
+              ctx.lineTo(startX + px, y);
+            }
+            prevHigh = isHigh;
+          }
+          ctx.stroke();
+
+          // Subtle cycle count / slow-signal indicator on right edge
+          if (!isLogMode) {
+            const cycLabel = cyclesAcrossScreen < 0.08
+              ? `${formatCyclesCount(cyclesAcrossScreen)} cyc (zoom out)`
+              : `${formatCyclesCount(cyclesAcrossScreen)} cyc`;
+            ctx.font = '400 9px "JetBrains Mono", monospace';
+            const tw = ctx.measureText(cycLabel).width + 6;
+            ctx.fillStyle = 'rgba(9, 13, 22, 0.72)';
+            ctx.fillRect(startX + drawW - tw - 2, centerY - amp + 1, tw, 12);
+            ctx.fillStyle = '#94a3b8';
+            ctx.fillText(cycLabel, startX + drawW - tw + 1, centerY - amp + 10);
+          }
+        }
+
+        ctx.restore();
+        if (!state.scopePaused) state.scopePhase += 0.045;
+        requestAnimationFrame(draw);
+      }
+
+      requestAnimationFrame(draw);
+    }
+
+    function onScopeTimebaseChange(val) {
+      state.scopeTimebase = val;
+    }
+
+    function toggleScopeTrigger() {
+      state.scopeTriggered = !state.scopeTriggered;
+      const btn = document.getElementById('scope-trig-btn');
+      if (btn) {
+        btn.textContent = state.scopeTriggered ? 'Trig' : 'Free';
+        btn.className = state.scopeTriggered
+          ? 'px-1.5 py-0.2 text-[10px] font-mono bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 rounded text-emerald-300'
+          : 'px-1.5 py-0.2 text-[10px] font-mono bg-lab-card hover:bg-slate-800 border border-lab-border rounded text-slate-300';
+      }
+    }
+
+    function toggleScopePause() {
+      state.scopePaused = !state.scopePaused;
+      document.getElementById('scope-pause-btn').textContent = state.scopePaused ? 'Resume' : 'Pause';
+    }
+
+    function renderRegisterTable() {
+      const tbody = document.getElementById('register-table-body');
+      const filterCheckbox = document.getElementById('reg-filter-modified');
+      if (!tbody || !filterCheckbox) return;
+      const filterMod = filterCheckbox.checked;
+      const regs = state.computed.registers;
+      const mod = state.computed.modifiedRegs;
+
+      const countEl = document.getElementById('modified-reg-count');
+      if (countEl) countEl.textContent = mod.size;
+
+      let rowsHtml = '';
+      for (let addr = 0; addr <= 187; addr++) {
+        const isMod = mod.has(addr);
+        if (filterMod && !isMod) continue;
+
+        const val = regs[addr];
+        const hexAddr = '0x' + addr.toString(16).toUpperCase().padStart(2, '0');
+        const hexVal = '0x' + val.toString(16).toUpperCase().padStart(2, '0');
+        const binVal = val.toString(2).padStart(8, '0');
+        const desc = getRegDescription(addr);
+
+        rowsHtml += `
+          <tr class="${isMod ? 'bg-cyan-950/25 text-slate-100' : 'text-slate-500'} hover:bg-slate-800/50 transition">
+            <td class="py-1 px-2">${addr}</td>
+            <td class="py-1 px-2 ${isMod ? 'text-cyan-400 font-semibold' : ''}">${hexAddr}</td>
+            <td class="py-1 px-2 ${isMod ? 'text-emerald-400 font-bold' : ''}">${hexVal}</td>
+            <td class="py-1 px-2 text-[10px] tracking-wider">${binVal}</td>
+            <td class="py-1 px-2 font-sans text-[10px] ${isMod ? 'text-slate-300' : 'text-slate-500'}">${desc}</td>
+          </tr>
+        `;
+      }
+      tbody.innerHTML = rowsHtml;
+    }
+
+    function renderDatasheetDocs() {
+      const container = document.getElementById('datasheet-docs-body');
+      const filterEl = document.getElementById('docs-filter-select');
+      if (!container) return;
+      const filter = filterEl ? filterEl.value : 'all';
+      const regs = state.computed.registers;
+      const hex = (v) => '0x' + (v || 0).toString(16).toUpperCase().padStart(2, '0');
+      const clPf = state.xtalCl === 1 ? '6 pF' : (state.xtalCl === 2 ? '8 pF' : '10 pF');
+      const pllA = state.computed.pllA;
+      const pllB = state.computed.pllB;
+
+      const entries = [
+        {
+          cat: 'xtal_pll',
+          title: 'XTAL Frequency & Internal Load Cap (CL)',
+          regs: `Reg 183 (0xB7) = ${hex(regs[183])}`,
+          bits: 'XTAL_CL[7:6]: 01=6pF, 10=8pF, 11=10pF | Bits[5:0]=0x12 (AN619 fixed)',
+          what: 'Sets the crystal reference frequency (25/27 MHz nominal; 10–40 MHz range) and connects internal on-chip load capacitors across XA/XB so no external caps are needed.',
+          formula: 'f_XTAL_eff = f_XTAL * (1 + ppm / 10^6)',
+          live: `${(state.xtalBaseHz / 1e6).toFixed(3)} MHz, CL=${clPf} (XTAL_CL=${state.xtalCl})`
+        },
+        {
+          cat: 'xtal_pll',
+          title: 'Calib Trim (PPM Offset)',
+          regs: 'Software only -> updates Reg 26–41 & Reg 42–65',
+          bits: 'No dedicated hardware trim register',
+          what: 'Compensates crystal tolerance, temperature drift, or stray board capacitance by adjusting the effective f_XTAL used to compute PLL and MultiSynth fractional dividers.',
+          formula: 'Δf = f_XTAL * ppm * 10^-6',
+          live: `${state.xtalPpm} ppm -> f_eff = ${state.computed.effectiveXtalHz.toFixed(1)} Hz`
+        },
+        {
+          cat: 'xtal_pll',
+          title: 'Fanout Enable',
+          regs: `Reg 187 (0xBB) = ${hex(regs[187])}`,
+          bits: 'CLKIN_FANOUT_EN[7], XO_FANOUT_EN[6], MS_FANOUT_EN[4]',
+          what: 'Gates internal clock distribution buffers. XO[6] must be 1 for Direct XTAL Bypass; MS0/4[4] enables sharing MS0/4 across outputs; CLKIN[7] is Si5351C-only.',
+          formula: 'Reg 187 = (CLKIN<<7) | (XO<<6) | (MS<<4)',
+          live: `XO=${state.fanoutXo ? 1 : 0}, MS0/4=${state.fanoutMs ? 1 : 0}, CLKIN=${state.fanoutClkin ? 1 : 0}`
+        },
+        {
+          cat: 'xtal_pll',
+          title: 'PLLA (MSNA) & PLLB (MSNB) Feedback',
+          regs: `PLLA: Reg 26–33 (0x1A–0x21) | PLLB: Reg 34–41 (0x22–0x29) | Reg 15=${hex(regs[15])}`,
+          bits: 'MSNx_P1[17:0], MSNx_P2[19:0], MSNx_P3[19:0] | Reg 15[3:2] PLL_SRC (0=XTAL)',
+          what: 'Dual fractional-N PLLs multiply f_XTAL into the 600–900 MHz VCO range (AN619 §3.2). Integer multipliers (b=0, even a) yield lowest phase noise.',
+          formula: 'f_VCO = f_XTAL * (a + b/c), a in [15..90]; P1=128a+floor(128b/c)-512, P2=128b-c*floor(128b/c), P3=c',
+          live: `PLLA: ${pllA.active ? (pllA.vcoHz/1e6).toFixed(3)+' MHz ('+pllA.a+(pllA.isInt?' Int':' Frac')+')' : 'OFF'} | PLLB: ${pllB.active ? (pllB.vcoHz/1e6).toFixed(3)+' MHz ('+pllB.a+(pllB.isInt?' Int':' Frac')+')' : 'OFF'}`
+        },
+        {
+          cat: 'channel',
+          title: 'Output Enable (OEB) & Channel Control',
+          regs: `Reg 3 (0x03) = ${hex(regs[3])} | Reg 16–18 (0x10–0x12)`,
+          bits: 'Reg 3[2:0] CLKx_OEB (0=En, 1=Dis) | Reg 16+i: PDN[7], MS_INT[6], MS_SRC[5], INV[4], SRC[3:2], IDRV[1:0]',
+          what: 'Master output enable (Reg 3) and per-channel control: power-down (PDN), integer MultiSynth mode (MS_INT), PLL select (0=PLLA, 1=PLLB), 180° invert (INV), source mux (SRC=11 MSx, 00 XTAL), and drive current (IDRV).',
+          formula: 'IDRV: 00=2mA, 01=4mA, 10=6mA, 11=8mA',
+          live: [0,1,2].map(i => `CLK${i}=${hex(regs[16+i])}`).join(' | ')
+        },
+        {
+          cat: 'channel',
+          title: 'Operating Modes (Fractional, Integer, I/Q, Diff, Bypass)',
+          regs: 'Reg 16–18, Reg 42–65, Reg 165–167, Reg 149–161, Reg 177',
+          bits: 'Integer: MSx_INT=1 | Bypass: CLKx_SRC=00 | Diff: CLK1_INV=1 | I/Q: CLK1_PHOFF=round(f_VCO/4f)',
+          what: 'Fractional gives arbitrary Hz; Integer locks even MS divider for minimal jitter; Quadrature I/Q & Diff couple CLK0+1 on PLLA; Bypass routes XTAL directly without PLL/MS.',
+          formula: 'Bypass f_out = f_XTAL (needs Reg 187[6]=1)',
+          live: state.channels.map((c,i) => `CH${i}:${c.mode}`).join(' | ')
+        },
+        {
+          cat: 'channel',
+          title: 'Disable Output Pin State',
+          regs: `Reg 24 (0x18) = ${hex(regs[24])}`,
+          bits: 'CLK2_DIS_STATE[5:4], CLK1_DIS_STATE[3:2], CLK0_DIS_STATE[1:0]',
+          what: 'Defines the electrical state of each CLK pin when disabled via Reg 3 (OEB=1) or the hardware OEB pin.',
+          formula: '00=Low (0V), 01=High (VDD), 10=High-Z (Float), 11=Never Disable',
+          live: state.channels.map((c,i) => `CH${i}:${['Low','High','Hi-Z','Never'][c.disableState]}`).join(' | ')
+        },
+        {
+          cat: 'ms_phase',
+          title: 'MultiSynth Dividers (MS0–MS2) & R-Div',
+          regs: 'MS0: Reg 42–49 | MS1: Reg 50–57 | MS2: Reg 58–65',
+          bits: 'MSx_P1[17:0], MSx_P2[19:0], MSx_P3[19:0] | Reg 44/52/60: Rx_DIV[6:4], MSx_DIVBY4[3:2]',
+          what: 'Fractional divider (4..1800) followed by power-of-2 R-divider (/1 to /128 for <500 kHz down to 8 kHz). Above 150 MHz, DIVBY4=11 sets fixed /4.',
+          formula: 'f_out = f_VCO / ((a + b/c) * R), where R = 2^Rx_DIV',
+          live: [0,1,2].map(i => { const c = state.computed.ch[i]; return `MS${i}:${c && c.active ? (c.bypass ? 'BYP' : (c.divBy4 ? '÷4' : (c.msA + (c.msB ? '+'+c.msB+'/'+c.msC : ''))+'/R'+c.rDiv)) : 'OFF'}`; }).join(' | ')
+        },
+        {
+          cat: 'ms_phase',
+          title: 'Initial Phase Offset (PHOFF)',
+          regs: `Reg 165–167 (0xA5–0xA7): ${[0,1,2].map(i => hex(regs[165+i])).join(', ')}`,
+          bits: 'CLKx_PHOFF[6:0] (7-bit unsigned, 0..127)',
+          what: 'Delays the MultiSynth output in increments of one-quarter VCO period (T_VCO/4). Only takes effect after a PLL soft reset (Reg 177).',
+          formula: 'PHOFF = round((deg / 360) * 4 * (a + b/c)), max 127',
+          live: [0,1,2].map(i => `CLK${i}:${state.channels[i].phaseReg} (${state.computed.ch[i]?.phaseDeg.toFixed(0) || 0}°)`).join(' | ')
+        },
+        {
+          cat: 'ss_init',
+          title: 'Spread Spectrum (PLLA Only)',
+          regs: `Reg 149–161 (0x95–0xA1) | Reg 149=${hex(regs[149])}`,
+          bits: 'Reg 149[7] SSC_EN, Reg 151[7] SSC_MODE (0=Down, 1=Center), SSDN_P2, SSUP_P2, SSUDP',
+          what: 'Modulates PLLA VCO frequency by ±0.1% to ±2.5% (31.5 kHz nominal modulation rate) to spread clock harmonics and reduce peak EMI.',
+          formula: 'SSDN_P2 / SSUP_P2 = round(128 * a_pll * (pct / 100))',
+          live: pllA.ssEnabled ? `ENABLED (${hex(regs[149])}, ${hex(regs[151])})` : 'OFF (Reg 149=0x00)'
+        },
+        {
+          cat: 'ss_init',
+          title: 'PLL Soft Reset & Recommended I2C Init Sequence',
+          regs: `Reg 177 (0xB1) = ${hex(regs[177])}`,
+          bits: 'PLLB_RST[7], PLLA_RST[5] (self-clearing reset strobes)',
+          what: 'Per AN619 §3: (1) Reg 3=0xFF disable outputs, (2) Reg 16–23=0x80 power down, (3) Write Reg 183/187/15/24, (4) Write PLL Reg 26–41 & MS Reg 42–65, (5) Write PHOFF Reg 165–167, (6) Soft-reset Reg 177, (7) Power up Reg 16–18 & enable Reg 3.',
+          formula: 'Reg 177 = (PLLB_active<<7) | (PLLA_active<<5)',
+          live: `PLLA_RST=${pllA.active ? 1 : 0}, PLLB_RST=${pllB.active ? 1 : 0}`
+        }
+      ];
+
+      const filtered = filter === 'all' ? entries : entries.filter(e => e.cat === filter);
+      container.innerHTML = filtered.map(e => `
+        <div class="bg-lab-panel border border-lab-border rounded p-2 space-y-1">
+          <div class="flex flex-wrap items-center justify-between gap-1">
+            <span class="text-[11px] font-bold text-white">${e.title}</span>
+            <span class="text-[10px] font-mono text-cyan-400 bg-cyan-950/40 border border-cyan-500/30 rounded px-1.5 py-0.2">${e.regs}</span>
+          </div>
+          <div class="text-[10px] text-slate-300 leading-snug">${e.what}</div>
+          <div class="text-[9.5px] font-mono text-amber-300/90 bg-lab-card/80 border border-lab-border/70 rounded px-1.5 py-0.5">${e.bits}</div>
+          <div class="flex flex-wrap items-center justify-between gap-1 text-[9.5px] font-mono pt-0.5">
+            <span class="text-slate-400">${e.formula}</span>
+            <span class="text-emerald-400 font-semibold">Live: ${e.live}</span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function generateCCode() {
+      const targetEl = document.getElementById('code-target-select');
+      const outEl = document.getElementById('c-code-output');
+      if (!targetEl || !outEl) return;
+      const target = targetEl.value;
+      const regs = state.computed.registers;
+
+      const initSequence = [];
+      initSequence.push([3, 0xFF, 'Disable all outputs']);
+      for (let r = 16; r <= 23; r++) initSequence.push([r, 0x80, `Power down CLK${r - 16}`]);
+      initSequence.push([183, regs[183], `XTAL_CL (${state.xtalCl === 1 ? '6pF' : state.xtalCl === 2 ? '8pF' : '10pF'})`]);
+      initSequence.push([187, regs[187], 'Fanout Enable']);
+      initSequence.push([15, regs[15], 'PLL Source = XTAL']);
+      initSequence.push([24, regs[24], 'Disable State']);
+      for (let r = 26; r <= 41; r++) initSequence.push([r, regs[r], getRegDescription(r)]);
+      for (let r = 42; r <= 65; r++) initSequence.push([r, regs[r], getRegDescription(r)]);
+      if (state.computed.pllA.ssEnabled) {
+        for (let r = 149; r <= 161; r++) initSequence.push([r, regs[r], getRegDescription(r)]);
+      } else {
+        initSequence.push([149, 0x00, 'Spread Spectrum Off']);
+      }
+      for (let r = 165; r <= 167; r++) initSequence.push([r, regs[r], getRegDescription(r)]);
+      initSequence.push([177, regs[177], 'Soft-Reset PLLA/B']);
+      for (let r = 16; r <= 18; r++) initSequence.push([r, regs[r], getRegDescription(r)]);
+      initSequence.push([3, regs[3], 'Enable active outputs']);
+
+      const arrayEntries = initSequence.map(([r, v, comment]) =>
+        `    { 0x${r.toString(16).toUpperCase().padStart(2, '0')}, 0x${v.toString(16).toUpperCase().padStart(2, '0')} }, // ${comment}`
+      ).join('\n');
+
+      const summaryHeader = `/* Si5351A Integer-Only Config | XTAL: ${state.computed.effectiveXtalHz.toFixed(0)} Hz (${state.xtalPpm} ppm)
+ * PLLA: ${state.computed.pllA.active ? (state.computed.pllA.vcoHz / 1e6).toFixed(4) + ' MHz' : 'OFF'} | PLLB: ${state.computed.pllB.active ? (state.computed.pllB.vcoHz / 1e6).toFixed(4) + ' MHz' : 'OFF'}
+ * CLK0: ${state.computed.ch[0]?.active ? formatFreqHz(state.computed.ch[0].actualHz) : 'OFF'} | CLK1: ${state.computed.ch[1]?.active ? formatFreqHz(state.computed.ch[1].actualHz) : 'OFF'} | CLK2: ${state.computed.ch[2]?.active ? formatFreqHz(state.computed.ch[2].actualHz) : 'OFF'} */`;
+
+      let fullCode = '';
+      if (target === 'raw_array') {
+        fullCode = `${summaryHeader}\n#include <stdint.h>\n#define SI5351_I2C_ADDR 0x60\n\nstatic const uint8_t si5351_reg_config[][2] = {\n${arrayEntries}\n};\n`;
+      } else if (target === 'ch32v003') {
+        fullCode = `${summaryHeader}\n#ifndef SI5351_CONFIG_H\n#define SI5351_CONFIG_H\n#include <stdint.h>\n#define SI5351_I2C_ADDR 0x60\n\nstatic const uint8_t si5351_init_regs[][2] = {\n${arrayEntries}\n};\n\nextern void si5351_i2c_write_reg(uint8_t reg, uint8_t val);\nstatic inline void si5351_apply_preset(void) {\n    for (uint16_t i = 0; i < sizeof(si5351_init_regs)/2; i++)\n        si5351_i2c_write_reg(si5351_init_regs[i][0], si5351_init_regs[i][1]);\n}\n#endif\n`;
+      } else if (target === 'arduino') {
+        fullCode = `${summaryHeader}\n#include <Wire.h>\n#define SI5351_I2C_ADDR 0x60\n\nstatic const uint8_t si5351_init_regs[][2] = {\n${arrayEntries}\n};\n\nvoid si5351_apply_preset() {\n    for (uint16_t i = 0; i < sizeof(si5351_init_regs)/2; i++) {\n        Wire.beginTransmission(SI5351_I2C_ADDR);\n        Wire.write(si5351_init_regs[i][0]);\n        Wire.write(si5351_init_regs[i][1]);\n        Wire.endTransmission();\n    }\n}\n`;
+      } else if (target === 'stm32') {
+        fullCode = `${summaryHeader}\n#include "main.h"\n#define SI5351_I2C_ADDR_8BIT (0x60 << 1)\n\nstatic const uint8_t si5351_init_regs[][2] = {\n${arrayEntries}\n};\n\nHAL_StatusTypeDef si5351_apply_preset(I2C_HandleTypeDef *hi2c) {\n    for (uint16_t i = 0; i < sizeof(si5351_init_regs)/2; i++) {\n        uint8_t val = si5351_init_regs[i][1];\n        if (HAL_I2C_Mem_Write(hi2c, SI5351_I2C_ADDR_8BIT, si5351_init_regs[i][0], 1, &val, 1, 10) != HAL_OK) return HAL_ERROR;\n    }\n    return HAL_OK;\n}\n`;
+      }
+
+      outEl.textContent = fullCode;
+    }
+
+    function copyCCode() {
+      const codeText = document.getElementById('c-code-output').textContent;
+      const textarea = document.createElement('textarea');
+      textarea.value = codeText;
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.select();
+      try {
+        document.execCommand('copy');
+        showToast('Copied C header to clipboard!', 'success');
+      } catch (err) {
+        showToast('Copy failed — select manually.', 'warn');
+      }
+      document.body.removeChild(textarea);
+    }
+
+    function downloadCCode() {
+      const codeText = document.getElementById('c-code-output').textContent;
+      const blob = new Blob([codeText], { type: 'text/plain;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'si5351_config.h';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast('Downloaded si5351_config.h', 'success');
+    }
+
+    function renderHelpRegisterMap() {
+      const bfBody = document.getElementById('help-bitfield-table-body');
+      const mapBody = document.getElementById('help-register-map-body');
+      const filterEl = document.getElementById('help-reg-filter-modified');
+      const countEl = document.getElementById('help-reg-mod-count');
+      const regs = state.computed.registers;
+      const mod = state.computed.modifiedRegs;
+      const hex = (v) => '0x' + (v || 0).toString(16).toUpperCase().padStart(2, '0');
+      const bin = (v) => (v || 0).toString(2).padStart(8, '0');
+
+      if (countEl) countEl.textContent = mod.size;
+
+      if (bfBody) {
+        const keyRows = [
+          { addr: '3 (0x03)', name: 'Output Enable (OEB)', bits: '[7:3] Unused | [2] CLK2_OEB | [1] CLK1_OEB | [0] CLK0_OEB (0=En, 1=Dis)', val: `${hex(regs[3])} (${bin(regs[3])})` },
+          { addr: '15 (0x0F)', name: 'PLL Input Source', bits: '[3] PLLB_SRC | [2] PLLA_SRC (0=XTAL, 1=CLKIN)', val: `${hex(regs[15])} (${bin(regs[15])})` },
+          { addr: '16–18 (0x10–0x12)', name: 'CLK0..2 Control', bits: '[7] PDN | [6] MS_INT | [5] MS_SRC(0=A,1=B) | [4] INV | [3:2] SRC | [1:0] IDRV', val: `C0=${hex(regs[16])} C1=${hex(regs[17])} C2=${hex(regs[18])}` },
+          { addr: '24 (0x18)', name: 'Disable State (Dis)', bits: '[5:4] CLK2 | [3:2] CLK1 | [1:0] CLK0 (00=Low, 01=High, 10=Hi-Z, 11=Never)', val: `${hex(regs[24])} (${bin(regs[24])})` },
+          { addr: '26–33 (0x1A–0x21)', name: 'MSNA (PLLA VCO)', bits: '8-byte AN619 block: P3[15:0], P1[17:0], P3[19:16]|P2[19:16], P2[15:0]', val: `${(state.computed.pllA.vcoHz / 1e6).toFixed(2)} MHz (a=${state.computed.pllA.a})` },
+          { addr: '34–41 (0x22–0x29)', name: 'MSNB (PLLB VCO)', bits: '8-byte AN619 block: P3[15:0], P1[17:0], P3[19:16]|P2[19:16], P2[15:0]', val: `${(state.computed.pllB.vcoHz / 1e6).toFixed(2)} MHz (a=${state.computed.pllB.a})` },
+          { addr: '42–65 (0x2A–0x41)', name: 'MultiSynth MS0..2', bits: '3×8-byte blocks; Byte 2 (R44/52/60) = [6:4] R_DIV | [3:2] DIVBY4 | [1:0] P1[17:16]', val: `R44=${hex(regs[44])} R52=${hex(regs[52])} R60=${hex(regs[60])}` },
+          { addr: '149–161 (0x95–0xA1)', name: 'Spread Spectrum', bits: 'R149[7] SSC_EN | R151[7] SSC_MODE (0=Down,1=Center) | SSDN/SSUP/SSUDP', val: `R149=${hex(regs[149])} R151=${hex(regs[151])}` },
+          { addr: '165–167 (0xA5–0xA7)', name: 'Phase Offset (PHOFF)', bits: '[6:0] CLKx_PHOFF (0..127 in T_VCO/4 steps; latches on Reg 177 reset)', val: `C0=${hex(regs[165])} C1=${hex(regs[166])} C2=${hex(regs[167])}` },
+          { addr: '177 (0xB1)', name: 'PLL Soft Reset', bits: '[7] PLLB_RST | [5] PLLA_RST (self-clearing reset strobe)', val: `${hex(regs[177])} (${bin(regs[177])})` },
+          { addr: '183 (0xB7)', name: 'XTAL Load Cap (CL)', bits: '[7:6] XTAL_CL (01=6pF, 10=8pF, 11=10pF) | [5:0]=0x12 (AN619 fixed)', val: `${hex(regs[183])} (${bin(regs[183])})` },
+          { addr: '187 (0xBB)', name: 'Fanout Enable', bits: '[7] CLKIN_FANOUT_EN | [6] XO_FANOUT_EN | [4] MS_FANOUT_EN', val: `${hex(regs[187])} (${bin(regs[187])})` }
+        ];
+        bfBody.innerHTML = keyRows.map(r => `
+          <tr class="hover:bg-slate-800/40 transition">
+            <td class="py-1 px-2 text-cyan-400 font-semibold whitespace-nowrap">${r.addr}</td>
+            <td class="py-1 px-2 text-white font-sans font-medium whitespace-nowrap">${r.name}</td>
+            <td class="py-1 px-2 text-slate-300 text-[10px]">${r.bits}</td>
+            <td class="py-1 px-2 text-emerald-400 font-semibold whitespace-nowrap">${r.val}</td>
+          </tr>
+        `).join('');
+      }
+
+      if (mapBody) {
+        const filterMod = filterEl ? filterEl.checked : true;
+        let html = '';
+        for (let addr = 0; addr <= 187; addr++) {
+          const isMod = mod.has(addr);
+          if (filterMod && !isMod) continue;
+          const val = regs[addr];
+          html += `
+            <tr class="${isMod ? 'bg-cyan-950/25 text-slate-100' : 'text-slate-500'} hover:bg-slate-800/50 transition">
+              <td class="py-1 px-2">${addr}</td>
+              <td class="py-1 px-2 ${isMod ? 'text-cyan-400 font-semibold' : ''}">${hex(addr)}</td>
+              <td class="py-1 px-2 ${isMod ? 'text-emerald-400 font-bold' : ''}">${hex(val)}</td>
+              <td class="py-1 px-2 text-[10px] tracking-wider">${bin(val)}</td>
+              <td class="py-1 px-2 font-sans text-[10.5px] ${isMod ? 'text-slate-300' : 'text-slate-500'}">${getRegDescription(addr)}</td>
+            </tr>
+          `;
+        }
+        mapBody.innerHTML = html;
+      }
+    }
+
+    function filterHelpTutorial(cat) {
+      const grid = document.getElementById('help-tutorial-grid');
+      if (grid && grid.children) {
+        Array.from(grid.children).forEach(card => {
+          const group = card.getAttribute && card.getAttribute('data-help-group');
+          const show = cat === 'all' || group === cat;
+          if (card.classList) card.classList.toggle('hidden', !show);
+        });
+      }
+      const pillsWrap = document.getElementById('help-cat-pills');
+      if (pillsWrap && pillsWrap.children) {
+        Array.from(pillsWrap.children).forEach(btn => {
+          const isActive = (btn.getAttribute && btn.getAttribute('data-help-cat')) === cat;
+          btn.className = isActive
+            ? 'help-pill px-2 py-0.5 text-[10px] font-mono rounded bg-cyan-600 text-white border border-cyan-500 transition'
+            : 'help-pill px-2 py-0.5 text-[10px] font-mono rounded bg-lab-card text-slate-300 hover:text-white border border-lab-border transition';
+        });
+      }
+    }
+
+    function openHelpTutorial(cat = 'all') {
+      filterHelpTutorial(cat);
+      const sec = document.getElementById('workbench-help-tutorial');
+      if (sec && typeof sec.scrollIntoView === 'function') {
+        sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+
+    function filterHelpTutorial(cat) {
+      const grid = document.getElementById('help-tutorial-grid');
+      if (grid && grid.children) {
+        Array.from(grid.children).forEach(card => {
+          const group = card.getAttribute && card.getAttribute('data-help-group');
+          const show = cat === 'all' || group === cat;
+          if (card.classList) card.classList.toggle('hidden', !show);
+        });
+      }
+      const pillsWrap = document.getElementById('help-cat-pills');
+      if (pillsWrap && pillsWrap.children) {
+        Array.from(pillsWrap.children).forEach(btn => {
+          const isActive = (btn.getAttribute && btn.getAttribute('data-help-cat')) === cat;
+          btn.className = isActive
+            ? 'help-pill px-2 py-0.5 text-[10px] font-mono rounded bg-cyan-600 text-white border border-cyan-500 transition'
+            : 'help-pill px-2 py-0.5 text-[10px] font-mono rounded bg-lab-card text-slate-300 hover:text-white border border-lab-border transition';
+        });
+      }
+    }
+
+    function openHelpTutorial(cat = 'all') {
+      filterHelpTutorial(cat);
+      const sec = document.getElementById('workbench-help-tutorial');
+      if (sec && typeof sec.scrollIntoView === 'function') {
+        sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+
+    Object.assign(window, {
+      switchWorkspaceTab,
+      filterHelpTutorial,
+      openHelpTutorial,
+      onXtalSelectChange,
+      onXtalCustomInput,
+      onXtalClChange,
+      syncPpmFromSlider,
+      syncPpmFromInput,
+      adjustPpm,
+      setPpm,
+      onFanoutChange,
+      updateChannelField,
+      applyChannelPreset,
+      setChannelStep,
+      nudgeChannelFreq,
+      onChannelDirectHzInput,
+      onChannelLogSlider,
+      onChannelFineTrimSlider,
+      onChannelPhaseDegSlider,
+      applySystemPreset,
+      onScopeTimebaseChange,
+      toggleScopeTrigger,
+      toggleScopePause,
+      renderRegisterTable,
+      renderDatasheetDocs,
+      renderHelpRegisterMap,
+      generateCCode,
+      copyCCode,
+      downloadCCode,
+    });
+
+    function initRichTooltips() {
+      const root = document.getElementById('si5351a-workbench');
+      const tipEl = document.getElementById('si-tooltip');
+      if (!root || !tipEl || typeof root.addEventListener !== 'function') return;
+
+      let activeTarget = null;
+      let pointerDown = false;
+
+      const esc = (s) => String(s)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+
+      function highlightCodes(text) {
+        return esc(text).replace(
+          /\b(Reg\s+\d+(?:[–-]\d+)?(?:\s*\[[^\]]+\])?|R\d+(?:[–-]\d+)?(?:\[[^\]]+\])?|0x[0-9A-Fa-f]+|AN619(?:\s*§[\d.]+)?|CLK\d?_[A-Z0-9_]+|MS\d?_[A-Z0-9_]+|XTAL_CL\[[^\]]+\]|SSC_[A-Z0-9_]+|DIVBY4)\b/g,
+          '<code class="si-tip-code">$1</code>'
+        );
+      }
+
+      function renderTipContent(raw) {
+        const colonIdx = raw.indexOf(': ');
+        if (colonIdx > 0 && colonIdx < 48) {
+          const title = raw.slice(0, colonIdx);
+          const body = raw.slice(colonIdx + 2);
+          tipEl.innerHTML = `<div class="si-tip-title">${esc(title)}</div><div class="si-tip-body">${highlightCodes(body)}</div>`;
+        } else {
+          tipEl.innerHTML = `<div class="si-tip-body">${highlightCodes(raw)}</div>`;
+        }
+      }
+
+      function positionTip(clientX, clientY, targetRect) {
+        const pad = 12;
+        const vw = window.innerWidth || 1280;
+        const vh = window.innerHeight || 800;
+        const tw = tipEl.offsetWidth || 280;
+        const th = tipEl.offsetHeight || 64;
+
+        let x = (clientX !== null ? clientX + 14 : targetRect.left);
+        let y = (clientY !== null ? clientY + 18 : targetRect.bottom + 8);
+
+        if (x + tw + pad > vw) x = Math.max(pad, vw - tw - pad);
+        if (x < pad) x = pad;
+
+        if (y + th + pad > vh) {
+          y = (clientY !== null ? clientY - th - 14 : targetRect.top - th - 8);
+        }
+        if (y < pad) y = pad;
+
+        tipEl.style.left = `${Math.round(x)}px`;
+        tipEl.style.top = `${Math.round(y)}px`;
+      }
+
+      function extractTip(el) {
+        if (!el) return '';
+        const t = el.getAttribute('title');
+        if (t) {
+          el.setAttribute('data-tip', t);
+          el.removeAttribute('title');
+          return t;
+        }
+        return el.getAttribute('data-tip') || '';
+      }
+
+      function showFor(el, clientX, clientY) {
+        if (pointerDown) return;
+        const text = extractTip(el);
+        if (!text) return hideTip();
+        activeTarget = el;
+        renderTipContent(text);
+        tipEl.classList.add('visible');
+        tipEl.setAttribute('aria-hidden', 'false');
+        positionTip(clientX, clientY, el.getBoundingClientRect());
+      }
+
+      function hideTip() {
+        activeTarget = null;
+        tipEl.classList.remove('visible');
+        tipEl.setAttribute('aria-hidden', 'true');
+      }
+
+      root.addEventListener('mouseover', (e) => {
+        const el = e.target && e.target.closest ? e.target.closest('[data-tip], [title]') : null;
+        if (!el) {
+          hideTip();
+          return;
+        }
+        if (el !== activeTarget) {
+          showFor(el, e.clientX, e.clientY);
+        }
+      });
+
+      root.addEventListener('mousemove', (e) => {
+        if (!activeTarget || pointerDown) return;
+        const el = e.target && e.target.closest ? e.target.closest('[data-tip], [title]') : null;
+        if (el && el !== activeTarget) {
+          showFor(el, e.clientX, e.clientY);
+        } else if (activeTarget) {
+          positionTip(e.clientX, e.clientY, activeTarget.getBoundingClientRect());
+        }
+      });
+
+      root.addEventListener('mouseout', (e) => {
+        if (!activeTarget) return;
+        const rel = e.relatedTarget;
+        if (!rel || !root.contains(rel)) {
+          hideTip();
+          return;
+        }
+        const nextEl = rel.closest ? rel.closest('[data-tip], [title]') : null;
+        if (!nextEl) hideTip();
+      });
+
+      root.addEventListener('focusin', (e) => {
+        const el = e.target && e.target.closest ? e.target.closest('[data-tip], [title]') : null;
+        if (el) showFor(el, null, null);
+      });
+
+      root.addEventListener('focusout', () => hideTip());
+      root.addEventListener('mousedown', () => { pointerDown = true; hideTip(); });
+      window.addEventListener('mouseup', () => { pointerDown = false; });
+      window.addEventListener('scroll', hideTip, true);
+    }
+
+    renderChannelCards();
+    recalculateAll();
+    initScopeLoop();
+    initRichTooltips();
+    })();
+  </script>
+  </div>
+</Base>

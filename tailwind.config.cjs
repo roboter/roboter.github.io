@@ -5,6 +5,19 @@ module.exports = {
   darkMode: 'class',
   theme: {
     extend: {
+      colors: {
+        lab: {
+          bg: '#090d16',
+          panel: '#0f1624',
+          card: '#151e30',
+          border: '#23304a',
+          accent: '#06b6d4',
+          amber: '#f59e0b',
+          emerald: '#10b981',
+          rose: '#f43f5e',
+          purple: '#a855f7',
+        },
+      },
       fontFamily: {
         sans: [
           '-apple-system',
