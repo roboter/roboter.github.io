@@ -86,4 +86,27 @@ export const tools: ToolItem[] = [
     accentColor: 'from-amber-500 to-orange-500',
     buttonBg: 'bg-amber-600 hover:bg-amber-500',
   },
+  {
+    id: 'si5351a',
+    title: 'Si5351A Interactive Configurator',
+    tagline: 'I2C Clock Generator Workbench, PLL Solver & C Register Calculator',
+    shortDescription:
+      'Interactive workbench for the Silicon Labs Si5351A (CJMCU-5351) 3-channel I2C clock generator. Configure XTAL load capacitance, PPM calibration, fractional PLL A/B and MultiSynth dividers, phase offsets, and export ready-to-compile C register headers.',
+    category: 'RF & Clock Synthesis',
+    statusBadge: 'Interactive Web Tool',
+    statusColor: 'sky',
+    platforms: ['Browser Workbench', 'I2C / C Header'],
+    techStack: ['JavaScript', 'Si5351A', 'PLL / MultiSynth', 'I2C 0x60', 'C/C++ CodeGen'],
+    tags: ['Si5351A', 'Clock Generator', 'PLL', 'RF', 'VFO', 'I2C', 'Embedded', 'Tools'],
+    features: [
+      'Real-time PLL A/B (600–900 MHz VCO) and MultiSynth divider solver for CLK0–CLK2',
+      'Interactive XTAL selection (25/27 MHz, custom Hz), load cap (6/8/10 pF), and PPM trim',
+      'RF presets (HF VFO+BFO, I/Q 90°, 2m VHF+IF, Diff 180°, Spread Spectrum)',
+      'Live register map & one-click copy/download of si5351_config.h',
+    ],
+    toolUrl: '/tools/si5351a',
+    previewImage: '/images/tools/si5351a.svg',
+    accentColor: 'from-cyan-500 to-blue-600',
+    buttonBg: 'bg-cyan-600 hover:bg-cyan-500',
+  },
 ];

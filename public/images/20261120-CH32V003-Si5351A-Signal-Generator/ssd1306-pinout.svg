@@ -1,0 +1,184 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 530" width="860" height="530">
+  <defs>
+    <linearGradient id="pcbBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#174a8c"/>
+      <stop offset="100%" stop-color="#0f3366"/>
+    </linearGradient>
+    <linearGradient id="glassDark" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#11161f"/>
+      <stop offset="100%" stop-color="#070a0f"/>
+    </linearGradient>
+    <linearGradient id="ribbonGold" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#c98a2c"/>
+      <stop offset="100%" stop-color="#8a5a14"/>
+    </linearGradient>
+    <filter id="dropShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#0f172a" flood-opacity="0.18"/>
+    </filter>
+  </defs>
+
+  <!-- Clean white background -->
+  <rect width="860" height="530" fill="#ffffff"/>
+
+  <!-- Title -->
+  <text x="430" y="42" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="26" font-weight="800" fill="#0f172a">SSD1306 0.96" OLED Pinout</text>
+  <text x="430" y="64" text-anchor="middle" font-family="Consolas, Menlo, monospace" font-size="13" fill="#475569">128×64 Dual-Color I²C Display (Address 0x3C) · CH32V003 I2C1 Mapping</text>
+
+  <!-- Module PCB Body (centered at x=430: x=270..590) -->
+  <g filter="url(#dropShadow)">
+    <rect x="270" y="138" width="320" height="310" rx="14" fill="url(#pcbBlue)" stroke="#0a254d" stroke-width="2.5"/>
+  </g>
+
+  <!-- 4 Corner Mounting Holes -->
+  <g fill="#f8fafc" stroke="#d4af37" stroke-width="4.5">
+    <circle cx="292" cy="160" r="10"/>
+    <circle cx="568" cy="160" r="10"/>
+    <circle cx="292" cy="426" r="10"/>
+    <circle cx="568" cy="426" r="10"/>
+  </g>
+
+  <!-- 4-Pin Top Header Pads (GND, VDD, SCK, SDA matching hardware) -->
+  <g font-family="Consolas, Menlo, monospace" font-size="13" font-weight="700" fill="#e2e8f0" text-anchor="middle">
+    <!-- Pin 1: GND -->
+    <rect x="357" y="151" width="26" height="26" rx="3" fill="#c0c7d1" stroke="#94a3b8" stroke-width="1.5"/>
+    <circle cx="370" cy="164" r="6" fill="#1e293b"/>
+    <text x="370" y="194">GND</text>
+
+    <!-- Pin 2: VDD -->
+    <circle cx="410" cy="164" r="13" fill="#c0c7d1" stroke="#94a3b8" stroke-width="1.5"/>
+    <circle cx="410" cy="164" r="6" fill="#1e293b"/>
+    <text x="410" y="194">VDD</text>
+
+    <!-- Pin 3: SCK -->
+    <circle cx="450" cy="164" r="13" fill="#c0c7d1" stroke="#94a3b8" stroke-width="1.5"/>
+    <circle cx="450" cy="164" r="6" fill="#1e293b"/>
+    <text x="450" y="194">SCK</text>
+
+    <!-- Pin 4: SDA -->
+    <circle cx="490" cy="164" r="13" fill="#c0c7d1" stroke="#94a3b8" stroke-width="1.5"/>
+    <circle cx="490" cy="164" r="6" fill="#1e293b"/>
+    <text x="490" y="194">SDA</text>
+  </g>
+
+  <!-- OLED Glass Module Bezel -->
+  <rect x="284" y="205" width="292" height="202" rx="5" fill="#1e293b" stroke="#0b1220" stroke-width="2"/>
+  <!-- Active 128x64 Screen Area -->
+  <rect x="296" y="219" width="268" height="164" rx="2" fill="url(#glassDark)" stroke="#334155" stroke-width="1"/>
+
+  <!-- Yellow Zone (Top 16 px) -->
+  <rect x="302" y="225" width="46" height="22" rx="2" fill="#facc15"/>
+  <text x="325" y="240" text-anchor="middle" font-family="Consolas, Menlo, monospace" font-size="12" font-weight="800" fill="#0f172a">CLK0</text>
+  <text x="372" y="240" text-anchor="middle" font-family="Consolas, Menlo, monospace" font-size="12" font-weight="700" fill="#facc15">CLK1</text>
+  <text x="418" y="240" text-anchor="middle" font-family="Consolas, Menlo, monospace" font-size="12" font-weight="700" fill="#facc15">CLK2</text>
+  <text x="460" y="240" text-anchor="middle" font-family="Consolas, Menlo, monospace" font-size="12" font-weight="700" fill="#facc15">SYS</text>
+  <line x1="485" y1="224" x2="485" y2="248" stroke="#facc15" stroke-width="1.5"/>
+  <rect x="496" y="225" width="58" height="22" rx="2" fill="#facc15"/>
+  <text x="525" y="240" text-anchor="middle" font-family="Consolas, Menlo, monospace" font-size="12" font-weight="800" fill="#0f172a">ON</text>
+  <line x1="296" y1="255" x2="564" y2="255" stroke="#facc15" stroke-width="1.5"/>
+
+  <!-- Blue Zone (Bottom 48 px) -->
+  <text x="304" y="277" font-family="Consolas, Menlo, monospace" font-size="15" font-weight="700" fill="#38bdf8">145.000.000</text>
+  <line x1="346" y1="281" x2="356" y2="281" stroke="#38bdf8" stroke-width="2"/>
+  <text x="554" y="277" text-anchor="end" font-family="Consolas, Menlo, monospace" font-size="12" font-weight="700" fill="#38bdf8">STP:10k</text>
+
+  <!-- Min-Max Limit Gauge Bar (Page 3) -->
+  <line x1="302" y1="288" x2="302" y2="296" stroke="#38bdf8" stroke-width="2"/>
+  <line x1="558" y1="288" x2="558" y2="296" stroke="#38bdf8" stroke-width="2"/>
+  <line x1="466" y1="292" x2="476" y2="292" stroke="#38bdf8" stroke-width="2.5"/>
+
+  <!-- Sliding Scale Numbers -->
+  <text x="338" y="314" text-anchor="middle" font-family="Consolas, Menlo, monospace" font-size="12" font-weight="700" fill="#38bdf8">144.9</text>
+  <text x="430" y="314" text-anchor="middle" font-family="Consolas, Menlo, monospace" font-size="12" font-weight="700" fill="#38bdf8">145.0</text>
+  <text x="522" y="314" text-anchor="middle" font-family="Consolas, Menlo, monospace" font-size="12" font-weight="700" fill="#38bdf8">145.1</text>
+
+  <!-- Parabolic Drum Dial Ticks -->
+  <g stroke="#38bdf8" stroke-width="2" stroke-linecap="round">
+    <line x1="430" y1="321" x2="430" y2="355"/>
+    <line x1="414" y1="325" x2="414" y2="337"/>
+    <line x1="446" y1="325" x2="446" y2="337"/>
+    <line x1="398" y1="327" x2="398" y2="341"/>
+    <line x1="462" y1="327" x2="462" y2="341"/>
+    <line x1="382" y1="328" x2="382" y2="347"/>
+    <line x1="478" y1="328" x2="478" y2="347"/>
+    <line x1="366" y1="331" x2="366" y2="344"/>
+    <line x1="494" y1="331" x2="494" y2="344"/>
+    <line x1="350" y1="334" x2="350" y2="347"/>
+    <line x1="510" y1="334" x2="510" y2="347"/>
+    <line x1="334" y1="336" x2="334" y2="354"/>
+    <line x1="526" y1="336" x2="526" y2="354"/>
+    <line x1="318" y1="341" x2="318" y2="352"/>
+    <line x1="542" y1="341" x2="542" y2="352"/>
+  </g>
+
+  <!-- Center Fiducial Triangle & Corner Mode Labels -->
+  <polygon points="430,359 423,375 437,375" fill="#38bdf8"/>
+  <text x="304" y="375" font-family="Consolas, Menlo, monospace" font-size="12" font-weight="700" fill="#38bdf8">VFO</text>
+  <text x="554" y="375" text-anchor="end" font-family="Consolas, Menlo, monospace" font-size="12" font-weight="700" fill="#38bdf8">CRV</text>
+
+  <!-- Bottom Flex Ribbon Tab -->
+  <rect x="376" y="407" width="108" height="36" rx="2" fill="url(#ribbonGold)" stroke="#713f12" stroke-width="1.5"/>
+  <g stroke="#fde68a" stroke-width="1" opacity="0.65">
+    <line x1="390" y1="411" x2="390" y2="439"/>
+    <line x1="402" y1="411" x2="402" y2="439"/>
+    <line x1="414" y1="411" x2="414" y2="439"/>
+    <line x1="426" y1="411" x2="426" y2="439"/>
+    <line x1="438" y1="411" x2="438" y2="439"/>
+    <line x1="450" y1="411" x2="450" y2="439"/>
+    <line x1="462" y1="411" x2="462" y2="439"/>
+  </g>
+
+  <!-- Generous Callout Pills (200px wide, clean rounded pills, ample breathing room) -->
+  <!-- Left Callouts: GND & VDD -->
+  <g font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle">
+    <!-- GND (Pin 1) -->
+    <polyline points="370,164 370,104 224,104" fill="none" stroke="#1e293b" stroke-width="2.2"/>
+    <circle cx="370" cy="164" r="4" fill="#1e293b"/>
+    <rect x="24" y="89" width="200" height="30" rx="6" fill="#3f3f46"/>
+    <text x="124" y="109">GND  →  VSS</text>
+
+    <!-- VDD (Pin 2) -->
+    <polyline points="410,164 410,120 242,120 242,154 224,154" fill="none" stroke="#1e293b" stroke-width="2.2"/>
+    <circle cx="410" cy="164" r="4" fill="#1e293b"/>
+    <rect x="24" y="139" width="200" height="30" rx="6" fill="#991b1b"/>
+    <text x="124" y="159">VDD  →  3.3V</text>
+
+    <!-- SCK / SCL (Pin 3) -->
+    <polyline points="450,164 450,104 636,104" fill="none" stroke="#1e293b" stroke-width="2.2"/>
+    <circle cx="450" cy="164" r="4" fill="#1e293b"/>
+    <rect x="636" y="89" width="200" height="30" rx="6" fill="#0284c7"/>
+    <text x="736" y="109">SCK  →  PC2 (SCL)</text>
+
+    <!-- SDA (Pin 4) -->
+    <polyline points="490,164 490,154 636,154" fill="none" stroke="#1e293b" stroke-width="2.2"/>
+    <circle cx="490" cy="164" r="4" fill="#1e293b"/>
+    <rect x="636" y="139" width="200" height="30" rx="6" fill="#0284c7"/>
+    <text x="736" y="159">SDA  →  PC1 (SDA)</text>
+  </g>
+
+  <!-- Dual-color zone callout annotations (Right side) -->
+  <g font-family="Consolas, Menlo, monospace" font-size="12" font-weight="700">
+    <line x1="568" y1="236" x2="636" y2="236" stroke="#ca8a04" stroke-width="1.8" stroke-dasharray="4,3"/>
+    <rect x="636" y="222" width="200" height="28" rx="5" fill="#fef9c3" stroke="#ca8a04" stroke-width="1.2"/>
+    <text x="736" y="240" text-anchor="middle" fill="#854d0e">Pages 0–1 (Yellow)</text>
+
+    <line x1="568" y1="322" x2="636" y2="322" stroke="#0284c7" stroke-width="1.8" stroke-dasharray="4,3"/>
+    <rect x="636" y="308" width="200" height="28" rx="5" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.2"/>
+    <text x="736" y="326" text-anchor="middle" fill="#075985">Pages 2–7 (Blue)</text>
+  </g>
+
+  <!-- Legend (Bottom-Right) -->
+  <g font-family="Segoe UI, Arial, sans-serif" font-size="12.5" font-weight="700" fill="#1e293b">
+    <text x="760" y="388" text-anchor="end">POWER</text>
+    <rect x="772" y="376" width="60" height="14" rx="3" fill="#991b1b"/>
+
+    <text x="760" y="410" text-anchor="end">GND</text>
+    <rect x="772" y="398" width="60" height="14" rx="3" fill="#3f3f46"/>
+
+    <text x="760" y="432" text-anchor="end">I2C (0x3C)</text>
+    <rect x="772" y="420" width="60" height="14" rx="3" fill="#0284c7"/>
+  </g>
+
+  <!-- Wide Silkscreen Polarity Note Banner (plenty of horizontal padding) -->
+  <rect x="24" y="474" width="812" height="36" rx="7" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.4"/>
+  <text x="430" y="497" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="12.5" font-weight="600" fill="#92400e">Note: Always verify your PCB silkscreen — some SSD1306 modules swap GND and VCC on pins 1–2.</text>
+</svg>

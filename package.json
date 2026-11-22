@@ -30,6 +30,7 @@
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build",
+    "thumbs": "node scripts/generate-thumbs.mjs",
     "preview": "astro preview",
     "astro": "astro",
     "youtube": "node scripts/update-youtube.cjs",

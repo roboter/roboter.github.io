@@ -1,41 +1,78 @@
 ---
-import { Image } from 'astro:assets';
 import config from '@config/config.json';
 import social from '@config/social';
 
 const socialItems = social.networks;
 ---
 
-<section class="bg-zinc-50 dark:bg-zinc-900">
-  <div class="mx-auto max-w-screen-lg px-4 py-0 sm:px-6 pb-6 sm:pb-12 lg:px-8">
-    <div class="flex items-start justify-between">
-      <div class="rounded-lg w-3/5">
-        <h1 class="text-lg md:text-2xl font-bold text-zinc-900 dark:text-white sm:text-3xl mb-0">
-          {config.author.name}
-        </h1>
-        <p class="mt-1.5 text-sm md:text-lg text-zinc-500 dark:text-zinc-400">{config.author.bio}</p>
-        <div class="flex space-x-5 pt-8 m-auto">
-          {socialItems?.map((item) => (
-            <a href={item.url} target="_blank" rel="noopener noreferrer" aria-label={`Visit Robby on ${item.name}`}>
-              <figure>
-                <Fragment set:html={item.svg} />
-              </figure>
+<section class="pt-6 sm:pt-8">
+  <div class="mx-auto max-w-screen-lg px-4 sm:px-6 lg:px-8">
+    <div
+      data-enter
+      class="relative overflow-hidden rounded-3xl border border-zinc-200/80 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-900/75 backdrop-blur-xl p-6 sm:p-8 lg:p-10 shadow-sm"
+    >
+      <div class="flex flex-col-reverse sm:flex-row sm:items-center justify-between gap-6 sm:gap-8">
+        <div class="flex-1 min-w-0">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20 mb-4">
+            <span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
+            <span>Hardware · Embedded Systems · Open Source</span>
+          </div>
+
+          <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-zinc-900 dark:text-white leading-tight">
+            {config.author.name}
+          </h1>
+          <p class="mt-2.5 text-sm sm:text-base lg:text-lg text-zinc-600 dark:text-zinc-400 max-w-2xl leading-relaxed">
+            {config.author.bio}
+          </p>
+
+          <div class="mt-6 flex flex-wrap items-center gap-3">
+            <a
+              href="/videos/"
+              class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold bg-zinc-900 hover:bg-zinc-800 text-white dark:bg-white dark:hover:bg-zinc-100 dark:text-zinc-900 shadow-sm transition-all duration-200 active:scale-95"
+            >
+              <span>Watch Tutorials</span>
+              <span aria-hidden="true">→</span>
             </a>
-          ))}
+            <a
+              href="/software/"
+              class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium bg-zinc-100 hover:bg-zinc-200/80 text-zinc-800 dark:bg-zinc-800/80 dark:hover:bg-zinc-800 dark:text-zinc-200 border border-zinc-200/60 dark:border-zinc-700/60 transition-all duration-200 active:scale-95"
+            >
+              <span>Explore Software</span>
+            </a>
+
+            <div class="flex items-center gap-2 sm:ml-2 pt-1 sm:pt-0">
+              {socialItems?.map((item) => (
+                <a
+                  href={item.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`Visit Robby on ${item.name}`}
+                  class="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-zinc-200/80 dark:border-zinc-800 bg-zinc-50/80 dark:bg-zinc-800/60 text-zinc-600 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-white hover:border-zinc-300 dark:hover:border-zinc-700 hover:-translate-y-0.5 transition-all duration-200 active:scale-95"
+                >
+                  <figure class="flex items-center justify-center">
+                    <Fragment set:html={item.svg} />
+                  </figure>
+                </a>
+              ))}
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="rounded-lg">
-        <figure class="right-0">
-          <Image
-            class="rounded-lg w-24 md:w-32"
-            width={512}
-            height={512}
-            src={config.author.avatar}
-            alt={config.author.name}
-            decoding="async"
-            loading="lazy"
-          />
-        </figure>
+
+        <div class="shrink-0 self-start sm:self-center">
+          <figure>
+            <img
+              class="rounded-2xl w-20 h-20 sm:w-28 sm:h-28 lg:w-32 lg:h-32 object-cover shadow-md ring-1 ring-zinc-900/10 dark:ring-white/15"
+              width={128}
+              height={128}
+              src={`${config.author.avatar}${config.author.avatar.includes('?') ? '&' : '?'}s=256`}
+              alt={config.author.name}
+              referrerpolicy="no-referrer"
+              decoding="async"
+              loading="eager"
+              fetchpriority="high"
+            />
+          </figure>
+        </div>
       </div>
     </div>
   </div>

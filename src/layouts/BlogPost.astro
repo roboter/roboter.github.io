@@ -7,6 +7,7 @@ import CategoryIcon from '@icons/CategoryIcon.astro';
 import { Image } from 'astro:assets';
 import config from '@config/config.json';
 import { slugify } from '@utils/slug';
+import { tagToSlug } from '@utils/taxonomy';
 import Comments from '@components/Comments.astro';
 
 type Props = CollectionEntry<'blog'>['data'];
@@ -92,7 +93,8 @@ const isoDate = pubDate ? new Date(pubDate).toISOString() : undefined;
             width={960}
             height={480}
             decoding="async"
-            loading="lazy"
+            loading="eager"
+            fetchpriority="high"
           />
         </figure>
       )}
@@ -132,6 +134,18 @@ const isoDate = pubDate ? new Date(pubDate).toISOString() : undefined;
           ))}
         </div>
       </div>
+      {tags && tags.length > 0 && (
+        <div class="mt-4 flex flex-wrap items-center justify-center gap-1.5">
+          {tags.map((tag) => (
+            <a
+              href={`/categories?tag=${tagToSlug(tag)}`}
+              class="inline-flex items-center rounded-full bg-zinc-100/90 hover:bg-emerald-500/15 hover:text-emerald-700 dark:bg-zinc-800/80 dark:hover:bg-emerald-500/20 dark:hover:text-emerald-300 px-2.5 py-0.5 text-[11px] font-medium text-zinc-600 dark:text-zinc-300 transition-colors"
+            >
+              #{tag}
+            </a>
+          ))}
+        </div>
+      )}
     </div>
     <div class="prose prose-green prose-md md:prose-lg min-w-full">
       <slot />
@@ -139,8 +153,8 @@ const isoDate = pubDate ? new Date(pubDate).toISOString() : undefined;
     <div class="mt-10 pt-6 border-t border-zinc-100 dark:border-zinc-800/80 flex flex-wrap items-center gap-2">
       {tags?.map((tag) => (
         <a
-          href={`/categories?tag=${slugify(tag)}`}
-          class="tag-pill capitalize inline-flex items-center rounded-full bg-zinc-100 hover:bg-zinc-200/80 dark:bg-zinc-800/80 dark:hover:bg-zinc-700/80 px-3.5 py-1 text-xs font-medium text-zinc-700 dark:text-zinc-300 transition-all active:scale-95 shadow-sm"
+          href={`/categories?tag=${tagToSlug(tag)}`}
+          class="tag-pill inline-flex items-center rounded-full bg-zinc-100 hover:bg-emerald-500/15 hover:text-emerald-700 dark:bg-zinc-800/80 dark:hover:bg-emerald-500/20 dark:hover:text-emerald-300 px-3.5 py-1 text-xs font-medium text-zinc-700 dark:text-zinc-300 transition-all active:scale-95 shadow-sm"
         >
           #{tag}
         </a>

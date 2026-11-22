@@ -1,0 +1,217 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 530" width="860" height="530">
+  <defs>
+    <linearGradient id="pcbPurple" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7e22ce"/>
+      <stop offset="100%" stop-color="#4c1d95"/>
+    </linearGradient>
+    <linearGradient id="xtalCan" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fef3c7"/>
+      <stop offset="100%" stop-color="#d4af37"/>
+    </linearGradient>
+    <filter id="dropShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#0f172a" flood-opacity="0.18"/>
+    </filter>
+  </defs>
+
+  <!-- Clean white background matching ssd1306-pinout.svg -->
+  <rect width="860" height="530" fill="#ffffff"/>
+
+  <!-- Title -->
+  <text x="430" y="42" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="26" font-weight="800" fill="#0f172a">Si5351A (CJMCU-5351) Pinout</text>
+  <text x="430" y="64" text-anchor="middle" font-family="Consolas, Menlo, monospace" font-size="13" fill="#475569">3-Channel I²C Clock Generator (Address 0x60) · 25 MHz XTAL · CH32V003 I2C1 Mapping</text>
+
+  <!-- Purple Module PCB Body (centered at x=430: x=312..548) -->
+  <g filter="url(#dropShadow)">
+    <rect x="312" y="96" width="236" height="352" rx="16" fill="url(#pcbPurple)" stroke="#3b0764" stroke-width="2.5"/>
+  </g>
+
+  <!-- 2 Mounting Holes on Left Corners -->
+  <g fill="#f8fafc" stroke="#d4af37" stroke-width="5">
+    <circle cx="339" cy="122" r="11"/>
+    <circle cx="339" cy="422" r="11"/>
+  </g>
+
+  <!-- PCB Silkscreen Title -->
+  <text x="424" y="136" text-anchor="middle" font-family="Consolas, Menlo, monospace" font-size="15" font-weight="800" fill="#f3e8ff" letter-spacing="1">SI5351A</text>
+  <text x="424" y="152" text-anchor="middle" font-family="Consolas, Menlo, monospace" font-size="11" font-weight="700" fill="#e9d5ff">25MHz XTAL</text>
+
+  <!-- 25.000 MHz SMD Crystal -->
+  <rect x="375" y="176" width="40" height="56" rx="4" fill="url(#xtalCan)" stroke="#92400e" stroke-width="1.5"/>
+  <rect x="380" y="181" width="30" height="46" rx="2" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1"/>
+  <text x="395" y="201" text-anchor="middle" font-family="Consolas, Menlo, monospace" font-size="8.5" font-weight="700" fill="#334155">25.000</text>
+  <text x="395" y="213" text-anchor="middle" font-family="Consolas, Menlo, monospace" font-size="8.5" font-weight="700" fill="#334155">MHz</text>
+
+  <!-- Si5351A 10-MSOP IC -->
+  <g>
+    <g fill="#cbd5e1">
+      <rect x="429" y="191" width="8" height="3.5"/>
+      <rect x="429" y="198" width="8" height="3.5"/>
+      <rect x="429" y="205" width="8" height="3.5"/>
+      <rect x="429" y="212" width="8" height="3.5"/>
+      <rect x="429" y="219" width="8" height="3.5"/>
+      <rect x="473" y="191" width="8" height="3.5"/>
+      <rect x="473" y="198" width="8" height="3.5"/>
+      <rect x="473" y="205" width="8" height="3.5"/>
+      <rect x="473" y="212" width="8" height="3.5"/>
+      <rect x="473" y="219" width="8" height="3.5"/>
+    </g>
+    <rect x="437" y="186" width="36" height="42" rx="3" fill="#0f172a" stroke="#334155" stroke-width="1.2"/>
+    <circle cx="444" cy="193" r="2.2" fill="#94a3b8"/>
+    <text x="455" y="209" text-anchor="middle" font-family="Consolas, Menlo, monospace" font-size="7.5" font-weight="700" fill="#cbd5e1">5351A</text>
+  </g>
+
+  <!-- Onboard Level Shifters, Pull-up Resistors & 3.3V LDO -->
+  <g>
+    <rect x="389" y="268" width="22" height="16" rx="2" fill="#0f172a" stroke="#64748b" stroke-width="1"/>
+    <rect x="389" y="316" width="22" height="16" rx="2" fill="#0f172a" stroke="#64748b" stroke-width="1"/>
+    <rect x="427" y="266" width="16" height="10" rx="1.5" fill="#1e293b" stroke="#cbd5e1" stroke-width="1.2"/>
+    <text x="435" y="274" text-anchor="middle" font-family="Consolas, Menlo, monospace" font-size="6.5" fill="#e2e8f0">103</text>
+    <rect x="427" y="286" width="16" height="10" rx="1.5" fill="#1e293b" stroke="#cbd5e1" stroke-width="1.2"/>
+    <text x="435" y="294" text-anchor="middle" font-family="Consolas, Menlo, monospace" font-size="6.5" fill="#e2e8f0">103</text>
+    <rect x="427" y="314" width="16" height="10" rx="1.5" fill="#1e293b" stroke="#cbd5e1" stroke-width="1.2"/>
+    <text x="435" y="322" text-anchor="middle" font-family="Consolas, Menlo, monospace" font-size="6.5" fill="#e2e8f0">103</text>
+    <rect x="427" y="334" width="16" height="10" rx="1.5" fill="#1e293b" stroke="#cbd5e1" stroke-width="1.2"/>
+    <text x="435" y="342" text-anchor="middle" font-family="Consolas, Menlo, monospace" font-size="6.5" fill="#e2e8f0">103</text>
+    <rect x="399" y="380" width="32" height="22" rx="2" fill="#0f172a" stroke="#64748b" stroke-width="1"/>
+    <text x="415" y="394" text-anchor="middle" font-family="Consolas, Menlo, monospace" font-size="7.5" fill="#cbd5e1">3.3V</text>
+    <rect x="451" y="383" width="14" height="16" rx="1.5" fill="#b45309" stroke="#e2e8f0" stroke-width="1.2"/>
+    <rect x="451" y="242" width="14" height="10" rx="1.5" fill="#b45309" stroke="#e2e8f0" stroke-width="1.2"/>
+  </g>
+
+  <!-- Left 7-Pin Header Pads (CLK0, CLK1, CLK2, SCL, SDA, GND, VIN) -->
+  <g font-family="Consolas, Menlo, monospace" font-size="11.5" font-weight="700" fill="#f3e8ff">
+    <circle cx="334" cy="170" r="9.5" fill="#cbd5e1" stroke="#94a3b8" stroke-width="1.5"/>
+    <circle cx="334" cy="170" r="4.5" fill="#1e293b"/>
+    <text x="349" y="174">0</text>
+
+    <circle cx="334" cy="206" r="9.5" fill="#cbd5e1" stroke="#94a3b8" stroke-width="1.5"/>
+    <circle cx="334" cy="206" r="4.5" fill="#1e293b"/>
+    <text x="349" y="210">1</text>
+
+    <circle cx="334" cy="242" r="9.5" fill="#cbd5e1" stroke="#94a3b8" stroke-width="1.5"/>
+    <circle cx="334" cy="242" r="4.5" fill="#1e293b"/>
+    <text x="349" y="246">2</text>
+
+    <circle cx="334" cy="278" r="9.5" fill="#cbd5e1" stroke="#94a3b8" stroke-width="1.5"/>
+    <circle cx="334" cy="278" r="4.5" fill="#1e293b"/>
+    <text x="349" y="282">SCL</text>
+
+    <circle cx="334" cy="314" r="9.5" fill="#cbd5e1" stroke="#94a3b8" stroke-width="1.5"/>
+    <circle cx="334" cy="314" r="4.5" fill="#1e293b"/>
+    <text x="349" y="318">SDA</text>
+
+    <circle cx="334" cy="350" r="9.5" fill="#cbd5e1" stroke="#94a3b8" stroke-width="1.5"/>
+    <circle cx="334" cy="350" r="4.5" fill="#1e293b"/>
+    <text x="349" y="354">GND</text>
+
+    <rect x="324.5" y="376.5" width="19" height="19" rx="2.5" fill="#cbd5e1" stroke="#94a3b8" stroke-width="1.5"/>
+    <circle cx="334" cy="386" r="4.5" fill="#1e293b"/>
+    <text x="349" y="390">VIN</text>
+  </g>
+
+  <!-- Right 3 SMA Edge-Launch Footprints (CLK0, CLK1, CLK2) -->
+  <g font-family="Consolas, Menlo, monospace" font-size="11.5" font-weight="700" fill="#f3e8ff">
+    <!-- SMA CLK0 -->
+    <rect x="505" y="138" width="42" height="12" rx="1.5" fill="#cbd5e1"/>
+    <rect x="505" y="156" width="42" height="16" rx="1.5" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1"/>
+    <rect x="505" y="178" width="42" height="12" rx="1.5" fill="#cbd5e1"/>
+    <text x="499" y="168" text-anchor="end">CLK0</text>
+
+    <!-- SMA CLK1 -->
+    <rect x="505" y="238" width="42" height="12" rx="1.5" fill="#cbd5e1"/>
+    <rect x="505" y="256" width="42" height="16" rx="1.5" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1"/>
+    <rect x="505" y="278" width="42" height="12" rx="1.5" fill="#cbd5e1"/>
+    <text x="499" y="268" text-anchor="end">CLK1</text>
+
+    <!-- SMA CLK2 -->
+    <rect x="505" y="338" width="42" height="12" rx="1.5" fill="#cbd5e1"/>
+    <rect x="505" y="356" width="42" height="16" rx="1.5" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1"/>
+    <rect x="505" y="378" width="42" height="12" rx="1.5" fill="#cbd5e1"/>
+    <text x="499" y="368" text-anchor="end">CLK2</text>
+  </g>
+
+  <!-- Generous Left Callout Pills (226px wide, ample padding on every font) -->
+  <g font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle">
+    <!-- CLK0 -->
+    <line x1="250" y1="170" x2="334" y2="170" stroke="#1e293b" stroke-width="2.2"/>
+    <circle cx="334" cy="170" r="4" fill="#1e293b"/>
+    <rect x="24" y="156" width="226" height="28" rx="6" fill="#0d9488"/>
+    <text x="137" y="175">CLK0  (RF Out 0)</text>
+
+    <!-- CLK1 -->
+    <line x1="250" y1="206" x2="334" y2="206" stroke="#1e293b" stroke-width="2.2"/>
+    <circle cx="334" cy="206" r="4" fill="#1e293b"/>
+    <rect x="24" y="192" width="226" height="28" rx="6" fill="#0d9488"/>
+    <text x="137" y="211">CLK1  (RF Out 1)</text>
+
+    <!-- CLK2 -->
+    <line x1="250" y1="242" x2="334" y2="242" stroke="#1e293b" stroke-width="2.2"/>
+    <circle cx="334" cy="242" r="4" fill="#1e293b"/>
+    <rect x="24" y="228" width="226" height="28" rx="6" fill="#0d9488"/>
+    <text x="137" y="247">CLK2  (RF Out 2)</text>
+
+    <!-- SCL -->
+    <line x1="250" y1="278" x2="334" y2="278" stroke="#1e293b" stroke-width="2.2"/>
+    <circle cx="334" cy="278" r="4" fill="#1e293b"/>
+    <rect x="24" y="264" width="226" height="28" rx="6" fill="#0284c7"/>
+    <text x="137" y="283">SCL  →  PC2 (SCL)</text>
+
+    <!-- SDA -->
+    <line x1="250" y1="314" x2="334" y2="314" stroke="#1e293b" stroke-width="2.2"/>
+    <circle cx="334" cy="314" r="4" fill="#1e293b"/>
+    <rect x="24" y="300" width="226" height="28" rx="6" fill="#0284c7"/>
+    <text x="137" y="319">SDA  →  PC1 (SDA)</text>
+
+    <!-- GND -->
+    <line x1="250" y1="350" x2="334" y2="350" stroke="#1e293b" stroke-width="2.2"/>
+    <circle cx="334" cy="350" r="4" fill="#1e293b"/>
+    <rect x="24" y="336" width="226" height="28" rx="6" fill="#3f3f46"/>
+    <text x="137" y="355">GND  →  VSS</text>
+
+    <!-- VIN -->
+    <line x1="250" y1="386" x2="334" y2="386" stroke="#1e293b" stroke-width="2.2"/>
+    <circle cx="334" cy="386" r="4" fill="#1e293b"/>
+    <rect x="24" y="372" width="226" height="28" rx="6" fill="#991b1b"/>
+    <text x="137" y="391">VIN  →  3.3V (3–5V)</text>
+  </g>
+
+  <!-- Generous Right SMA Callout Pills (226px wide) -->
+  <g font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle">
+    <!-- SMA CLK0 -->
+    <line x1="528" y1="164" x2="610" y2="164" stroke="#1e293b" stroke-width="2.2"/>
+    <circle cx="528" cy="164" r="4" fill="#1e293b"/>
+    <rect x="610" y="150" width="226" height="28" rx="6" fill="#0d9488"/>
+    <text x="723" y="169">SMA CLK0  (100 nF)</text>
+
+    <!-- SMA CLK1 -->
+    <line x1="528" y1="264" x2="610" y2="264" stroke="#1e293b" stroke-width="2.2"/>
+    <circle cx="528" cy="264" r="4" fill="#1e293b"/>
+    <rect x="610" y="250" width="226" height="28" rx="6" fill="#0d9488"/>
+    <text x="723" y="269">SMA CLK1  (100 nF)</text>
+
+    <!-- SMA CLK2 -->
+    <line x1="528" y1="364" x2="610" y2="364" stroke="#1e293b" stroke-width="2.2"/>
+    <circle cx="528" cy="364" r="4" fill="#1e293b"/>
+    <rect x="610" y="350" width="226" height="28" rx="6" fill="#0d9488"/>
+    <text x="723" y="369">SMA CLK2  (100 nF)</text>
+  </g>
+
+  <!-- Legend (Bottom-Right, spacious) -->
+  <g font-family="Segoe UI, Arial, sans-serif" font-size="12" font-weight="700" fill="#1e293b">
+    <text x="760" y="405" text-anchor="end">POWER</text>
+    <rect x="772" y="394" width="60" height="13" rx="3" fill="#991b1b"/>
+
+    <text x="760" y="423" text-anchor="end">GND</text>
+    <rect x="772" y="412" width="60" height="13" rx="3" fill="#3f3f46"/>
+
+    <text x="760" y="441" text-anchor="end">I2C (0x60)</text>
+    <rect x="772" y="430" width="60" height="13" rx="3" fill="#0284c7"/>
+
+    <text x="760" y="459" text-anchor="end">RF OUT</text>
+    <rect x="772" y="448" width="60" height="13" rx="3" fill="#0d9488"/>
+  </g>
+
+  <!-- Wide RF Output Note Banner (plenty of horizontal padding) -->
+  <rect x="24" y="476" width="812" height="36" rx="7" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.4"/>
+  <text x="430" y="499" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="12" font-weight="600" fill="#92400e">Note: CLK0–CLK2 are 3.3 Vpp CMOS square waves (~50 Ω) — place a 100 nF series DC-blocking cap before RF loads.</text>
+</svg>

@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520" width="800" height="520">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#090d16" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <linearGradient id="chipGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#151e30" />
+      <stop offset="100%" stop-color="#0f1624" />
+    </linearGradient>
+    <linearGradient id="cyanGlow" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#06b6d4" stop-opacity="0.2" />
+      <stop offset="50%" stop-color="#22d3ee" stop-opacity="0.8" />
+      <stop offset="100%" stop-color="#06b6d4" stop-opacity="0.2" />
+    </linearGradient>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M 32 0 L 0 0 0 32" fill="none" stroke="#1e293b" stroke-width="1" opacity="0.55" />
+    </pattern>
+  </defs>
+
+  <!-- Background & Grid -->
+  <rect width="800" height="520" fill="url(#bgGrad)" />
+  <rect width="800" height="520" fill="url(#grid)" />
+
+  <!-- Top Workbench Header Bar -->
+  <rect x="28" y="24" width="744" height="48" rx="10" fill="#0f1624" stroke="#23304a" stroke-width="1.5" />
+  <rect x="44" y="36" width="24" height="24" rx="5" fill="#06b6d4" fill-opacity="0.2" stroke="#06b6d4" stroke-width="1.2" />
+  <path d="M52 44 h8 v8 h-8 z M56 40 v4 M56 52 v4 M48 48 h4 M60 48 h4" stroke="#22d3ee" stroke-width="1.5" fill="none" stroke-linecap="round" />
+  <text x="80" y="53" fill="#f8fafc" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="16" font-weight="700">Si5351A Workbench</text>
+  <rect x="268" y="38" width="94" height="20" rx="4" fill="#06b6d4" fill-opacity="0.15" stroke="#06b6d4" stroke-opacity="0.45" />
+  <text x="315" y="52" fill="#22d3ee" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" font-weight="600" text-anchor="middle">CJMCU-5351</text>
+  <rect x="372" y="38" width="76" height="20" rx="4" fill="#10b981" fill-opacity="0.15" stroke="#10b981" stroke-opacity="0.45" />
+  <text x="410" y="52" fill="#34d399" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" font-weight="600" text-anchor="middle">I2C 0x60</text>
+  <text x="752" y="52" fill="#94a3b8" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" text-anchor="end">8 kHz - 160 MHz</text>
+
+  <!-- Left Signal Chain: XTAL -> PLLA/B -> MS0..2 -->
+  <!-- XTAL Block -->
+  <rect x="28" y="96" width="132" height="108" rx="10" fill="url(#chipGrad)" stroke="#10b981" stroke-width="1.5" />
+  <text x="94" y="122" fill="#34d399" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="700" text-anchor="middle">XTAL REF</text>
+  <text x="94" y="150" fill="#ffffff" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="18" font-weight="700" text-anchor="middle">25.000</text>
+  <text x="94" y="170" fill="#94a3b8" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" text-anchor="middle">MHz • 10pF</text>
+  <rect x="52" y="182" width="84" height="14" rx="3" fill="#10b981" fill-opacity="0.15" />
+  <text x="94" y="193" fill="#34d399" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="9" text-anchor="middle">0 ppm TRIM</text>
+
+  <!-- Routing Lines XTAL -> PLL -->
+  <path d="M 160 135 C 190 135, 190 120, 220 120" fill="none" stroke="#22d3ee" stroke-width="2" />
+  <path d="M 160 165 C 190 165, 190 220, 220 220" fill="none" stroke="#fbbf24" stroke-width="2" />
+
+  <!-- PLLA Block -->
+  <rect x="220" y="96" width="150" height="72" rx="10" fill="url(#chipGrad)" stroke="#06b6d4" stroke-width="1.5" />
+  <text x="236" y="118" fill="#22d3ee" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="700">PLLA (MSNA)</text>
+  <rect x="314" y="105" width="44" height="16" rx="3" fill="#10b981" fill-opacity="0.2" stroke="#10b981" stroke-opacity="0.5" />
+  <text x="336" y="116" fill="#34d399" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="9" text-anchor="middle">SPEC</text>
+  <text x="236" y="146" fill="#ffffff" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="17" font-weight="700">800.00 MHz</text>
+  <text x="236" y="161" fill="#94a3b8" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10">Mult: 32 (Integer)</text>
+
+  <!-- PLLB Block -->
+  <rect x="220" y="184" width="150" height="72" rx="10" fill="url(#chipGrad)" stroke="#f59e0b" stroke-width="1.5" />
+  <text x="236" y="206" fill="#fbbf24" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="700">PLLB (MSNB)</text>
+  <rect x="314" y="193" width="44" height="16" rx="3" fill="#10b981" fill-opacity="0.2" stroke="#10b981" stroke-opacity="0.5" />
+  <text x="336" y="204" fill="#34d399" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="9" text-anchor="middle">SPEC</text>
+  <text x="236" y="234" fill="#ffffff" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="17" font-weight="700">749.00 MHz</text>
+  <text x="236" y="249" fill="#94a3b8" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10">Mult: 29.96 (Frac)</text>
+
+  <!-- Routing Lines PLL -> Channels -->
+  <path d="M 370 132 C 405 132, 405 120, 435 120" fill="none" stroke="#22d3ee" stroke-width="2" />
+  <path d="M 370 220 C 405 220, 405 190, 435 190" fill="none" stroke="#fbbf24" stroke-width="2" />
+  <path d="M 370 220 C 405 220, 405 260, 435 260" fill="none" stroke="#a855f7" stroke-width="1.5" stroke-dasharray="5 4" />
+
+  <!-- Right Channel Cards -->
+  <!-- CLK0 -->
+  <rect x="435" y="96" width="337" height="54" rx="8" fill="#151e30" stroke="#06b6d4" stroke-width="1.5" />
+  <circle cx="455" cy="123" r="5" fill="#22d3ee" />
+  <text x="470" y="119" fill="#22d3ee" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="700">CLK0 • HF VFO</text>
+  <text x="470" y="137" fill="#94a3b8" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10">PLLA • MS0 ÷56.34 • 8mA</text>
+  <text x="756" y="129" fill="#ffffff" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="17" font-weight="700" text-anchor="end">14.200000 MHz</text>
+
+  <!-- CLK1 -->
+  <rect x="435" y="164" width="337" height="54" rx="8" fill="#151e30" stroke="#f59e0b" stroke-width="1.5" />
+  <circle cx="455" cy="191" r="5" fill="#fbbf24" />
+  <text x="470" y="187" fill="#fbbf24" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="700">CLK1 • BFO / IF</text>
+  <text x="470" y="205" fill="#94a3b8" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10">PLLB • MS1 ÷70.00 • 6mA</text>
+  <text x="756" y="197" fill="#ffffff" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="17" font-weight="700" text-anchor="end">10.700000 MHz</text>
+
+  <!-- CLK2 -->
+  <rect x="435" y="232" width="337" height="54" rx="8" fill="#151e30" stroke="#a855f7" stroke-width="1.2" />
+  <circle cx="455" cy="259" r="5" fill="#c084fc" />
+  <text x="470" y="255" fill="#c084fc" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="700">CLK2 • I/Q 90°</text>
+  <text x="470" y="273" fill="#94a3b8" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10">PLLB • MS2 ÷105.88 • φ=90°</text>
+  <text x="756" y="265" fill="#ffffff" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="17" font-weight="700" text-anchor="end">7.074000 MHz</text>
+
+  <!-- Bottom Oscilloscope Panel -->
+  <rect x="28" y="308" width="744" height="186" rx="10" fill="#0f1624" stroke="#23304a" stroke-width="1.5" />
+  <text x="46" y="330" fill="#cbd5e1" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" font-weight="700">OUTPUT PHASE &amp; WAVEFORM SCOPE</text>
+  <text x="754" y="330" fill="#34d399" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" text-anchor="end">C HEADER • REG MAP • LIVE</text>
+
+  <!-- Scope Screen -->
+  <rect x="44" y="342" width="712" height="136" rx="6" fill="#090d16" stroke="#1e293b" stroke-width="1" />
+  <!-- Scope Grid Lines -->
+  <line x1="44" y1="387" x2="756" y2="387" stroke="#1e293b" stroke-width="1" />
+  <line x1="44" y1="432" x2="756" y2="432" stroke="#1e293b" stroke-width="1" />
+  <line x1="222" y1="342" x2="222" y2="478" stroke="#1e293b" stroke-width="1" />
+  <line x1="400" y1="342" x2="400" y2="478" stroke="#1e293b" stroke-width="1" />
+  <line x1="578" y1="342" x2="578" y2="478" stroke="#1e293b" stroke-width="1" />
+
+  <!-- CH0 Square Wave (Cyan) -->
+  <text x="58" y="368" fill="#22d3ee" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10" font-weight="700">CH0</text>
+  <path d="M 100 374 H 130 V 354 H 160 V 374 H 190 V 354 H 220 V 374 H 250 V 354 H 280 V 374 H 310 V 354 H 340 V 374 H 370 V 354 H 400 V 374 H 430 V 354 H 460 V 374 H 490 V 354 H 520 V 374 H 550 V 354 H 580 V 374 H 610 V 354 H 640 V 374 H 670 V 354 H 700 V 374 H 740" fill="none" stroke="#22d3ee" stroke-width="2" />
+
+  <!-- CH1 Square Wave (Amber) -->
+  <text x="58" y="413" fill="#fbbf24" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10" font-weight="700">CH1</text>
+  <path d="M 100 419 H 145 V 399 H 190 V 419 H 235 V 399 H 280 V 419 H 325 V 399 H 370 V 419 H 415 V 399 H 460 V 419 H 505 V 399 H 550 V 419 H 595 V 399 H 640 V 419 H 685 V 399 H 740" fill="none" stroke="#fbbf24" stroke-width="2" />
+
+  <!-- CH2 Square Wave (Purple, 90 deg shifted) -->
+  <text x="58" y="458" fill="#c084fc" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10" font-weight="700">CH2</text>
+  <path d="M 100 444 H 122 V 464 H 167 V 444 H 212 V 464 H 257 V 444 H 302 V 464 H 347 V 444 H 392 V 464 H 437 V 444 H 482 V 464 H 527 V 444 H 572 V 464 H 617 V 444 H 662 V 464 H 707 V 444 H 740" fill="none" stroke="#c084fc" stroke-width="2" />
+</svg>
