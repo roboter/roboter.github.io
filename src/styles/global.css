@@ -60,6 +60,44 @@
   }
 }
 
+/* Monospace & Code Blocks — strict ASCII box-drawing diagram alignment */
+.prose pre,
+pre.astro-code,
+pre.code,
+pre.gndx {
+  font-family: 'JetBrains Mono', 'Cascadia Code', 'Cascadia Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace !important;
+  font-variant-ligatures: none !important;
+  font-feature-settings: "liga" 0, "calt" 0 !important;
+  letter-spacing: 0 !important;
+  line-height: 1.42 !important;
+  white-space: pre !important;
+  word-wrap: normal !important;
+  word-break: normal !important;
+  overflow-x: auto !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.prose pre code,
+pre.astro-code code,
+pre.code code,
+pre.gndx code {
+  font-family: inherit !important;
+  font-variant-ligatures: none !important;
+  font-feature-settings: "liga" 0, "calt" 0 !important;
+  letter-spacing: 0 !important;
+  line-height: inherit !important;
+  white-space: pre !important;
+  word-wrap: normal !important;
+  word-break: normal !important;
+}
+
+:not(pre) > code {
+  font-family: 'JetBrains Mono', 'Cascadia Code', 'Cascadia Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace !important;
+  font-variant-ligatures: none;
+  letter-spacing: 0;
+}
+
 .aspect-video,
 .video-wrapper {
   aspect-ratio: 16 / 9;

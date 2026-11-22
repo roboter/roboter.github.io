@@ -23,7 +23,7 @@ export default defineConfig({
     drafts: true,
     shikiConfig: {
       theme: 'material-theme-palenight',
-      wrap: true,
+      wrap: false,
     },
   },
   integrations: [sitemap(), robotsTxt(), react(), mdx()],

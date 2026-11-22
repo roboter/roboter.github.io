@@ -16,6 +16,19 @@ module.exports = {
           '"Apple Color Emoji"',
           '"Segoe UI Emoji"',
         ],
+        mono: [
+          '"JetBrains Mono"',
+          '"Cascadia Code"',
+          '"Cascadia Mono"',
+          'ui-monospace',
+          'SFMono-Regular',
+          'Menlo',
+          'Monaco',
+          'Consolas',
+          '"Liberation Mono"',
+          '"Courier New"',
+          'monospace',
+        ],
       },
       typography: (theme) => ({
         DEFAULT: {
@@ -64,7 +77,32 @@ module.exports = {
               'font-size': '0.875rem',
               'line-height': '1.5',
               'font-family':
-                "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace",
+                '"JetBrains Mono", "Cascadia Code", "Cascadia Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
+              'font-variant-ligatures': 'none',
+              'font-feature-settings': '"liga" 0, "calt" 0',
+              'letter-spacing': '0',
+            },
+            pre: {
+              'font-family':
+                '"JetBrains Mono", "Cascadia Code", "Cascadia Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
+              'font-variant-ligatures': 'none',
+              'font-feature-settings': '"liga" 0, "calt" 0',
+              'letter-spacing': '0',
+              'line-height': '1.42',
+              'white-space': 'pre',
+              'word-break': 'normal',
+              'word-wrap': 'normal',
+              'overflow-x': 'auto',
+            },
+            'pre code': {
+              'font-family': 'inherit',
+              'font-variant-ligatures': 'none',
+              'font-feature-settings': '"liga" 0, "calt" 0',
+              'letter-spacing': '0',
+              'line-height': 'inherit',
+              'white-space': 'pre',
+              'word-break': 'normal',
+              'word-wrap': 'normal',
             },
             'ol > li::before': {
               color: 'rgb(var(--color-text-bold))',
